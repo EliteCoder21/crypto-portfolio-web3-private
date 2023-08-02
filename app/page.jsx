@@ -1,11 +1,7 @@
-'use client'
-import InstructionsComponent from "../components/instructionsComponent";
-import styles from "./page.module.css";
+import AppRouter from "../src/AppRouter";
 
-export default function Home() {
+export default function Page() {
   return (
-    <main className={styles.main}>
-      <InstructionsComponent></InstructionsComponent>
-    </main>
+    <AppRouter />
   );
 }

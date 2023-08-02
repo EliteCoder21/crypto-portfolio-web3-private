@@ -2,7 +2,6 @@
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import Navbar from "../components/navigation/navbar.jsx";
-import Footer from "../components/instructionsComponent/navigation/footer";
 import "../styles/globals.css";
 
 const config = createConfig(
@@ -36,7 +35,6 @@ export default function RootLayout({ children }) {
 						>
 							<Navbar />
 							<div style={{ flexGrow: 1 }}>{children}</div>
-							<Footer />
 						</div>
 					</body>
 				</ConnectKitProvider>
