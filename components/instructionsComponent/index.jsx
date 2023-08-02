@@ -1,4 +1,4 @@
-import styles from "./instructionsComponent.module.css";
+import styles from "../../styles/instructionsComponent.module.css";
 
 export default function InstructionsComponent() {
   return (
@@ -13,8 +13,7 @@ export default function InstructionsComponent() {
       </header>
 
       <div className={styles.buttons_container}>
-        <a
-          target={"_blank"}
+        <a target={"_blank"}
           href={"https://createweb3dapp.alchemy.com/#components"}
         >
           <div className={styles.button}>

@@ -1,8 +1,9 @@
 "use client";
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import Navbar from "../components/instructionsComponent/navigation/navbar";
+import Navbar from "../components/navigation/navbar.jsx";
 import Footer from "../components/instructionsComponent/navigation/footer";
+import "../styles/globals.css";
 
 const config = createConfig(
 	getDefaultConfig({
@@ -11,10 +12,10 @@ const config = createConfig(
 		walletConnectProjectId: "demo",
 
 		// Required
-		appName: "You Create Web3 Dapp",
+		appName: "OpenEXA Portfolio",
 
 		// Optional
-		appDescription: "Your App Description",
+		appDescription: "OpenEXA portfolio application",
 		appUrl: "https://family.co", // your app's url
 		appIcon: "https://family.co/logo.png", // your app's logo,no bigger than 1024x1024px (max. 1MB)
 	})

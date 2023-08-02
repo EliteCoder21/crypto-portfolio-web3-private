@@ -1,0 +1,300 @@
+.container-fluid {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.flex-type {
+    flex-direction: row;
+}
+
+.justify-content-center {
+    -ms-flex-pack: center!important;
+    justify-content: center!important;
+}
+
+.d-flex {
+    display: -ms-flexbox!important;
+    display: flex!important;
+}
+
+.card-deck {
+    -ms-flex-flow: row wrap;
+    flex-flow: row wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+
+.sectionGrid, .sectionModelsGrid {
+    grid-row-gap: 20px;
+    grid-column-gap: 20px;
+    -webkit-column-gap: 20px;
+    column-gap: 20px;
+    display: grid;
+    grid-auto-rows: 1fr!important;
+    row-gap: 20px;
+    width: 100%;
+}
+
+.sectionGrid {
+    grid-template-columns: repeat(4,minmax(0,1fr));
+}
+
+.link.explore {
+    align-items: center;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.buttonclass, .link {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.link {
+    background-color: #1F2A47;
+    color: -webkit-link;
+    position: -webkit-sticky;
+}
+
+.card-deck .card {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex: 1 0 0%;
+    flex: 1 0 0%;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    margin-right: 15px;
+    margin-bottom: 0;
+    margin-left: 15px;
+}
+
+.sectionCard {
+    background-color: #1F2A47 !important;
+    border: 1px solid gray!important;
+    border-radius: 25px!important;
+    height: 100%!important;
+    padding-top: 20px!important;
+    padding: 0;
+}
+
+.card {
+    background-color: transparent !important;
+    border-radius: 25px;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.text-center {
+    text-align: center!important;
+}
+
+.card-body {
+    align-items: center;
+    background: #1F2A47 !important;
+    border-bottom: 1px solid gray;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.card-footer {
+    align-items: left;
+    background-color: #111119 !important;
+    border-radius: 0 0 25px 25px !important;
+    display: flex;
+    flex-direction: column;
+    padding: .75rem 1.25rem;
+}
+
+.card-body .material-icons {
+    transition: .3s;
+}
+
+.launchSurround {
+    display: none;
+    position: absolute;
+    transition: .6s;
+}
+
+.launch {
+    align-items: center;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    display: flex;
+    padding: 10px 20px;
+    width: fit-content;
+}
+
+.launch i, .launch p {
+    color: #000;
+    font-size: 16px;
+}
+
+.css-146c3p1 {
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px solid black;
+    box-sizing: border-box;
+    color: rgb(0, 0, 0);
+    display: inline;
+    font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    text-align: start;
+    text-decoration: none;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+a {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.card-footer .tutorial {
+    background: linear-gradient(45deg,#ac50ef,#7059fb 50%,#2ecff6);
+    background: var(--linear-gradient);
+    border-radius: 4px;
+    color: #fff!important;
+    display: flex;
+    height: 25px;
+    justify-content: center;
+    align-items: left;
+    border: none;
+    outline: none;
+    width: 100%;
+    margin: 0 !important;
+    padding: 0;
+}
+
+.card button {
+    background: none !important;
+    outline: none;
+    border: none;
+    width: 110px;
+    margin: 0;
+    padding: 0;
+}
+
+.card-deck .card {
+    margin-right: 15px;
+    margin-bottom: 0;
+}
+
+.material-icons.md-12 {
+    color: #000;
+    font-size: 12px;
+    text-decoration: none!important;
+}
+
+.material-icons {
+    color: #9b9ea3;
+    font-size: 200px;
+}
+
+.css-146c3p1 {
+    background-color: rgba(0, 0, 0, 0);
+    border: 0px solid black;
+    box-sizing: border-box;
+    color: rgb(0, 0, 0);
+    display: inline;
+    font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    list-style: none;
+    margin: 0px;
+    padding: 0px;
+    position: relative;
+    text-align: start;
+    text-decoration: none;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+    font-size: 22px;
+    margin-bottom: 5px;
+    color: rgb(155, 158, 163);
+    text-align: left;
+    width: 100%;
+}
+.launchSurround {
+    display: none;
+    position: absolute;
+    transition: .6s;
+}
+.launch {
+    align-items: center;
+    background-color: #d9d9d9;
+    border-radius: 20px;
+    display: flex;
+    padding: 5px 10px;
+	height: fit-content;
+    width: fit-content;
+}
+.launch i, .launch p {
+    color: #000;
+    font-size: 16px;
+	margin: 0;
+	padding: 0;
+}
+.launch p {
+    margin-right: 5px;
+}
+.card-body .material-icons {
+    transition: .3s;
+}
+.launch i, .launch p {
+    color: #000;
+    font-size: 16px;
+}
+.card-body:hover {
+	border-color: #6272fa !important;
+}
+.card-body:hover .material-icons {
+	opacity: 0.3;
+}
+.card-body:hover .launchSurround {
+	display: block;
+}
+.card.tutorial:hover {
+	box-shadow: 1px 1px 5px 1px #9d7cff;
+}
+.card-body:hover {
+	border-color: #6272fa !important;
+}
+.card-body:hover .material-icons {
+	opacity: 0.3;
+}
+.card-body:hover .launchSurround {
+	display: block;
+}
+.lg-view {
+    display: flex;
+}
+ 
+.sm-view {
+    display: none;
+}
+
+@media screen and (max-width: 1390px) {
+    .lg-view {
+       display: none;
+    }
+
+    .sm-view {
+       display: flex;
+    }
+}
