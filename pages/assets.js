@@ -1,5 +1,3 @@
-import styles from "../styles/Settings.module.css";
-
 export default function Assets() {
     return (
         <div>

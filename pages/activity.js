@@ -1,5 +1,3 @@
-import styles from "../styles/activity.module.css";
-
 export default function Activity() {
     return (
         <div>

@@ -1,3 +1,5 @@
+import Utils from '../utils.js'
+
 const http = require('http');
 const fs = require('fs');
 
@@ -16,7 +18,7 @@ http.createServer((req, res) => {
       const input = JSON.parse(body);
       const username = input.username || die();
       const account = input.account || die();
-      const Utils = require("../utils.js");
+      //const Utils = require("../utils.js");
       const helper = new Utils(username);
       const token = input.token || die();
 

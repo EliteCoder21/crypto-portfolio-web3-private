@@ -1,6 +1,5 @@
 "use client";
 
-import "../../styles/navbar.css";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import SettingsIcon from "@mui/icons-material/Settings";
@@ -73,7 +72,7 @@ export default function Navbar() {
               <div className="navbar-nav" id="toolbar">
                 <a
                   className="active"
-                  href="/index"
+                  href="/"
                   style={{ marginLeft: 5 }}
                 >
                   <li className="texticon">
@@ -88,7 +87,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="assets.html" style={{ marginLeft: 5 }}>
+                <a className="" href="/assets" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -103,7 +102,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="aut.html" style={{ marginLeft: 5 }}>
+                <a className="" href="/aut" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -118,7 +117,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="oxa.html" style={{ marginLeft: 5 }}>
+                <a className="" href="/oxa" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -131,7 +130,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="holdings.html" style={{ marginLeft: 5 }}>
+                <a className="" href="/holdings" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -146,7 +145,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="market.html" style={{ marginLeft: 5 }}>
+                <a className="" href="/market" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -159,7 +158,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="activity.html" style={{ marginLeft: 5 }}>
+                <a className="" href="/activity" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">

@@ -1,3 +1,5 @@
+import Utils from '../utils.js'
+
 const http = require('http');
 const fs = require('fs');
 
@@ -16,8 +18,8 @@ http.createServer(function (req, res) {
             let post = JSON.parse(body);
             let username = post.username || die();
             let account = post.account || die();
-            let utils = require("../utils.js");
-            let helper = new utils.Utils(username);
+            //let utils = require("/~1/pages/api/utils.js");
+            let helper = new Utils(username);
             let token = post.token || die();
 
             if (helper.verifySession(token)) {

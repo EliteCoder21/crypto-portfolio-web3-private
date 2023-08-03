@@ -1,0 +1,37 @@
+html.dark {
+	--shadow-dark:0 6px 10px rgba(40,40,40,0.25);
+	--shadow-darker:0 6px 10px rgba(40,40,40,0.4);
+	--shadow-smooth:0 1px 1px rgba(0,0,0,0.08), 0 2px 2px rgba(0,0,0,0.05), 0 4px 4px rgba(0,0,0,0.06), 0 8px 8px rgba(0,0,0,0.1);
+	--shadow-accent:0 0 12px rgba(0,150,255,0.9);
+	--main-first:rgba(32, 34, 50, 0.5);
+	--main-second:#1c2a4b;
+	--main-third:#202231;
+	--transparent-box: rgba(32, 34, 50, 0.5);
+	--main-third-transparent:rgba(40,40,40,0.9);
+	--main-fourth:rgb(50,50,50);
+	--main-fifth:rgb(60,60,60);
+	--main-contrast:rgb(255,255,255);
+	--main-contrast-light:rgb(245,245,245);
+	--main-contrast-lightest:rgb(200,200,200);
+	--accent-first:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);;
+	--accent-second:rgb(80,125,182);
+	--accent-third:rgb(69,168,199);
+	--accent-fourth:rgb(61,212,219);
+	--accent-fifth:rgb(199,121,208);
+	--linear-gradient: linear-gradient(10deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--linear-gradient-dark: linear-gradient(45deg, #ac50ef99, #7059fb99 50%, #2ecff699);
+	--accent-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--colorful-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--orange-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--green-gradient:llinear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--calm-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--blue-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--purple-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--greener-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--cosmic-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--playful-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--atlas-gradient:linear-gradient(45deg, #ac50ef, #7059fb 50%, #2ecff6);
+	--accent-contrast:rgb(255,255,255);
+	--border-radius:10px;
+	--font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
+}
