@@ -45,7 +45,7 @@ export default function Assets() {
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'end'}}>
-                    <a className href="settings.html" style={{marginRight: '15px'}}><span className="material-icons md-20">settings</span></a>
+                    <a className="settings-link" href="settings.html" style={{marginRight: '15px'}}><span className="material-icons md-20">settings</span></a>
                     <button id="logout-button-new">
                     <span className="material-icons md-20"> logout </span>
                     </button>

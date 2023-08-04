@@ -5,6 +5,8 @@ import Navbar from "../components/navbar.js";
 
 import "../styles/globals.css";
 import "../styles/navbar.css";
+import "../styles/style.css"
+//import "../styles/section.css"
 
 const config = createConfig(
 	getDefaultConfig({

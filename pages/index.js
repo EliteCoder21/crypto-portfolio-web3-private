@@ -1,5 +1,3 @@
-import styles from "../styles/globals.css"
-
 export default function InstructionsComponent() {
   return (
     <div className="page dashboard active" id="page-dashboard">
