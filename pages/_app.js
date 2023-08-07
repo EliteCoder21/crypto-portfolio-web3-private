@@ -21,7 +21,7 @@ export default function RootLayout({ Component, pageProps }) {
 	return (
 		<div lang="en">
 			<WagmiConfig config={config}>
-				<ConnectKitProvider mode="dark">
+				<ConnectKitProvider mode="light">
 					<div
 						style={{
 							display: "flex",

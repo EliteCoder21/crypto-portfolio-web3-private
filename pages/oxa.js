@@ -15,12 +15,12 @@ export default function OXA() {
             <meta name="theme-color" content="#000" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
             <meta charSet="utf-8" />
-            <link rel="stylesheet" href="./assets/css/light.css" />
-            <link rel="stylesheet" href="./assets/css/dark.css" />
-            <link rel="stylesheet" href="./assets/css/style.css" />
-            <link rel="stylesheet" href="./assets/css/resize.css" />
-            <link rel="stylesheet" href="./assets/css/flatpickr.css" />
-            <link rel="stylesheet" href="./assets/css/navbar.css" />
+            <link rel="stylesheet" href="..\styles\light.css" />
+            <link rel="stylesheet" href="..\styles\dark.css" />
+            <link rel="stylesheet" href="..\styles\style.css" />
+            <link rel="stylesheet" href="..\styles\resize.css" />
+            <link rel="stylesheet" href="..\styles\flatpickr.css" />
+            <link rel="stylesheet" href="..\styles\navbar.css" />
             <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
             <title>OpenEXA Portfolio</title>
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />

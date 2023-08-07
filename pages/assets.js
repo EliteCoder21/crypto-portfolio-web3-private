@@ -13,12 +13,12 @@ export default function Assets() {
             <meta name="theme-color" content="#000" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
             <meta charSet="utf-8" />
-            <link rel="stylesheet" href="./assets/css/light.css" />
-            <link rel="stylesheet" href="./assets/css/dark.css" />
-            <link rel="stylesheet" href="./assets/css/style.css" />
-            <link rel="stylesheet" href="./assets/css/resize.css" />
-            <link rel="stylesheet" href="./assets/css/flatpickr.css" />
-            <link rel="stylesheet" href="./assets/css/navbar.css" />
+            <link rel="stylesheet" href="../styles/light.css" />
+            <link rel="stylesheet" href="../styles/dark.css" />
+            <link rel="stylesheet" href="../styles/style.css" />
+            <link rel="stylesheet" href="../styles/resize.css" />
+            <link rel="stylesheet" href="../styles/flatpickr.css" />
+            <link rel="stylesheet" href="../styles/navbar.css" />
             <title>OpenEXA Portfolio</title>
             <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
             <div>
@@ -45,7 +45,7 @@ export default function Assets() {
                     </div>
                 </div>
                 <div style={{display: 'flex', justifyContent: 'end'}}>
-                    <a className="settings-link" href="settings.html" style={{marginRight: '15px'}}><span className="material-icons md-20">settings</span></a>
+                    <a className="settings-link" href="/settings" style={{marginRight: '15px'}}><span className="material-icons md-20">settings</span></a>
                     <button id="logout-button-new">
                     <span className="material-icons md-20"> logout </span>
                     </button>
@@ -57,7 +57,7 @@ export default function Assets() {
                     <div className="container">
                     <div className="navbar-collapse collapse" id="navbar-nav">
                         <div className="navbar-nav" id="toolbar">
-                        <a className href="index.html" style={{marginLeft: '5px'}}>
+                        <a className href="/" style={{marginLeft: '5px'}}>
                             <li className="texticon">
                             <button type="button" className="buttonclass">
                                 <div className="icon">
@@ -68,7 +68,7 @@ export default function Assets() {
                                 </div>
                             </button>
                             </li>
-                        </a><a className="active" href="assets.html" style={{marginLeft: '5px'}}>
+                        </a><a className="active" href="/assets" style={{marginLeft: '5px'}}>
                             <li className="texticon">
                             <button type="button" className="buttonclass">
                                 <div className="icon">
@@ -79,7 +79,7 @@ export default function Assets() {
                                 </div>
                             </button>
                             </li>
-                        </a><a className href="aut.html" style={{marginLeft: '5px'}}>
+                        </a><a className href="/aut" style={{marginLeft: '5px'}}>
                             <li className="texticon">
                             <button type="button" className="buttonclass">
                                 <div className="icon">
@@ -90,7 +90,7 @@ export default function Assets() {
                                 </div>
                             </button>
                             </li>
-                        </a><a className href="oxa.html" style={{marginLeft: '5px'}}>
+                        </a><a className href="/oxa" style={{marginLeft: '5px'}}>
                             <li className="texticon">
                             <button type="button" className="buttonclass">
                                 <div className="icon">
@@ -101,7 +101,7 @@ export default function Assets() {
                                 </div>
                             </button>
                             </li>
-                        </a><a className href="holdings.html" style={{marginLeft: '5px'}}>
+                        </a><a className href="/holdings" style={{marginLeft: '5px'}}>
                             <li className="texticon">
                             <button type="button" className="buttonclass">
                                 <div className="icon">
@@ -112,7 +112,7 @@ export default function Assets() {
                                 </div>
                             </button>
                             </li>
-                        </a><a className href="market.html" style={{marginLeft: '5px'}}>
+                        </a><a className href="/market" style={{marginLeft: '5px'}}>
                             <li className="texticon">
                             <button type="button" className="buttonclass">
                                 <div className="icon">
@@ -123,7 +123,7 @@ export default function Assets() {
                                 </div>
                             </button>
                             </li>
-                        </a><a className href="activity.html" style={{marginLeft: '5px'}}>
+                        </a><a className href="/activity" style={{marginLeft: '5px'}}>
                             <li className="texticon">
                             <button type="button" className="buttonclass">
                                 <div className="icon">
