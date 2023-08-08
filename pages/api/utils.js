@@ -122,7 +122,7 @@ export default class Utils {
         }
     }
     
-    /*fetchHistoricalData(id, currency, from, to) {
+     async fetchHistoricalData(id, currency, from, to) {
         if (!fs.existsSync("../data/historical/")) {
             fs.mkdirSync("../data/historical/", { recursive: true });
         }
@@ -136,7 +136,7 @@ export default class Utils {
             const json = fs.readFileSync(historicalFile, "utf-8");
             return JSON.parse(json);
         }
-    }*/
+    }
     
     historicalDataExists(id, currency) {
         const historicalFile = "../data/historical/" + id + "-" + currency;

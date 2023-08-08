@@ -50,12 +50,44 @@ http.createServer(function (req, res) {
                             activity.pair = pair;
                             activity.price = price;
                             activity.quantity = quantity;
-                        }
+                        } else if (type == "transfer") {
+                            let from = postParams.from || "-";
+                            let to = postParams.to || "-";
 
-                        // Rest of the code...
+                            activity.from = from;
+                            activity.to = to;
+                        }
+                    } else {
+                        console.log(JSON.stringify({ error: "Invalid activity type." }));
                     }
+
+                    const current = JSON.parse(fs.readFileSync(helper.activityFile));
+
+                    let txID = Date.now() + helper.getRandomHex(8);
+                    while (txID in current) {
+                        txID = Date.now() + helper.getRandomHex(8);
+                    }
+
+                    current.txID = activity;
+
+                    if (Date.now() / 1000 - 1 > new Date($helper.activityFile).getTime() / 1000) {
+                        var create = fs.writeFileSync($helper.activityFile, JSON.stringify(current));
+                        if (create) {
+                            console.log(JSON.stringify({ message: "The activity has been recorded." }));
+                        } else {
+                            console.log(JSON.stringify({ error: "Activity couldn't be recorded." }));
+                        }
+                    } else {
+                        console.log(JSON.stringify({ error: "Duplicate request detected. Only the first was processed." }));
+                    }
+                } else {
+                    console.log(JSON.stringify({ error: "Invalid date."}))
                 }
+            } else {
+                console.log(JSON.stringify({ error: "You need to be logged in to do that."}))
             }
         });
+    } else {
+        console.log(JSON.stringify({ error: "Wrong request method. Please use POST."}))
     }
 }).listen(8080);

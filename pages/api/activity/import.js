@@ -41,9 +41,59 @@ http.createServer(function (req, res) {
                     let fee = data[6] || 0;
                     let notes = data[7].replace(/"/g, "") || "";
 
-                    // Rest of the code
+                    if (helper.validDate(date)) {
+                        let activity = {
+                            id: id,
+                            symbol: symbol,
+                            date: date,
+                            time: Date.parse(date),
+                            type: type,
+                            amount: amount,
+                            fee: fee,
+                            notes: notes
+                        };
+                        if (type == "buy" || type == "sell" || type == "transfer") {
+                            if (type == "buy" || type == "sell") {
+                                let exchange = data[8] ? data[8].replace('"', "") : "-";
+                                let pair = data[9] ? data[9].replace('"', "") : "-";
+                                let price = data[10] ? data[10] : 0;
+                                activity.exchange = exchange;
+                                activity.pair = pair;
+                                activity.price = price;
+                            } else if (type == "transfer") {
+                                let from = data[11] ? data[11].replace('"', "") : "-";
+                                let to = data[12] ? data[12].replace('"', "") : "-";
+                                activity.from = from;
+                                activity.to = to;
+                            }
+                            current[txID] = activity;
+                        } else {
+                            console.log(JSON.stringify({ error: "Invalid activity type." }));
+                            return;
+                            }
+                      } else {
+                            let valid = false;
+                            console.log(JSON.stringify({ error: "Invalid date." }));
+                            return;
+                      }
                 }
+
+                if (valid) {
+                    const _import = fs.writeFileSync(helper.activityFile, JSON.stringify(current));
+
+                    if (_import) {
+                      console.log(JSON.stringify({ message: "The activities have been recorded." }));
+                    } else {
+                      console.log(JSON.stringify({ error: "Activities couldn't be recorded." }));
+                    }
+                  } else {
+                    console.log(JSON.stringify({ error: "Invalid content format." }));
+                  }
+            } else {
+                console.log(JSON.stringify({ error: "You need to be logged in to do that."}))
             }
         });
+    } else {
+        console.log(JSON.stringify({ error: "Wrong request method. Please use POST." }))
     }
 }).listen(8080);

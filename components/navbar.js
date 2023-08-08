@@ -11,7 +11,7 @@ import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Image from "next/image";
 
-export default function Navbar() {
+export default function Navbar({ active }) {
   return (
     <div id="navigation">
       <div className="headerbar">
@@ -71,7 +71,7 @@ export default function Navbar() {
             <div className="navbar-collapse collapse" id="navbar-nav">
               <div className="navbar-nav" id="toolbar">
                 <a
-                  className="active"
+                  className={active == "/" ? "active" : ""}
                   href="/"
                   style={{ marginLeft: 5 }}
                 >
@@ -87,7 +87,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="/assets" style={{ marginLeft: 5 }}>
+                <a className={active == "/assets" ? "active" : ""} href="/assets" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -102,7 +102,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="/aut" style={{ marginLeft: 5 }}>
+                <a className={active == "/aut" ? "active" : ""} href="/aut" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -117,7 +117,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="/oxa" style={{ marginLeft: 5 }}>
+                <a className={active == "/oxa" ? "active" : ""} href="/oxa" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -130,7 +130,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="/holdings" style={{ marginLeft: 5 }}>
+                <a className={active == "/holdings" ? "active" : ""} href="/holdings" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -145,7 +145,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="/market" style={{ marginLeft: 5 }}>
+                <a className={active == "/market" ? "active" : ""} href="/market" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">
@@ -158,7 +158,7 @@ export default function Navbar() {
                     </button>
                   </li>
                 </a>
-                <a className="" href="/activity" style={{ marginLeft: 5 }}>
+                <a className={active == "/activity" ? "active" : ""} href="/activity" style={{ marginLeft: 5 }}>
                   <li className="texticon">
                     <button type="button" className="buttonclass">
                       <div className="icon">

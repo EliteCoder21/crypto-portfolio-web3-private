@@ -1,12 +1,14 @@
 "use client";
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
-import Navbar from "../components/navbar.js";
 
+import "../styles/flatpickr.css";
 import "../styles/globals.css";
+import "../styles/microtip.css";
 import "../styles/navbar.css";
-import "../styles/style.css"
-//import "../styles/section.css"
+import "../styles/section.css";
+import "../styles/style.css";
+import "../styles/view.css";
 
 const config = createConfig(
 	getDefaultConfig({
@@ -29,7 +31,6 @@ export default function RootLayout({ Component, pageProps }) {
 							minHeight: "105vh",
 						}}
 					>
-						<Navbar />
 						<Component {...pageProps} /> 
 					</div>
 				</ConnectKitProvider>

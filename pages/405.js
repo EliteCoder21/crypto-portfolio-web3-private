@@ -1,5 +1,10 @@
+import Navbar from "../components/navbar.js";
+
 export default function Error() {
-    return (
-        <h1>Error</h1>
-    );
+  return (
+    <div>
+      <Navbar active="none" />
+      <h1>Error</h1>
+    </div>
+  );
 }

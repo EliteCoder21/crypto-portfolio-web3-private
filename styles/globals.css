@@ -43,7 +43,7 @@ html, body, input, button, input::placeholder {
 	--font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
 body {
-	background: url("/background.jpg");
+	background: url("https://openexa.ai/static/media/background.31b0e0bff028652b2951.jpg") !important;
 	background-repeat: no-repeat;
 	background-position: top center;
 	background-attachment: fixed;
@@ -366,7 +366,7 @@ input[type=number] {
 	height:100%;
 	z-index:98;
 	opacity:1;
-	background: url("/background.jpg");
+	background: url("https://openexa.ai/static/media/background.31b0e0bff028652b2951.jpg");
 	background-repeat: no-repeat;
 	background-position: top center;
 	background-attachment: fixed;
