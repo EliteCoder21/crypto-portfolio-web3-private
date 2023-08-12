@@ -354,10 +354,6 @@ input[type=number] {
 .popup-wrapper .bottom .popup-canvas-wrapper.donation {
 	background:rgb(255,255,255);
 }
-
-.login-wrapper {
-	opacity:0;
-}
 .login-wrapper.active {
 	position:absolute;
 	top:0;

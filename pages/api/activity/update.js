@@ -9,8 +9,8 @@ http.createServer(function (req, res) {
     if (req.method === 'PUT') {
         const input = JSON.parse(file_get_contents("php://input"));
         const username = input.username;
-        const utils = require("./utils.js");
-        const helper = new Utils(username);
+        const utils = require("../utils.js");
+        const helper = new utils.Utils(username);
     
         const token = input.token;
         if (helper.verifySession(token)) {

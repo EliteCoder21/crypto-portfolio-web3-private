@@ -10,8 +10,15 @@ import StoreIcon from "@mui/icons-material/Store";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Image from "next/image";
+import { useAuthContext } from '../firebase/context/context';
 
 export default function Navbar({ active }) {
+  const { user } = useAuthContext();
+
+  const handleSignOut = async () => {
+    await user.handleSignOut();
+  }
+  
   return (
     <div id="navigation">
       <div className="headerbar">
@@ -59,7 +66,7 @@ export default function Navbar({ active }) {
           <a className="" href="/settings" style={{ marginRight: 15, color: "gray" }}>
             <span className="material-icons md-20"><SettingsIcon /></span>
           </a>
-          <button id="logout-button-new">
+          <button id="logout-button-new" onClick={handleSignOut}>
             <span className="material-icons md-20"><LogoutIcon /></span>
           </button>
         </div>

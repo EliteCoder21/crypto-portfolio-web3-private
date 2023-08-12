@@ -1,41 +1,37 @@
-const http = require('http');
+import Utils from "../utils";
+//import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 
-http.createServer(function (req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST');
-    res.setHeader('Content-Type', 'application/json');
+export default async function handler(req, res) {
+  try {
+    let data = req.body;
+    const { username, password } = data;
 
-    if (req.method === 'POST') {
-        let body = '';
-        req.on('data', function (data) {
-            body += data;
-        });
+    const helper = new Utils(username);
+    await helper.fetchCoins();
 
-        req.on('end', function () {
-            let postData = JSON.parse(body);
-            let username = postData.username || die();
-            let Utils = require('../utils.js');
-            let helper = new Utils(username);
-            helper.fetchCoins();
+    //const supabase = createServerComponentClient({ cookies });
+    //const { data: accounts } = await supabase.from("accounts").select();
 
-            if (postData.token) {
-                if (helper.verifySession(postData.token)) {
-                    res.end(JSON.stringify({ message: 'You are now being logged in...', valid: true, username: helper.username }));
-                } else {
-                    res.end(JSON.stringify({ error: 'Invalid account.', valid: false }));
-                }
-            } else {
-                let platform = 'web';
-                let password = postData.password || die();
-                if (helper.verifyPassword(password)) {
-                    let token = helper.generateToken(platform);
-                    res.end(JSON.stringify({ message: 'You are now being logged in...', token: token, valid: true, username: helper.username }));
-                } else {
-                    res.end(JSON.stringify({ error: 'Invalid password.', valid: false }));
-                }
-            }
-        });
-    } else {
-        res.end(JSON.stringify({ error: 'Wrong request method. Please use POST.' }));
+    console.log(accounts);
+
+    if (!password) {
+      res.status(400).json({ error: "Password is required." });
+      return;
     }
-}).listen(8080);
+
+    if (helper.verifyPassword(password)) {
+      const token = helper.generateToken("web");
+      res.json({
+        message: "You are now being logged in...",
+        token,
+        valid: true,
+        username: helper.username,
+      });
+    } else {
+      res.json({ error: "Invalid password.", valid: false });
+    }
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+}
