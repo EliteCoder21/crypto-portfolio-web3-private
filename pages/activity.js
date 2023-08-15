@@ -1,40 +1,40 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
-const { getDatabase } = require('firebase-admin/database');
-import { useAuthContext } from '../firebase/context.js';
+const { getDatabase, ref } = require('firebase-admin/database');
+import { useAuthContext } from '../firebase/context/context';
 import Login from "../components/login.js";
-const db = require("../firebase/user.js");
 
-const TABLE_STATE = [
-  {date: 'today', coin: 'Dogecoin', amount: 21, type: 'beats me', notes: 'Totally legit crypto'}
-];
+const TABLE_STATE = [];
 
 
 export default function Activity() {
-  const [activityData, setActivityData] = useState(TABLE_STATE);
+  const [activityData, setActivityData] = useState(INITIAL_STATE);
   const { user } = useAuthContext();
+  getActivityData();
 
-  async function getActivityData() {
+  function getActivityData() {
   
     // Get a database reference to our posts
-    const ref = db.ref('user-activity');
-
+    const db = getDatabase();
+    const dbRef = ref(db, 'user_activity');
+  
     // Attach an asynchronous callback to read the data at our posts reference
-    ref.on('value', (snapshot) => {
-      const vals = snapshot.val();
-      activityData.concat(
-        {date: vals.date, coin: vals.coin, amount: vals.amount, type: vals.type, notes: vals.notes}
-      );      
-    }, (errorObject) => {
-      console.log('The read failed: ' + errorObject.name);
-      return null;
-    }); 
+    dbRef.once('value', function(snapshot){
+      if(snapshot.exists()){
+            
+          snapshot.forEach(function(data){
+
+            const d = data.val();
+
+            TABLE_STATE.concat(
+              { date: d.date, coin: d.coin, amount: d.amount, type: d.type, notes: d.notes }
+            ) 
+          });
+      }
+  }); 
   }
   
   const renderLogs = () => {
-
-    getActivityData();
-
     return activityData.map(({ date, coin, amount, type, notes }) => {
       return (
         <tr>
