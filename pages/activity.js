@@ -15,9 +15,7 @@ export default function Activity() {
   getActivityData();
 
   async function getActivityData() {
-    for (let id in db.collection('user-activity').select()) {
-      getActivityById(id);
-    }
+    getActivityById('sample_activity')
   }
 
   async function getActivityById(id) {
