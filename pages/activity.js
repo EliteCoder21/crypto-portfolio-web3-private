@@ -15,25 +15,30 @@ export default function Activity() {
   getActivityData();
 
   async function getActivityData() {
-  
-    const colRef = db.collection('user-activity');
-    const docSnap = await getDocs(colRef);
-
-    docSnap.forEach(doc => {
-      
-      const data = doc.data
-
-      TABLE_STATE.concat(
-        {
-          date: data.date,
-          coin: data.coin,
-          amount: data.amount,
-          type: data.type,
-          notes: data.notes
-        }
-      )
-    });    
+    for (let id in db.collection('user-activity').select()) {
+      getActivityById(id);
+    }
   }
+
+  async function getActivityById(id) {
+    try {
+        const docRef = doc(db, 'user-activity', id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            TABLE_STATE.concat(
+              {date: data.date, coin: data,coin, amount: data.amount, type: data.type, notes: data.notes}
+            );
+        } else {
+            console.log('No such document!');
+            return null;
+        }
+    } catch (error) {
+        console.error('Error getting document:', error);
+        return null;
+    }
+}
   
   const renderLogs = () => {
     return activityData.map(({ date, coin, amount, type, notes }) => {
