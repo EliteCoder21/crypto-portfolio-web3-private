@@ -3,12 +3,6 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from '../firebase/context.js';
 import Login from "../components/login.js";
 
-function separateThousands(number) {
-  let parts = number.toString().split(".");
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.join(".");
-}
-
 const INITIAL_STATE = [
   {
     rank: 1,
@@ -25,6 +19,12 @@ export default function Market() {
   const [globalDominance, setGlobalDominance] = useState();
   const [marketData, setMarketData] = useState(INITIAL_STATE);
   const { user } = useAuthContext();
+
+  function separateThousands(number) {
+    let parts = number.toString().split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  }
 
   useEffect(() => {
     async function fetchGlobalData() {
@@ -52,7 +52,7 @@ export default function Market() {
           });
 
           if (newMarketData[newMarketData.length-1].change.toString()[0] != '-') {
-            newMarketData[newMarketData.length-1].change = '+' + newMarketData[newMarketData.length-1].change;
+            newMarketData[newMarketData.length-1].change = '+' + newMarketData[newMarketData.length-1].change; 
           }
       }
 
@@ -67,23 +67,27 @@ export default function Market() {
   const renderLogs = () => {
     return marketData.map(({ rank, coin, price, marketCap, change }) => {
       return (
-        <tr>
-          <span className="header rank" data-item="rank">
-            {rank}
-          </span>
-          <span className="header coin" data-item="coin">
-            {coin}
-          </span>
-          <span className="header price" data-item="price">
-            {price}
-          </span>
-          <span className="header market-cap" data-item="market-cap">
-            {marketCap}
-          </span>
-          <span className="header change" data-item="change">
-            {change}
-          </span>
-        </tr>
+        <div className="market-list loading" id="market-list" data-page={1}>
+          <div className="coin-wrapper loading">
+            <tr>
+              <span className="header rank" data-item="rank">
+                {rank}
+              </span>
+              <span className="header coin" data-item="coin">
+                {coin}
+              </span>
+              <span className="header price" data-item="price">
+                {price}
+              </span>
+              <span className="header market-cap" data-item="market-cap">
+                {marketCap}
+              </span>
+              <span className="header change" data-item="change">
+                {change}
+              </span>
+            </tr>
+          </div>
+        </div>
       );
     });
   };
@@ -176,17 +180,9 @@ export default function Market() {
               </div>
             </div>
             <div className="market-list-wrapper noselect" style={{ marginBottom: 20 }}>
-              {/* <div className="headers-wrapper" data-list="market">
-                
-              </div> */}
-              
               {renderHeader()}
 
-              <div className="market-list loading" id="market-list" data-page={1}>
-                <div className="coin-wrapper loading">
-                  {renderLogs()}
-                </div>
-              </div>
+              {renderLogs()}
             </div>
           </div>
         </div>
@@ -195,4 +191,4 @@ export default function Market() {
       }
     </div>
   );
-}
+};

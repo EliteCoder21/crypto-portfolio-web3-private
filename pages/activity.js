@@ -1,37 +1,38 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
-const { getDatabase, ref } = require('firebase-admin/database');
-import { useAuthContext } from '../firebase/context/context';
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import firebase_app from "../firebase/config";
 import Login from "../components/login.js";
+import { useAuthContext } from '../firebase/context';
+
+const db = getFirestore(firebase_app);
 
 const TABLE_STATE = [];
 
-
 export default function Activity() {
-  const [activityData, setActivityData] = useState(INITIAL_STATE);
-  const { user } = useAuthContext();
+  const [activityData, setActivityData] = useState(TABLE_STATE);
+  const user = useAuthContext();
   getActivityData();
 
-  function getActivityData() {
+  async function getActivityData() {
   
-    // Get a database reference to our posts
-    const db = getDatabase();
-    const dbRef = ref(db, 'user_activity');
-  
-    // Attach an asynchronous callback to read the data at our posts reference
-    dbRef.once('value', function(snapshot){
-      if(snapshot.exists()){
-            
-          snapshot.forEach(function(data){
+    const colRef = db.collection('user-activity');
+    const docSnap = await getDocs(colRef);
 
-            const d = data.val();
+    docSnap.forEach(doc => {
+      
+      const data = doc.data
 
-            TABLE_STATE.concat(
-              { date: d.date, coin: d.coin, amount: d.amount, type: d.type, notes: d.notes }
-            ) 
-          });
-      }
-  }); 
+      TABLE_STATE.concat(
+        {
+          date: data.date,
+          coin: data.coin,
+          amount: data.amount,
+          type: data.type,
+          notes: data.notes
+        }
+      )
+    });    
   }
   
   const renderLogs = () => {

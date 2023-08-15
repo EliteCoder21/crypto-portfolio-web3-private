@@ -13,7 +13,18 @@ export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
   const [marketChange, setMarketChange] = useState();
   const [totalValue, setTotalValue] = useState();
+  const [holdingsDic, setHoldings] = useState([]);
   const { user } = useAuthContext();
+
+  function empty(value) {
+    if (typeof value === "object" && value !== null && Object.keys(value).length === 0) {
+      return true;
+    }
+    if (value === null || typeof value === "undefined" || value.toString().trim() === "") {
+      return true;
+    }
+    return false;
+  }
 
   function separateThousands(number) {
     let parts = number.toString().split(".");
@@ -21,26 +32,15 @@ export default function InstructionsComponent() {
     return parts.join(".");
   }
 
-  async function getHoldings() {
-    let sessionToken = localStorage.getItem("token");
-	  let sessionUsername = localStorage.getItem("username");
-
-    const response = await fetch("/api/holdings/read?token=" + sessionToken + "&username=" + sessionUsername);
-    const coins = await response.json();
-
-    return coins;
-  }
-
   async function calculateTotalValue() {
     let globalTotalValue = 0;
-    let holdings = {};
+    let holdings = [];
 
     let coins = await getUserHoldings(user.uid);
     let list = Object.keys(coins).join("%2C");
 
-    console.log(list);
-
-    const response = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + "btc" + "&ids=" + list + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+    const req = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + "btc" + "&ids=" + list + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+    const response = await req.json();
 
     Object.keys(response).map(index => {
       let coin = response[index];
@@ -56,16 +56,17 @@ export default function InstructionsComponent() {
         priceChangeDay = "-";
       }
 
-      holdings[id] = {
-        symbol:coins[id].symbol,
-        amount:amount,
-        value:value,
-        price:price,
-        change:priceChangeDay,
-        image:coin.image
-      };
+      holdings.push({
+        symbol: coins[id].symbol,
+        amount: amount,
+        value: value,
+        price: price,
+        change: priceChangeDay,
+        image: coin.image
+      });
 
       globalTotalValue += value;
+      setHoldings(holdingsDic);
     });
 
     return globalTotalValue;
@@ -82,15 +83,7 @@ export default function InstructionsComponent() {
       setTotalValue(separateThousands(totalVal.toFixed(2)));
     }
 
-    async function fetchHoldingData() {
-      let coins = getHoldings();
-      let list = Object.keys(coins).join("%2C");
-      const response = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + "usd" + "&ids=" + list + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
-      const data = await response.json();
-    }
-
     fetchGlobalData();
-    fetchHoldingData();
   }, []);
 
   return (
@@ -123,9 +116,9 @@ export default function InstructionsComponent() {
                               <div className="card-body">
                                 <span
                                   className="material-icons"
-                                  style={{ fontSize: 120, marginBottom: 20 }}
+                                  style={{ fontSize: 120 }}
                                 >
-                                  <DomainIcon />
+                                  <DomainIcon fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">
@@ -148,9 +141,9 @@ export default function InstructionsComponent() {
                               <div className="card-body">
                                 <span
                                   className="material-icons"
-                                  style={{ fontSize: 120, marginBottom: 20 }}
+                                  style={{ fontSize: 120 }}
                                 >
-                                  <BarChartIcon />
+                                  <BarChartIcon fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">
@@ -181,9 +174,9 @@ export default function InstructionsComponent() {
                               <div className="card-body">
                                 <span
                                   className="material-icons"
-                                  style={{ fontSize: 120, marginBottom: 20 }}
+                                  style={{ fontSize: 120 }}
                                 >
-                                  <RequestQuoteIcon />
+                                  <RequestQuoteIcon fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">
@@ -214,9 +207,9 @@ export default function InstructionsComponent() {
                               <div className="card-body">
                                 <span
                                   className="material-icons"
-                                  style={{ fontSize: 120, marginBottom: 20 }}
+                                  style={{ fontSize: 120 }}
                                 >
-                                  <AssuredWorkloadIcon />
+                                  <AssuredWorkloadIcon fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">
@@ -239,79 +232,83 @@ export default function InstructionsComponent() {
                 </div>
               </div>
             </div>
-            <div
-              className="dashboard-market-card-wrapper noselect"
-              style={{ marginBottom: 20 }}
-            >
-              <div className="dashboard-market-cap-card">
-                <span className="title">Market Cap</span>
-                <span className="subtitle" id="dashboard-market-cap">
-                  ${marketCap}
-                </span>
+            <div style={{ padding: 20 }}>
+              <div
+                className="dashboard-market-card-wrapper noselect"
+                style={{ marginBottom: 20 }}
+              >
+                <div className="dashboard-market-cap-card">
+                  <span className="title">Market Cap</span>
+                  <span className="subtitle" id="dashboard-market-cap">
+                    ${marketCap}
+                  </span>
+                </div>
+                <div className="dashboard-market-cap-card">
+                  <span className="title">24h Change</span>
+                  <span className="subtitle" id="dashboard-market-change">
+                    {marketChange}%
+                  </span>
+                </div>
+                <div className="dashboard-market-cap-card">
+                  <span className="title">Total Value</span>
+                  <span className="subtitle" id="dashboard-holdings-value">
+                    {totalValue}
+                  </span>
+                </div>
               </div>
-              <div className="dashboard-market-cap-card">
-                <span className="title">24h Change</span>
-                <span className="subtitle" id="dashboard-market-change">
-                  {marketChange}%
-                </span>
-              </div>
-              <div className="dashboard-market-cap-card">
-                <span className="title">Total Value</span>
-                <span className="subtitle" id="dashboard-holdings-value">
-                  {totalValue}
-                </span>
-              </div>
-            </div>
-            <div className="dashboard-row">
-              <div>
-                <div className="dashboard-market-list-wrapper noselect">
-                  <div className="headers-wrapper" data-list="dashboardMarket">
-                    <span className="header coin" data-item="coin">
-                      Coin
-                    </span>
-                    <span className="header price" data-item="price">
-                      Price
-                    </span>
-                    <span className="header market-cap" data-item="marketCap">
-                      Market Cap
-                    </span>
-                    <span className="header day" data-item="change">
-                      24h Change
-                    </span>
-                  </div>
-                  <div
-                    className="dashboard-market-list loading"
-                    id="dashboard-market-list"
-                  >
-                    <div className="coin-wrapper loading">
-                      <span>Loading...</span>
+              <div className="dashboard-row">
+                <div>
+                  <div className="dashboard-market-list-wrapper noselect">
+                    <div className="headers-wrapper" data-list="dashboardMarket">
+                      <span className="header coin" data-item="coin">
+                        Coin
+                      </span>
+                      <span className="header price" data-item="price">
+                        Price
+                      </span>
+                      <span className="header market-cap" data-item="marketCap">
+                        Market Cap
+                      </span>
+                      <span className="header day" data-item="change">
+                        24h Change
+                      </span>
+                    </div>
+                    <div
+                      className="dashboard-market-list loading"
+                      id="dashboard-market-list"
+                    >
+                      <div className="coin-wrapper loading">
+                        <span>Loading...</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div />
-              <div>
-                <div className="dashboard-holdings-list-wrapper noselect">
-                  <div className="headers-wrapper" data-list="dashboardHoldings">
-                    <span className="header coin" data-item="coin">
-                      Coin
-                    </span>
-                    <span className="header amount" data-item="amount">
-                      Amount
-                    </span>
-                    <span className="header value" data-item="value">
-                      Value
-                    </span>
-                    <span className="header day" data-item="change">
-                      24h Change
-                    </span>
-                  </div>
-                  <div
-                    className="dashboard-holdings-list loading"
-                    id="dashboard-holdings-list"
-                  >
-                    <div className="coin-wrapper loading">
-                      <span>Loading...</span>
+                <div />
+                <div>
+                  <div className="dashboard-holdings-list-wrapper noselect">
+                    <div className="headers-wrapper" data-list="dashboardHoldings">
+                      <span className="header coin" data-item="coin">
+                        Coin
+                      </span>
+                      <span className="header amount" data-item="amount">
+                        Amount
+                      </span>
+                      <span className="header value" data-item="value">
+                        Value
+                      </span>
+                      <span className="header day" data-item="change">
+                        24h Change
+                      </span>
+                    </div>
+                    <div
+                      className="dashboard-holdings-list loading"
+                      id="dashboard-holdings-list"
+                    >
+                      {holdingsDic.map((data) => (
+                        <div className="coin-wrapper loading">
+                          <span className="coin">{data.coin}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>

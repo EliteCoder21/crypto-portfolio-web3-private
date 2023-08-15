@@ -1,5 +1,5 @@
 import Navbar from "../components/navbar.js";
-import { useAuthContext } from '../firebase/context/context';
+import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 
 export default function OXA() {

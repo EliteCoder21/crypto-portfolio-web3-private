@@ -28,7 +28,6 @@ export async function getUserHoldings(id) {
 
         if (docSnap.exists()) {
             const data = docSnap.data();
-            console.log('Document data:', data);
             return data;
         } else {
             console.log('No such document!');

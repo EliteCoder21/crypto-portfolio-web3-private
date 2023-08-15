@@ -1,16 +1,10 @@
 "use client";
 
-import DashboardIcon from "@mui/icons-material/Dashboard";
-import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import SettingsIcon from "@mui/icons-material/Settings";
-import MonetizationOnIcon from "@mui/icons-material/MonetizationOn";
-import TokenIcon from "@mui/icons-material/Token";
-import DataThresholdingIcon from "@mui/icons-material/DataThresholding";
-import StoreIcon from "@mui/icons-material/Store";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Image from "next/image";
 import { useAuthContext } from '../firebase/context';
+import BottomNav from "./bottom-nav";
 
 export default function Navbar({ active }) {
   const { handleSignOut } = useAuthContext();
@@ -68,117 +62,7 @@ export default function Navbar({ active }) {
         </div>
         <div />
       </div>
-      <div className="headNav">
-        <nav className="navbar navbar-expand navbar-light">
-          <div className="container">
-            <div className="navbar-collapse collapse" id="navbar-nav">
-              <div className="navbar-nav" id="toolbar">
-                <a
-                  className={active == "/" ? "active" : ""}
-                  href="/"
-                  style={{ marginLeft: 5 }}
-                >
-                  <li className="texticon">
-                    <button type="button" className="buttonclass">
-                      <div className="icon">
-                        <span className="material-icons md-20"><DashboardIcon /></span>
-                      </div>
-                      <div className="text">
-                        <span className="text1">Dashboard</span>
-                        <span className="text2" />
-                      </div>
-                    </button>
-                  </li>
-                </a>
-                <a className={active == "/assets" ? "active" : ""} href="/assets" style={{ marginLeft: 5 }}>
-                  <li className="texticon">
-                    <button type="button" className="buttonclass">
-                      <div className="icon">
-                        <span className="material-icons md-20">
-                          <AccountBalanceWalletIcon />
-                        </span>
-                      </div>
-                      <div className="text">
-                        <span className="text1">Assets</span>
-                        <span className="text2" />
-                      </div>
-                    </button>
-                  </li>
-                </a>
-                <a className={active == "/aut" ? "active" : ""} href="/aut" style={{ marginLeft: 5 }}>
-                  <li className="texticon">
-                    <button type="button" className="buttonclass">
-                      <div className="icon">
-                        <span className="material-icons md-20">
-                          <MonetizationOnIcon />
-                        </span>
-                      </div>
-                      <div className="text">
-                        <span className="text1">AUT</span>
-                        <span className="text2" />
-                      </div>
-                    </button>
-                  </li>
-                </a>
-                <a className={active == "/oxa" ? "active" : ""} href="/oxa" style={{ marginLeft: 5 }}>
-                  <li className="texticon">
-                    <button type="button" className="buttonclass">
-                      <div className="icon">
-                        <span className="material-icons md-20"><TokenIcon /></span>
-                      </div>
-                      <div className="text">
-                        <span className="text1">OXA</span>
-                        <span className="text2" />
-                      </div>
-                    </button>
-                  </li>
-                </a>
-                <a className={active == "/holdings" ? "active" : ""} href="/holdings" style={{ marginLeft: 5 }}>
-                  <li className="texticon">
-                    <button type="button" className="buttonclass">
-                      <div className="icon">
-                        <span className="material-icons md-20">
-                          <DataThresholdingIcon />
-                        </span>
-                      </div>
-                      <div className="text">
-                        <span className="text1">Digital Holdings</span>
-                        <span className="text2" />
-                      </div>
-                    </button>
-                  </li>
-                </a>
-                <a className={active == "/market" ? "active" : ""} href="/market" style={{ marginLeft: 5 }}>
-                  <li className="texticon">
-                    <button type="button" className="buttonclass">
-                      <div className="icon">
-                        <span className="material-icons md-20"><StoreIcon /></span>
-                      </div>
-                      <div className="text">
-                        <span className="text1">Market</span>
-                        <span className="text2" />
-                      </div>
-                    </button>
-                  </li>
-                </a>
-                <a className={active == "/activity" ? "active" : ""} href="/activity" style={{ marginLeft: 5 }}>
-                  <li className="texticon">
-                    <button type="button" className="buttonclass">
-                      <div className="icon">
-                        <span className="material-icons md-20"><SwapHorizIcon /></span>
-                      </div>
-                      <div className="text">
-                        <span className="text1">Activity</span>
-                        <span className="text2" />
-                      </div>
-                    </button>
-                  </li>
-                </a>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </div>
+      <BottomNav active={active} />
     </div>
   );
 }

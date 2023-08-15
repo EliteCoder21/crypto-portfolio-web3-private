@@ -5,6 +5,12 @@
 html, body, input, button, input::placeholder {
 	font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
 }
+
+html, body {
+	margin: 0 !important;
+	width: 100vw !important;
+}
+
 :root {
 	--shadow-dark:0 6px 10px rgba(40,40,40,0.25);
 	--shadow-darker:0 6px 10px rgba(40,40,40,0.4);
@@ -407,15 +413,6 @@ input[type=number] {
 #desktop .login-wrapper button:hover {
 	background:var(--linear-gradient-dark);
 	color:var(--accent-contrast);
-}
-
-.page {
-	display:none;
-	width:calc(100% - 200px);
-	margin-left: auto;
-	margin-right: auto;
-	min-height:100%;
-	background: transparent;
 }
 
 #page-autpage {
