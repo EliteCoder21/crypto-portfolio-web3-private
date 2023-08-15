@@ -5,8 +5,9 @@ import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
-import { useAuthContext } from '../firebase/context/context';
+import { useAuthContext } from '../firebase/context.js';
 import Login from "../components/login.js";
+import { getUserHoldings } from "../firebase/user.js";
 
 export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
@@ -34,9 +35,10 @@ export default function InstructionsComponent() {
     let globalTotalValue = 0;
     let holdings = {};
 
-    let coins = []; //defined by line 4838 in main.js
-
+    let coins = await getUserHoldings(user.uid);
     let list = Object.keys(coins).join("%2C");
+
+    console.log(list);
 
     const response = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + "btc" + "&ids=" + list + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
 
@@ -73,10 +75,11 @@ export default function InstructionsComponent() {
     async function fetchGlobalData() {
       const response = await fetch("https://api.coingecko.com/api/v3/global");
       const global = await response.json();
+      const totalVal = await calculateTotalValue();
 
       setMarketCap(separateThousands((global.data.total_market_cap["usd"]).toFixed(0)));
       setMarketChange((global.data.market_cap_change_percentage_24h_usd).toFixed(1));
-      setTotalValue("btc" + separateThousands(calculateTotalValue().toFixed(2)));
+      setTotalValue(separateThousands(totalVal.toFixed(2)));
     }
 
     async function fetchHoldingData() {
@@ -249,7 +252,7 @@ export default function InstructionsComponent() {
               <div className="dashboard-market-cap-card">
                 <span className="title">24h Change</span>
                 <span className="subtitle" id="dashboard-market-change">
-                  {marketChange}
+                  {marketChange}%
                 </span>
               </div>
               <div className="dashboard-market-cap-card">

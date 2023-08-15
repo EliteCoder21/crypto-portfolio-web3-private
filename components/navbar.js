@@ -10,14 +10,10 @@ import StoreIcon from "@mui/icons-material/Store";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Image from "next/image";
-import { useAuthContext } from '../firebase/context/context';
+import { useAuthContext } from '../firebase/context';
 
 export default function Navbar({ active }) {
-  const { user } = useAuthContext();
-
-  const handleSignOut = async () => {
-    await user.handleSignOut();
-  }
+  const { handleSignOut } = useAuthContext();
   
   return (
     <div id="navigation">

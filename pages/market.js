@@ -1,12 +1,18 @@
 import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
-import { useAuthContext } from '../firebase/context/context';
+import { useAuthContext } from '../firebase/context.js';
 import Login from "../components/login.js";
+
+function separateThousands(number) {
+  let parts = number.toString().split(".");
+  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parts.join(".");
+}
 
 const INITIAL_STATE = [
   {
     rank: 1,
-    coin: 'Bitcoin',
+    coin: 'BTC',
     price: 29307,
     marketCap: 570074511326,
     change: -0.31
@@ -20,12 +26,6 @@ export default function Market() {
   const [marketData, setMarketData] = useState(INITIAL_STATE);
   const { user } = useAuthContext();
 
-  function separateThousands(number) {
-    let parts = number.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
-
   useEffect(() => {
     async function fetchGlobalData() {
       const response = await fetch("https://api.coingecko.com/api/v3/global");
@@ -37,56 +37,80 @@ export default function Market() {
       setGlobalDominance((globalData.market_cap_percentage.btc).toFixed(1));
     }
 
+    async function fetchCoinsData() {
+      const response = await fetch("https://api.coingecko.com/api/v3/coins/");
+      const coins = await response.json();
+      const newMarketData = [];
+
+      for (let coin of coins) {
+          newMarketData.push({
+            rank: coin.market_data.market_cap_rank,
+            coin: coin.symbol.toUpperCase(),
+            price: '$' + separateThousands(coin.market_data.current_price["usd"]),
+            marketCap: '$' + separateThousands(coin.market_data.market_cap["usd"]),
+            change: coin.market_data.price_change_percentage_24h.toFixed(2) + '%'
+          });
+
+          if (newMarketData[newMarketData.length-1].change.toString()[0] != '-') {
+            newMarketData[newMarketData.length-1].change = '+' + newMarketData[newMarketData.length-1].change;
+          }
+      }
+
+      setMarketData(newMarketData);
+    }
+
     fetchGlobalData();
 
-    const renderLogs = () => {
-      return marketData.map(({ rank, coin, price, marketCap, change }) => {
-        return (
-          <tr>
-            <span className="header rank" data-item="rank">
-              {rank}
-            </span>
-            <span className="header coin" data-item="coin">
-              {coin}
-            </span>
-            <span className="header price" data-item="price">
-              {price}
-            </span>
-            <span className="header market-cap" data-item="market-cap">
-              {marketCap}
-            </span>
-            <span className="header change" data-item="change">
-              {change}
-            </span>
-          </tr>
-        );
-      });
-    };
-  
-    const renderHeader = () => {
-      return (
-        <div className="market-list-wrapper noselect">
-          <div className="headers-wrapper" data-list="market">
-            <span className="header rank" data-item="rank">
-              #
-            </span>
-            <span className="header coin" data-item="coin">
-              Coin
-            </span>
-            <span className="header price" data-item="price">
-              Price
-            </span>
-            <span className="header market-cap" data-item="market-cap">
-              Market Cap
-            </span>
-            <span className="header change" data-item="change">
-              24h Change
-            </span>
-          </div>
-        </div>
-      );
-    };
+    fetchCoinsData();
   }, []);
+
+  const renderLogs = () => {
+    return marketData.map(({ rank, coin, price, marketCap, change }) => {
+      return (
+        <tr>
+          <span className="header rank" data-item="rank">
+            {rank}
+          </span>
+          <span className="header coin" data-item="coin">
+            {coin}
+          </span>
+          <span className="header price" data-item="price">
+            {price}
+          </span>
+          <span className="header market-cap" data-item="market-cap">
+            {marketCap}
+          </span>
+          <span className="header change" data-item="change">
+            {change}
+          </span>
+        </tr>
+      );
+    });
+  };
+
+  const renderHeader = () => {
+    return (
+      <div className="market-list-wrapper noselect">
+        <div className="headers-wrapper" data-list="market">
+          <span className="header rank" data-item="rank">
+            #
+          </span>
+          <span className="header coin" data-item="coin">
+            Coin
+          </span>
+          <span className="header price" data-item="price">
+            Price
+          </span>
+          <span className="header market-cap" data-item="market-cap">
+            Market Cap
+          </span>
+          <span className="header change" data-item="change">
+            24h Change
+          </span>
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -151,13 +175,13 @@ export default function Market() {
                 </svg>
               </div>
             </div>
-            <div className="market-list-wrapper noselect">
-              <div className="headers-wrapper" data-list="market">
+            <div className="market-list-wrapper noselect" style={{ marginBottom: 20 }}>
+              {/* <div className="headers-wrapper" data-list="market">
                 
-              </div>
-
-              {renderHeader()}
+              </div> */}
               
+              {renderHeader()}
+
               <div className="market-list loading" id="market-list" data-page={1}>
                 <div className="coin-wrapper loading">
                   {renderLogs()}

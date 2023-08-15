@@ -2,8 +2,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Router from 'next/router';
 
-import signUp from "../firebase/auth/signup";
-import signIn from "../firebase/auth/signin";
+import { signUp, signIn } from "../firebase/auth";
+import { createUser } from "../firebase/user";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -14,9 +14,10 @@ export default function Login() {
     try {
       const { result, error } = await signUp(email, password);
       if (error) throw error;
+
+      await createUser(result.user.uid);
       
       setMessage("Account created!");
-      Router.reload(window.location.pathname);
     } catch (e) {
       console.log(e.message);
       setMessage(e.message);
@@ -29,7 +30,6 @@ export default function Login() {
       if (error) throw error;
 
       setMessage("Successfully logged in!");
-      Router.reload(window.location.pathname);
     } catch (e) {
       setMessage(e.message);
     }

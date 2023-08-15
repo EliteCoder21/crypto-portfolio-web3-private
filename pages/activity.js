@@ -1,35 +1,40 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
 const { getDatabase } = require('firebase-admin/database');
-import { useAuthContext } from '../firebase/context/context';
+import { useAuthContext } from '../firebase/context.js';
 import Login from "../components/login.js";
+const db = require("../firebase/user.js");
 
-const INITIAL_STATE = [
+const TABLE_STATE = [
   {date: 'today', coin: 'Dogecoin', amount: 21, type: 'beats me', notes: 'Totally legit crypto'}
 ];
 
 
 export default function Activity() {
-  const [activityData, setActivityData] = useState(INITIAL_STATE);
+  const [activityData, setActivityData] = useState(TABLE_STATE);
   const { user } = useAuthContext();
-  getActivityData();
 
-  function getActivityData() {
+  async function getActivityData() {
   
     // Get a database reference to our posts
-    const db = getDatabase();
-    const ref = db.ref('server/sample_data/activity');
-  
+    const ref = db.ref('user-activity');
+
     // Attach an asynchronous callback to read the data at our posts reference
     ref.on('value', (snapshot) => {
-      console.log(snapshot.val());
-      setActivityData(snapshot.val());
+      const vals = snapshot.val();
+      activityData.concat(
+        {date: vals.date, coin: vals.coin, amount: vals.amount, type: vals.type, notes: vals.notes}
+      );      
     }, (errorObject) => {
       console.log('The read failed: ' + errorObject.name);
+      return null;
     }); 
   }
   
   const renderLogs = () => {
+
+    getActivityData();
+
     return activityData.map(({ date, coin, amount, type, notes }) => {
       return (
         <tr>

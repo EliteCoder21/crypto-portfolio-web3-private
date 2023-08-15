@@ -8,7 +8,7 @@ import "../styles/microtip.css";
 import "../styles/navbar.css";
 import "../styles/section.css";
 import "../styles/view.css";
-import { AuthContextProvider } from '../firebase/context/context';
+import { AuthContextProvider } from '../firebase/context';
 
 const config = createConfig(
   getDefaultConfig({
