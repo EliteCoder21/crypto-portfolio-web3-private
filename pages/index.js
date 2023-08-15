@@ -84,7 +84,7 @@ export default function InstructionsComponent() {
     }
 
     fetchGlobalData();
-  }, []);
+  }, [holdingsDic]);
 
   return (
     <div>
