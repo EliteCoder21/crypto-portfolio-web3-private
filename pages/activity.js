@@ -15,16 +15,27 @@ export default function Activity() {
   getActivityData();
 
   async function getActivityData() {
-    getActivityById('sample_activity')
+
+    const documentReferences = await db.collection('user-activity').listDocuments()
+
+    console.log(documentReferences)
+
+    for (let ref in docRefs) {
+      //getActivityById(ref);
+    } 
   }
 
-  async function getActivityById(id) {
+  async function getUserActivity() {
     try {
-        const docRef = doc(db, 'user-activity', id);
+        
+        
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
             const data = docSnap.data();
+
+            console.log(data)
+
             TABLE_STATE.concat(
               {date: data.date, coin: data,coin, amount: data.amount, type: data.type, notes: data.notes}
             );
