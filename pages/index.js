@@ -39,7 +39,9 @@ export default function InstructionsComponent() {
     let coins = await getUserHoldings(user.uid);
     let list = Object.keys(coins).join("%2C");
 
-    const req = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + "btc" + "&ids=" + list + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+    console.log(list);
+
+    const req = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc" + "&ids=" + list + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
     const response = await req.json();
 
     Object.keys(response).map(index => {
@@ -66,8 +68,10 @@ export default function InstructionsComponent() {
       });
 
       globalTotalValue += value;
-      setHoldings(holdingsDic);
     });
+
+    setHoldings(holdingsDic);
+    console.log(holdingsDic);
 
     return globalTotalValue;
   }
@@ -304,9 +308,13 @@ export default function InstructionsComponent() {
                       className="dashboard-holdings-list loading"
                       id="dashboard-holdings-list"
                     >
-                      {holdingsDic.map((data) => (
-                        <div className="coin-wrapper loading">
-                          <span className="coin">{data.coin}</span>
+                      {holdingsDic.map((coin) => (
+                        <div>
+                          <img draggable="false" src={coin.image} />
+                          <span class="coin">{coin.symbol.toUpperCase()}</span>
+                          <span class="amount">{separateThousands(coin.amount)}</span>
+                          <span class="value">${separateThousands(coin.value)}</span>
+                          <span class="day">{coin.change.includes("-") ? coin.change + "%" : "+" + coin.change + "%"}</span>
                         </div>
                       ))}
                     </div>
