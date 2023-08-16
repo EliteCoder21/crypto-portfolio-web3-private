@@ -8,9 +8,13 @@ export async function createUser(id) {
     let error = null;
 
     let data = {}
+    let dataHoldings = ["btc", "eth", "usdt", "bnb", "xrp", "usdc", "doge", "sol"]
 
     try {
         result = await setDoc(doc(db, "holdings", id), data, {
+            merge: true,
+        });
+        await setDoc(doc(db, "watchlist", id), dataHoldings, {
             merge: true,
         });
     } catch (e) {

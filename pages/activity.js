@@ -16,13 +16,9 @@ export default function Activity() {
 
   async function getActivityData() {
 
-    const documentReferences = await db.collection('user-activity').listDocuments()
-
-    console.log(documentReferences)
-
-    for (let ref in docRefs) {
-      //getActivityById(ref);
-    } 
+    const docRef = doc(db, 'user-activity', 'test');
+    const docSnap = await getDoc(docRef); 
+    console.log(docSnap.data());
   }
 
   async function getUserActivity() {

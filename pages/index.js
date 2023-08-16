@@ -72,6 +72,7 @@ export default function InstructionsComponent() {
 
     setHoldings(holdingsDic);
     console.log(holdingsDic);
+    console.log(holdings);
 
     return globalTotalValue;
   }

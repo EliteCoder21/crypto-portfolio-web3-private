@@ -1,4 +1,7 @@
 import Navbar from "../components/navbar.js";
+import { useState, useEffect } from "react";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import firebase_app from "../firebase/config";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 
