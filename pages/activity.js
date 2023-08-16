@@ -15,7 +15,12 @@ export default function Activity() {
   getActivityData();
 
   async function getActivityData() {
-    getActivityById('sample_activity')
+    
+    const docRef = doc(db, 'user-activity', id);
+    const docSnap = await getDoc(docRef);
+
+    console.log(docSnap.data());
+    
   }
 
   async function getActivityById(id) {
