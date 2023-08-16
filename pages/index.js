@@ -32,6 +32,16 @@ export default function InstructionsComponent() {
     return parts.join(".");
   }
 
+  async function setMarketList() {
+    let watchlist = await getUserWatchlist(user.uid);
+    let watchListString = Object.keys(watchlist).join("%2c");
+
+    let req = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc&ids=" + watchListString + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+    let coins = await req.json();
+
+    //line 2114 main.js
+  }
+
   async function calculateTotalValue() {
     let globalTotalValue = 0;
     let holdings = [];
@@ -82,6 +92,7 @@ export default function InstructionsComponent() {
       const response = await fetch("https://api.coingecko.com/api/v3/global");
       const global = await response.json();
       const totalVal = await calculateTotalValue();
+      setMarketList();
 
       setMarketCap(separateThousands((global.data.total_market_cap["usd"]).toFixed(0)));
       setMarketChange((global.data.market_cap_change_percentage_24h_usd).toFixed(1));

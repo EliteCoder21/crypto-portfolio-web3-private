@@ -24,7 +24,6 @@ export default function Activity() {
   async function getUserActivity() {
     try {
         
-        
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
