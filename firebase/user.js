@@ -8,7 +8,16 @@ export async function createUser(id) {
     let error = null;
 
     let data = {}
-    let dataHoldings = ["btc", "eth", "usdt", "bnb", "xrp", "usdc", "doge", "sol"]
+    let dataHoldings = {
+        "bitcoin": {symbol: "btc"}, 
+        "ethereum": {symbol: "eth"}, 
+        "tether": {symbol: "usdt"},
+        "binancecoin": {symbol: "bnb"},
+        "ripple": {symbol: "xrp"},
+        "usd-coin": {symbol: "usdc"},
+        "dogecoin": {symbol: "doge"},
+        "solana": {symbol: "sol"}
+    }
 
     try {
         result = await setDoc(doc(db, "holdings", id), data, {

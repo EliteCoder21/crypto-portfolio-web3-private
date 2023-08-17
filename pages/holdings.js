@@ -30,7 +30,7 @@ export default function Holdings() {
               <div className="holdings-value-card" id="holdings-value-card">
                 <span className="title">Total Value</span>
                 <span className="subtitle" id="holdings-total-value">
-                  ...
+                ...
                 </span>
               </div>
               <div className="holdings-add-card" id="holdings-add-card">

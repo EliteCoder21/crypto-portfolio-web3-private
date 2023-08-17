@@ -7,23 +7,30 @@ import { useAuthContext } from '../firebase/context';
 
 const db = getFirestore(firebase_app);
 
-const TABLE_STATE = [];
+const TABLE_STATE = [
+  {
+    date: '2023/08/17',
+    coin: 'ETH',
+    amount: 0.01,
+    type: 'default',
+    notes: 'none'
+  }
+];
 
 export default function Activity() {
+  // console.log("Say something!")
+  
   const [activityData, setActivityData] = useState(TABLE_STATE);
   const user = useAuthContext();
   getActivityData();
 
   async function getActivityData() {
-
     const docRef = doc(db, 'user-activity', 'test');
     const docSnap = await getDoc(docRef); 
-    console.log(docSnap.data());
   }
 
   async function getUserActivity(docRef) {
     try {
-        
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
@@ -47,23 +54,27 @@ export default function Activity() {
   const renderLogs = () => {
     return activityData.map(({ date, coin, amount, type, notes }) => {
       return (
-        <tr>
-          <span className="header date" data-item="date">
-            {date}
-          </span>
-          <span className="header symbol" data-item="coin">
-            {coin}
-          </span>
-          <span className="header amount" data-item="amount">
-            {amount}
-          </span>
-          <span className="header type" data-item="type">
-            {type}
-          </span>
-          <span className="header notes" data-item="notes">
-            {notes}
-          </span>
-        </tr>
+        <div className="activity-list loading" id="activity-list">
+          <div className="event-wrapper loading">
+            <tr>
+              <span className="header date" data-item="date">
+                {date}
+              </span>
+              <span className="header symbol" data-item="coin">
+                {coin}
+              </span>
+              <span className="header amount" data-item="amount">
+                {amount}
+              </span>
+              <span className="header type" data-item="type">
+                {type}
+              </span>
+              <span className="header notes" data-item="notes">
+                {notes}
+              </span>
+            </tr>
+          </div>
+        </div>
       );
     });
   };
@@ -137,12 +148,7 @@ export default function Activity() {
 
             {renderHeader()}
 
-            <div className="activity-list loading" id="activity-list">
-              <div className="event-wrapper loading">
-                {renderLogs()}
-              </div>
-            </div>
-
+            {renderLogs()}
           </div>
         </div>
         : 

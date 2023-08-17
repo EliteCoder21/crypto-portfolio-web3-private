@@ -5,7 +5,7 @@ import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
 import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
 import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
-import { useAuthContext } from '../firebase/context.js';
+import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
 import { getUserHoldings, getUserWatchlist } from "../firebase/user.js";
 
@@ -13,15 +13,23 @@ export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
   const [marketChange, setMarketChange] = useState();
   const [totalValue, setTotalValue] = useState();
-  const [holdingsDic, setHoldings] = useState([]);
-  const [marketDic, setMarket] = useState([]);
+  const [holdingsDic, setHoldingsDic] = useState([]);
+  const [marketDic, setMarketDic] = useState([]);
   const { user } = useAuthContext();
 
   function empty(value) {
-    if (typeof value === "object" && value !== null && Object.keys(value).length === 0) {
+    if (
+      typeof value === "object" &&
+      value !== null &&
+      Object.keys(value).length === 0
+    ) {
       return true;
     }
-    if (value === null || typeof value === "undefined" || value.toString().trim() === "") {
+    if (
+      value === null ||
+      typeof value === "undefined" ||
+      value.toString().trim() === ""
+    ) {
       return true;
     }
     return false;
@@ -35,26 +43,31 @@ export default function InstructionsComponent() {
 
   async function setMarketList() {
     let watchlist = await getUserWatchlist(user.uid);
-    let watchListString = Object.keys(watchlist).join("%2c");
+    let watchListString = Object.keys(watchlist.watchlist).join("%2c");
 
-    let req = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc&ids=" + watchListString + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+    let req = await fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc&ids=" +
+        watchListString +
+        "&order=market_cap_desc&per_page=250&page=1&sparkline=false"
+    );
     let coins = await req.json();
 
     let marketList = [];
 
-    Object.keys(coins).map(key => {
+    Object.keys(coins).map((key) => {
       let coin = coins[key];
       marketList.push({
-        "icon": coin.image,
-        "name": coin.name,
-        "symbol": coin.symbol.toUpperCase(),
-        "price": separateThousands(parseFloat(coin.current_price)),
-        "marketCap": coin.market_cap,
-        "priceChangeDay": coin.price_Change_percentage_24h
+        icon: coin.image,
+        name: coin.name,
+        symbol: coin.symbol.toUpperCase(),
+        price: separateThousands(parseFloat(coin.current_price)),
+        marketCap: coin.market_cap,
+        priceChangeDay: coin.price_Change_percentage_24h,
       });
     });
 
-    setMarket(marketList);
+    console.log(marketList);
+    setMarketDic(marketList);
   }
 
   async function calculateTotalValue() {
@@ -64,12 +77,15 @@ export default function InstructionsComponent() {
     let coins = await getUserHoldings(user.uid);
     let list = Object.keys(coins).join("%2C");
 
-    console.log(list);
-
-    const req = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc" + "&ids=" + list + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
+    const req = await fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc" +
+        "&ids=" +
+        list +
+        "&order=market_cap_desc&per_page=250&page=1&sparkline=false"
+    );
     const response = await req.json();
 
-    Object.keys(response).map(index => {
+    Object.keys(response).map((index) => {
       let coin = response[index];
       let id = coin.id;
       let price = coin.current_price;
@@ -77,7 +93,7 @@ export default function InstructionsComponent() {
       let value = price * amount;
       let priceChangeDay = coin.price_change_percentage_24h;
 
-      if(!empty(priceChangeDay)) {
+      if (!empty(priceChangeDay)) {
         priceChangeDay = priceChangeDay.toFixed(2);
       } else {
         priceChangeDay = "-";
@@ -89,16 +105,13 @@ export default function InstructionsComponent() {
         value: value,
         price: price,
         change: priceChangeDay,
-        image: coin.image
+        image: coin.image,
       });
 
       globalTotalValue += value;
     });
 
-    setHoldings(holdingsDic);
-    console.log(holdingsDic);
-    console.log(holdings);
-
+    setHoldingsDic(holdingsDic);
     return globalTotalValue;
   }
 
@@ -107,21 +120,63 @@ export default function InstructionsComponent() {
       const response = await fetch("https://api.coingecko.com/api/v3/global");
       const global = await response.json();
       const totalVal = await calculateTotalValue();
-      setMarketList();
+      await setMarketList();
 
-      setMarketCap(separateThousands((global.data.total_market_cap["usd"]).toFixed(0)));
-      setMarketChange((global.data.market_cap_change_percentage_24h_usd).toFixed(1));
+      setMarketCap(
+        separateThousands(global.data.total_market_cap["usd"].toFixed(0))
+      );
+      setMarketChange(
+        global.data.market_cap_change_percentage_24h_usd.toFixed(1)
+      );
       setTotalValue(separateThousands(totalVal.toFixed(2)));
     }
 
-    if (user) {
+    if (user && marketDic.length == 0 && holdingsDic.length == 0) {
       fetchGlobalData();
     }
-  }, [holdingsDic, marketDic]);
+  }, []);
+
+  function renderMarketList() {
+    return (
+      <div className="dashboard-market-list" id="dashboard-market-list">
+        {marketDic.map((coin) => (
+          <div>
+            <img draggable="false" src={coin.icon} title={coin.name} />
+            <span className="coin" title={coin.name}>
+              {coin.symbol}
+            </span>
+            <span className="price">${coin.price}</span>
+            <span className="market-cap">${coin.marketCap}</span>
+            <span className="day">{coin.priceChangeDay}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  function renderHoldingsList() {
+    return (
+      <div className="dashboard-holdings-list" id="dashboard-holdings-list">
+        {holdingsDic.map((coin) => (
+          <div>
+            <img draggable="false" src={coin.image} />
+            <span className="coin">{coin.symbol.toUpperCase()}</span>
+            <span className="amount">{separateThousands(coin.amount)}</span>
+            <span className="value">${separateThousands(coin.value)}</span>
+            <span className="day">
+              {coin.change.includes("-")
+                ? coin.change + "%"
+                : "+" + coin.change + "%"}
+            </span>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div>
-      { user ?
+      {user ? (
         <div>
           <Navbar active="/" />
           <div className="page dashboard active" id="page-dashboard">
@@ -292,7 +347,10 @@ export default function InstructionsComponent() {
               <div className="dashboard-row">
                 <div>
                   <div className="dashboard-market-list-wrapper noselect">
-                    <div className="headers-wrapper" data-list="dashboardMarket">
+                    <div
+                      className="headers-wrapper"
+                      data-list="dashboardMarket"
+                    >
                       <span className="header coin" data-item="coin">
                         Coin
                       </span>
@@ -306,28 +364,16 @@ export default function InstructionsComponent() {
                         24h Change
                       </span>
                     </div>
-                    <div
-                      className="dashboard-market-list loading"
-                      id="dashboard-market-list"
-                    >
-                      <div className="coin-wrapper loading">
-                        {marketDic.map((coin) => (
-                          <div>
-                            <img draggable="false" src={coin.icon} title={coin.name} />
-                            <span class="coin" title={coin.name}>{coin.symbol}</span>
-                            <span class="price">${coin.price}</span>
-                            <span class="market-cap">${coin.marketCap}</span>
-                            <span class="day">{coin.priceChangeDay}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                    {renderMarketList()}
                   </div>
                 </div>
                 <div />
                 <div>
                   <div className="dashboard-holdings-list-wrapper noselect">
-                    <div className="headers-wrapper" data-list="dashboardHoldings">
+                    <div
+                      className="headers-wrapper"
+                      data-list="dashboardHoldings"
+                    >
                       <span className="header coin" data-item="coin">
                         Coin
                       </span>
@@ -341,29 +387,16 @@ export default function InstructionsComponent() {
                         24h Change
                       </span>
                     </div>
-                    <div
-                      className="dashboard-holdings-list loading"
-                      id="dashboard-holdings-list"
-                    >
-                      {holdingsDic.map((coin) => (
-                        <div>
-                          <img draggable="false" src={coin.image} />
-                          <span class="coin">{coin.symbol.toUpperCase()}</span>
-                          <span class="amount">{separateThousands(coin.amount)}</span>
-                          <span class="value">${separateThousands(coin.value)}</span>
-                          <span class="day">{coin.change.includes("-") ? coin.change + "%" : "+" + coin.change + "%"}</span>
-                        </div>
-                      ))}
-                    </div>
+                    {renderHoldingsList()}
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        : 
+      ) : (
         <Login />
-      }
+      )}
     </div>
   );
 }
