@@ -21,7 +21,7 @@ export default function Activity() {
     console.log(docSnap.data());
   }
 
-  async function getUserActivity() {
+  async function getUserActivity(docRef) {
     try {
         
         const docSnap = await getDoc(docRef);
@@ -32,7 +32,7 @@ export default function Activity() {
             console.log(data)
 
             TABLE_STATE.concat(
-              {date: data.date, coin: data,coin, amount: data.amount, type: data.type, notes: data.notes}
+              {date: data.date, coin: data.coin, amount: data.amount, type: data.type, notes: data.notes}
             );
         } else {
             console.log('No such document!');

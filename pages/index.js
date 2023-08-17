@@ -7,13 +7,14 @@ import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from '../firebase/context.js';
 import Login from "../components/login.js";
-import { getUserHoldings } from "../firebase/user.js";
+import { getUserHoldings, getUserWatchlist } from "../firebase/user.js";
 
 export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
   const [marketChange, setMarketChange] = useState();
   const [totalValue, setTotalValue] = useState();
   const [holdingsDic, setHoldings] = useState([]);
+  const [marketDic, setMarket] = useState([]);
   const { user } = useAuthContext();
 
   function empty(value) {
@@ -39,7 +40,21 @@ export default function InstructionsComponent() {
     let req = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc&ids=" + watchListString + "&order=market_cap_desc&per_page=250&page=1&sparkline=false");
     let coins = await req.json();
 
-    //line 2114 main.js
+    let marketList = [];
+
+    Object.keys(coins).map(key => {
+      let coin = coins[key];
+      marketList.push({
+        "icon": coin.image,
+        "name": coin.name,
+        "symbol": coin.symbol.toUpperCase(),
+        "price": separateThousands(parseFloat(coin.current_price)),
+        "marketCap": coin.market_cap,
+        "priceChangeDay": coin.price_Change_percentage_24h
+      });
+    });
+
+    setMarket(marketList);
   }
 
   async function calculateTotalValue() {
@@ -99,8 +114,10 @@ export default function InstructionsComponent() {
       setTotalValue(separateThousands(totalVal.toFixed(2)));
     }
 
-    fetchGlobalData();
-  }, [holdingsDic]);
+    if (user) {
+      fetchGlobalData();
+    }
+  }, [holdingsDic, marketDic]);
 
   return (
     <div>
@@ -294,7 +311,15 @@ export default function InstructionsComponent() {
                       id="dashboard-market-list"
                     >
                       <div className="coin-wrapper loading">
-                        <span>Loading...</span>
+                        {marketDic.map((coin) => (
+                          <div>
+                            <img draggable="false" src={coin.icon} title={coin.name} />
+                            <span class="coin" title={coin.name}>{coin.symbol}</span>
+                            <span class="price">${coin.price}</span>
+                            <span class="market-cap">${coin.marketCap}</span>
+                            <span class="day">{coin.priceChangeDay}</span>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>
