@@ -11,7 +11,7 @@ const TABLE_STATE = [
   {
     date: '2023/08/17',
     coin: 'ETH',
-    amount: 0.01,
+    amount: 0.05,
     type: 'default',
     notes: 'none'
   }
@@ -25,7 +25,7 @@ export default function Activity() {
   getActivityData();
 
   async function getActivityData() {
-    const docRef = doc(db, 'user-activity', 'test');
+    const docRef = doc(db, 'user-activity', user.uid);
     const docSnap = await getDoc(docRef); 
   }
 
