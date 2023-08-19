@@ -21,7 +21,7 @@ export default function Activity() {
   // console.log("Say something!")
   
   const [activityData, setActivityData] = useState(TABLE_STATE);
-  const user = useAuthContext();
+  const { user } = useAuthContext();
   getActivityData();
 
   async function getActivityData() {

@@ -23,7 +23,7 @@ export async function createUser(id) {
         result = await setDoc(doc(db, "holdings", id), data, {
             merge: true,
         });
-        await setDoc(doc(db, "watchlist", id), dataHoldings, {
+        await setDoc(doc(db, "settings", id), dataHoldings, {
             merge: true,
         });
     } catch (e) {
@@ -52,9 +52,9 @@ export async function getUserHoldings(id) {
     }
 }
 
-export async function getUserWatchlist(id) {
+export async function getUserSettings(id) {
     try {
-        const docRef = doc(db, 'watchlist', id);
+        const docRef = doc(db, 'settings', id);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {

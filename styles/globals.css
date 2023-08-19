@@ -447,21 +447,21 @@ input[type=number] {
 }
 
 .dashboard-market-list-wrapper .header.coin {
-	width:110px;
+	width: 100%;
 	margin-left:10px;
 }
 .dashboard-market-list-wrapper .header.price {
-	width:100px;
+	width: 100%;
 }
 .dashboard-market-list-wrapper .header.market-cap {
-	width:200px;
+	width: 100%;
 	display:none;
 }
 .page.dashboard.additional-columns .dashboard-market-list-wrapper .header.market-cap {
 	display:inline-block;
 }
 .dashboard-market-list-wrapper .header.day {
-	width:120px;
+	width: 100%;
 	text-align:center;
 	padding-left:0;
 }
@@ -581,7 +581,7 @@ html.dark .highlight-text .coin-wrapper.negative span {
 	background:rgb(255,255,255);
 }
 .dashboard-market-list-wrapper .coin-wrapper .coin {
-	width:88px;
+	width: 100%;
 	text-align:left;
 	padding-left:10px;
 	text-overflow:ellipsis;
@@ -589,14 +589,22 @@ html.dark .highlight-text .coin-wrapper.negative span {
 	overflow:hidden;
 }
 .dashboard-market-list-wrapper .coin-wrapper .price {
-	width:100px;
+	width: 100%;
 	text-align:left;
 	text-overflow:ellipsis;
 	white-space:nowrap;
 	overflow:hidden;
 }
 .dashboard-market-list-wrapper .coin-wrapper .market-cap {
-	width:200px;
+	width: 100%;
+	text-align:left;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+	overflow:hidden;
+	display:none;
+}
+.dashboard-market-list-wrapper .coin-wrapper .day {
+	width: 100%;
 	text-align:left;
 	text-overflow:ellipsis;
 	white-space:nowrap;
@@ -605,10 +613,6 @@ html.dark .highlight-text .coin-wrapper.negative span {
 }
 .page.dashboard.additional-columns .dashboard-market-list-wrapper .coin-wrapper .market-cap {
 	display:inline-block;
-}
-.dashboard-market-list-wrapper .coin-wrapper .day {
-	width:120px;
-	padding-left:0;
 }
 .dashboard-market-list-wrapper .coin-wrapper.add {
 	cursor:pointer;
@@ -793,6 +797,23 @@ html.dark .highlight-text .coin-wrapper.negative span {
 	transition:opacity 0.25s;
 	display: flex;
 	align-items: center;
+}
+table {
+	width: 100% !important;
+}
+th {
+    font-size: 18px;
+    line-height: 60px;
+    vertical-align: top;
+    padding: 0 10px;
+    text-align: center;
+	font-weight: 400;
+}
+td {
+	font-size:18px;
+	color:var(--main-contrast-light);
+	text-align:center;
+	vertical-align:middle;
 }
 .page-navigation-wrapper.active {
 	pointer-events:all;
@@ -1202,15 +1223,6 @@ table {
 	color: white;
 	border: 0px;
 	width: 100%;
-}
-
-td, th, tr {
-	text-align: center;
-	padding: 15px 7px;
-	font-weight: 400;
-	margin: 0 !important;
-	border-bottom: 1px solid var(--main-third) !important;
-	font-size: .875rem;
 }
 
 thead tr {

@@ -7,7 +7,7 @@ import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
-import { getUserHoldings, getUserWatchlist } from "../firebase/user.js";
+import { getUserHoldings, getUserSettings } from "../firebase/user.js";
 
 export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
@@ -16,6 +16,26 @@ export default function InstructionsComponent() {
   const [holdingsDic, setHoldingsDic] = useState([]);
   const [marketDic, setMarketDic] = useState([]);
   const { user } = useAuthContext();
+
+  function abbreviateNumber(num, digits) {
+    let si = [
+      { value: 1, symbol: "" },
+      { value: 1e3, symbol: "k" },
+      { value: 1e6, symbol: "M" },
+      { value: 1e9, symbol: "B" },
+      { value: 1e12, symbol: "T" },
+      { value: 1e15, symbol: "P" },
+      { value: 1e18, symbol: "E" },
+    ];
+    let rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
+    let i;
+    for (i = si.length - 1; i > 0; i--) {
+      if (num >= si[i].value) {
+        break;
+      }
+    }
+    return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
+  }
 
   function empty(value) {
     if (
@@ -42,8 +62,8 @@ export default function InstructionsComponent() {
   }
 
   async function setMarketList() {
-    let watchlist = await getUserWatchlist(user.uid);
-    let watchListString = Object.keys(watchlist.watchlist).join("%2c");
+    let settings = await getUserSettings(user.uid);
+    let watchListString = Object.keys(settings.watchlist).join("%2c");
 
     let req = await fetch(
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc&ids=" +
@@ -60,13 +80,16 @@ export default function InstructionsComponent() {
         icon: coin.image,
         name: coin.name,
         symbol: coin.symbol.toUpperCase(),
-        price: separateThousands(parseFloat(coin.current_price)),
-        marketCap: coin.market_cap,
-        priceChangeDay: coin.price_Change_percentage_24h,
+        price: separateThousands(parseFloat(coin.current_price).toFixed(2)),
+        marketCap: abbreviateNumber(coin.market_cap, 2),
+        priceChangeDay: coin.price_change_percentage_24h
+          .toFixed(2)
+          .includes("-")
+          ? coin.price_change_percentage_24h.toFixed(2)
+          : "+" + coin.price_change_percentage_24h.toFixed(2),
       });
     });
 
-    console.log(marketList);
     setMarketDic(marketList);
   }
 
@@ -100,7 +123,7 @@ export default function InstructionsComponent() {
       }
 
       holdings.push({
-        symbol: coins[id].symbol,
+        symbol: coins[id].symbol.toUpperCase(),
         amount: amount,
         value: value,
         price: price,
@@ -111,7 +134,7 @@ export default function InstructionsComponent() {
       globalTotalValue += value;
     });
 
-    setHoldingsDic(holdingsDic);
+    setHoldingsDic(holdings);
     return globalTotalValue;
   }
 
@@ -135,44 +158,6 @@ export default function InstructionsComponent() {
       fetchGlobalData();
     }
   }, []);
-
-  function renderMarketList() {
-    return (
-      <div className="dashboard-market-list" id="dashboard-market-list">
-        {marketDic.map((coin) => (
-          <div>
-            <img draggable="false" src={coin.icon} title={coin.name} />
-            <span className="coin" title={coin.name}>
-              {coin.symbol}
-            </span>
-            <span className="price">${coin.price}</span>
-            <span className="market-cap">${coin.marketCap}</span>
-            <span className="day">{coin.priceChangeDay}</span>
-          </div>
-        ))}
-      </div>
-    );
-  }
-
-  function renderHoldingsList() {
-    return (
-      <div className="dashboard-holdings-list" id="dashboard-holdings-list">
-        {holdingsDic.map((coin) => (
-          <div>
-            <img draggable="false" src={coin.image} />
-            <span className="coin">{coin.symbol.toUpperCase()}</span>
-            <span className="amount">{separateThousands(coin.amount)}</span>
-            <span className="value">${separateThousands(coin.value)}</span>
-            <span className="day">
-              {coin.change.includes("-")
-                ? coin.change + "%"
-                : "+" + coin.change + "%"}
-            </span>
-          </div>
-        ))}
-      </div>
-    );
-  }
 
   return (
     <div>
@@ -345,50 +330,76 @@ export default function InstructionsComponent() {
                 </div>
               </div>
               <div className="dashboard-row">
-                <div>
-                  <div className="dashboard-market-list-wrapper noselect">
-                    <div
-                      className="headers-wrapper"
-                      data-list="dashboardMarket"
-                    >
-                      <span className="header coin" data-item="coin">
-                        Coin
-                      </span>
-                      <span className="header price" data-item="price">
-                        Price
-                      </span>
-                      <span className="header market-cap" data-item="marketCap">
-                        Market Cap
-                      </span>
-                      <span className="header day" data-item="change">
-                        24h Change
-                      </span>
-                    </div>
-                    {renderMarketList()}
-                  </div>
+                <div className="dashboard-span-width-set">
+                  <table className="dashboard-market-list-wrapper noselect">
+                    <tr className="headers-wrapper" data-list="dashboardMarket">
+                      <th>Coin</th>
+                      <th>Price</th>
+                      <th>Market Cap</th>
+                      <th>24h Change</th>
+                    </tr>
+                    {marketDic.map((coin) => (
+                      <tr className="coin-wrapper">
+                        <td>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img
+                              draggable="false"
+                              src={coin.icon}
+                              title={coin.name}
+                            />
+                            <p className="coin" title={coin.name}>
+                              {coin.symbol}
+                            </p>
+                          </div>
+                        </td>
+                        <td>${coin.price}</td>
+                        <td>${coin.marketCap}</td>
+                        <td>{coin.priceChangeDay}</td>
+                      </tr>
+                    ))}
+                  </table>
                 </div>
                 <div />
-                <div>
-                  <div className="dashboard-holdings-list-wrapper noselect">
-                    <div
-                      className="headers-wrapper"
-                      data-list="dashboardHoldings"
-                    >
-                      <span className="header coin" data-item="coin">
-                        Coin
-                      </span>
-                      <span className="header amount" data-item="amount">
-                        Amount
-                      </span>
-                      <span className="header value" data-item="value">
-                        Value
-                      </span>
-                      <span className="header day" data-item="change">
-                        24h Change
-                      </span>
-                    </div>
-                    {renderHoldingsList()}
-                  </div>
+                <div className="dashboard-span-width-set">
+                  <table className="dashboard-market-list-wrapper noselect">
+                    <tr className="headers-wrapper" data-list="dashboardMarket">
+                      <th>Coin</th>
+                      <th>Amount</th>
+                      <th>Value</th>
+                      <th>24h Change</th>
+                    </tr>
+                    {holdingsDic.map((coin) => (
+                      <tr className="coin-wrapper">
+                        <td>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                            }}
+                          >
+                            <img draggable="false" src={coin.image} title={coin.name} />
+                            <p className="coin" title={coin.name}>
+                              {coin.symbol}
+                            </p>
+                          </div>
+                        </td>
+                        <td>{separateThousands(coin.amount)}</td>
+                        <td>${separateThousands(coin.value)}</td>
+                        <td>
+                          {coin.change.includes("-")
+                            ? coin.change + "%"
+                            : "+" + coin.change + "%"}
+                        </td>
+                      </tr>
+                    ))}
+                  </table>
                 </div>
               </div>
             </div>
