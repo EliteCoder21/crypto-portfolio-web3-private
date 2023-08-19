@@ -6,6 +6,7 @@ import Login from "../components/login.js";
 const INITIAL_STATE = [
   {
     rank: 1,
+    image: 'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png',
     coin: 'BTC',
     price: 29307,
     marketCap: 570074511326,
@@ -37,7 +38,7 @@ export default function Market() {
       setGlobalDominance((globalData.market_cap_percentage.btc).toFixed(1));
     }
 
-    async function fetchCoinsData() {
+    async function fetchCoinData() {
       const response = await fetch("https://api.coingecko.com/api/v3/coins/");
       const coins = await response.json();
       const newMarketData = [];
@@ -45,7 +46,8 @@ export default function Market() {
       for (let coin of coins) {
           newMarketData.push({
             rank: coin.market_data.market_cap_rank,
-            coin: coin.symbol.toUpperCase(),
+            image: coin.image.thumb,
+            coin: ' ' + coin.symbol.toUpperCase(),
             price: '$' + separateThousands(coin.market_data.current_price["usd"]),
             marketCap: '$' + separateThousands(coin.market_data.market_cap["usd"]),
             change: coin.market_data.price_change_percentage_24h.toFixed(2) + '%'
@@ -61,28 +63,29 @@ export default function Market() {
 
     fetchGlobalData();
 
-    fetchCoinsData();
+    fetchCoinData();
   }, []);
 
   const renderLogs = () => {
-    return marketData.map(({ rank, coin, price, marketCap, change }) => {
+    return marketData.map(({ rank, image, coin, price, marketCap, change }) => {
       return (
         <div className="market-list loading" id="market-list" data-page={1}>
           <div className="coin-wrapper loading">
             <tr>
-              <span className="header rank" data-item="rank">
+              <span className="rank" data-item="rank">
                 {rank}
               </span>
-              <span className="header coin" data-item="coin">
+              <span className="coin" data-item="coin">
+                <img draggable="false" src={image} />
                 {coin}
               </span>
-              <span className="header price" data-item="price">
+              <span className="price" data-item="price">
                 {price}
               </span>
-              <span className="header market-cap" data-item="market-cap">
+              <span className="market-cap" data-item="market-cap">
                 {marketCap}
               </span>
-              <span className="header change" data-item="change">
+              <span className="change" data-item="change">
                 {change}
               </span>
             </tr>
@@ -191,4 +194,4 @@ export default function Market() {
       }
     </div>
   );
-};
+}
