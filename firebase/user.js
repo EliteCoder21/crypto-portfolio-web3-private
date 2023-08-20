@@ -52,6 +52,21 @@ export async function getUserHoldings(id) {
     }
 }
 
+export async function addUserHoldings(id, data) {
+    let result = null;
+    let error = null;
+
+    try {
+        result = await setDoc(doc(db, "holdings", id), data, {
+            merge: true,
+        });
+    } catch (e) {
+        error = e;
+    }
+
+    return { result, error };
+}
+
 export async function getUserSettings(id) {
     try {
         const docRef = doc(db, 'settings', id);
