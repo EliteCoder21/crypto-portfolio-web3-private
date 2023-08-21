@@ -11,7 +11,16 @@ export default function Holdings() {
   const [displayPopup, setDisplayPopup] = useState(false);
   const [coinSymbol, setCoinSymbol] = useState("");
   const [amount, setAmount] = useState(0);
+  // const [totalValue, setTotalValue] = useState(0);
   const { user } = useAuthContext();
+
+  /*useEffect(() => {
+    async function fetchTotalValue() {
+
+    }
+
+    fetchTotalValue();
+  }, []);*/
 
   function onSubmitAddHolding(e) {
     try {
@@ -21,6 +30,7 @@ export default function Holdings() {
         amount: amount,
         symbol: coinSymbol.toUpperCase()
       }
+      // setTotalValue(totalValue + amount);
       addUserHoldings(user.uid, data);
     } catch (e) {
       alert("Not a valid coin symbol");
@@ -49,7 +59,8 @@ export default function Holdings() {
               <div className="holdings-value-card" id="holdings-value-card">
                 <span className="title">Total Value</span>
                 <span className="subtitle" id="holdings-total-value">
-                ...
+                  ...
+                  {/* totalValue */}
                 </span>
               </div>
               <button onClick={() => {setDisplayPopup(!displayPopup)}}>

@@ -1,6 +1,6 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDocs, collection } from "firebase/firestore";
 import firebase_app from "../firebase/config";
 import Login from "../components/login.js";
 import { useAuthContext } from '../firebase/context';
@@ -22,35 +22,43 @@ export default function Activity() {
   
   const [activityData, setActivityData] = useState(TABLE_STATE);
   const { user } = useAuthContext();
-  getActivityData();
+  
 
   async function getActivityData() {
-    const docRef = doc(db, 'user-activity', user.uid);
-    const docSnap = await getDoc(docRef); 
+    console.log("START!");
+    
+    try {
+
+      const dataCollection = collection(doc(collection(db, 'user-activity'), user.uid), 'activity-data');
+
+      const docsSnap = await getDocs(dataCollection);
+
+      docsSnap.forEach(doc => {
+        // Get the data
+        const data = doc.data();
+
+        console.log("DATA");
+        console.log(data);
+
+        // Append the data
+        TABLE_STATE.concat(
+          {date: data.date, coin: data.coin, amount: data.amount, type: data.type, notes: data.notes}
+        );
+
+        setActivityData(TABLE_STATE);
+    })
+
+    } catch (error) {
+      console.log("---");
+      console.log(error);
+      console.log("ERROR HERE!---");
+    }
+    console.log("END!")
+      
+    
+    
   }
 
-  async function getUserActivity(docRef) {
-    try {
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            const data = docSnap.data();
-
-            console.log(data)
-
-            TABLE_STATE.concat(
-              {date: data.date, coin: data.coin, amount: data.amount, type: data.type, notes: data.notes}
-            );
-        } else {
-            console.log('No such document!');
-            return null;
-        }
-    } catch (error) {
-        console.error('Error getting document:', error);
-        return null;
-    }
-}
-  
   const renderLogs = () => {
     return activityData.map(({ date, coin, amount, type, notes }) => {
       return (
@@ -80,6 +88,7 @@ export default function Activity() {
   };
 
   const renderHeader = () => {
+
     return (
       <div className="activity-list-wrapper noselect">
         <div className="headers-wrapper" data-list="activity">
@@ -102,6 +111,8 @@ export default function Activity() {
       </div>
     );
   };
+
+  getActivityData();
 
   return (
     <div>
