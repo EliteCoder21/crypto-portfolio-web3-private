@@ -7,15 +7,7 @@ import { useAuthContext } from '../firebase/context';
 
 const db = getFirestore(firebase_app);
 
-const TABLE_STATE = [
-  {
-    date: '2023/08/17',
-    coin: 'ETH',
-    amount: 0.05,
-    type: 'default',
-    notes: 'none'
-  }
-];
+const TABLE_STATE = [];
 
 export default function Activity() {
   // console.log("Say something!")
@@ -25,8 +17,6 @@ export default function Activity() {
   
 
   async function getActivityData() {
-    console.log("START!");
-    
     try {
 
       const dataCollection = collection(doc(collection(db, 'user-activity'), user.uid), 'activity-data');
@@ -37,11 +27,8 @@ export default function Activity() {
         // Get the data
         const data = doc.data();
 
-        console.log("DATA");
-        console.log(data);
-
         // Append the data
-        TABLE_STATE.concat(
+        TABLE_STATE.push(
           {date: data.date, coin: data.coin, amount: data.amount, type: data.type, notes: data.notes}
         );
 
@@ -49,15 +36,36 @@ export default function Activity() {
     })
 
     } catch (error) {
-      console.log("---");
-      console.log(error);
-      console.log("ERROR HERE!---");
+        console.log(error);
     }
-    console.log("END!")
-      
-    
-    
   }
+
+  const renderTable = () => {
+
+    return (
+
+      <table className="activity-list-wrapper noselect">
+        <div className="headers-wrapper" data-list="activity">
+          <th className="header date" data-item="date">
+            Date
+          </th>
+          <th className="header symbol" data-item="coin">
+            Coin
+          </th>
+          <th className="header amount" data-item="amount">
+            Amount
+          </th>
+          <th className="header type" data-item="type">
+            Type
+          </th>
+          <th className="header notes" data-item="notes">
+            Notes
+          </th>
+        </div>
+        {renderLogs()}        
+      </table>
+    );
+  };
 
   const renderLogs = () => {
     return activityData.map(({ date, coin, amount, type, notes }) => {
@@ -65,51 +73,26 @@ export default function Activity() {
         <div className="activity-list loading" id="activity-list">
           <div className="event-wrapper loading">
             <tr>
-              <span className="header date" data-item="date">
+              <td className="header date" data-item="date">
                 {date}
-              </span>
-              <span className="header symbol" data-item="coin">
+              </td>
+              <td className="header symbol" data-item="coin">
                 {coin}
-              </span>
-              <span className="header amount" data-item="amount">
+              </td>
+              <td className="header amount" data-item="amount">
                 {amount}
-              </span>
-              <span className="header type" data-item="type">
+              </td>
+              <td className="header type" data-item="type">
                 {type}
-              </span>
-              <span className="header notes" data-item="notes">
+              </td>
+              <td className="header notes" data-item="notes">
                 {notes}
-              </span>
+              </td>
             </tr>
           </div>
         </div>
       );
     });
-  };
-
-  const renderHeader = () => {
-
-    return (
-      <div className="activity-list-wrapper noselect">
-        <div className="headers-wrapper" data-list="activity">
-          <span className="header date" data-item="date">
-            Date
-          </span>
-          <span className="header symbol" data-item="coin">
-            Coin
-          </span>
-          <span className="header amount" data-item="amount">
-            Amount
-          </span>
-          <span className="header type" data-item="type">
-            Type
-          </span>
-          <span className="header notes" data-item="notes">
-            Notes
-          </span>
-        </div>
-      </div>
-    );
   };
 
   getActivityData();
@@ -157,9 +140,7 @@ export default function Activity() {
               </div>
             </div>
 
-            {renderHeader()}
-
-            {renderLogs()}
+            {renderTable()}
           </div>
         </div>
         : 
