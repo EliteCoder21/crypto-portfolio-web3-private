@@ -84,3 +84,18 @@ export async function getUserSettings(id) {
         return null;
     }
 }
+
+export async function setUserSettings(id, data) {
+    let result = null;
+    let error = null;
+
+    try {
+        result = await setDoc(doc(db, "settings", id), data, {
+            merge: true,
+        });
+    } catch (e) {
+        error = e;
+    }
+
+    return { result, error };
+}

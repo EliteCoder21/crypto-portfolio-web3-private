@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
 import { getUserHoldings, getUserSettings } from "../firebase/user.js";
+import { abbreviateNumber, empty, separateThousands } from "../constants/assets.js";
 
 export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
@@ -15,58 +16,15 @@ export default function InstructionsComponent() {
   const [totalValue, setTotalValue] = useState();
   const [holdingsDic, setHoldingsDic] = useState([]);
   const [marketDic, setMarketDic] = useState([]);
+  const [settings, setSettings] = useState();
   const { user } = useAuthContext();
 
-  function abbreviateNumber(num, digits) {
-    let si = [
-      { value: 1, symbol: "" },
-      { value: 1e3, symbol: "k" },
-      { value: 1e6, symbol: "M" },
-      { value: 1e9, symbol: "B" },
-      { value: 1e12, symbol: "T" },
-      { value: 1e15, symbol: "P" },
-      { value: 1e18, symbol: "E" },
-    ];
-    let rx = /\.0+$|(\.[0-9]*[1-9])0+$/;
-    let i;
-    for (i = si.length - 1; i > 0; i--) {
-      if (num >= si[i].value) {
-        break;
-      }
-    }
-    return (num / si[i].value).toFixed(digits).replace(rx, "$1") + si[i].symbol;
-  }
-
-  function empty(value) {
-    if (
-      typeof value === "object" &&
-      value !== null &&
-      Object.keys(value).length === 0
-    ) {
-      return true;
-    }
-    if (
-      value === null ||
-      typeof value === "undefined" ||
-      value.toString().trim() === ""
-    ) {
-      return true;
-    }
-    return false;
-  }
-
-  function separateThousands(number) {
-    let parts = number.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
-
   async function setMarketList() {
-    let settings = await getUserSettings(user.uid);
     let watchListString = Object.keys(settings.watchlist).join("%2c");
+    const currency = settings ? settings.currency : "usd";
 
     let req = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc&ids=" +
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + currency + "&ids=" +
         watchListString +
         "&order=market_cap_desc&per_page=250&page=1&sparkline=false"
     );
@@ -99,9 +57,11 @@ export default function InstructionsComponent() {
 
     let coins = await getUserHoldings(user.uid);
     let list = Object.keys(coins).join("%2C");
+    
+    const currency = settings ? settings.currency : "usd";
 
     const req = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=btc" +
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + currency +
         "&ids=" +
         list +
         "&order=market_cap_desc&per_page=250&page=1&sparkline=false"
@@ -135,23 +95,24 @@ export default function InstructionsComponent() {
     });
 
     setHoldingsDic(holdings);
-    return globalTotalValue;
+    setTotalValue(separateThousands(globalTotalValue.toFixed(2)));
+  }
+
+  async function calculateMarketData() {
+    const response = await fetch("https://api.coingecko.com/api/v3/global");
+    const global = await response.json();
+    setMarketCap(separateThousands(global.data.total_market_cap["usd"].toFixed(0)));
+    setMarketChange(global.data.market_cap_change_percentage_24h_usd.toFixed(1));
   }
 
   useEffect(() => {
     async function fetchGlobalData() {
-      const response = await fetch("https://api.coingecko.com/api/v3/global");
-      const global = await response.json();
-      const totalVal = await calculateTotalValue();
-      await setMarketList();
+      let sets = await getUserSettings(user.uid);
+      setSettings(sets);
 
-      setMarketCap(
-        separateThousands(global.data.total_market_cap["usd"].toFixed(0))
-      );
-      setMarketChange(
-        global.data.market_cap_change_percentage_24h_usd.toFixed(1)
-      );
-      setTotalValue(separateThousands(totalVal.toFixed(2)));
+      await calculateMarketData();
+      await calculateTotalValue();
+      await setMarketList();
     }
 
     if (user && marketDic.length == 0 && holdingsDic.length == 0) {
