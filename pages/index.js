@@ -95,7 +95,7 @@ export default function InstructionsComponent() {
     });
 
     setHoldingsDic(holdings);
-    setTotalValue(separateThousands(globalTotalValue.toFixed(2)));
+    setTotalValue(separateThousands(globalTotalValue.toFixed(0)));
   }
 
   async function calculateMarketData() {
@@ -164,12 +164,12 @@ export default function InstructionsComponent() {
                                 </div>
                               </div>
                               <div className="card-footer">
-                                <p className="css-146c3p1">RWA in Custody</p>
+                                <p className="css-146c3p1">Manage Assets</p>
                               </div>
                             </div>
                           </a>
                         </div>
-                        <div>
+                        {/* <div>
                           <a className="link explore" href="aut">
                             <div className="sectionCard card">
                               <div className="card-body">
@@ -234,7 +234,7 @@ export default function InstructionsComponent() {
                               </div>
                             </div>
                           </a>
-                        </div>
+                        </div> */}
                         <div>
                           <a className="link explore" href="holdings">
                             <div className="sectionCard card">
@@ -255,7 +255,7 @@ export default function InstructionsComponent() {
                                 </div>
                               </div>
                               <div className="card-footer">
-                                <p className="css-146c3p1">Digital Assets</p>
+                                <p className="css-146c3p1">Digital Holdings</p>
                               </div>
                             </div>
                           </a>
@@ -286,7 +286,7 @@ export default function InstructionsComponent() {
                 <div className="dashboard-market-cap-card">
                   <span className="title">Total Value</span>
                   <span className="subtitle" id="dashboard-holdings-value">
-                    {totalValue}
+                    ${totalValue}
                   </span>
                 </div>
               </div>

@@ -13,11 +13,11 @@ function BottomNav({ active }) {
   const icon_data = [
     { id: 0, href: "/", icon: <Dashboard />, text: "Home" },
     { id: 1, href: "/assets", icon: <AccountBalanceWallet />, text: "Assets" },
-    { id: 2, href: "/aut", icon: <MonetizationOn />, text: "AUT" },
-    { id: 3, href: "/oxa", icon: <Token />, text: "OXA" },
-    { id: 4, href: "/holdings", icon: <DataThresholding />, text: "Holdings" },
-    { id: 5, href: "/market", icon: <Store />, text: "Market" },
-    { id: 6, href: "/activity", icon: <SwapHoriz />, text: "Activity" },
+    // { id: 2, href: "/aut", icon: <MonetizationOn />, text: "AUT" },
+    // { id: 3, href: "/oxa", icon: <Token />, text: "OXA" },
+    { id: 2, href: "/holdings", icon: <DataThresholding />, text: "Holdings" },
+    { id: 3, href: "/market", icon: <Store />, text: "Market" },
+    { id: 4, href: "/activity", icon: <SwapHoriz />, text: "Activity" },
   ];
 
   const icon_width = 115;

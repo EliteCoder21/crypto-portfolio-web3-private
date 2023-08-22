@@ -1,9 +1,21 @@
 import Navbar from "../components/navbar.js";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
+import Board from 'react-trello';
 
 export default function Assets() {
   const { user } = useAuthContext();
+  const data = require('./kanbanData.json')
+
+  const AssetInventory = () => {
+    return (
+      <div className='bond-data'>
+        <div className="myAssets">
+          <Board style={{backgroundColor: 'rgba(31, 42, 71, 0)'}} data={data} />
+        </div>      
+      </div>
+    );
+  };
 
   return (
     <div>
@@ -21,103 +33,10 @@ export default function Assets() {
                 textAlign: "center",
               }}
             >
-              RWA - Real World Assets in Custody
+              Asset Inventory
             </h1>
-            <div>
-              <div className="aut-section">
-                <p className="aut-title">AAA / AA Bonds</p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>CUSIP</th>
-                      <th>Amount</th>
-                      <th>Interest</th>
-                      <th>Value</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>Bond A</td>
-                      <td>912797GS0</td>
-                      <td>100</td>
-                      <td>5.2</td>
-                      <td>2530</td>
-                      <td>Frozen</td>
-                    </tr>
-                    <tr>
-                      <td>Bond B</td>
-                      <td>912796Y37</td>
-                      <td>100</td>
-                      <td>2.8</td>
-                      <td>2530</td>
-                      <td>Frozen</td>
-                    </tr>
-                    <tr>
-                      <td>Bond C</td>
-                      <td>912796Y37</td>
-                      <td>100</td>
-                      <td>2.8</td>
-                      <td>2530</td>
-                      <td>Active</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="aut-section">
-                <p className="aut-title">S&amp;P 500 Stocks</p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Ticker</th>
-                      <th>Amount</th>
-                      <th>Interest</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>200 MSFT</td>
-                      <td>912797GS0</td>
-                      <td>100</td>
-                      <td>5.2</td>
-                      <td>2530</td>
-                    </tr>
-                    <tr>
-                      <td>1000 TL SL</td>
-                      <td>912796Y37</td>
-                      <td>100</td>
-                      <td>2.8</td>
-                      <td>2530</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="aut-section">
-                <p className="aut-title">Cash</p>
-                <table>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>CUSIP</th>
-                      <th>Amount</th>
-                      <th>Interest</th>
-                      <th>Value</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>10,000 USD</td>
-                      <td>912797GS0</td>
-                      <td>100</td>
-                      <td>5.2</td>
-                      <td>2530</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div style={{ width: "80%", margin: "auto" }}>
+              <AssetInventory />
             </div>
           </div>
         </div>

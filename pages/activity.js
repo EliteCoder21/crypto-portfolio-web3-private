@@ -26,7 +26,6 @@ export default function Activity() {
       docsSnap.forEach(doc => {
         // Get the data
         const data = doc.data();
-
         // Append the data
         TABLE_STATE.push(
           {date: data.date, coin: data.coin, amount: data.amount, type: data.type, notes: data.notes}
@@ -139,7 +138,6 @@ export default function Activity() {
                 <button id="activity-search-button">Search</button>
               </div>
             </div>
-
             {renderTable()}
           </div>
         </div>

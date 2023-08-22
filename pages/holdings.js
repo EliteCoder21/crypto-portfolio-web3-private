@@ -1,26 +1,39 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
-import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, collection, setDoc, getDoc } from "firebase/firestore";
 import firebase_app from "../firebase/config";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 import { addUserHoldings } from "../firebase/user.js";
 import cryptocurrency from "../constants/crypto.js";
 
+const db = getFirestore(firebase_app);
+
 export default function Holdings() {
   const [displayPopup, setDisplayPopup] = useState(false);
   const [coinSymbol, setCoinSymbol] = useState("");
   const [amount, setAmount] = useState(0);
-  // const [totalValue, setTotalValue] = useState(0);
+  const [totalValue, setTotalValue] = useState(0);
   const { user } = useAuthContext();
 
-  /*useEffect(() => {
-    async function fetchTotalValue() {
+  async function fetchTotalValue() {
+    try {
 
+      console.log("START!");
+      getDoc(doc(db, "users", user.email)).then(docSnap => {
+        if (docSnap.exists()) {
+          console.log("---------------------------");
+          console.log("Document data:", docSnap.data());
+        } else {
+          console.log("No such document!");
+        }
+      })
+      
+
+    } catch (error) {
+        console.log(error);
     }
-
-    fetchTotalValue();
-  }, []);*/
+  }
 
   function onSubmitAddHolding(e) {
     try {
@@ -30,7 +43,7 @@ export default function Holdings() {
         amount: amount,
         symbol: coinSymbol.toUpperCase()
       }
-      // setTotalValue(totalValue + amount);
+      setTotalValue(totalValue + amount);
       addUserHoldings(user.uid, data);
     } catch (e) {
       alert("Not a valid coin symbol");
@@ -60,7 +73,7 @@ export default function Holdings() {
                 <span className="title">Total Value</span>
                 <span className="subtitle" id="holdings-total-value">
                   ...
-                  {/* totalValue */}
+                  {fetchTotalValue()}
                 </span>
               </div>
               <button onClick={() => {setDisplayPopup(!displayPopup)}}>
