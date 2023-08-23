@@ -89,6 +89,11 @@ export default function Settings() {
     fetchSettings();
   }
 
+  async function changeTransactionHoldings(transactionHolding) {
+    await setUserSettings(user.uid, { transactions: transactionHolding });
+    fetchSettings();
+  }
+
   async function addItemToWaitlist() {
     let data = {};
     data[cryptocurrency[waitlistInput.toUpperCase()]] = {
@@ -362,35 +367,49 @@ export default function Settings() {
             </div>
             <div className="section">
               <div className="top noselect">
-                <span className="title">Sort Order Notification</span>
-              </div>
-              <div
-                className="bottom settings-choices-wrapper"
-                data-key="sortOrderNotification"
-              >
-                <button className="choice" data-value="disabled">
-                  Disabled
-                </button>
-                <button className="choice" data-value="enabled">
-                  Enabled
-                </button>
-              </div>
-            </div>
-            <div className="section">
-              <div className="top noselect">
                 <span className="title">Transactions Affect Holdings</span>
               </div>
               <div
                 className="bottom settings-choices-wrapper"
                 data-key="transactionsAffectHoldings"
               >
-                <button className="choice" data-value="disabled">
+                <button
+                  className={
+                    settings && settings.transactions == "disabled"
+                      ? "choice active"
+                      : "choice"
+                  }
+                  data-value="disabled"
+                  onClick={() => {
+                    changeTransactionHoldings("disabled");
+                  }}
+                >
                   Disabled
                 </button>
-                <button className="choice" data-value="mixed">
+                <button
+                  className={
+                    settings && settings.transactions == "mixed"
+                      ? "choice active"
+                      : "choice"
+                  }
+                  data-value="mixed"
+                  onClick={() => {
+                    changeTransactionHoldings("mixed");
+                  }}
+                >
                   Mixed
                 </button>
-                <button className="choice" data-value="override">
+                <button
+                  className={
+                    settings && settings.transactions == "override"
+                      ? "choice active"
+                      : "choice"
+                  }
+                  data-value="override"
+                  onClick={() => {
+                    changeTransactionHoldings("override");
+                  }}
+                >
                   Override
                 </button>
               </div>
@@ -434,16 +453,6 @@ export default function Settings() {
                 </button>
                 <button className="submit inline" id="export-activity-button">
                   Export Activity
-                </button>
-              </div>
-            </div>
-            <div className="section">
-              <div className="top noselect">
-                <span className="title">Historical Data</span>
-              </div>
-              <div className="bottom">
-                <button className="submit inline" id="delete-cache-button">
-                  Delete Cache
                 </button>
               </div>
             </div>

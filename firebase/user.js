@@ -7,23 +7,27 @@ export async function createUser(id) {
     let result = null;
     let error = null;
 
-    let data = {}
-    let dataHoldings = {
-        "bitcoin": {symbol: "btc"}, 
-        "ethereum": {symbol: "eth"}, 
-        "tether": {symbol: "usdt"},
-        "binancecoin": {symbol: "bnb"},
-        "ripple": {symbol: "xrp"},
-        "usd-coin": {symbol: "usdc"},
-        "dogecoin": {symbol: "doge"},
-        "solana": {symbol: "sol"}
+    let dataHoldings = {}
+    let dataSettings = {
+        currency: "usd",
+        transactions: "disabled",
+        watchlist: {
+            "bitcoin": {symbol: "BTC"}, 
+            "ethereum": {symbol: "ETH"}, 
+            "tether": {symbol: "USDT"},
+            "binancecoin": {symbol: "BNB"},
+            "ripple": {symbol: "XRP"},
+            "usd-coin": {symbol: "USDC"},
+            "dogecoin": {symbol: "DOGE"},
+            "solana": {symbol: "SOL"}
+        }
     }
 
     try {
-        result = await setDoc(doc(db, "holdings", id), data, {
+        result = await setDoc(doc(db, "holdings", id), dataHoldings, {
             merge: true,
         });
-        await setDoc(doc(db, "settings", id), dataHoldings, {
+        await setDoc(doc(db, "settings", id), dataSettings, {
             merge: true,
         });
     } catch (e) {
