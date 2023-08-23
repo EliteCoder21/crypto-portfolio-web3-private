@@ -18,18 +18,15 @@ export default function Holdings() {
 
   async function fetchTotalValue() {
     try {
-
       console.log("START!");
-      getDoc(doc(db, "users", user.email)).then(docSnap => {
+      await getDoc(doc(db, "users", user.email)).then(docSnap => {
         if (docSnap.exists()) {
           console.log("---------------------------");
           console.log("Document data:", docSnap.data());
         } else {
           console.log("No such document!");
         }
-      })
-      
-
+      });
     } catch (error) {
         console.log(error);
     }
@@ -91,15 +88,15 @@ export default function Holdings() {
               </button>
               { displayPopup ?
                 <>
-                  <div class="bottom">
+                  <div className="bottom">
                     <input id="popup-coin" placeholder="Coin Symbol... (e.g. BTC)" value={coinSymbol} onChange={(e) => { setCoinSymbol(e.target.value) }} />
                     <input id="popup-amount" placeholder="Amount... (e.g. 2.5)" type="number" value={amount} onChange={(e) => {setAmount(e.target.value) }}/>
-                    <button class="reject" id="popup-cancel" onClick={() => {
+                    <button className="reject" id="popup-cancel" onClick={() => {
                       setCoinSymbol("");
                       setAmount("");
                       setDisplayPopup(!displayPopup);
                     }}>Cancel</button>
-                    <button class="resolve" id="popup-confirm" onClick={onSubmitAddHolding}>Confirm</button>
+                    <button className="resolve" id="popup-confirm" onClick={onSubmitAddHolding}>Confirm</button>
                   </div>
                 </>
                 :

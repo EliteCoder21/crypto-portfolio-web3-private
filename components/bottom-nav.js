@@ -13,8 +13,6 @@ function BottomNav({ active }) {
   const icon_data = [
     { id: 0, href: "/", icon: <Dashboard />, text: "Home" },
     { id: 1, href: "/assets", icon: <AccountBalanceWallet />, text: "Assets" },
-    // { id: 2, href: "/aut", icon: <MonetizationOn />, text: "AUT" },
-    // { id: 3, href: "/oxa", icon: <Token />, text: "OXA" },
     { id: 2, href: "/holdings", icon: <DataThresholding />, text: "Holdings" },
     { id: 3, href: "/market", icon: <Store />, text: "Market" },
     { id: 4, href: "/activity", icon: <SwapHoriz />, text: "Activity" },
@@ -132,18 +130,18 @@ function BottomNav({ active }) {
           <Navbar.Toggle aria-controls="navbar-nav" />
         </div>
         <Navbar.Collapse id="navbar-nav">
-          <Nav class="navbar-nav" id="toolbar" className="me-auto">
+          <Nav className="navbar-nav" id="toolbar" className="me-auto">
             {vis_icons.map((data) => (
               <a key={data.id} exact href={data.href} style={{ marginLeft: 5 }}>
                 {/* {console.log("Data ID: " + data.id + " Data: " + data.icon)} */}
-                <li class="texticon">
-                  <button type="button" class="buttonclass">
-                    <div class="icon">
-                      <span class="material-icons md-20">{data.icon}</span>
+                <li className="texticon">
+                  <button type="button" className="buttonclass">
+                    <div className="icon">
+                      <span className="material-icons md-20">{data.icon}</span>
                     </div>
-                    <div class="text">
-                      <span class="text1">{data.text}</span>
-                      <span class="text2"></span>
+                    <div className="text">
+                      <span className="text1">{data.text}</span>
+                      <span className="text2"></span>
                     </div>
                   </button>
                 </li>
@@ -159,13 +157,13 @@ function BottomNav({ active }) {
                 <div id="more-menu">
                   {hid_icons.map((data) => (
                     <a className={data.href == active ? "active" : ""} key={data.id} exact href={data.href}>
-                      <li class="texticon">
-                        <div class="icon">
-                          <span class="material-icons md-20">{data.icon}</span>
+                      <li className="texticon">
+                        <div className="icon">
+                          <span className="material-icons md-20">{data.icon}</span>
                         </div>
-                        <div class="text">
-                          <span class="text1">{data.text}</span>
-                          <span class="text2"></span>
+                        <div className="text">
+                          <span className="text1">{data.text}</span>
+                          <span className="text2"></span>
                         </div>
                       </li>
                     </a>

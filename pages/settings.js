@@ -2,17 +2,86 @@ import Navbar from "../components/navbar.js";
 import { useAuthContext } from "../firebase/context";
 import Login from "../components/login.js";
 import { useEffect, useState } from "react";
-import { getUserSettings, setUserSettings } from "../firebase/user.js";
+import {
+  addUserHoldings,
+  getUserHoldings,
+  getUserSettings,
+  setUserSettings,
+} from "../firebase/user.js";
 import cryptocurrency from "../constants/crypto.js";
 
 export default function Settings() {
   const { user } = useAuthContext();
   const [settings, setSettings] = useState();
   const [waitlistInput, setWaitlistInput] = useState("");
+  const [addressInput, setAddressInput] = useState("");
+  const [ethTokenChoice, setEthTokenChoice] = useState("add");
 
   async function fetchSettings() {
     const result = await getUserSettings(user.uid);
     setSettings(result);
+  }
+
+  async function importEthTokens() {
+    const req = await fetch(
+      "https://api.ethplorer.io/getAddressInfo/" +
+        addressInput +
+        "?apiKey=freekey"
+    );
+    const balance = await req.json();
+
+    let eth = parseFloat(balance["ETH"].balance.toFixed(3));
+    let tokens = balance.tokens;
+
+    let index = 0;
+
+    Object.keys(tokens).map(async (key) => {
+      index++;
+
+      let token = tokens[key];
+      let info = token.tokenInfo;
+      let id = info.symbol;
+
+      try {
+        let balance = token.balance;
+        let string = balance.toFixed(0);
+        let decimals = parseInt(info.decimals);
+        let position = string.length - decimals;
+        let split = string.split("");
+        split.splice(position, 0, ".");
+        let join = split.join("");
+
+        let amount = parseFloat(parseFloat(join).toFixed(2));
+
+        if (settings.importTokens === "add") {
+          const currentHoldings = await getUserHoldings(user.uid);
+          const valueToAdd = currentHoldings[cryptocurrency[id]]
+            ? currentHoldings[cryptocurrency[id]].amount
+            : 0;
+
+          let data = {};
+          data[cryptocurrency[id]] = {
+            amount: amount + valueToAdd,
+            symbol: id.toUpperCase(),
+          };
+          addUserHoldings(user.uid, data);
+        } else {
+          let data = {};
+          data[cryptocurrency[id]] = {
+            amount: amount,
+            symbol: id.toUpperCase(),
+          };
+          addUserHoldings(user.uid, data);
+        }
+
+        alert("Added");
+      } catch (e) {
+        alert(e.message);
+      }
+    });
+
+    setAddressInput("");
+    setEthTokenChoice("add");
   }
 
   async function changeCurrency(currency) {
@@ -23,10 +92,10 @@ export default function Settings() {
   async function addItemToWaitlist() {
     let data = {};
     data[cryptocurrency[waitlistInput.toUpperCase()]] = {
-      symbol: waitlistInput.toUpperCase()
-    }
+      symbol: waitlistInput.toUpperCase(),
+    };
 
-    await setUserSettings(user.uid, { watchlist: data })
+    await setUserSettings(user.uid, { watchlist: data });
     setWaitlistInput("");
   }
 
@@ -103,20 +172,43 @@ export default function Settings() {
                 <input
                   type="text"
                   placeholder="ETH Address..."
-                  id="input-eth-address"
+                  value={addressInput}
+                  onChange={(e) => {
+                    setAddressInput(e.target.value);
+                  }}
                 />
                 <div
                   className="settings-choices-wrapper"
                   data-key="importTokens"
                 >
-                  <button className="choice" data-value="add">
+                  <button
+                    className={
+                      ethTokenChoice == "add" ? "choice active" : "choice"
+                    }
+                    data-value="add"
+                    onClick={() => {
+                      setEthTokenChoice("add");
+                    }}
+                  >
                     Add
                   </button>
-                  <button className="choice" data-value="replace">
+                  <button
+                    className={
+                      ethTokenChoice == "replace" ? "choice active" : "choice"
+                    }
+                    data-value="replace"
+                    onClick={() => {
+                      setEthTokenChoice("replace");
+                    }}
+                  >
                     Replace
                   </button>
                 </div>
-                <button className="submit" id="import-tokens-button">
+                <button
+                  className="submit"
+                  id="import-tokens-button"
+                  onClick={importEthTokens}
+                >
                   Import
                 </button>
               </div>
@@ -247,38 +339,25 @@ export default function Settings() {
                     <input
                       id="popup-coin"
                       placeholder="Coin Symbol... (e.g. BTC)"
-                      value={waitlistInput} 
-                      onChange={(e) => { setWaitlistInput(e.target.value) }}
+                      value={waitlistInput}
+                      onChange={(e) => {
+                        setWaitlistInput(e.target.value);
+                      }}
                     />
                     <div
                       className="bottom settings-choices-wrapper"
                       data-key="sortOrderNotification"
                     >
-                      <button className="choice" data-value="confirm" onClick={addItemToWaitlist}>
+                      <button
+                        className="choice"
+                        data-value="confirm"
+                        onClick={addItemToWaitlist}
+                      >
                         Confirm
                       </button>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div className="section">
-              <div className="top noselect">
-                <span className="title">Highlight Price Change</span>
-              </div>
-              <div
-                className="bottom settings-choices-wrapper"
-                data-key="highlightPriceChange"
-              >
-                <button className="choice" data-value="disabled">
-                  Disabled
-                </button>
-                <button className="choice" data-value="row">
-                  Row
-                </button>
-                <button className="choice" data-value="text">
-                  Text
-                </button>
               </div>
             </div>
             <div className="section">
@@ -297,23 +376,6 @@ export default function Settings() {
                 </button>
               </div>
             </div>
-            <div className="section">
-              <div className="top noselect">
-                <span className="title">Additional Dashboard Columns</span>
-              </div>
-              <div
-                className="bottom settings-choices-wrapper"
-                data-key="additionalDashboardColumns"
-              >
-                <button className="choice" data-value="disabled">
-                  Disabled
-                </button>
-                <button className="choice" data-value="enabled">
-                  Enabled
-                </button>
-              </div>
-            </div>
-
             <div className="section">
               <div className="top noselect">
                 <span className="title">Transactions Affect Holdings</span>

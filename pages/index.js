@@ -16,10 +16,9 @@ export default function InstructionsComponent() {
   const [totalValue, setTotalValue] = useState();
   const [holdingsDic, setHoldingsDic] = useState([]);
   const [marketDic, setMarketDic] = useState([]);
-  const [settings, setSettings] = useState();
   const { user } = useAuthContext();
 
-  async function setMarketList() {
+  async function setMarketList(settings) {
     let watchListString = Object.keys(settings.watchlist).join("%2c");
     const currency = settings ? settings.currency : "usd";
 
@@ -51,7 +50,7 @@ export default function InstructionsComponent() {
     setMarketDic(marketList);
   }
 
-  async function calculateTotalValue() {
+  async function calculateTotalValue(settings) {
     let globalTotalValue = 0;
     let holdings = [];
 
@@ -98,7 +97,7 @@ export default function InstructionsComponent() {
     setTotalValue(separateThousands(globalTotalValue.toFixed(0)));
   }
 
-  async function calculateMarketData() {
+  async function calculateMarketData(settings) {
     const response = await fetch("https://api.coingecko.com/api/v3/global");
     const global = await response.json();
     setMarketCap(separateThousands(global.data.total_market_cap["usd"].toFixed(0)));
@@ -107,12 +106,10 @@ export default function InstructionsComponent() {
 
   useEffect(() => {
     async function fetchGlobalData() {
-      let sets = await getUserSettings(user.uid);
-      setSettings(sets);
-
-      await calculateMarketData();
-      await calculateTotalValue();
-      await setMarketList();
+      let settings = await getUserSettings(user.uid);
+      await calculateMarketData(settings);
+      await calculateTotalValue(settings);
+      await setMarketList(settings);
     }
 
     if (user && marketDic.length == 0 && holdingsDic.length == 0) {
