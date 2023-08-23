@@ -4,14 +4,14 @@
         "id": "RWA Lane",
         "title": "RWA Pool",
         "label": "RWA",
-        "style": {"width": 280, "backgroundColor": "rgb(255, 0, 0)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(154, 0, 255, 0.3)", "color": "white"},
         "cards": [
           {
             "id": "IBM Bond",
             "title": "IBM Bond",
             "label": "Bond at Fixed Rate",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "CUSIP# 458200JG7\n\nINTERNATIONAL BUSINESS MACHINES CORPORATION (IBM)\n\nPrice : $110.87, Yield : 3.12%"
+            "description": "CUSIP# 458200JG7\nINTERNATIONAL BUSINESS MACHINES CORPORATION (IBM)\nPrice : $110.87, Yield : 3.12%"
           }
         ]
       },
@@ -19,28 +19,28 @@
         "id": "AUT Lane",
         "title": "AUT Pool",
         "label": "AUT",
-        "style": {"width": 280, "backgroundColor": "rgb(0, 255, 0)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(26, 0, 255, 0.3)", "color": "white"},
         "cards": [
           {
             "id": "IBM AUT Trade Offer",
             "title": "IBM AUT Trade Offer",
             "label": "AUT Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "Offer: Trade at price: $107.93\n\nCUSIP# 458200JG7 \n\nINTERNATIONAL BUSINESS MACHINES CORPORATION"
+            "description": "Offer: Trade at price: $107.93\nCUSIP# 458200JG7 \nINTERNATIONAL BUSINESS MACHINES CORPORATION"
           },
           {
             "id": "CPR AUT Borrow Offer",
             "title": "CPR AUT Borrow Offer",
             "label": "AUT Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "Offer: Borrow at Inst: 5%, Coll: 87%\n\nCUSIP#012432BR0\n\nALBANY NY - GB CAPITAL RESOURCE CORPORATION"
+            "description": "Offer: Borrow at Inst: 5%, Coll: 87%\nCUSIP#012432BR0\nALBANY NY - GB CAPITAL RESOURCE CORPORATION"
           }
         ]
       },
       {
         "id": "OXA Lane",
         "title": "OXA Pool",
-        "style": {"width": 280, "backgroundColor": "rgb(0, 0, 255)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(0, 124, 255, 0.3)", "color": "white"},
         "label": "OXA",
         "cards": [
           {
@@ -48,14 +48,14 @@
             "title": "BTC OXA Offer",
             "label": "OXA Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "BTC - Bitcoin offer: $29,507 (+0.3%)"
+            "description": "BTC\nBitcoin offer: $29,507 (+0.3%)"
           }
         ]
       },
       {
         "id": "Digital Assets Lane",
         "title": "Digital Wallet",
-        "style": {"width": 280, "backgroundColor": "rgb(31, 42, 71)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(0, 205, 255, 0.3)", "color": "white"},
         "label": "Digital Assets",
         "cards": [
           {
@@ -63,7 +63,7 @@
             "title": "USDC",
             "label": "Digital Asset",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "USDC # 25000, Block Hash: 0x269b053ee78cbb2e96850e8b98f7fcd22cf31abd"
+            "description": "USDC # 25000\nBlock Hash: 0x269b053ee78cbb2e96850e8b98f7fcd22cf31abd"
           }
         ]
       }
