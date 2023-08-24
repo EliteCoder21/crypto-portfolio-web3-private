@@ -5,7 +5,7 @@ import firebase_app from "../firebase/config";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 import { addUserHoldings } from "../firebase/user.js";
-import cryptocurrency from "../constants/crypto.js";
+import cryptocurrency from "../assets/crypto.js";
 
 const db = getFirestore(firebase_app);
 
@@ -15,6 +15,7 @@ export default function Holdings() {
   const [amount, setAmount] = useState(0);
   const [totalValue, setTotalValue] = useState(0);
   const { user } = useAuthContext();
+  const [ edit, setEdit ] = useState(false);
 
   async function fetchTotalValue() {
     try {
@@ -45,6 +46,18 @@ export default function Holdings() {
     } catch (e) {
       alert("Not a valid coin symbol");
     }
+  }
+
+  function editHoldings() {
+      (!edit);
+      if (edit == true) {
+        data[cryptocurrency[coinSymbol.toUpperCase()]] = {
+          amount: amount,
+          symbol: coinSymbol.toUpperCase()
+        }
+        setTotalValue(totalValue + amount);
+        addUserHoldings(user.uid, data);
+      }
   }
 
   return (
@@ -105,6 +118,7 @@ export default function Holdings() {
             </div>
             <div className="more-menu hidden" id="holdings-more-menu">
               <button id="more-edit">Edit</button>
+              <button onClick={editHoldings}></button>
               <button id="more-remove">Remove</button>
             </div>
             <div className="holdings-list-wrapper noselect">
@@ -132,8 +146,7 @@ export default function Holdings() {
         </div>
         : 
         <Login />
-      }
+        }
     </div>
   );
-  }
-  
+}

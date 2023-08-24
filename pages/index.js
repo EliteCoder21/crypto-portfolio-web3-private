@@ -1,14 +1,17 @@
-import DomainIcon from "@mui/icons-material/Domain";
 import LaunchIcon from "@mui/icons-material/Launch";
-import BarChartIcon from "@mui/icons-material/BarChart";
-import RequestQuoteIcon from "@mui/icons-material/RequestQuote";
-import AssuredWorkloadIcon from "@mui/icons-material/AssuredWorkload";
+import { AccountBalanceWallet, Store, SwapHoriz } from "@material-ui/icons";
+import { DataThresholding } from "@mui/icons-material";
 import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
 import { getUserHoldings, getUserSettings } from "../firebase/user.js";
-import { abbreviateNumber, empty, separateThousands } from "../constants/assets.js";
+import {
+  abbreviateNumber,
+  empty,
+  separateThousands,
+} from "../assets/string.js";
+import { getHoldingsWithValue, getMarketCap, getMarketList } from "../assets/coindesk.js";
 
 export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
@@ -21,93 +24,32 @@ export default function InstructionsComponent() {
   async function setMarketList(settings) {
     let watchListString = Object.keys(settings.watchlist).join("%2c");
     const currency = settings ? settings.currency : "usd";
-
-    let req = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + currency + "&ids=" +
-        watchListString +
-        "&order=market_cap_desc&per_page=250&page=1&sparkline=false"
-    );
-    let coins = await req.json();
-
-    let marketList = [];
-
-    Object.keys(coins).map((key) => {
-      let coin = coins[key];
-      marketList.push({
-        icon: coin.image,
-        name: coin.name,
-        symbol: coin.symbol.toUpperCase(),
-        price: separateThousands(parseFloat(coin.current_price).toFixed(2)),
-        marketCap: abbreviateNumber(coin.market_cap, 2),
-        priceChangeDay: coin.price_change_percentage_24h
-          .toFixed(2)
-          .includes("-")
-          ? coin.price_change_percentage_24h.toFixed(2)
-          : "+" + coin.price_change_percentage_24h.toFixed(2),
-      });
-    });
+    const marketList = await getMarketList(currency, watchListString);
 
     setMarketDic(marketList);
   }
 
   async function calculateTotalValue(settings) {
-    let globalTotalValue = 0;
-    let holdings = [];
-
     let coins = await getUserHoldings(user.uid);
     let list = Object.keys(coins).join("%2C");
-    
     const currency = settings ? settings.currency : "usd";
 
-    const req = await fetch(
-      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=" + currency +
-        "&ids=" +
-        list +
-        "&order=market_cap_desc&per_page=250&page=1&sparkline=false"
-    );
-    const response = await req.json();
+    const data = await getHoldingsWithValue(currency, list, coins);
 
-    Object.keys(response).map((index) => {
-      let coin = response[index];
-      let id = coin.id;
-      let price = coin.current_price;
-      let amount = coins[id].amount;
-      let value = price * amount;
-      let priceChangeDay = coin.price_change_percentage_24h;
-
-      if (!empty(priceChangeDay)) {
-        priceChangeDay = priceChangeDay.toFixed(2);
-      } else {
-        priceChangeDay = "-";
-      }
-
-      holdings.push({
-        symbol: coins[id].symbol.toUpperCase(),
-        amount: amount,
-        value: value,
-        price: price,
-        change: priceChangeDay,
-        image: coin.image,
-      });
-
-      globalTotalValue += value;
-    });
-
-    setHoldingsDic(holdings);
-    setTotalValue(separateThousands(globalTotalValue.toFixed(0)));
+    setHoldingsDic(data.holdings);
+    setTotalValue(data.totalValue);
   }
 
-  async function calculateMarketData(settings) {
-    const response = await fetch("https://api.coingecko.com/api/v3/global");
-    const global = await response.json();
-    setMarketCap(separateThousands(global.data.total_market_cap["usd"].toFixed(0)));
-    setMarketChange(global.data.market_cap_change_percentage_24h_usd.toFixed(1));
+  async function calculateMarketData() {
+    const marketData = await getMarketCap();
+    setMarketCap(marketData.marketCap);
+    setMarketChange(marketData.marketChange);
   }
 
   useEffect(() => {
     async function fetchGlobalData() {
       let settings = await getUserSettings(user.uid);
-      await calculateMarketData(settings);
+      await calculateMarketData();
       await calculateTotalValue(settings);
       await setMarketList(settings);
     }
@@ -149,7 +91,7 @@ export default function InstructionsComponent() {
                                   className="material-icons"
                                   style={{ fontSize: 120 }}
                                 >
-                                  <DomainIcon fontSize="inherit" />
+                                  <AccountBalanceWallet fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">
@@ -166,72 +108,6 @@ export default function InstructionsComponent() {
                             </div>
                           </a>
                         </div>
-                        {/* <div>
-                          <a className="link explore" href="aut">
-                            <div className="sectionCard card">
-                              <div className="card-body">
-                                <span
-                                  className="material-icons"
-                                  style={{ fontSize: 120 }}
-                                >
-                                  <BarChartIcon fontSize="inherit" />
-                                </span>
-                                <div className="launchSurround">
-                                  <div className="launch">
-                                    <p>Launch App</p>
-                                    <i className="material-icons">
-                                      <LaunchIcon />
-                                    </i>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="card-footer">
-                                <p
-                                  className="css-146c3p1"
-                                  style={{ display: "flex" }}
-                                >
-                                  <span className="lg-view">
-                                    Asset Unique Token
-                                  </span>
-                                  <span className="sm-view">AUT</span>
-                                </p>
-                              </div>
-                            </div>
-                          </a>
-                        </div>
-                        <div>
-                          <a className="link explore" href="oxa">
-                            <div className="sectionCard card">
-                              <div className="card-body">
-                                <span
-                                  className="material-icons"
-                                  style={{ fontSize: 120 }}
-                                >
-                                  <RequestQuoteIcon fontSize="inherit" />
-                                </span>
-                                <div className="launchSurround">
-                                  <div className="launch">
-                                    <p>Launch App</p>
-                                    <i className="material-icons">
-                                      <LaunchIcon />
-                                    </i>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="card-footer">
-                                <p
-                                  className="css-146c3p1"
-                                  style={{ display: "flex" }}
-                                >
-                                  <span className="lg-view">
-                                    Stable Credit Token
-                                  </span>
-                                  <span className="sm-view">OXA</span>
-                                </p>
-                              </div>
-                            </div>
-                          </a>
-                        </div> */}
                         <div>
                           <a className="link explore" href="holdings">
                             <div className="sectionCard card">
@@ -240,7 +116,7 @@ export default function InstructionsComponent() {
                                   className="material-icons"
                                   style={{ fontSize: 120 }}
                                 >
-                                  <AssuredWorkloadIcon fontSize="inherit" />
+                                  <DataThresholding fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">
@@ -253,6 +129,68 @@ export default function InstructionsComponent() {
                               </div>
                               <div className="card-footer">
                                 <p className="css-146c3p1">Digital Holdings</p>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                        <div>
+                          <a className="link explore" href="market">
+                            <div className="sectionCard card">
+                              <div className="card-body">
+                                <span
+                                  className="material-icons"
+                                  style={{ fontSize: 120 }}
+                                >
+                                  <Store fontSize="inherit" />
+                                </span>
+                                <div className="launchSurround">
+                                  <div className="launch">
+                                    <p>Launch App</p>
+                                    <i className="material-icons">
+                                      <LaunchIcon />
+                                    </i>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="card-footer">
+                                <p
+                                  className="css-146c3p1"
+                                  style={{ display: "flex" }}
+                                >
+                                  <span className="lg-view">Market</span>
+                                  <span className="sm-view">Market</span>
+                                </p>
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                        <div>
+                          <a className="link explore" href="activity">
+                            <div className="sectionCard card">
+                              <div className="card-body">
+                                <span
+                                  className="material-icons"
+                                  style={{ fontSize: 120 }}
+                                >
+                                  <SwapHoriz fontSize="inherit" />
+                                </span>
+                                <div className="launchSurround">
+                                  <div className="launch">
+                                    <p>Launch App</p>
+                                    <i className="material-icons">
+                                      <LaunchIcon />
+                                    </i>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="card-footer">
+                                <p
+                                  className="css-146c3p1"
+                                  style={{ display: "flex" }}
+                                >
+                                  <span className="lg-view">Activity</span>
+                                  <span className="sm-view">Activity</span>
+                                </p>
                               </div>
                             </div>
                           </a>
@@ -297,7 +235,12 @@ export default function InstructionsComponent() {
                       <th>24h Change</th>
                     </tr>
                     {marketDic.map((coin) => (
-                      <tr className="coin-wrapper">
+                      <tr
+                        className="coin-wrapper"
+                        style={{
+                          color: coin.priceChangeDay >= 0 ? "green" : "red",
+                        }}
+                      >
                         <td>
                           <div
                             style={{
@@ -333,7 +276,12 @@ export default function InstructionsComponent() {
                       <th>24h Change</th>
                     </tr>
                     {holdingsDic.map((coin) => (
-                      <tr className="coin-wrapper">
+                      <tr
+                        className="coin-wrapper"
+                        style={{
+                          color: coin.priceChangeDay >= 0 ? "green" : "red",
+                        }}
+                      >
                         <td>
                           <div
                             style={{
@@ -342,7 +290,11 @@ export default function InstructionsComponent() {
                               alignItems: "center",
                             }}
                           >
-                            <img draggable="false" src={coin.image} title={coin.name} />
+                            <img
+                              draggable="false"
+                              src={coin.image}
+                              title={coin.name}
+                            />
                             <p className="coin" title={coin.name}>
                               {coin.symbol}
                             </p>

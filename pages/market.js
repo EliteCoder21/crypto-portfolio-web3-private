@@ -1,17 +1,19 @@
 import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
-import { useAuthContext } from '../firebase/context.js';
+import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
+import { separateThousands } from "../assets/string.js";
+import { getAllCoins, getMarketCap } from "../assets/coindesk.js";
 
 const INITIAL_STATE = [
   {
     rank: 1,
-    image: 'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png',
-    coin: 'BTC',
+    image: "https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png",
+    coin: "BTC",
     price: 29307,
     marketCap: 570074511326,
-    change: -0.31
-  }
+    change: -0.31,
+  },
 ];
 
 export default function Market() {
@@ -21,48 +23,21 @@ export default function Market() {
   const [marketData, setMarketData] = useState(INITIAL_STATE);
   const { user } = useAuthContext();
 
-  function separateThousands(number) {
-    let parts = number.toString().split(".");
-    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-    return parts.join(".");
-  }
-
   useEffect(() => {
     async function fetchGlobalData() {
-      const response = await fetch("https://api.coingecko.com/api/v3/global");
-      const global = await response.json();
-      const globalData = global.data;
+      const marketData = await getMarketCap();
 
-      setGlobalMarketCap(separateThousands(globalData.total_market_cap["usd"].toFixed(0)));
-      setGlobalVolume(separateThousands((globalData.total_volume["usd"]).toFixed(0)));
-      setGlobalDominance((globalData.market_cap_percentage.btc).toFixed(1));
+      setGlobalMarketCap(marketData.marketCap);
+      setGlobalVolume(marketData.totalVolume);
+      setGlobalDominance(marketData.btcDominance);
     }
 
     async function fetchCoinData() {
-      const response = await fetch("https://api.coingecko.com/api/v3/coins/");
-      const coins = await response.json();
-      const newMarketData = [];
-
-      for (let coin of coins) {
-          newMarketData.push({
-            rank: coin.market_data.market_cap_rank,
-            image: coin.image.thumb,
-            coin: ' ' + coin.symbol.toUpperCase(),
-            price: '$' + separateThousands(coin.market_data.current_price["usd"]),
-            marketCap: '$' + separateThousands(coin.market_data.market_cap["usd"]),
-            change: coin.market_data.price_change_percentage_24h.toFixed(2) + '%'
-          });
-
-          if (newMarketData[newMarketData.length-1].change.toString()[0] != '-') {
-            newMarketData[newMarketData.length-1].change = '+' + newMarketData[newMarketData.length-1].change; 
-          }
-      }
-
+      const newMarketData = await getAllCoins();
       setMarketData(newMarketData);
     }
 
     fetchGlobalData();
-
     fetchCoinData();
   }, []);
 
@@ -121,7 +96,7 @@ export default function Market() {
 
   return (
     <div>
-      { user ?
+      {user ? (
         <div>
           <Navbar active="/market" />
           <div className="page market active" id="page-market">
@@ -137,10 +112,16 @@ export default function Market() {
             >
               Market
             </h1>
-            <div className="stats-wrapper noselect" style={{ marginBottom: 20 }}>
+            <div
+              className="stats-wrapper noselect"
+              style={{ marginBottom: 20 }}
+            >
               <div className="stats-card market-cap">
                 <span className="stats-title title">Market Cap</span>
-                <span className="stats-subtitle subtitle" id="global-market-cap">
+                <span
+                  className="stats-subtitle subtitle"
+                  id="global-market-cap"
+                >
                   ${globalMarketCap}
                 </span>
               </div>
@@ -157,7 +138,10 @@ export default function Market() {
                 </span>
               </div>
             </div>
-            <div className="page-navigation-wrapper noselect" id="page-navigation">
+            <div
+              className="page-navigation-wrapper noselect"
+              id="page-navigation"
+            >
               <div className="previous" id="previous-page">
                 <svg
                   width={1792}
@@ -182,16 +166,19 @@ export default function Market() {
                 </svg>
               </div>
             </div>
-            <div className="market-list-wrapper noselect" style={{ marginBottom: 20 }}>
+            <div
+              className="market-list-wrapper noselect"
+              style={{ marginBottom: 20 }}
+            >
               {renderHeader()}
 
               {renderLogs()}
             </div>
           </div>
         </div>
-        : 
+      ) : (
         <Login />
-      }
+      )}
     </div>
   );
 }

@@ -190,7 +190,7 @@ input[type=number] {
 }
 .popup-wrapper .bottom {
 	top:0;
-	padding-top:60px;
+	padding-top:20px;
 	height:calc(100% - 40px);
 	overflow:hidden auto;
 	-webkit-overflow-scrolling:touch;
@@ -552,7 +552,9 @@ html.dark .highlight-text .coin-wrapper.positive span {
 html.dark .highlight-text .coin-wrapper.negative span {
 	color:rgb(210,50,50);
 }
-
+.activity-row td {
+	padding: 10px 0;
+}
 .dashboard-market-list-wrapper .coin-wrapper img {
 	vertical-align:middle;
 	width:28px;
@@ -848,7 +850,7 @@ td {
 	background:var(--main-first);
 	overflow:hidden;
 }
-.market-list-wrapper .headers-wrapper, .holdings-list-wrapper .headers-wrapper, .dashboard-market-list-wrapper .headers-wrapper, .dashboard-holdings-list-wrapper .headers-wrapper, .activity-list-wrapper .headers-wrapper {
+.market-list-wrapper .headers-wrapper, .holdings-list-wrapper .headers-wrapper, .dashboard-market-list-wrapper .headers-wrapper, .dashboard-holdings-list-wrapper .headers-wrapper {
 	height:60px;
 	white-space:nowrap;
 	background:#1f2a47;
@@ -857,7 +859,7 @@ td {
 	border-style:solid;
 	font-size:0;
 }
-.market-list-wrapper .header, .holdings-list-wrapper .header, .dashboard-market-list-wrapper .header, .dashboard-holdings-list-wrapper .header, .activity-list-wrapper .header, .autpage-list-wrapper .header {
+.market-list-wrapper .header, .holdings-list-wrapper .header, .dashboard-market-list-wrapper .header, .dashboard-holdings-list-wrapper .header,, .autpage-list-wrapper .header {
 	font-size:18px;
 	display:inline-block;
 	line-height:60px;
@@ -1062,21 +1064,6 @@ td {
 	background:var(--main-first);
 	overflow:hidden;
 }
-.activity-list-wrapper .header.date {
-	width:170px;
-}
-.activity-list-wrapper .header.symbol {
-	width:70px;
-}
-.activity-list-wrapper .header.amount {
-	width:120px;
-}
-.activity-list-wrapper .header.type {
-	width:100px;
-}
-.activity-list-wrapper .header.notes {
-	width:120px;
-}
 
 .aut-title {
 	margin-top: 0;
@@ -1117,29 +1104,6 @@ td {
 }
 #desktop .event-wrapper:hover {
 	background:var(--main-third);
-}
-.activity-list-wrapper .event-wrapper .date {
-	width:170px;
-	text-align:left;
-}
-.activity-list-wrapper .event-wrapper .symbol {
-	width:70px;
-	text-align:left;
-}
-.activity-list-wrapper .event-wrapper .amount {
-	width:120px;
-	text-align:left;
-}
-.activity-list-wrapper .event-wrapper .type {
-	width:100px;
-	text-align:left;
-}
-.activity-list-wrapper .event-wrapper .notes {
-	width:calc(100% - 170px - 70px - 120px - 100px - 220px);
-	text-align:left;
-	text-overflow:ellipsis;
-	white-space:nowrap;
-	overflow:hidden;
 }
 .activity-add-card svg {
 	width:28px;

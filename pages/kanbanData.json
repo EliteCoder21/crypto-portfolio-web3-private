@@ -19,7 +19,7 @@
         "id": "AUT Lane",
         "title": "AUT Pool",
         "label": "AUT",
-        "style": {"width": 280, "backgroundColor": "rgba(26, 0, 255, 0.3)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(27, 0, 255, 0.3)", "color": "white"},
         "cards": [
           {
             "id": "IBM AUT Trade Offer",

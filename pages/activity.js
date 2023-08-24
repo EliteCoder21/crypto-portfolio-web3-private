@@ -1,38 +1,35 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
-import {
-  getFirestore,
-  doc,
-  setDoc,
-  getDocs,
-  collection,
-} from "firebase/firestore";
-import firebase_app from "../firebase/config";
 import Login from "../components/login.js";
 import { useAuthContext } from "../firebase/context";
-
-const db = getFirestore(firebase_app);
-
-const TABLE_STATE = [];
+import { addUserActivity, getUserActivities } from "../firebase/user.js";
 
 export default function Activity() {
   const [displayRecord, setDisplayRecord] = useState(false);
-  const [activityData, setActivityData] = useState(TABLE_STATE);
-  const [typeEvent, setTypeEvent] = useState("buy");
+  const [activityData, setActivityData] = useState([]);
+  const [originalActivityData, setOriginalActivityData] = useState([]);
+  const [query, setQuery] = useState();
   const { user } = useAuthContext();
+
+  const [symbol, setSymbol] = useState("");
+  const [date, setDate] = useState("");
+  const [typeEvent, setTypeEvent] = useState("buy");
+  const [amount, setAmount] = useState();
+  const [fee, setFee] = useState();
+  const [notes, setNotes] = useState();
+  const [exchange, setExchange] = useState();
+  const [pair, setPair] = useState();
+  const [price, setPrice] = useState();
 
   async function getActivityData() {
     try {
-      const dataCollection = collection(
-        doc(collection(db, "user-activity"), user.uid),
-        "activity-data"
-      );
-
-      const docsSnap = await getDocs(dataCollection);
+      const docsSnap = await getUserActivities(user.uid);
+      const TABLE_STATE = [];
 
       docsSnap.forEach((doc) => {
         // Get the data
         const data = doc.data();
+
         // Append the data
         TABLE_STATE.push({
           date: data.date,
@@ -41,35 +38,59 @@ export default function Activity() {
           type: data.type,
           notes: data.notes,
         });
-
-        setActivityData(TABLE_STATE);
       });
+
+      setActivityData(TABLE_STATE);
+      setOriginalActivityData(TABLE_STATE);
     } catch (error) {
       console.log(error);
     }
   }
 
+  async function addActivity(e) {
+    e.preventDefault();
+
+    const data = {
+      coin: symbol,
+      date: date,
+      type: typeEvent,
+      amount: amount,
+      fee: fee,
+      notes: notes,
+      exchange: exchange,
+      pair: pair,
+      price: price,
+    };
+
+    await addUserActivity(user.uid, data);
+
+    setSymbol("");
+    setDate("");
+    setTypeEvent("buy");
+    setAmount();
+    setFee();
+    setNotes("");
+    setExchange();
+    setPair();
+    setPrice();
+    setDisplayRecord(false);
+
+    getActivityData();
+  }
+
   const renderTable = () => {
     return (
-      <table className="activity-list-wrapper noselect">
-        <div className="headers-wrapper" data-list="activity">
-          <th className="header date" data-item="date">
-            Date
-          </th>
-          <th className="header symbol" data-item="coin">
-            Coin
-          </th>
-          <th className="header amount" data-item="amount">
-            Amount
-          </th>
-          <th className="header type" data-item="type">
-            Type
-          </th>
-          <th className="header notes" data-item="notes">
-            Notes
-          </th>
-        </div>
-        {renderLogs()}
+      <table className="dashboard-market-list-wrapper noselect">
+        <thead>
+          <tr className="headers-wrapper" data-list="dashboardMarket">
+            <th>Date</th>
+            <th>Coin</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>{renderLogs()}</tbody>
       </table>
     );
   };
@@ -77,30 +98,39 @@ export default function Activity() {
   const renderLogs = () => {
     return activityData.map(({ date, coin, amount, type, notes }) => {
       return (
-        <div className="activity-list loading" id="activity-list">
-          <div className="event-wrapper loading">
-            <tr>
-              <td className="header date" data-item="date">
-                {date}
-              </td>
-              <td className="header symbol" data-item="coin">
-                {coin}
-              </td>
-              <td className="header amount" data-item="amount">
-                {amount}
-              </td>
-              <td className="header type" data-item="type">
-                {type}
-              </td>
-              <td className="header notes" data-item="notes">
-                {notes}
-              </td>
-            </tr>
-          </div>
-        </div>
+        <tr className="coin-wrapper activity-row">
+          <td>{date}</td>
+          <td>{coin}</td>
+          <td>{amount}</td>
+          <td>{type}</td>
+          <td>{notes}</td>
+        </tr>
       );
     });
   };
+
+  async function searchActivities(e) {
+    e.preventDefault();
+
+    const list = [...originalActivityData];
+
+    if (!query || query == "") {
+      setActivityData(list);
+    } else {
+      let fitQuery = [];
+
+      list.forEach((item) => {
+        for (const [key, value] of Object.entries(item)) {
+          if (key.includes(query) || value.includes(query)) {
+            fitQuery.push(item);
+            break;
+          }
+        }
+      });
+
+      setActivityData(fitQuery);
+    }
+  }
 
   useEffect(() => {
     getActivityData();
@@ -135,12 +165,23 @@ export default function Activity() {
                 </div>
 
                 <div className="bottom">
-                  <input id="popup-symbol" placeholder="Symbol... (e.g. BTC)" />
+                  <input
+                    id="popup-symbol"
+                    placeholder="Symbol... (e.g. BTC)"
+                    value={symbol}
+                    onChange={(e) => {
+                      setSymbol(e.target.value);
+                    }}
+                  />
                   <input
                     id="popup-date"
                     placeholder="Date... (e.g. 2021/04/18 04:20)"
                     type="text"
                     class="flatpickr-input"
+                    value={date}
+                    onChange={(e) => {
+                      setDate(e.target.value);
+                    }}
                   />
                   <div id="popup-choice">
                     <button
@@ -178,31 +219,51 @@ export default function Activity() {
                     id="popup-amount"
                     placeholder="Amount... (e.g. 2.5)"
                     type="number"
+                    value={amount}
+                    onChange={(e) => {
+                      setAmount(e.target.value);
+                    }}
                   />
                   <input
                     id="popup-fee"
                     placeholder="Fee... (e.g. 0.25)"
                     type="number"
+                    value={fee}
+                    onChange={(e) => {
+                      setFee(e.target.value);
+                    }}
                   />
-                  <input id="popup-notes" placeholder="Notes... (e.g. Rent)" />
+                  <input
+                    id="popup-notes"
+                    placeholder="Notes... (e.g. Rent)"
+                    value={notes}
+                    onChange={(e) => {
+                      setNotes(e.target.value);
+                    }}
+                  />
                   <input
                     id="popup-exchange"
                     placeholder="Exchange... (e.g. Coinbase)"
+                    value={exchange}
+                    onChange={(e) => {
+                      setExchange(e.target.value);
+                    }}
                   />
                   <input
                     id="popup-pair"
                     placeholder="Pair... (e.g. BTC/USDT)"
-                  />
-                  <input id="popup-price" placeholder="Price... (e.g. 59000)" />
-                  <input
-                    id="popup-from"
-                    class="hidden"
-                    placeholder="From... (e.g. Kraken)"
+                    value={pair}
+                    onChange={(e) => {
+                      setPair(e.target.value);
+                    }}
                   />
                   <input
-                    id="popup-to"
-                    class="hidden"
-                    placeholder="To... (e.g. Cold Wallet)"
+                    id="popup-price"
+                    placeholder="Price... (e.g. 59000)"
+                    value={price}
+                    onChange={(e) => {
+                      setPrice(e.target.value);
+                    }}
                   />
                   <button
                     class="reject"
@@ -213,7 +274,11 @@ export default function Activity() {
                   >
                     Cancel
                   </button>
-                  <button class="resolve" id="popup-confirm">
+                  <button
+                    class="resolve"
+                    id="popup-confirm"
+                    onClick={addActivity}
+                  >
                     Confirm
                   </button>
                 </div>
@@ -264,8 +329,17 @@ export default function Activity() {
                     type="text"
                     id="activity-search-input"
                     placeholder="Query..."
+                    value={query}
+                    onChange={(e) => {
+                      setQuery(e.target.value);
+                    }}
                   />
-                  <button id="activity-search-button">Search</button>
+                  <button
+                    id="activity-search-button"
+                    onClick={searchActivities}
+                  >
+                    Search
+                  </button>
                 </div>
               </div>
               {renderTable()}

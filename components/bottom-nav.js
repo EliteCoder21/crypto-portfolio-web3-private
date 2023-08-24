@@ -1,11 +1,10 @@
 import {
   AccountBalanceWallet,
   Dashboard,
-  MonetizationOn,
   Store,
   SwapHoriz,
 } from "@material-ui/icons";
-import { DataThresholding, Token } from "@mui/icons-material";
+import { DataThresholding } from "@mui/icons-material";
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Nav, Container, Navbar, NavDropdown } from "react-bootstrap";
 

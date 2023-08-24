@@ -2,7 +2,6 @@
 import { WagmiConfig, createConfig } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 
-import "../styles/flatpickr.css";
 import "../styles/globals.css";
 import "../styles/microtip.css";
 import "../styles/navbar.css";
