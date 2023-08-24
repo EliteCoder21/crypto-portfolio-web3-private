@@ -2,6 +2,7 @@ import Navbar from "../components/navbar.js";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 import Board from 'react-trello';
+import data from 'kanbanData.json';
 
 export default function Assets() {
   const { user } = useAuthContext();
@@ -52,7 +53,12 @@ export default function Assets() {
     // Do the transfer
     transferAssetJSON(cardId, findByID(sourceLaneId, data['lanes']), findByID(targetLaneId, data['lanes']))
 
-    console.log(cardDetails);
+    // Save data to file
+    FileSystem.writeFile('kanbanData.json', JSON.stringify(data), (error) => {
+      if (error) throw error;
+    });
+
+    console.log(JSON.stringify(data));
   }
 
   const AssetInventory = () => {
