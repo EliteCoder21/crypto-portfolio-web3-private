@@ -5,57 +5,72 @@ import Board from 'react-trello';
 
 export default function Assets() {
   const { user } = useAuthContext();
-  const data = require('./kanbanData.json')
+  var data = require('./kanbanData.json')
 
   // Find JSON data
-  function findByID(laneID, records) {
+  function findByID(ID, section) {
 
-    for (let r in records) {
-      if (r['id'] == laneID) {
-        return r;
+    for (let i = 0; i < section.length; i++) {
+      if (section[i].id === ID) {
+        return section[i];
       }
     }
-
-    return {}
-  }
-
-  function excludeByID(laneID, records) {
-
-    let ret = [];
-
-    for (let i = 0; i < records.length; i++) {
-      if (records[i][id] !== laneID) {
-        ret.push(records[i]);
-      }
-    }
-
-    records = ret;
-  }
+    return null;
+  }  
 
   function transferAssetJSON(cardID, originalPlace, finalPlace) {
-    // Get the card data
-    const card = findByID(cardID, originalPlace);
+
+    let ind = -1;
+
+    console.log('original place: ', originalPlace);
+    console.log('final place: ', finalPlace);
+
+    // Find the Index of the card
+    for (let i = 0; i < originalPlace.length; i++) {
+      console.log('card id ', originalPlace[i].id);
+      if (originalPlace[i].id === cardID) {
+        ind = i;
+        break;
+      }
+    }
+
+    if (ind == -1) {
+      console.error("Card not found!");
+      return;
+    }
+
+    let card = originalPlace[ind];
+    console.log('Found card: ', originalPlace[ind]);
+    console.log('--------');
 
     // Remove the card in original place
-    originalPlace = excludeByID(cardID, originalPlace);
+    console.log('Before Deletion');
+    console.log(originalPlace);
+    originalPlace.splice(ind, 1);
+    console.log('After deletion');
+    console.log(originalPlace);
 
     // Concatenate the card in new place
-    
-    finalPlace = Object.keys(finalPlace);
+    console.log('Before Adding');
+    console.log(finalPlace);
     finalPlace.concat(card);
+    console.log('After Adding');
+    console.log(finalPlace);
   }
 
   // Define the Board functions
   const handleCardDragEnd = (cardId, sourceLaneId, targetLaneId, position, cardDetails) => {
-    console.log('Card drag started:', cardId, sourceLaneId, targetLaneId, position, cardDetails);
+    
+    console.log("start: ", sourceLaneId);
+    console.log("end: ", targetLaneId);
 
     // Do the transfer
-    transferAssetJSON(cardId, findByID(sourceLaneId, data['lanes']), findByID(targetLaneId, data['lanes']))
+    transferAssetJSON(cardId, findByID(sourceLaneId, data['lanes'])['cards'], findByID(targetLaneId, data['lanes'])['cards']);
 
     // Save data to file
-    FileSystem.writeFile('kanbanData.json', JSON.stringify(data), (error) => {
-      if (error) throw error;
-    });
+    //FileSystem.writeFile('kanbanData.json', JSON.stringify(data), (error) => {
+    //  if (error) throw error;
+    //});
 
     console.log(JSON.stringify(data));
   }

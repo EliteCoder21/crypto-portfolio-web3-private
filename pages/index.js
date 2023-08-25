@@ -103,7 +103,7 @@ export default function InstructionsComponent() {
                                 </div>
                               </div>
                               <div className="card-footer">
-                                <p className="css-146c3p1">Manage Assets</p>
+                                <p className="css-146c3p1">Assets</p>
                               </div>
                             </div>
                           </a>
@@ -128,7 +128,7 @@ export default function InstructionsComponent() {
                                 </div>
                               </div>
                               <div className="card-footer">
-                                <p className="css-146c3p1">Digital Holdings</p>
+                                <p className="css-146c3p1">Holdings</p>
                               </div>
                             </div>
                           </a>
@@ -279,7 +279,7 @@ export default function InstructionsComponent() {
                       <tr
                         className="coin-wrapper"
                         style={{
-                          color: coin.priceChangeDay >= 0 ? "green" : "red",
+                          color: marketChange >= 0 ? "green" : "red",
                         }}
                       >
                         <td>
