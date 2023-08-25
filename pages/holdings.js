@@ -1,36 +1,27 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
-import { getFirestore, doc, collection, setDoc, getDoc } from "firebase/firestore";
-import firebase_app from "../firebase/config";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
-import { addUserHoldings } from "../firebase/user.js";
+import { addUserHoldings, getUserHoldings } from "../firebase/user.js";
 import cryptocurrency from "../assets/crypto.js";
-
-const db = getFirestore(firebase_app);
+import { getHoldingsWithValue } from "../assets/coindesk.js";
 
 export default function Holdings() {
   const [displayPopup, setDisplayPopup] = useState(false);
   const [coinSymbol, setCoinSymbol] = useState("");
   const [amount, setAmount] = useState(0);
-  const [totalValue, setTotalValue] = useState(0);
   const { user } = useAuthContext();
-  const [ edit, setEdit ] = useState(false);
+  const [edit, setEdit] = useState(false);
+  const [totalValue, setTotalValue] = useState(0);
 
-  async function fetchTotalValue() {
-    try {
-      console.log("START!");
-      await getDoc(doc(db, "users", user.email)).then(docSnap => {
-        if (docSnap.exists()) {
-          console.log("---------------------------");
-          console.log("Document data:", docSnap.data());
-        } else {
-          console.log("No such document!");
-        }
-      });
-    } catch (error) {
-        console.log(error);
-    }
+  async function fetchTotalValue(settings) {
+    let coins = await getUserHoldings(user.uid);
+    let list = Object.keys(coins).join("%2C");
+    const currency = settings ? settings.currency : "usd";
+
+    const data = await getHoldingsWithValue(currency, list, coins);
+
+    setTotalValue(data.totalValue);
   }
 
   function onSubmitAddHolding(e) {
@@ -60,6 +51,10 @@ export default function Holdings() {
       }
   }
 
+  useEffect(() => {
+    fetchTotalValue();
+  }, []);
+
   return (
     <div>
       { user ?
@@ -81,10 +76,7 @@ export default function Holdings() {
             <div className="holdings-card-wrapper noselect" style={{ marginBottom: 20 }}>
               <div className="holdings-value-card" id="holdings-value-card">
                 <span className="title">Total Value</span>
-                <span className="subtitle" id="holdings-total-value">
-                  ...
-                  {fetchTotalValue()}
-                </span>
+                <span className="subtitle" id="holdings-total-value">{totalValue}</span>
               </div>
               <button onClick={() => {setDisplayPopup(!displayPopup)}}>
                 <div className="holdings-add-card" id="holdings-add-card">

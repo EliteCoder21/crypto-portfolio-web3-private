@@ -2,7 +2,6 @@ import Navbar from "../components/navbar.js";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 import Board from 'react-trello';
-import data from 'kanbanData.json';
 
 export default function Assets() {
   const { user } = useAuthContext();

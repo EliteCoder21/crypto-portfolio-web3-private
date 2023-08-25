@@ -1,4 +1,4 @@
-import { separateThousands } from "./string";
+import { abbreviateNumber, empty, separateThousands } from "./string";
 
 export async function getMarketCap() {
   const response = await fetch("https://api.coingecko.com/api/v3/global");
