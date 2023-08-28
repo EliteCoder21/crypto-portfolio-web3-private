@@ -5,12 +5,8 @@ import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
-import { getUserHoldings, getUserSettings } from "../firebase/user.js";
-import {
-  abbreviateNumber,
-  empty,
-  separateThousands,
-} from "../assets/string.js";
+import { deleteWatchlist, getUserHoldings, getUserSettings } from "../firebase/user.js";
+import { separateThousands } from "../assets/string.js";
 import { getHoldingsWithValue, getMarketCap, getMarketList } from "../assets/coindesk.js";
 
 export default function InstructionsComponent() {
@@ -20,6 +16,12 @@ export default function InstructionsComponent() {
   const [holdingsDic, setHoldingsDic] = useState([]);
   const [marketDic, setMarketDic] = useState([]);
   const { user } = useAuthContext();
+
+  async function deleteWatchlistCoin(coin) {
+    await deleteWatchlist(user.uid, coin.name.toLowerCase());
+    //let settings = await getUserSettings(user.uid);
+    //setMarketList(settings);
+  }
 
   async function setMarketList(settings) {
     let watchListString = Object.keys(settings.watchlist).join("%2c");
@@ -249,6 +251,10 @@ export default function InstructionsComponent() {
                               alignItems: "center",
                             }}
                           >
+                            <button className="deleteWatchlist" onClick={(e) => {
+                              e.preventDefault();
+                              deleteWatchlistCoin(coin);
+                            }}>x</button>
                             <img
                               draggable="false"
                               src={coin.icon}
@@ -279,7 +285,7 @@ export default function InstructionsComponent() {
                       <tr
                         className="coin-wrapper"
                         style={{
-                          color: marketChange >= 0 ? "green" : "red",
+                          color: coin.priceChangeDay >= 0 ? "green" : "red", 
                         }}
                       >
                         <td>

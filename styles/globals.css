@@ -422,6 +422,14 @@ input[type=number] {
 	overflow:auto;
 }
 
+.deleteWatchlist {
+	margin-left: 5px;
+	background: transparent;
+	outline: none;
+	border: none;
+	color: rgb(255, 127, 127);
+}
+
 .dashboard-market-list-wrapper .header, .dashboard-holdings-list-wrapper .header {
 	cursor:pointer;
 	transition:opacity 0.25s;

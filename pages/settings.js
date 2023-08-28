@@ -8,7 +8,7 @@ import {
   getUserSettings,
   setUserSettings,
 } from "../firebase/user.js";
-import cryptocurrency from "../constants/crypto.js";
+import cryptocurrency from "../assets/crypto.js";
 
 export default function Settings() {
   const { user } = useAuthContext();

@@ -7,6 +7,8 @@ import {
   getDoc,
   getDocs,
   collection,
+  updateDoc,
+  deleteField
 } from "firebase/firestore";
 
 const db = getFirestore(firebase_app);
@@ -110,6 +112,24 @@ export async function setUserSettings(id, data) {
   }
 
   return { result, error };
+}
+
+export async function deleteWatchlist(id, coinName) {
+  const documentRef = doc(db, "settings", id);
+
+  console.log(coinName);
+
+  const updateData = {
+    [`watchlist.${coinName}`]: deleteField()
+  };
+
+  try {
+    await updateDoc(documentRef, updateData);
+    return true;
+  } catch (error) {
+    console.error("Error deleting field:", error);
+    return false;
+  }
 }
 
 export async function getUserActivities(id) {

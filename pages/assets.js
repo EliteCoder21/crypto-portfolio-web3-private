@@ -2,9 +2,11 @@ import Navbar from "../components/navbar.js";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 import Board from 'react-trello';
+import React, { useEffect, useState } from 'react';
 
 export default function Assets() {
   const { user } = useAuthContext();
+  const [eventBus, setEventBus] = useState(undefined);
   var data = require('./kanbanData.json')
 
   // Find JSON data
@@ -53,7 +55,7 @@ export default function Assets() {
     // Concatenate the card in new place
     console.log('Before Adding');
     console.log(finalPlace);
-    finalPlace.concat(card);
+    finalPlace.push(card);
     console.log('After Adding');
     console.log(finalPlace);
   }
@@ -75,6 +77,19 @@ export default function Assets() {
     console.log(JSON.stringify(data));
   }
 
+  const onCardAddHandler = (card, laneId) => {
+    eventBus.publish({
+      type: 'UPDATE_CARD', //use this type instead of ADD_CARD
+      laneId: laneId,
+      card: {
+        id: card.id,
+        title: card.title,
+        label: card.label,
+        description: card.description
+      }
+    });
+  }
+
   const AssetInventory = () => {
     return (
       <div className='bond-data'>
@@ -83,6 +98,8 @@ export default function Assets() {
             style={{backgroundColor: 'rgba(31, 42, 71, 0)'}}
             data={data}
             handleDragEnd={handleCardDragEnd}
+            onCardAdd={onCardAddHandler}
+            eventBusHandle={setEventBus}
           />
         </div>
       </div>
