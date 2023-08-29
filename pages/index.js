@@ -19,8 +19,8 @@ export default function InstructionsComponent() {
 
   async function deleteWatchlistCoin(coin) {
     await deleteWatchlist(user.uid, coin.name.toLowerCase());
-    //let settings = await getUserSettings(user.uid);
-    //setMarketList(settings);
+    let settings = await getUserSettings(user.uid);
+    setMarketList(settings);
   }
 
   async function setMarketList(settings) {
