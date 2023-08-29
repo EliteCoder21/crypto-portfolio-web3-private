@@ -8,6 +8,7 @@
         "cards": [
           {
             "id": "IBM Bond",
+            "laneId": "RWA Lane",
             "title": "IBM Bond",
             "label": "Bond at Fixed Rate",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
@@ -23,6 +24,7 @@
         "cards": [
           {
             "id": "IBM AUT Trade Offer",
+            "laneId": "AUT Lane",
             "title": "IBM AUT Trade Offer",
             "label": "AUT Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
@@ -30,6 +32,7 @@
           },
           {
             "id": "CPR AUT Borrow Offer",
+            "laneId": "AUT Lane",
             "title": "CPR AUT Borrow Offer",
             "label": "AUT Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
@@ -45,6 +48,7 @@
         "cards": [
           {
             "id": "BTC OXA Offer",
+            "laneId": "OXA Lane",
             "title": "BTC OXA Offer",
             "label": "OXA Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
@@ -60,6 +64,7 @@
         "cards": [
           {
             "id": "USDC",
+            "laneId": "Digital Assets Lane",
             "title": "USDC",
             "label": "Digital Asset",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },

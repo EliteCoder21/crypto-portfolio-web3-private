@@ -1,105 +1,87 @@
 import Navbar from "../components/navbar.js";
 import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
-import Board from 'react-trello';
+import AsyncBoard from 'react-trello';
 import React, { useEffect, useState } from 'react';
 
 export default function Assets() {
+
+  // Essential Variables
   const { user } = useAuthContext();
-  const [eventBus, setEventBus] = useState(undefined);
   var data = require('./kanbanData.json')
+  let eventBus = null;
+  const setEventBus = (handle) => {
+    eventBus = handle;
+  }
 
   // Find JSON data
-  function findByID(ID, section) {
+  function findIndexById(ID, section) {
 
     for (let i = 0; i < section.length; i++) {
       if (section[i].id === ID) {
-        return section[i];
+        return i;
       }
     }
-    return null;
+    return -1;
   }  
 
-  function transferAssetJSON(cardID, originalPlace, finalPlace) {
+  function transferAsset(cardID, originalLaneId, finalLaneId) {
 
-    let ind = -1;
+    console.log('Original index of card is ', findIndexById(finalLaneId, data.lanes))
 
-    console.log('original place: ', originalPlace);
-    console.log('final place: ', finalPlace);
+    //To move a card from one lane to another. index specifies the position to move the card to in the target lane
+    eventBus.publish({
+      type: 'MOVE_CARD',
+      fromLaneId: originalLaneId,
+      toLaneId: finalLaneId,
+      cardId: cardID,
+      index: 0
+    });
 
-    // Find the Index of the card
-    for (let i = 0; i < originalPlace.length; i++) {
-      console.log('card id ', originalPlace[i].id);
-      if (originalPlace[i].id === cardID) {
-        ind = i;
-        break;
-      }
-    }
+    // Update laneId
+    //let ind = findIndexById(cardID, data.lanes[findIndexById(finalLaneId, data.lanes)]); 
+    //data[finalLaneId].cards[cardID].laneId = finalLaneId;
 
-    if (ind == -1) {
-      console.error("Card not found!");
-      return;
-    }
-
-    let card = originalPlace[ind];
-    console.log('Found card: ', originalPlace[ind]);
-    console.log('--------');
-
-    // Remove the card in original place
-    console.log('Before Deletion');
-    console.log(originalPlace);
-    originalPlace.splice(ind, 1);
-    console.log('After deletion');
-    console.log(originalPlace);
-
-    // Concatenate the card in new place
-    console.log('Before Adding');
-    console.log(finalPlace);
-    finalPlace.push(card);
-    console.log('After Adding');
-    console.log(finalPlace);
+    //To update the lanes
+    //eventBus.publish({
+    //  type: 'UPDATE_LANES',
+    //  lanes: newLaneData
+    //});
   }
 
   // Define the Board functions
-  const handleCardDragEnd = (cardId, sourceLaneId, targetLaneId, position, cardDetails) => {
+  const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId, index) => {
     
-    console.log("start: ", sourceLaneId);
-    console.log("end: ", targetLaneId);
+    console.log("start: ", fromLaneId);
+    console.log("end: ", toLaneId);
 
     // Do the transfer
-    transferAssetJSON(cardId, findByID(sourceLaneId, data['lanes'])['cards'], findByID(targetLaneId, data['lanes'])['cards']);
+    transferAsset(cardId, fromLaneId, toLaneId);
 
     // Save data to file
     //FileSystem.writeFile('kanbanData.json', JSON.stringify(data), (error) => {
     //  if (error) throw error;
     //});
 
+    console.log("Final Result:")
     console.log(JSON.stringify(data));
   }
 
-  const onCardAddHandler = (card, laneId) => {
-    eventBus.publish({
-      type: 'UPDATE_CARD', //use this type instead of ADD_CARD
-      laneId: laneId,
-      card: {
-        id: card.id,
-        title: card.title,
-        label: card.label,
-        description: card.description
-      }
-    });
+  const onCardAdd = (card, laneId) => {
+    // Define this later
   }
+
 
   const AssetInventory = () => {
     return (
       <div className='bond-data'>
         <div className="myAssets">
-          <Board 
+          <AsyncBoard 
             style={{backgroundColor: 'rgba(31, 42, 71, 0)'}}
             data={data}
-            handleDragEnd={handleCardDragEnd}
-            onCardAdd={onCardAddHandler}
+            draggable
             eventBusHandle={setEventBus}
+            onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
           />
         </div>
       </div>

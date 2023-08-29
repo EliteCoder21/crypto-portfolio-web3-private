@@ -70,26 +70,19 @@ export default function Market() {
     });
   };
 
-  const renderHeader = () => {
+  const renderTable = () => {
     return (
-      <div className="market-list-wrapper noselect">
-        <div className="headers-wrapper" data-list="market">
-          <span className="header rank" data-item="rank">
-            #
-          </span>
-          <span className="header coin" data-item="coin">
-            Coin
-          </span>
-          <span className="header price" data-item="price">
-            Price
-          </span>
-          <span className="header market-cap" data-item="market-cap">
-            Market Cap
-          </span>
-          <span className="header change" data-item="change">
-            24h Change
-          </span>
+      <div>
+        <div className="market-list-wrapper noselect">
+          <div className="headers-wrapper" data-list="dashboardMarket">
+            <span className="header rank" data-item="rank">#</span>
+            <span className="header coin" data-item="coin">Coin</span>
+            <span className="header price" data-item="price">Price</span>
+            <span className="header market-cap" data-item="market-cap">Market Cap</span>
+            <span className="header change" data-item="change">24h Change</span>
+          </div>
         </div>
+        {renderLogs()}
       </div>
     );
   };
@@ -170,9 +163,9 @@ export default function Market() {
               className="market-list-wrapper noselect"
               style={{ marginBottom: 20 }}
             >
-              {renderHeader()}
 
-              {renderLogs()}
+              {renderTable()}
+            
             </div>
           </div>
         </div>
