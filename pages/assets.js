@@ -6,9 +6,35 @@ import React, { useEffect, useState } from 'react';
 
 export default function Assets() {
 
+  async function getActivityData() {
+    try {
+      const docsSnap = await getUserActivities(user.uid);
+      const userData = docsSnap.data();
+
+      docsSnap.forEach((doc) => {
+        // Get the data
+        const data = doc.data();
+
+        // Append the data
+        TABLE_STATE.push({
+          date: data.date,
+          coin: data.coin,
+          amount: data.amount,
+          type: data.type,
+          notes: data.notes,
+        });
+      });
+
+      setActivityData(TABLE_STATE);
+      setOriginalActivityData(TABLE_STATE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   // Essential Variables
   const { user } = useAuthContext();
-  var data = require('./kanbanData.json')
+  var data = require('./kanbanTestData.json')
   let eventBus = null;
   const setEventBus = (handle) => {
     eventBus = handle;
@@ -23,30 +49,6 @@ export default function Assets() {
       }
     }
     return -1;
-  }  
-
-  function transferAsset(cardID, originalLaneId, finalLaneId) {
-
-    console.log('Original index of card is ', findIndexById(finalLaneId, data.lanes))
-
-    //To move a card from one lane to another. index specifies the position to move the card to in the target lane
-    eventBus.publish({
-      type: 'MOVE_CARD',
-      fromLaneId: originalLaneId,
-      toLaneId: finalLaneId,
-      cardId: cardID,
-      index: 0
-    });
-
-    // Update laneId
-    //let ind = findIndexById(cardID, data.lanes[findIndexById(finalLaneId, data.lanes)]); 
-    //data[finalLaneId].cards[cardID].laneId = finalLaneId;
-
-    //To update the lanes
-    //eventBus.publish({
-    //  type: 'UPDATE_LANES',
-    //  lanes: newLaneData
-    //});
   }
 
   // Define the Board functions
@@ -55,13 +57,7 @@ export default function Assets() {
     console.log("start: ", fromLaneId);
     console.log("end: ", toLaneId);
 
-    // Do the transfer
-    transferAsset(cardId, fromLaneId, toLaneId);
-
-    // Save data to file
-    //FileSystem.writeFile('kanbanData.json', JSON.stringify(data), (error) => {
-    //  if (error) throw error;
-    //});
+    // Firebase method 
 
     console.log("Final Result:")
     console.log(JSON.stringify(data));
@@ -76,11 +72,12 @@ export default function Assets() {
     return (
       <div className='bond-data'>
         <div className="myAssets">
-          <AsyncBoard 
+          <AsyncBoard
+            editable
+            eventBusHandle={setEventBus} 
             style={{backgroundColor: 'rgba(31, 42, 71, 0)'}}
             data={data}
             draggable
-            eventBusHandle={setEventBus}
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
           />
         </div>

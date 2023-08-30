@@ -73,7 +73,7 @@ export default function Market() {
   const renderTable = () => {
     return (
       <div>
-        <div className="market-list-wrapper noselect">
+        <div className="dashboard-market-list-wrapper noselect">
           <div className="headers-wrapper" data-list="dashboardMarket">
             <span className="header rank" data-item="rank">#</span>
             <span className="header coin" data-item="coin">Coin</span>

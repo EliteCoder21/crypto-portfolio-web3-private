@@ -66,6 +66,24 @@ export async function getUserHoldings(id) {
   }
 }
 
+export async function getUserAssets(id) {
+  try {
+    const docRef = doc(db, "assets", id);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      return data;
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting document:", error);
+    return null;
+  }
+}
+
 export async function addUserHoldings(id, data) {
   let result = null;
   let error = null;

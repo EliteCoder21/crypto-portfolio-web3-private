@@ -239,9 +239,6 @@ export default function InstructionsComponent() {
                     {marketDic.map((coin) => (
                       <tr
                         className="coin-wrapper"
-                        style={{
-                          color: coin.priceChangeDay >= 0 ? "green" : "red",
-                        }}
                       >
                         <td>
                           <div
@@ -267,7 +264,7 @@ export default function InstructionsComponent() {
                         </td>
                         <td>${coin.price}</td>
                         <td>${coin.marketCap}</td>
-                        <td>{coin.priceChangeDay}</td>
+                        <td style={{ color: coin.priceChangeDay>= 0 ? "green" : "red" }}>{coin.priceChangeDay}</td>
                       </tr>
                     ))}
                   </table>
@@ -282,12 +279,7 @@ export default function InstructionsComponent() {
                       <th>24h Change</th>
                     </tr>
                     {holdingsDic.map((coin) => (
-                      <tr
-                        className="coin-wrapper"
-                        style={{
-                          color: coin.priceChangeDay >= 0 ? "green" : "red", 
-                        }}
-                      >
+                      <tr className="coin-wrapper">
                         <td>
                           <div
                             style={{
@@ -306,9 +298,13 @@ export default function InstructionsComponent() {
                             </p>
                           </div>
                         </td>
-                        <td>{separateThousands(coin.amount)}</td>
-                        <td>${separateThousands(coin.value)}</td>
                         <td>
+                          {separateThousands(coin.amount)}
+                        </td>
+                        <td>
+                          ${separateThousands(coin.value)}
+                        </td>
+                        <td style={{ color: coin.change >= 0 ? "green" : "red" }}>
                           {coin.change.includes("-")
                             ? coin.change + "%"
                             : "+" + coin.change + "%"}
