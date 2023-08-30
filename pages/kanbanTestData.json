@@ -13,14 +13,6 @@
             "label": "Fixed Rate Bond",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
             "description": "CUSIP# 458200JG7\nINTERNATIONAL BUSINESS MACHINES CORPORATION (IBM)\nPrice : $110.87, Yield : 3.12%"
-          },
-          {
-            "id": "Bond",
-            "laneId": "RWA Lane",
-            "title": "Bond",
-            "label": "Fixed Rate Bond",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "CUSIP# 014365CC2\nALDERWOOD WA WTR & WSTWTR DIST\nPrice: $111.30,  Yield: 4.92%"
           }
         ]
       },
@@ -37,14 +29,6 @@
             "label": "Borrow Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
             "description": "Offer: Borrow at inst: 5%, Coll: 80%\nCUSIP# 458200JG7 \nINTERNATIONAL BUSINESS MACHINES CORPORATION"
-          },
-          {
-            "id": "AUT Borrow Offer",
-            "laneId": "AUT Lane",
-            "title": "AUT Borrow Offer",
-            "label": "Borrow Offer",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "Offer: Borrow at inst: 5%, Coll: 87%\nCUSIP# 012432BR0 \nALBANY NY - GB CAPITAL RESOURCE CORPORATION"
           }
         ]
       },
@@ -61,14 +45,6 @@
             "label": "OXA Offer",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
             "description": "BTC\nBitcoin offer: $29,507 (+0.3%)"
-          },
-          {
-            "id": "OXA Offer",
-            "laneId": "OXA Lane",
-            "title": "OXA Offer",
-            "label": "OXA Offer",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "ETH - Ethereum\nOffer: $1,850.97 (+0.2%)"
           }
         ]
       },
@@ -85,14 +61,6 @@
             "label": "Digital Asset",
             "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
             "description": "USDC # 25000\nBlock Hash: 0x269b053ee78cbb2e96850e8b98f7fcd22cf31abd"
-          },
-          {
-            "id": "Digital Asset",
-            "laneId": "Digital Assets Lane",
-            "title": "Digital Asset",
-            "label": "Digital Asset",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "ETH: 500"
           }
         ]
       }
