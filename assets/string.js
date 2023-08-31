@@ -47,5 +47,5 @@ export function replaceAll(string, str1, str2, ignore) {
 }
 
 export function validDate(date) {
-  return (new Date(Date.parse(date)) !== "Invalid Date") && !isNaN(new Date(Date.parse(date)));
+  return (new Date(date)) ? true : false;
 }

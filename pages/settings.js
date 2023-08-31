@@ -3,8 +3,7 @@ import { useAuthContext } from "../firebase/context";
 import Login from "../components/login.js";
 import { useEffect, useState } from "react";
 import {
-  getUserActivities,
-  addUserActivity,
+  addUserActivityBulk,
   addUserHoldings,
   getUserHoldings,
   getUserSettings,
@@ -198,7 +197,6 @@ export default function Settings() {
           )
         ) {
           let formatted = [];
-          let valid = true;
 
           rows.map((row) => {
             if (!empty(row) && !row.toLowerCase().includes("symbol,")) {
@@ -210,98 +208,65 @@ export default function Settings() {
             }
           });
 
-          const docsSnap = await getUserActivities(user.uid);
           let current = [];
-
-          docsSnap.forEach((doc) => {
-            // Get the data
-            const d = doc.data();
-
-            // Append the data
-            current.push({
-              date: d.date,
-              coin: d.coin,
-              amount: d.amount,
-              type: d.type,
-              notes: d.notes,
-            });
-          });
 
           rows.map((row) => {
             let data = row.split(",");
 
-            let txID = !empty(data[0]) ? data[0] : (valid = false);
+            let coin = data[0].toUpperCase();
+            let date = replaceAll(replaceAll(data[1], "'", ""), '"', "");
+            let type = data[2].toLowerCase();
+            let amount = data[3];
+            let fee = data[4];
+            let notes = data[5];
 
-            if (txID === "-") {
-              txID =
-                Math.floor(new Date().getTime() / 1000) + this.getRandomHex(8);
-              while (txID in this.data.activity) {
-                txID =
-                  Math.floor(new Date().getTime() / 1000) +
-                  this.getRandomHex(8);
-              }
-            }
+            if (coin != "coin") {
+              if (validDate(date)) {
+                let activity = {
+                  coin: coin,
+                  date: date,
+                  type: type,
+                  amount: amount,
+                  fee: fee,
+                  notes: notes,
+                };
 
-            let coin = data[1];
-            let date = replaceAll(replaceAll(data[2], "'", ""), '"', "");
-            let type = data[3].toLowerCase();
-            let amount = data[4];
-            let fee = data[5];
-            let notes = data[6];
+                if (type === "buy" || type === "sell" || type === "transfer") {
+                  if (type === "buy" || type === "sell") {
+                    let exchange = !empty(data[6])
+                      ? replaceAll(data[6], '"', "")
+                      : "-";
+                    let pair = !empty(data[7])
+                      ? replaceAll(data[7], '"', "")
+                      : "-";
+                    let price = !empty(data[8]) ? data[8] : 0;
 
-            console.log(validDate(date));
+                    activity["exchange"] = exchange;
+                    activity["pair"] = pair;
+                    activity["price"] = price;
+                  } else if (type === "transfer") {
+                    let from = !empty(data[9])
+                      ? replaceAll(data[9], '"', "")
+                      : "-";
+                    let to = !empty(data[10])
+                      ? replaceAll(data[10], '"', "")
+                      : "-";
 
-            if (validDate(date)) {
-              let time = Math.floor(
-                new Date(Date.parse(date)).getTime() / 1000
-              );
-              let activity = {
-                coin: coin,
-                date: date,
-                time: time,
-                type: type,
-                amount: amount,
-                fee: fee,
-                notes: notes,
-              };
+                    activity["from"] = from;
+                    activity["to"] = to;
+                  }
 
-              if (type === "buy" || type === "sell" || type === "transfer") {
-                if (type === "buy" || type === "sell") {
-                  let exchange = !empty(data[7])
-                    ? replaceAll(data[7], '"', "")
-                    : "-";
-                  let pair = !empty(data[8])
-                    ? replaceAll(data[8], '"', "")
-                    : "-";
-                  let price = !empty(data[9]) ? data[9] : 0;
-
-                  activity["exchange"] = exchange;
-                  activity["pair"] = pair;
-                  activity["price"] = price;
-                } else if (type === "transfer") {
-                  let from = !empty(data[10])
-                    ? replaceAll(data[10], '"', "")
-                    : "-";
-                  let to = !empty(data[11])
-                    ? replaceAll(data[11], '"', "")
-                    : "-";
-
-                  activity["from"] = from;
-                  activity["to"] = to;
+                  current.push(activity);
+                } else {
+                  throw Error("Invalid activity type.");
                 }
-
-                current[txID] = activity;
               } else {
-                throw Error("Invalid activity type.");
+                throw Error("Invalid date.");
               }
-            } else {
-              throw Error("Invalid date.");
             }
           });
 
-          console.log(current);
-
-          //await addUserActivity(user.uid, current);
+          await addUserActivityBulk(user.uid, current);
           alert("Imported Activities Successfully");
         } else {
           throw Error(

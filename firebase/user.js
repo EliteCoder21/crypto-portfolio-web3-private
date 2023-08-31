@@ -172,3 +172,11 @@ export async function addUserActivity(id, data) {
 
   return true;
 }
+
+export async function addUserActivityBulk(id, documents) {
+  documents.forEach((document) => {
+    addUserActivity(id, document);
+  });
+
+  return true;
+}
