@@ -10,46 +10,55 @@ export default function Assets() {
 
   // Essential Variables
   const { user } = useAuthContext();
-  const data = require('./kanbanTestData.json')
+
+  // Populate kanban data
+  const data = require("./kanbanTestData.json");
+  getAssetsData("5ntPFGMhxD4llc0ObTwF");
+
+  // Event Bus for operations
   let eventBus = null;
   const setEventBus = (handle) => {
     eventBus = handle;
   }
 
+  // Get Data
   async function getAssetsData() {
     try {
       const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
-      let oxaData = getDocs(collection(userDataRef, 'OXA'));
-      let digitalData = getDocs(collection(userDataRef, 'Digital Assets'));
-      let autData = getDocs(collection(userDataRef, 'AUT'));
-      let rwaData = getDocs(collection(userDataRef, 'RWA'));
-      
-      // Flush each of the data files
-      data.lanes[0].cards = [];
-      data.lanes[1].cards = [];
-      data.lanes[2].cards = [];
-      data.lanes[3].cards = [];
 
-      console.log(rwaData);
+      const oxaCollection = collection(userDataRef, 'OXA');
+      const oxaSnap = await getDocs(oxaCollection);
 
       // Push the data
-      rwaData.forEach((doc) => {
+      oxaSnap.forEach((doc) => {
         // Get the data
-        const data = doc.data();
+        const tempData = doc.data();
+        const cardData = {
+          id: tempData.id,
+          laneId: tempData.laneId,
+          title: tempData.title,
+          label: tempData.label,
+          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+          description: tempData.description
+        }
 
         // Append the data
-        data.lanes[0].cards.push({
-          id: data.id,
-          laneId: data.laneId,
-          title: data.title,
-          label: data.label,
-          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-          description: data.description
-        });
+        eventBus.publish({
+          type: 'ADD_CARD', 
+          laneId: 'OXA Lane', 
+          card: cardData
+        })        
+
+        // Add to json file
+        data.lanes[2].cards.push(cardData);
+
+        console.log("The final updated data is:")
+        console.log(data);
       });
 
     } catch (error) {
       console.log(error);
+      console.log("IT DIDN'T WORK!")
     }
   }
 
@@ -69,10 +78,55 @@ export default function Assets() {
     
     console.log("start: ", fromLaneId);
     console.log("end: ", toLaneId);
+    console.log('card id: ', cardId);
 
-    // Firebase method 
-    getAssetsData("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
+    // Find the card data
+    let laneInd;
+    switch(fromLaneId) {
+      case "AUT Lane":
+        laneInd = 1;
+        break;
+      case "OXA Lane":
+        laneInd = 2;
+        break;
+      case "Digital Assets Lane":
+        laneInd = 3;
+        break;
+      default:
+        laneInd = 0;
+        break;
+    }
 
+    let arr = data.lanes[laneInd];
+    let cardData = {}
+
+    console.log("Began looking for cards");
+    console.log(arr.cards);
+    for (let c in arr.cards) {
+      console.log(c);
+      if (arr.cards[c].id === cardId) {
+        cardData = arr.cards[c];
+        break;
+      }
+    }
+
+    console.log('The found card is: ', cardData);
+    
+    try {
+      // Publish to front end
+      //To add a card
+      eventBus.publish({
+        type: 'ADD_CARD', 
+        laneId: toLaneId, 
+        card: cardData
+      })
+
+      //To remove a card
+      eventBus.publish({type: 'REMOVE_CARD', laneId: fromLaneId, cardId: cardId})
+
+    } catch (error) {
+      console.log(error);
+    }
     
   }
 

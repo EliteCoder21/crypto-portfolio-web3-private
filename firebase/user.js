@@ -71,6 +71,24 @@ export async function getUserAssets(id) {
   return doc(collection(db, "assets"), id);
 }
 
+export async function saveUserAssets(id, data) {
+  let result = null;
+  let error = null;
+
+  try {
+
+    // Set the data of 
+
+    result = await setDoc(doc(db, "assets", id), data, {
+      merge: true,
+    });
+  } catch (e) {
+    error = e;
+  }
+
+  return { result, error };
+}
+
 export async function addUserHoldings(id, data) {
   let result = null;
   let error = null;

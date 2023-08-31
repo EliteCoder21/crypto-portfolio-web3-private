@@ -4,7 +4,7 @@ import { useAuthContext } from '../firebase/context';
 import Login from "../components/login.js";
 import { addUserHoldings, getUserHoldings } from "../firebase/user.js";
 import cryptocurrency from "../assets/crypto.js";
-import { getHoldingsWithValue } from "../assets/coindesk.js";
+import { getMarketCoins } from "../assets/coindesk.js";
 
 export default function Holdings() {
   const [displayPopup, setDisplayPopup] = useState(false);
@@ -16,10 +16,9 @@ export default function Holdings() {
 
   async function fetchTotalValue(settings) {
     let coins = await getUserHoldings(user.uid);
-    let list = Object.keys(coins).join("%2C");
     const currency = settings ? settings.currency : "usd";
 
-    const data = await getHoldingsWithValue(currency, list, coins);
+    const data = await getMarketCoins(currency, "", coins);
 
     setTotalValue(data.totalValue);
   }
@@ -29,7 +28,7 @@ export default function Holdings() {
       e.preventDefault();
       let data = {};
       data[cryptocurrency[coinSymbol.toUpperCase()]] = {
-        amount: amount,
+        amount: Number(amount),
         symbol: coinSymbol.toUpperCase()
       }
       setTotalValue(totalValue + amount);
@@ -114,25 +113,22 @@ export default function Holdings() {
               <button id="more-remove">Remove</button>
             </div>
             <div className="holdings-list-wrapper noselect">
-              <div className="headers-wrapper" data-list="holdings">
-                <span className="header coin" data-item="coin">
-                  Coin
-                </span>
-                <span className="header amount" data-item="amount">
-                  Amount
-                </span>
-                <span className="header value" data-item="value">
-                  Value
-                </span>
-                <span className="header day" data-item="change">
-                  24h Price Change
-                </span>
-              </div>
-              <div className="holdings-list loading" id="holdings-list">
-                <div className="coin-wrapper loading">
-                  <span>Loading...</span>
-                </div>
-              </div>
+              <table>
+                <thead>
+                  <tr className="headers-wrapper" data-list="holdings">
+                    <th className="header coin" data-item="coin">Coin</th>
+                    <th className="header amount" data-item="amount">Amount</th>
+                    <th className="header value" data-item="value">Value</th>
+                    <th className="header day" data-item="change">24h Price Change</th>    
+                  </tr>
+                  /*style*/                
+                </thead>
+                <tbody className="holdings-list loading" id="holdings-list">
+                  <tr className="coin-wrapper loading">
+                    <span>Loading...</span>
+                  </tr>
+                </tbody>
+              </table>        
             </div>
           </div>
         </div>

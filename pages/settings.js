@@ -3,12 +3,15 @@ import { useAuthContext } from "../firebase/context";
 import Login from "../components/login.js";
 import { useEffect, useState } from "react";
 import {
+  getUserActivities,
+  addUserActivity,
   addUserHoldings,
   getUserHoldings,
   getUserSettings,
   setUserSettings,
 } from "../firebase/user.js";
 import cryptocurrency from "../assets/crypto.js";
+import { empty, replaceAll, validDate } from "../assets/string.js";
 
 export default function Settings() {
   const { user } = useAuthContext();
@@ -16,6 +19,10 @@ export default function Settings() {
   const [waitlistInput, setWaitlistInput] = useState("");
   const [addressInput, setAddressInput] = useState("");
   const [ethTokenChoice, setEthTokenChoice] = useState("add");
+  const [importHoldingsFile, setImportHoldingsFile] = useState(null);
+  const [importActivityFile, setImportActivityFile] = useState(null);
+
+  const fileReader = new FileReader();
 
   async function fetchSettings() {
     const result = await getUserSettings(user.uid);
@@ -102,6 +109,212 @@ export default function Settings() {
 
     await setUserSettings(user.uid, { watchlist: data });
     setWaitlistInput("");
+  }
+
+  async function importHoldings() {
+    try {
+      fileReader.onload = async function (event) {
+        const data = event.target.result;
+        let rows = data.split(/\r?\n/);
+        if (rows[0] === "id,symbol,amount") {
+          let formatted = [];
+          rows.map((row) => {
+            if (!empty(row) && !row.toLowerCase().includes("symbol,")) {
+              formatted.push(row);
+            }
+          });
+
+          let current = await getUserHoldings(user.uid);
+
+          rows.map((row) => {
+            let data = row.split(",");
+
+            let id = data[0];
+            let symbol = data[1].toUpperCase();
+            let amount = Number(data[2]);
+
+            if (id != "id") {
+              if (Object.keys(current).includes(id)) {
+                current[id].amount = Number(current[id].amount) + amount;
+              } else {
+                current[id] = { symbol: symbol, amount: amount };
+              }
+            }
+          });
+
+          await addUserHoldings(user.uid, current);
+
+          alert("Imported Holdings Successfully");
+        } else {
+          throw Error(
+            "Not the proper format. It should be CSV file with columns id,symbol,amount."
+          );
+        }
+      };
+
+      fileReader.readAsText(importHoldingsFile);
+    } catch (e) {
+      alert(e.message);
+      console.log(e);
+    }
+  }
+
+  async function exportHoldings() {
+    try {
+      let headers = ["id", "symbol", "amount"];
+      let csvData = headers.join(",") + "\r\n";
+      let holdings = await getUserHoldings(user.uid);
+
+      Object.keys(holdings).map((id) => {
+        let holding = holdings[id];
+        let array = [id, holding["symbol"], holding["amount"]];
+        csvData += array.join(",") + "\r\n";
+      });
+
+      const blob = new Blob([csvData], { type: "text/csv" });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "data.csv";
+      link.click();
+
+      URL.revokeObjectURL(url);
+    } catch (e) {
+      alert(e.message);
+      console.log(e);
+    }
+  }
+
+  async function importActivity() {
+    try {
+      fileReader.onload = async function (event) {
+        const data = event.target.result;
+        let rows = data.split(/\r?\n/);
+
+        if (
+          rows[0].includes(
+            "coin,date,type,amount,fee,notes,exchange,pair,price,from,to"
+          )
+        ) {
+          let formatted = [];
+          let valid = true;
+
+          rows.map((row) => {
+            if (!empty(row) && !row.toLowerCase().includes("symbol,")) {
+              if (rows[0].includes("txID")) {
+                formatted.push(row);
+              } else {
+                formatted.push("-," + row);
+              }
+            }
+          });
+
+          const docsSnap = await getUserActivities(user.uid);
+          let current = [];
+
+          docsSnap.forEach((doc) => {
+            // Get the data
+            const d = doc.data();
+
+            // Append the data
+            current.push({
+              date: d.date,
+              coin: d.coin,
+              amount: d.amount,
+              type: d.type,
+              notes: d.notes,
+            });
+          });
+
+          rows.map((row) => {
+            let data = row.split(",");
+
+            let txID = !empty(data[0]) ? data[0] : (valid = false);
+
+            if (txID === "-") {
+              txID =
+                Math.floor(new Date().getTime() / 1000) + this.getRandomHex(8);
+              while (txID in this.data.activity) {
+                txID =
+                  Math.floor(new Date().getTime() / 1000) +
+                  this.getRandomHex(8);
+              }
+            }
+
+            let coin = data[1];
+            let date = replaceAll(replaceAll(data[2], "'", ""), '"', "");
+            let type = data[3].toLowerCase();
+            let amount = data[4];
+            let fee = data[5];
+            let notes = data[6];
+
+            console.log(validDate(date));
+
+            if (validDate(date)) {
+              let time = Math.floor(
+                new Date(Date.parse(date)).getTime() / 1000
+              );
+              let activity = {
+                coin: coin,
+                date: date,
+                time: time,
+                type: type,
+                amount: amount,
+                fee: fee,
+                notes: notes,
+              };
+
+              if (type === "buy" || type === "sell" || type === "transfer") {
+                if (type === "buy" || type === "sell") {
+                  let exchange = !empty(data[7])
+                    ? replaceAll(data[7], '"', "")
+                    : "-";
+                  let pair = !empty(data[8])
+                    ? replaceAll(data[8], '"', "")
+                    : "-";
+                  let price = !empty(data[9]) ? data[9] : 0;
+
+                  activity["exchange"] = exchange;
+                  activity["pair"] = pair;
+                  activity["price"] = price;
+                } else if (type === "transfer") {
+                  let from = !empty(data[10])
+                    ? replaceAll(data[10], '"', "")
+                    : "-";
+                  let to = !empty(data[11])
+                    ? replaceAll(data[11], '"', "")
+                    : "-";
+
+                  activity["from"] = from;
+                  activity["to"] = to;
+                }
+
+                current[txID] = activity;
+              } else {
+                throw Error("Invalid activity type.");
+              }
+            } else {
+              throw Error("Invalid date.");
+            }
+          });
+
+          console.log(current);
+
+          //await addUserActivity(user.uid, current);
+          alert("Imported Activities Successfully");
+        } else {
+          throw Error(
+            "Not the proper format. It should be CSV file with columns coin,date,type,amount,fee,notes,exchange,pair,price,from,to."
+          );
+        }
+      };
+
+      fileReader.readAsText(importActivityFile);
+    } catch (e) {
+      alert(e.message);
+      console.log(e);
+    }
   }
 
   useEffect(() => {
@@ -432,27 +645,63 @@ export default function Settings() {
             </div>
             <div className="section">
               <div className="top noselect">
-                <span className="title">Holdings</span>
+                <span className="title">Import Holdings</span>
               </div>
               <div className="bottom">
-                <button className="submit inline" id="import-holdings-button">
-                  Import Holdings
-                </button>
-                <button className="submit inline" id="export-holdings-button">
-                  Export Holdings
+                <input
+                  type="file"
+                  onChange={(e) => setImportHoldingsFile(e.target.files[0])}
+                  accept={".csv"}
+                />
+                <button
+                  className="submit inline"
+                  id="import-holdings-button"
+                  onClick={importHoldings}
+                >
+                  Import
                 </button>
               </div>
             </div>
             <div className="section">
               <div className="top noselect">
-                <span className="title">Activity</span>
+                <span className="title">Import Activity</span>
               </div>
               <div className="bottom">
-                <button className="submit inline" id="import-activity-button">
-                  Import Activity
+                <input
+                  type="file"
+                  onChange={(e) => setImportActivityFile(e.target.files[0])}
+                  accept={".csv"}
+                />
+                <button
+                  className="submit inline"
+                  id="import-activity-button"
+                  onClick={importActivity}
+                >
+                  Import
                 </button>
+              </div>
+            </div>
+            <div className="section">
+              <div className="top noselect">
+                <span className="title">Export Holdings</span>
+              </div>
+              <div className="bottom">
+                <button
+                  className="submit inline"
+                  id="export-holdings-button"
+                  onClick={exportHoldings}
+                >
+                  Export
+                </button>
+              </div>
+            </div>
+            <div className="section">
+              <div className="top noselect">
+                <span className="title">Export Activity</span>
+              </div>
+              <div className="bottom">
                 <button className="submit inline" id="export-activity-button">
-                  Export Activity
+                  Export
                 </button>
               </div>
             </div>

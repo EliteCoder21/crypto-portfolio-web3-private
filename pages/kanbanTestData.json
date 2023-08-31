@@ -6,14 +6,7 @@
         "label": "RWA",
         "style": {"width": 280, "backgroundColor": "rgba(154, 0, 255, 0.3)", "color": "white"},
         "cards": [
-          {
-            "id": "Bond",
-            "laneId": "RWA Lane",
-            "title": "Bond",
-            "label": "Fixed Rate Bond",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "CUSIP# 458200JG7\nINTERNATIONAL BUSINESS MACHINES CORPORATION (IBM)\nPrice : $110.87, Yield : 3.12%"
-          }
+          
         ]
       },
       {
@@ -22,14 +15,7 @@
         "label": "AUT",
         "style": {"width": 280, "backgroundColor": "rgba(27, 0, 255, 0.3)", "color": "white"},
         "cards": [
-          {
-            "id": "AUT Borrow Offer",
-            "laneId": "AUT Lane",
-            "title": "AUT Borrow Offer",
-            "label": "Borrow Offer",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "Offer: Borrow at inst: 5%, Coll: 80%\nCUSIP# 458200JG7 \nINTERNATIONAL BUSINESS MACHINES CORPORATION"
-          }
+          
         ]
       },
       {
@@ -38,14 +24,7 @@
         "style": {"width": 280, "backgroundColor": "rgba(0, 124, 255, 0.3)", "color": "white"},
         "label": "OXA",
         "cards": [
-          {
-            "id": "OXA Offer",
-            "laneId": "OXA Lane",
-            "title": "OXA Offer",
-            "label": "OXA Offer",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "BTC\nBitcoin offer: $29,507 (+0.3%)"
-          }
+          
         ]
       },
       {
@@ -54,14 +33,7 @@
         "style": {"width": 280, "backgroundColor": "rgba(0, 205, 255, 0.3)", "color": "white"},
         "label": "Digital Assets",
         "cards": [
-          {
-            "id": "Digital Asset",
-            "laneId": "Digital Assets Lane",
-            "title": "Digital Asset",
-            "label": "Digital Asset",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-            "description": "USDC # 25000\nBlock Hash: 0x269b053ee78cbb2e96850e8b98f7fcd22cf31abd"
-          }
+          
         ]
       }
     ]

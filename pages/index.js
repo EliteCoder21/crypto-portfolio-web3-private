@@ -7,7 +7,7 @@ import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
 import { deleteWatchlist, getUserHoldings, getUserSettings } from "../firebase/user.js";
 import { separateThousands } from "../assets/string.js";
-import { getHoldingsWithValue, getMarketCap, getMarketList } from "../assets/coindesk.js";
+import { getHoldingsWithValue, getMarketCap, getMarketList, getMarketCoins } from "../assets/coindesk.js";
 
 export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
@@ -24,20 +24,13 @@ export default function InstructionsComponent() {
   }
 
   async function setMarketList(settings) {
+    let coins = await getUserHoldings(user.uid);
     let watchListString = Object.keys(settings.watchlist).join("%2c");
     const currency = settings ? settings.currency : "usd";
-    const marketList = await getMarketList(currency, watchListString);
+    
+    const data = await getMarketCoins(currency, watchListString, coins);
 
-    setMarketDic(marketList);
-  }
-
-  async function calculateTotalValue(settings) {
-    let coins = await getUserHoldings(user.uid);
-    let list = Object.keys(coins).join("%2C");
-    const currency = settings ? settings.currency : "usd";
-
-    const data = await getHoldingsWithValue(currency, list, coins);
-
+    setMarketDic(data.marketList);
     setHoldingsDic(data.holdings);
     setTotalValue(data.totalValue);
   }
@@ -52,7 +45,6 @@ export default function InstructionsComponent() {
     async function fetchGlobalData() {
       let settings = await getUserSettings(user.uid);
       await calculateMarketData();
-      await calculateTotalValue(settings);
       await setMarketList(settings);
     }
 
