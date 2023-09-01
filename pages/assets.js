@@ -3,7 +3,7 @@ import Login from "../components/login.js";
 import AsyncBoard from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
-import { addUserActivity, getUserAssets, saveUserAssets, transferAsset } from "../firebase/user.js";
+import { addUserActivity, getUserAssets, transferUserAsset } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Assets() {
@@ -245,7 +245,7 @@ export default function Assets() {
 
       // Save
       //saveUserAssets("5ntPFGMhxD4llc0ObTwF", data); // Replace with real UID
-      transferAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId);
+      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId);
       console.log("Save finished!");
 
     } catch (error) {
