@@ -1,16 +1,22 @@
 FROM node:16.15.1 as build
 
+# Set the working directory in the container
 WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
 COPY package*.json ./
-#RUN npm install yarn --location=global
+
+# Install application dependencies
 RUN yarn install
+
+# Copy the rest of the application source code to the container
 COPY . .
+
+# Build the Next.js application for production
 RUN yarn run build
 
-# Stage 1 - Serve Frontend Assets
-# FROM nginx:1.19.10
-FROM nginx:1.23.0
+# Expose the port that the application will run on
+EXPOSE 3000
 
-#Original 
-COPY ./nginx.conf /etc/nginx.conf
-COPY --from=build /app/build /usr/share/nginx/html
+# Define the command to run the application
+CMD ["yarn", "start"]
