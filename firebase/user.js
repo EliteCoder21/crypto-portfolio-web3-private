@@ -78,15 +78,16 @@ export async function getUserAssets(id) {
 export async function transferUserAsset(userId, originalLane, finalLane, id) {
   try {
     // Save the document
-    const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
-    const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
+    const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane.replace(" Lane", ""));
+    const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane.replace(" Lane", ""));
     const data = (await getDoc(doc(originalColRef, id))).data()
+
+    data['laneId'] = finalLane;
+
     setDoc(doc(finalColRef, id), data);
 
     // Delete the document
     deleteDoc(doc(originalColRef, id));
-    
-    deleteDoc(doc(colRef, id));
   } catch (e) {
     console.log(e);
   }
@@ -120,45 +121,8 @@ export async function saveUserAssets(id, data) {
     });
     
   } catch (e) {
-    console.log('aaa');
     console.log(e);
   }
-}
-
-export async function clearUserAssets(id) {
-  
-  try {
-    const autRef = collection(doc(collection(db, "assets"), id), 'AUT');
-    const autDocs = await getDocs(autRef)
-    autDocs.forEach(record => {
-      deleteDoc(record);
-    });
-    
-
-    const digRef = collection(doc(collection(db, "assets"), id), 'Digital Assets');
-    const digDocs = await getDocs(digRef)
-    digDocs.forEach(record => {
-      deleteDoc(record);
-    });
-    
-
-    const oxaRef = collection(doc(collection(db, "assets"), id), 'OXA');
-    const oxaDocs = await getDocs(oxaRef)
-    oxaDocs.forEach(record => {
-      deleteDoc(record);
-    });
-    
-
-    const rwaRef = collection(doc(collection(db, "assets"), id), 'RWA');
-    const rwaDocs = await getDocs(rwaRef)
-    rwaDocs.forEach(record => {
-      deleteDoc(record);
-    });
-    
-  } catch (e) {
-    console.log(e);
-  }
-
 }
 
 export async function addUserHoldings(id, data) {
@@ -211,8 +175,6 @@ export async function setUserSettings(id, data) {
 
 export async function deleteWatchlist(id, coinName) {
   const documentRef = doc(db, "settings", id);
-
-  console.log(coinName);
 
   const updateData = {
     [`watchlist.${coinName}`]: deleteField()
