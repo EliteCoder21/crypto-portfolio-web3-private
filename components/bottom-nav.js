@@ -155,10 +155,17 @@ function BottomNav({ active }) {
               >
                 <div id="more-menu">
                   {hid_icons.map((data) => (
-                    <a className={data.href == active ? "active" : ""} key={data.id} exact href={data.href}>
+                    <a
+                      className={data.href == active ? "active" : ""}
+                      key={data.id}
+                      exact
+                      href={data.href}
+                    >
                       <li className="texticon">
                         <div className="icon">
-                          <span className="material-icons md-20">{data.icon}</span>
+                          <span className="material-icons md-20">
+                            {data.icon}
+                          </span>
                         </div>
                         <div className="text">
                           <span className="text1">{data.text}</span>

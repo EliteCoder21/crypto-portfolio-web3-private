@@ -1,10 +1,11 @@
 import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
-import { useAuthContext } from '../firebase/context';
+import { useAuthContext } from "../firebase/context";
 import Login from "../components/login.js";
 import { addUserHoldings, getUserHoldings } from "../firebase/user.js";
 import cryptocurrency from "../assets/crypto.js";
 import { getMarketCoins } from "../assets/coindesk.js";
+import { separateThousands } from "../assets/string.js";
 
 export default function Holdings() {
   const [displayPopup, setDisplayPopup] = useState(false);
@@ -13,6 +14,7 @@ export default function Holdings() {
   const { user } = useAuthContext();
   const [edit, setEdit] = useState(false);
   const [totalValue, setTotalValue] = useState(0);
+  const [holdingsDic, setHoldingsDic] = useState([]);
 
   async function fetchTotalValue(settings) {
     let coins = await getUserHoldings(user.uid);
@@ -20,6 +22,7 @@ export default function Holdings() {
 
     const data = await getMarketCoins(currency, "", coins);
 
+    setHoldingsDic(data.holdings);
     setTotalValue(data.totalValue);
   }
 
@@ -29,8 +32,8 @@ export default function Holdings() {
       let data = {};
       data[cryptocurrency[coinSymbol.toUpperCase()]] = {
         amount: Number(amount),
-        symbol: coinSymbol.toUpperCase()
-      }
+        symbol: coinSymbol.toUpperCase(),
+      };
       setTotalValue(totalValue + amount);
       addUserHoldings(user.uid, data);
     } catch (e) {
@@ -39,16 +42,18 @@ export default function Holdings() {
   }
 
   function editHoldings() {
-      (!edit);
-      if (edit == true) {
-        data[cryptocurrency[coinSymbol.toUpperCase()]] = {
-          amount: amount,
-          symbol: coinSymbol.toUpperCase()
-        }
-        setTotalValue(totalValue + amount);
-        addUserHoldings(user.uid, data);
-      }
+    setEdit(!edit);
+    if (edit == true) {
+      data[cryptocurrency[coinSymbol.toUpperCase()]] = {
+        amount: amount,
+        symbol: coinSymbol.toUpperCase(),
+      };
+      setTotalValue(totalValue + amount);
+      addUserHoldings(user.uid, data);
+    }
   }
+
+  function removeHoldings() {}
 
   useEffect(() => {
     fetchTotalValue();
@@ -56,7 +61,7 @@ export default function Holdings() {
 
   return (
     <div>
-      { user ?
+      {user ? (
         <div>
           <Navbar active="/holdings" />
           <div className="page holdings active" id="page-holdings">
@@ -64,20 +69,30 @@ export default function Holdings() {
               style={{
                 fontWeight: 300,
                 fontSize: 40,
-                color: 'white',
+                color: "white",
                 margin: 20,
                 padding: 0,
-                textAlign: 'center',
+                textAlign: "center",
               }}
             >
               Holdings
             </h1>
-            <div className="holdings-card-wrapper noselect" style={{ marginBottom: 20 }}>
+            <div
+              className="holdings-card-wrapper noselect"
+              style={{ marginBottom: 20 }}
+            >
               <div className="holdings-value-card" id="holdings-value-card">
                 <span className="title">Total Value</span>
-                <span className="subtitle" id="holdings-total-value">{totalValue}</span>
+                <span className="subtitle" id="holdings-total-value">
+                  {totalValue}
+                </span>
               </div>
-              <button onClick={() => {setDisplayPopup(!displayPopup)}}>
+              <button
+                className="buttonNoStyles"
+                onClick={() => {
+                  setDisplayPopup(!displayPopup);
+                }}
+              >
                 <div className="holdings-add-card" id="holdings-add-card">
                   <span className="title">Add Coin</span>
                   <svg
@@ -90,51 +105,139 @@ export default function Holdings() {
                   </svg>
                 </div>
               </button>
-              { displayPopup ?
-                <>
-                  <div className="bottom">
-                    <input id="popup-coin" placeholder="Coin Symbol... (e.g. BTC)" value={coinSymbol} onChange={(e) => { setCoinSymbol(e.target.value) }} />
-                    <input id="popup-amount" placeholder="Amount... (e.g. 2.5)" type="number" value={amount} onChange={(e) => {setAmount(e.target.value) }}/>
-                    <button className="reject" id="popup-cancel" onClick={() => {
-                      setCoinSymbol("");
-                      setAmount("");
-                      setDisplayPopup(!displayPopup);
-                    }}>Cancel</button>
-                    <button className="resolve" id="popup-confirm" onClick={onSubmitAddHolding}>Confirm</button>
+              {displayPopup ? (
+                <div
+                  style={{
+                    position: "absolute",
+                    zIndex: 100,
+                    top: 0,
+                    left: 0,
+                    width: "100vw",
+                    height: "100vh",
+                    backgroundColor: "rgba(0, 0, 0, 0.8)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div
+                    className="popup-wrapper active"
+                    style={{ width: 400, height: 400 }}
+                  >
+                    <div className="top">
+                      <span className="title">Recording Event</span>
+                    </div>
+
+                    <div className="bottom">
+                      <input
+                        id="popup-coin"
+                        placeholder="Coin Symbol... (e.g. BTC)"
+                        value={coinSymbol}
+                        onChange={(e) => {
+                          setCoinSymbol(e.target.value);
+                        }}
+                      />
+                      <input
+                        id="popup-amount"
+                        placeholder="Amount... (e.g. 2.5)"
+                        type="number"
+                        value={amount}
+                        onChange={(e) => {
+                          setAmount(e.target.value);
+                        }}
+                      />
+                      <button
+                        className="reject"
+                        id="popup-cancel"
+                        onClick={() => {
+                          setCoinSymbol("");
+                          setAmount("");
+                          setDisplayPopup(!displayPopup);
+                        }}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="resolve"
+                        id="popup-confirm"
+                        onClick={onSubmitAddHolding}
+                      >
+                        Confirm
+                      </button>
+                    </div>
                   </div>
-                </>
-                :
+                </div>
+              ) : (
                 <></>
-              }
+              )}
             </div>
             <div className="more-menu hidden" id="holdings-more-menu">
               <button id="more-edit">Edit</button>
               <button onClick={editHoldings}></button>
+              <input
+                id="edit-coin"
+                placeholder="Coin Symbol... (e.g. BTC)"
+                value={coinSymbol}
+                onChange={(e) => {
+                  setCoinSymbol(e.target.value);
+                }}
+              />
+              <input
+                id="edit-amount"
+                placeholder="Amount... (e.g. 2.5)"
+                type="number"
+                value={amount}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                }}
+              />
               <button id="more-remove">Remove</button>
+              <button onClick={removeHoldings}> </button>
             </div>
             <div className="holdings-list-wrapper noselect">
-              <table>
-                <thead>
-                  <tr className="headers-wrapper" data-list="holdings">
-                    <th className="header coin" data-item="coin">Coin</th>
-                    <th className="header amount" data-item="amount">Amount</th>
-                    <th className="header value" data-item="value">Value</th>
-                    <th className="header day" data-item="change">24h Price Change</th>    
+              <table className="dashboard-market-list-wrapper noselect">
+                <tr className="headers-wrapper" data-list="dashboardMarket">
+                  <th>Coin</th>
+                  <th>Amount</th>
+                  <th>Value</th>
+                  <th>24h Change</th>
+                </tr>
+                {holdingsDic.map((coin) => (
+                  <tr className="coin-wrapper">
+                    <td>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          draggable="false"
+                          src={coin.image}
+                          title={coin.name}
+                        />
+                        <p className="coin" title={coin.name}>
+                          {coin.symbol}
+                        </p>
+                      </div>
+                    </td>
+                    <td>{separateThousands(coin.amount)}</td>
+                    <td>${separateThousands(coin.value)}</td>
+                    <td style={{ color: coin.change >= 0 ? "green" : "red" }}>
+                      {coin.change.includes("-")
+                        ? coin.change + "%"
+                        : "+" + coin.change + "%"}
+                    </td>
                   </tr>
-                  /*style*/                
-                </thead>
-                <tbody className="holdings-list loading" id="holdings-list">
-                  <tr className="coin-wrapper loading">
-                    <span>Loading...</span>
-                  </tr>
-                </tbody>
-              </table>        
+                ))}
+              </table>
             </div>
           </div>
         </div>
-        : 
+      ) : (
         <Login />
-        }
+      )}
     </div>
   );
 }
