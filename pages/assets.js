@@ -3,7 +3,7 @@ import Login from "../components/login.js";
 import AsyncBoard from 'react-trello';
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from 'react';
-import { addUserActivity, getUserAssets } from "../firebase/user.js";
+import { addUserActivity, getUserAssets, saveUserAssets } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Assets() {
@@ -75,33 +75,55 @@ export default function Assets() {
 
   // Define the Board functions
   const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId, index) => {
+
+    // If the card stays in the same aisle, stop
+    if (fromLaneId === toLaneId) {
+      return;
+    }
     
     console.log("start: ", fromLaneId);
     console.log("end: ", toLaneId);
     console.log('card id: ', cardId);
 
     // Find the card data
-    let laneInd;
+    let originalLaneInd;
     switch(fromLaneId) {
       case "AUT Lane":
-        laneInd = 1;
+        originalLaneInd = 1;
         break;
       case "OXA Lane":
-        laneInd = 2;
+        originalLaneInd = 2;
         break;
       case "Digital Assets Lane":
-        laneInd = 3;
+        originalLaneInd = 3;
         break;
       default:
-        laneInd = 0;
+        originalLaneInd = 0;
         break;
     }
 
-    let arr = data.lanes[laneInd];
+    // Find the index of the target lane
+    let FinalLaneInd;
+    switch(toLaneId) {
+      case "AUT Lane":
+        FinalLaneInd = 1;
+        break;
+      case "OXA Lane":
+        FinalLaneInd = 2;
+        break;
+      case "Digital Assets Lane":
+        FinalLaneInd = 3;
+        break;
+      default:
+        FinalLaneInd = 0;
+        break;
+    }
+
+    let arr = data.lanes[originalLaneInd];
     let cardData = {}
 
-    console.log("Began looking for cards");
-    console.log(arr.cards);
+    console.log("Began looking for cards in ", fromLaneId);
+    console.log(data);
     for (let c in arr.cards) {
       console.log(c);
       if (arr.cards[c].id === cardId) {
@@ -120,9 +142,22 @@ export default function Assets() {
         laneId: toLaneId, 
         card: cardData
       })
+      
+      // Add to JSON
+      data.lanes[FinalLaneInd].cards.push(cardData);
 
       //To remove a card
       eventBus.publish({type: 'REMOVE_CARD', laneId: fromLaneId, cardId: cardId})
+
+      // Delete from JSON
+      const i1 = data.lanes[originalLaneInd].cards.indexOf(cardData);
+      if (i1 > -1) { // only splice array when item is found
+        data.lanes[originalLaneInd].cards.splice(i1, 1); // 2nd parameter means remove one item only
+      }
+
+      // Save
+      saveUserAssets("5ntPFGMhxD4llc0ObTwF", data); // Replace with real UID
+      console.log("Save finished!");
 
     } catch (error) {
       console.log(error);
@@ -143,7 +178,7 @@ export default function Assets() {
             eventBusHandle={setEventBus} 
             style={{backgroundColor: 'rgba(31, 42, 71, 0)'}}
             data={data}
-            draggable
+            
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
           />
         </div>

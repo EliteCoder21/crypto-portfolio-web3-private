@@ -72,21 +72,73 @@ export async function getUserAssets(id) {
 }
 
 export async function saveUserAssets(id, data) {
-  let result = null;
-  let error = null;
 
   try {
+    clearUserAssets(id);
 
-    // Set the data of 
-
-    result = await setDoc(doc(db, "assets", id), data, {
-      merge: true,
+    const autRef = collection(doc(collection(db, "assets"), id), 'AUT');
+    data.lanes[1].cards.forEach(c => {
+      autRef.doc(c.id).set(c);
     });
+    
+
+    const digRef = collection(doc(collection(db, "assets"), id), 'Digital Assets');
+    data.lanes[3].cards.forEach(c => {
+      digRef.doc(c.id).set(c);
+    });
+    
+
+    const oxaRef = collection(doc(collection(db, "assets"), id), 'OXA');
+    data.lanes[2].cards.forEach(c => {
+      oxaRef.doc(c.id).set(c);
+    });
+    
+    const rwaRef = collection(doc(collection(db, "assets"), id), 'RWA');
+    data.lanes[0].cards.forEach(c => {
+      rwaRef.doc(c.id).set(c);
+    });
+    
   } catch (e) {
-    error = e;
+    console.log('aaa');
+    console.log(e);
+  }
+}
+
+export async function clearUserAssets(id) {
+  
+  try {
+    const autRef = collection(doc(collection(db, "assets"), id), 'AUT');
+    getDocs(autRef).then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        doc.ref.delete();
+      });
+    });
+
+    const digRef = collection(doc(collection(db, "assets"), id), 'Digital Assets');
+    getDocs(digRef).then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        doc.ref.delete();
+      });
+    });
+
+    const oxaRef = collection(doc(collection(db, "assets"), id), 'OXA');
+    getDocs(oxaRef).then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        doc.ref.delete();
+      });
+    });
+
+    const rwaRef = collection(doc(collection(db, "assets"), id), 'RWA');
+    getDocs(rwaRef).then(snapshot => {
+      snapshot.docs.forEach(doc => {
+        doc.ref.delete();
+      });
+    });
+    
+  } catch (e) {
+    console.log(e);
   }
 
-  return { result, error };
 }
 
 export async function addUserHoldings(id, data) {
