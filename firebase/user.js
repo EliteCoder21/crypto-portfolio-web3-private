@@ -8,6 +8,7 @@ import {
   getDocs,
   collection,
   updateDoc,
+  deleteDoc,
   deleteField
 } from "firebase/firestore";
 
@@ -17,7 +18,7 @@ export async function createUser(id) {
   let result = null;
   let error = null;
 
-  let dataHoldings = {};
+  let dataEmpty = {};
   let dataSettings = {
     currency: "usd",
     transactions: "disabled",
@@ -34,7 +35,10 @@ export async function createUser(id) {
   };
 
   try {
-    result = await setDoc(doc(db, "holdings", id), dataHoldings, {
+    result = await setDoc(doc(db, "holdings", id), dataEmpty, {
+      merge: true,
+    });
+    result = await setDoc(doc(db, "user-activity", id), dataEmpty, {
       merge: true,
     });
     await setDoc(doc(db, "settings", id), dataSettings, {
@@ -71,6 +75,23 @@ export async function getUserAssets(id) {
   return doc(collection(db, "assets"), id);
 }
 
+export async function transferUserAsset(userId, originalLane, finalLane, id) {
+  try {
+    // Save the document
+    const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
+    const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
+    const data = (await getDoc(doc(originalColRef, id))).data()
+    setDoc(doc(finalColRef, id), data);
+
+    // Delete the document
+    deleteDoc(doc(originalColRef, id));
+    
+    deleteDoc(doc(colRef, id));
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function saveUserAssets(id, data) {
 
   try {
@@ -78,24 +99,24 @@ export async function saveUserAssets(id, data) {
 
     const autRef = collection(doc(collection(db, "assets"), id), 'AUT');
     data.lanes[1].cards.forEach(c => {
-      autRef.doc(c.id).set(c);
+      setDoc(doc(autRef, c.id), c);
     });
     
 
     const digRef = collection(doc(collection(db, "assets"), id), 'Digital Assets');
     data.lanes[3].cards.forEach(c => {
-      digRef.doc(c.id).set(c);
+      setDoc(doc(digRef, c.id), c);
     });
     
 
     const oxaRef = collection(doc(collection(db, "assets"), id), 'OXA');
     data.lanes[2].cards.forEach(c => {
-      oxaRef.doc(c.id).set(c);
+      setDoc(doc(oxaRef, c.id), c);
     });
     
     const rwaRef = collection(doc(collection(db, "assets"), id), 'RWA');
     data.lanes[0].cards.forEach(c => {
-      rwaRef.doc(c.id).set(c);
+      setDoc(doc(rwaRef, c.id), c);
     });
     
   } catch (e) {
@@ -108,31 +129,30 @@ export async function clearUserAssets(id) {
   
   try {
     const autRef = collection(doc(collection(db, "assets"), id), 'AUT');
-    getDocs(autRef).then(snapshot => {
-      snapshot.docs.forEach(doc => {
-        doc.ref.delete();
-      });
+    const autDocs = await getDocs(autRef)
+    autDocs.forEach(record => {
+      deleteDoc(record);
     });
+    
 
     const digRef = collection(doc(collection(db, "assets"), id), 'Digital Assets');
-    getDocs(digRef).then(snapshot => {
-      snapshot.docs.forEach(doc => {
-        doc.ref.delete();
-      });
+    const digDocs = await getDocs(digRef)
+    digDocs.forEach(record => {
+      deleteDoc(record);
     });
+    
 
     const oxaRef = collection(doc(collection(db, "assets"), id), 'OXA');
-    getDocs(oxaRef).then(snapshot => {
-      snapshot.docs.forEach(doc => {
-        doc.ref.delete();
-      });
+    const oxaDocs = await getDocs(oxaRef)
+    oxaDocs.forEach(record => {
+      deleteDoc(record);
     });
+    
 
     const rwaRef = collection(doc(collection(db, "assets"), id), 'RWA');
-    getDocs(rwaRef).then(snapshot => {
-      snapshot.docs.forEach(doc => {
-        doc.ref.delete();
-      });
+    const rwaDocs = await getDocs(rwaRef)
+    rwaDocs.forEach(record => {
+      deleteDoc(record);
     });
     
   } catch (e) {

@@ -1,0 +1,18 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      ['build', '-t', 'gcr.io/bi-model-development/{crypto-portfolio-web3}:$SHORT_SHA', '.']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/bi-model-development/{crypto-portfolio-web3}:$SHORT_SHA']
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      [
+        'beta',
+        'run',
+        'deploy',
+        '{crypto-portfolio-web3}',
+        '--region=us-central1',
+        '--platform=managed',
+        '--image=gcr.io/bi-model-development/{crypto-portfolio-web3}:$SHORT_SHA',
+      ]
+timeout: 1200s

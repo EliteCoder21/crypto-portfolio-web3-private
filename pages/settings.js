@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import {
   addUserActivityBulk,
   addUserHoldings,
+  getUserActivities,
   getUserHoldings,
   getUserSettings,
   setUserSettings,
@@ -175,7 +176,7 @@ export default function Settings() {
 
       const link = document.createElement("a");
       link.href = url;
-      link.download = "data.csv";
+      link.download = "holdings.csv";
       link.click();
 
       URL.revokeObjectURL(url);
@@ -280,6 +281,29 @@ export default function Settings() {
       alert(e.message);
       console.log(e);
     }
+  }
+
+  async function exportActivities() {
+    let headers = ["coin", "date", "type", "amount", "fee", "notes", "exchange", "pair", "price", "from", "to"];
+		let csv = headers.join(",") + '\r\n';
+
+    let activities = await getUserActivities(user.uid);
+
+		activities.forEach(doc => {
+      const event = doc.data();
+			let array = [event["coin"], event["date"], event["type"], event["amount"], event["fee"], event["notes"], event["exchange"], event["pair"], event["price"], event["from"], event["to"]];
+			csv += array.join(",") + '\r\n';
+		});
+
+		const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "activities.csv";
+    link.click();
+
+    URL.revokeObjectURL(url);
   }
 
   useEffect(() => {
@@ -499,52 +523,6 @@ export default function Settings() {
             </div>
             <div className="section">
               <div className="top noselect">
-                <span className="title">Adding to Watchlist</span>
-              </div>
-              <div
-                className="bottom settings-choices-wrapper"
-                data-key="dashboardWatchlist"
-              >
-                <button className="close-button hidden">
-                  <svg
-                    className="close-icon"
-                    width={1792}
-                    height={1792}
-                    viewBox="0 0 1792 1792"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" />
-                  </svg>
-                </button>
-
-                <div>
-                  <div className="bottom">
-                    <input
-                      id="popup-coin"
-                      placeholder="Coin Symbol... (e.g. BTC)"
-                      value={waitlistInput}
-                      onChange={(e) => {
-                        setWaitlistInput(e.target.value);
-                      }}
-                    />
-                    <div
-                      className="bottom settings-choices-wrapper"
-                      data-key="sortOrderNotification"
-                    >
-                      <button
-                        className="choice"
-                        data-value="confirm"
-                        onClick={addItemToWaitlist}
-                      >
-                        Confirm
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="section">
-              <div className="top noselect">
                 <span className="title">Transactions Affect Holdings</span>
               </div>
               <div
@@ -566,44 +544,15 @@ export default function Settings() {
                 </button>
                 <button
                   className={
-                    settings && settings.transactions == "mixed"
+                    settings && settings.transactions == "enabled"
                       ? "choice active"
                       : "choice"
                   }
-                  data-value="mixed"
+                  data-value="enabled"
                   onClick={() => {
-                    changeTransactionHoldings("mixed");
+                    changeTransactionHoldings("enabled");
                   }}
                 >
-                  Mixed
-                </button>
-                <button
-                  className={
-                    settings && settings.transactions == "override"
-                      ? "choice active"
-                      : "choice"
-                  }
-                  data-value="override"
-                  onClick={() => {
-                    changeTransactionHoldings("override");
-                  }}
-                >
-                  Override
-                </button>
-              </div>
-            </div>
-            <div className="section">
-              <div className="top noselect">
-                <span className="title">Show Transactions On Charts</span>
-              </div>
-              <div
-                className="bottom settings-choices-wrapper"
-                data-key="showTransactionsOnCharts"
-              >
-                <button className="choice" data-value="disabled">
-                  Disabled
-                </button>
-                <button className="choice" data-value="enabled">
                   Enabled
                 </button>
               </div>
@@ -665,9 +614,55 @@ export default function Settings() {
                 <span className="title">Export Activity</span>
               </div>
               <div className="bottom">
-                <button className="submit inline" id="export-activity-button">
+                <button className="submit inline" id="export-activity-button" onClick={exportActivities}>
                   Export
                 </button>
+              </div>
+            </div>
+            <div className="section">
+              <div className="top noselect">
+                <span className="title">Adding to Watchlist</span>
+              </div>
+              <div
+                className="bottom settings-choices-wrapper"
+                data-key="dashboardWatchlist"
+              >
+                <button className="close-button hidden">
+                  <svg
+                    className="close-icon"
+                    width={1792}
+                    height={1792}
+                    viewBox="0 0 1792 1792"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path d="M1490 1322q0 40-28 68l-136 136q-28 28-68 28t-68-28l-294-294-294 294q-28 28-68 28t-68-28l-136-136q-28-28-28-68t28-68l294-294-294-294q-28-28-28-68t28-68l136-136q28-28 68-28t68 28l294 294 294-294q28-28 68-28t68 28l136 136q28 28 28 68t-28 68l-294 294 294 294q28 28 28 68z" />
+                  </svg>
+                </button>
+
+                <div>
+                  <div className="bottom">
+                    <input
+                      id="popup-coin"
+                      placeholder="Coin Symbol... (e.g. BTC)"
+                      value={waitlistInput}
+                      onChange={(e) => {
+                        setWaitlistInput(e.target.value);
+                      }}
+                    />
+                    <div
+                      className="bottom settings-choices-wrapper"
+                      data-key="sortOrderNotification"
+                    >
+                      <button
+                        className="choice"
+                        data-value="confirm"
+                        onClick={addItemToWaitlist}
+                      >
+                        Confirm
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

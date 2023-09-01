@@ -2,12 +2,14 @@ import Navbar from "../components/navbar.js";
 import { useState, useEffect } from "react";
 import Login from "../components/login.js";
 import { useAuthContext } from "../firebase/context";
-import { addUserActivity, getUserActivities } from "../firebase/user.js";
+import cryptocurrency from "../assets/crypto.js";
+import { addUserActivity, addUserHoldings, getUserActivities, getUserHoldings, getUserSettings } from "../firebase/user.js";
 
 export default function Activity() {
   const [displayRecord, setDisplayRecord] = useState(false);
   const [activityData, setActivityData] = useState([]);
   const [originalActivityData, setOriginalActivityData] = useState([]);
+  const [settings, setSettings] = useState();
   const [query, setQuery] = useState();
   const { user } = useAuthContext();
 
@@ -51,10 +53,10 @@ export default function Activity() {
     e.preventDefault();
 
     const data = {
-      coin: symbol,
+      coin: symbol.toUpperCase(),
       date: date,
       type: typeEvent,
-      amount: amount,
+      amount: Number(amount) ?? amount,
       fee: fee,
       notes: notes,
       exchange: exchange,
@@ -63,6 +65,27 @@ export default function Activity() {
     };
 
     await addUserActivity(user.uid, data);
+
+    if (settings.transactions == "enabled") {
+      let holdings = await getUserHoldings(user.uid);
+
+      if (data.type != "transfer") {
+        if (holdings.hasOwnProperty(cryptocurrency[data.coin])) {
+          const holdingsAmount = data.type == "buy" ? Number(holdings[cryptocurrency[data.coin]].amount) + data.amount : Number(holdings[cryptocurrency[data.coin]].amount) - data.amount;
+          holdings[cryptocurrency[data.coin]] = {
+            amount: holdingsAmount,
+            symbol: data.coin
+          }
+        } else {
+          holdings[cryptocurrency[data.coin]] = {
+            amount: data.amount,
+            symbol: data.coin
+          }
+        }
+      }
+
+      await addUserHoldings(user.uid, holdings);
+    }
 
     setSymbol("");
     setDate("");
@@ -132,8 +155,14 @@ export default function Activity() {
     }
   }
 
+  async function fetchSettings() {
+    const result = await getUserSettings(user.uid);
+    setSettings(result);
+  }
+
   useEffect(() => {
     getActivityData();
+    fetchSettings();
   }, []);
 
   return (

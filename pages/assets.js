@@ -1,9 +1,9 @@
 import Navbar from "../components/navbar.js";
 import Login from "../components/login.js";
-import AsyncBoard from 'react-trello';
+import AsyncBoard from "react-trello";
 import { useAuthContext } from "../firebase/context";
-import React, { useEffect, useState } from 'react';
-import { addUserActivity, getUserAssets, saveUserAssets } from "../firebase/user.js";
+import React, { useEffect, useState } from "react";
+import { addUserActivity, getUserAssets, saveUserAssets, transferAsset } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Assets() {
@@ -24,9 +24,12 @@ export default function Assets() {
   // Get Data
   async function getAssetsData() {
     try {
+      
+      // Base Firebase reference
       const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
 
-      const oxaCollection = collection(userDataRef, 'OXA');
+      // Update OXA
+      const oxaCollection = collection(userDataRef, "OXA");
       const oxaSnap = await getDocs(oxaCollection);
 
       // Push the data
@@ -44,18 +47,103 @@ export default function Assets() {
 
         // Append the data
         eventBus.publish({
-          type: 'ADD_CARD', 
-          laneId: 'OXA Lane', 
+          type: "ADD_CARD", 
+          laneId: "OXA Lane", 
           card: cardData
         })        
 
         // Add to json file
         data.lanes[2].cards.push(cardData);
-
-        console.log("The final updated data is:")
-        console.log(data);
       });
 
+      // Update RWA
+      const rwaCollection = collection(userDataRef, "RWA");
+      const rwaSnap = await getDocs(rwaCollection);
+
+      // Push the data
+      rwaSnap.forEach((doc) => {
+        // Get the data
+        const tempData = doc.data();
+        const cardData = {
+          id: tempData.id,
+          laneId: tempData.laneId,
+          title: tempData.title,
+          label: tempData.label,
+          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+          description: tempData.description
+        }
+
+        // Append the data
+        eventBus.publish({
+          type: "ADD_CARD", 
+          laneId: "RWA Lane", 
+          card: cardData
+        })        
+
+        // Add to json file
+        data.lanes[0].cards.push(cardData);
+      });
+
+      // Update AUT
+      const autCollection = collection(userDataRef, "AUT");
+      const autSnap = await getDocs(autCollection);
+
+      // Push the data
+      autSnap.forEach((doc) => {
+        // Get the data
+        const tempData = doc.data();
+        const cardData = {
+          id: tempData.id,
+          laneId: tempData.laneId,
+          title: tempData.title,
+          label: tempData.label,
+          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+          description: tempData.description
+        }
+
+        // Append the data
+        eventBus.publish({
+          type: "ADD_CARD", 
+          laneId: "AUT Lane", 
+          card: cardData
+        })        
+
+        // Add to json file
+        data.lanes[1].cards.push(cardData);
+      });
+
+      // Update digital assets
+      const digCollection = collection(userDataRef, "Digital Assets");
+      const digSnap = await getDocs(digCollection);
+
+      // Push the data
+      oxaSnap.forEach((doc) => {
+        // Get the data
+        const tempData = doc.data();
+        const cardData = {
+          id: tempData.id,
+          laneId: tempData.laneId,
+          title: tempData.title,
+          label: tempData.label,
+          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+          description: tempData.description
+        }
+
+        // Append the data
+        eventBus.publish({
+          type: "ADD_CARD", 
+          laneId: "Digital Assets Lane", 
+          card: cardData
+        })
+
+        // Add to json file
+        data.lanes[3].cards.push(cardData);
+      });
+      
+      console.log("The final updated data is:")
+      console.log(data);
+      
+      
     } catch (error) {
       console.log(error);
       console.log("IT DIDN'T WORK!")
@@ -83,7 +171,7 @@ export default function Assets() {
     
     console.log("start: ", fromLaneId);
     console.log("end: ", toLaneId);
-    console.log('card id: ', cardId);
+    console.log("card id: ", cardId);
 
     // Find the card data
     let originalLaneInd;
@@ -132,13 +220,13 @@ export default function Assets() {
       }
     }
 
-    console.log('The found card is: ', cardData);
+    console.log("The found card is: ", cardData);
     
     try {
       // Publish to front end
       //To add a card
       eventBus.publish({
-        type: 'ADD_CARD', 
+        type: "ADD_CARD", 
         laneId: toLaneId, 
         card: cardData
       })
@@ -147,7 +235,7 @@ export default function Assets() {
       data.lanes[FinalLaneInd].cards.push(cardData);
 
       //To remove a card
-      eventBus.publish({type: 'REMOVE_CARD', laneId: fromLaneId, cardId: cardId})
+      eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
 
       // Delete from JSON
       const i1 = data.lanes[originalLaneInd].cards.indexOf(cardData);
@@ -156,7 +244,8 @@ export default function Assets() {
       }
 
       // Save
-      saveUserAssets("5ntPFGMhxD4llc0ObTwF", data); // Replace with real UID
+      //saveUserAssets("5ntPFGMhxD4llc0ObTwF", data); // Replace with real UID
+      transferAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId);
       console.log("Save finished!");
 
     } catch (error) {
@@ -172,11 +261,11 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-      <div className='bond-data'>
+      <div className="bond-data">
         <div className="myAssets">
           <AsyncBoard
             eventBusHandle={setEventBus} 
-            style={{backgroundColor: 'rgba(31, 42, 71, 0)'}}
+            style={{backgroundColor: "rgba(31, 42, 71, 0)"}}
             data={data}
             
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}

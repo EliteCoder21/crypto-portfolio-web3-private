@@ -4,6 +4,7 @@ import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
 import { separateThousands } from "../assets/string.js";
 import { getAllCoins, getMarketCap } from "../assets/coindesk.js";
+import LiveCoinWatchWidget from "../components/live-coin-widget.js";
 
 const INITIAL_STATE = [
   {
@@ -21,6 +22,7 @@ export default function Market() {
   const [globalVolume, setGlobalVolume] = useState();
   const [globalDominance, setGlobalDominance] = useState();
   const [marketData, setMarketData] = useState(INITIAL_STATE);
+  const [displayPopup, setDisplayPopup] = useState(null);
   const { user } = useAuthContext();
 
   useEffect(() => {
@@ -63,6 +65,17 @@ export default function Market() {
               <span className="change" data-item="change">
                 {change}
               </span>
+              <span>
+                <button
+                  className="deleteElement"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setDisplayPopup(coin);
+                  }}
+                >
+                  ↗
+                </button>
+              </span>
             </tr>
           </div>
         </div>
@@ -75,11 +88,21 @@ export default function Market() {
       <div>
         <div className="dashboard-market-list-wrapper noselect">
           <div className="headers-wrapper" data-list="dashboardMarket">
-            <span className="header rank" data-item="rank">#</span>
-            <span className="header coin" data-item="coin">Coin</span>
-            <span className="header price" data-item="price">Price</span>
-            <span className="header market-cap" data-item="market-cap">Market Cap</span>
-            <span className="header change" data-item="change">24h Change</span>
+            <span className="header rank" data-item="rank">
+              #
+            </span>
+            <span className="header coin" data-item="coin">
+              Coin
+            </span>
+            <span className="header price" data-item="price">
+              Price
+            </span>
+            <span className="header market-cap" data-item="market-cap">
+              Market Cap
+            </span>
+            <span className="header change" data-item="change">
+              24h Change
+            </span>
           </div>
         </div>
         {renderLogs()}
@@ -93,6 +116,47 @@ export default function Market() {
         <div>
           <Navbar active="/market" />
           <div className="page market active" id="page-market">
+            {displayPopup ? (
+              <div
+                style={{
+                  position: "absolute",
+                  zIndex: 100,
+                  top: 0,
+                  left: 0,
+                  width: "100vw",
+                  height: "100vh",
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <div
+                  className="popup-wrapper active"
+                  style={{ width: 400, height: 400 }}
+                >
+                  <div className="top">
+                    <span className="title">Market Data</span>
+                  </div>
+
+                  <div className="bottom">
+                    <LiveCoinWatchWidget coin={displayPopup.trim()} />
+                    <button
+                      style={{ marginTop: 20 }}
+                      class="reject"
+                      id="popup-cancel"
+                      onClick={() => {
+                        setDisplayPopup(null);
+                      }}
+                    >
+                      Exit
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
             <h1
               style={{
                 fontWeight: 300,
@@ -163,9 +227,7 @@ export default function Market() {
               className="market-list-wrapper noselect"
               style={{ marginBottom: 20 }}
             >
-
               {renderTable()}
-            
             </div>
           </div>
         </div>
