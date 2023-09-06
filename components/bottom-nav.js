@@ -10,7 +10,7 @@ import { Nav, Container, Navbar, NavDropdown } from "react-bootstrap";
 
 function BottomNav({ active }) {
   const icon_data = [
-    { id: 0, href: "/", icon: <Dashboard />, text: "Home" },
+    { id: 0, href: "/", icon: <Dashboard />, text: "Dashboard" },
     { id: 1, href: "/assets", icon: <AccountBalanceWallet />, text: "Assets" },
     { id: 2, href: "/holdings", icon: <DataThresholding />, text: "Holdings" },
     { id: 3, href: "/market", icon: <Store />, text: "Market" },
@@ -123,16 +123,21 @@ function BottomNav({ active }) {
   }
 
   return (
-    <Navbar>
+    <Navbar style={{ height: 50 }}>
       <Container>
         <div style={{ display: "none" }}>
           <Navbar.Toggle aria-controls="navbar-nav" />
         </div>
         <Navbar.Collapse id="navbar-nav">
-          <Nav className="navbar-nav" id="toolbar" className="me-auto">
+          <Nav className="navbar-nav me-auto" id="toolbar">
             {vis_icons.map((data) => (
-              <a key={data.id} exact href={data.href} style={{ marginLeft: 5 }}>
-                {/* {console.log("Data ID: " + data.id + " Data: " + data.icon)} */}
+              <a
+                key={data.id}
+                exact
+                href={data.href}
+                style={{ marginLeft: 5 }}
+                className={data.href == active ? "active" : ""}
+              >
                 <li className="texticon">
                   <button type="button" className="buttonclass">
                     <div className="icon">

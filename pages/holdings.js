@@ -53,7 +53,11 @@ export default function Holdings() {
     }
   }
 
-  function removeHoldings() {}
+  function removeHoldings (id, data) {
+    let result = null;
+    let error = null;
+    id.remove();
+  }
 
   useEffect(() => {
     fetchTotalValue();
@@ -64,7 +68,7 @@ export default function Holdings() {
       {user ? (
         <div>
           <Navbar active="/holdings" />
-          <div className="page holdings active" id="page-holdings">
+          <div className="page dashboard active" id="page-dashboard">
             <h1
               style={{
                 fontWeight: 300,
@@ -78,13 +82,13 @@ export default function Holdings() {
               Holdings
             </h1>
             <div
-              className="holdings-card-wrapper noselect"
+              className="dashboard-market-card-wrapper noselect"
               style={{ marginBottom: 20 }}
             >
-              <div className="holdings-value-card" id="holdings-value-card">
+              <div className="dashboard-market-cap-card">
                 <span className="title">Total Value</span>
-                <span className="subtitle" id="holdings-total-value">
-                  {totalValue}
+                <span className="subtitle" id="dashboard-holdings-value">
+                  ${totalValue}
                 </span>
               </div>
               <button
@@ -105,72 +109,73 @@ export default function Holdings() {
                   </svg>
                 </div>
               </button>
-              {displayPopup ? (
+              <div className="dashboard-market-cap-card" style={{ visibility: "hidden" }}></div>
+            </div>
+            {displayPopup ? (
+              <div
+                style={{
+                  position: "absolute",
+                  zIndex: 100,
+                  top: 0,
+                  left: 0,
+                  width: "100vw",
+                  height: "100vh",
+                  backgroundColor: "rgba(0, 0, 0, 0.8)",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
                 <div
-                  style={{
-                    position: "absolute",
-                    zIndex: 100,
-                    top: 0,
-                    left: 0,
-                    width: "100vw",
-                    height: "100vh",
-                    backgroundColor: "rgba(0, 0, 0, 0.8)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
+                  className="popup-wrapper active"
+                  style={{ width: 400, height: 400 }}
                 >
-                  <div
-                    className="popup-wrapper active"
-                    style={{ width: 400, height: 400 }}
-                  >
-                    <div className="top">
-                      <span className="title">Recording Event</span>
-                    </div>
+                  <div className="top">
+                    <span className="title">Recording Event</span>
+                  </div>
 
-                    <div className="bottom">
-                      <input
-                        id="popup-coin"
-                        placeholder="Coin Symbol... (e.g. BTC)"
-                        value={coinSymbol}
-                        onChange={(e) => {
-                          setCoinSymbol(e.target.value);
-                        }}
-                      />
-                      <input
-                        id="popup-amount"
-                        placeholder="Amount... (e.g. 2.5)"
-                        type="number"
-                        value={amount}
-                        onChange={(e) => {
-                          setAmount(e.target.value);
-                        }}
-                      />
-                      <button
-                        className="reject"
-                        id="popup-cancel"
-                        onClick={() => {
-                          setCoinSymbol("");
-                          setAmount("");
-                          setDisplayPopup(!displayPopup);
-                        }}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className="resolve"
-                        id="popup-confirm"
-                        onClick={onSubmitAddHolding}
-                      >
-                        Confirm
-                      </button>
-                    </div>
+                  <div className="bottom">
+                    <input
+                      id="popup-coin"
+                      placeholder="Coin Symbol... (e.g. BTC)"
+                      value={coinSymbol}
+                      onChange={(e) => {
+                        setCoinSymbol(e.target.value);
+                      }}
+                    />
+                    <input
+                      id="popup-amount"
+                      placeholder="Amount... (e.g. 2.5)"
+                      type="number"
+                      value={amount}
+                      onChange={(e) => {
+                        setAmount(e.target.value);
+                      }}
+                    />
+                    <button
+                      className="reject"
+                      id="popup-cancel"
+                      onClick={() => {
+                        setCoinSymbol("");
+                        setAmount("");
+                        setDisplayPopup(!displayPopup);
+                      }}
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      className="resolve"
+                      id="popup-confirm"
+                      onClick={onSubmitAddHolding}
+                    >
+                      Confirm
+                    </button>
                   </div>
                 </div>
-              ) : (
-                <></>
-              )}
-            </div>
+              </div>
+            ) : (
+              <></>
+            )}
             <div className="more-menu hidden" id="holdings-more-menu">
               <button id="more-edit">Edit</button>
               <button onClick={editHoldings}></button>
@@ -194,6 +199,10 @@ export default function Holdings() {
               <button id="more-remove">Remove</button>
               <button onClick={removeHoldings}> </button>
             </div>
+            <div class="more-menu hidden" id="holdings-more-menu">
+              <button id="more-edit">Edit</button>
+              <button id="more-remove">Remove</button>
+            </div>  
             <div className="holdings-list-wrapper noselect">
               <table className="dashboard-market-list-wrapper noselect">
                 <tr className="headers-wrapper" data-list="dashboardMarket">

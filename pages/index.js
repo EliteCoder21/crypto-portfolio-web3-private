@@ -5,9 +5,18 @@ import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
-import { deleteWatchlist, getUserHoldings, getUserSettings } from "../firebase/user.js";
+import {
+  deleteWatchlist,
+  getUserHoldings,
+  getUserSettings,
+} from "../firebase/user.js";
 import { separateThousands } from "../assets/string.js";
-import { getHoldingsWithValue, getMarketCap, getMarketList, getMarketCoins } from "../assets/coindesk.js";
+import {
+  getHoldingsWithValue,
+  getMarketCap,
+  getMarketList,
+  getMarketCoins,
+} from "../assets/coindesk.js";
 
 export default function InstructionsComponent() {
   const [marketCap, setMarketCap] = useState();
@@ -27,7 +36,7 @@ export default function InstructionsComponent() {
     let coins = await getUserHoldings(user.uid);
     let watchListString = Object.keys(settings.watchlist).join("%2c");
     const currency = settings ? settings.currency : "usd";
-    
+
     const data = await getMarketCoins(currency, watchListString, coins);
 
     setMarketDic(data.marketList);
@@ -69,7 +78,7 @@ export default function InstructionsComponent() {
                 textAlign: "center",
               }}
             >
-              Asset Inventory
+              Dashboard
             </h1>
             <div>
               <div className="container-fluid">
@@ -195,7 +204,7 @@ export default function InstructionsComponent() {
                 </div>
               </div>
             </div>
-            <div style={{ padding: 20 }}>
+            <div>
               <div
                 className="dashboard-market-card-wrapper noselect"
                 style={{ marginBottom: 20 }}
@@ -220,7 +229,7 @@ export default function InstructionsComponent() {
                 </div>
               </div>
               <div className="dashboard-row">
-                <div className="dashboard-span-width-set">
+                <div className="holdings-list-wrapper noselect">
                   <table className="dashboard-market-list-wrapper noselect">
                     <tr className="headers-wrapper" data-list="dashboardMarket">
                       <th>Coin</th>
@@ -229,9 +238,7 @@ export default function InstructionsComponent() {
                       <th>24h Change</th>
                     </tr>
                     {marketDic.map((coin) => (
-                      <tr
-                        className="coin-wrapper"
-                      >
+                      <tr className="coin-wrapper">
                         <td>
                           <div
                             style={{
@@ -240,10 +247,15 @@ export default function InstructionsComponent() {
                               alignItems: "center",
                             }}
                           >
-                            <button className="deleteWatchlist" onClick={(e) => {
-                              e.preventDefault();
-                              deleteWatchlistCoin(coin);
-                            }}>x</button>
+                            <button
+                              className="deleteWatchlist"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                deleteWatchlistCoin(coin);
+                              }}
+                            >
+                              x
+                            </button>
                             <img
                               draggable="false"
                               src={coin.icon}
@@ -256,13 +268,18 @@ export default function InstructionsComponent() {
                         </td>
                         <td>${coin.price}</td>
                         <td>${coin.marketCap}</td>
-                        <td style={{ color: coin.priceChangeDay>= 0 ? "green" : "red" }}>{coin.priceChangeDay}</td>
+                        <td
+                          style={{
+                            color: coin.priceChangeDay >= 0 ? "green" : "red",
+                          }}
+                        >
+                          {coin.priceChangeDay}
+                        </td>
                       </tr>
                     ))}
                   </table>
                 </div>
-                <div />
-                <div className="dashboard-span-width-set">
+                <div className="holdings-list-wrapper noselect">
                   <table className="dashboard-market-list-wrapper noselect">
                     <tr className="headers-wrapper" data-list="dashboardMarket">
                       <th>Coin</th>
@@ -290,13 +307,13 @@ export default function InstructionsComponent() {
                             </p>
                           </div>
                         </td>
-                        <td>
-                          {separateThousands(coin.amount)}
-                        </td>
-                        <td>
-                          ${separateThousands(coin.value)}
-                        </td>
-                        <td style={{ color: coin.change >= 0 ? "green" : "red" }}>
+                        <td>{separateThousands(coin.amount)}</td>
+                        <td>${separateThousands(coin.value)}</td>
+                        <td
+                          style={{
+                            color: coin.change >= 0 ? "green" : "red",
+                          }}
+                        >
                           {coin.change.includes("-")
                             ? coin.change + "%"
                             : "+" + coin.change + "%"}

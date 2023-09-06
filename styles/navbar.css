@@ -178,8 +178,13 @@
     width: fit-content;
 }
 
-#navigation .headNav .active {
+#navigation .navbar-nav .active {
     background-color: #1f2436;
+    border-radius: 10px;
+}
+
+#navigation .navbar-nav a:hover {
+    background-color: #2e343f;
     border-radius: 10px;
 }
 

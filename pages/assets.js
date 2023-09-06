@@ -29,7 +29,7 @@ export default function Assets() {
       const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
 
       // Update OXA
-      const oxaCollection = collection(userDataRef, "OXA");
+      const oxaCollection = collection(userDataRef, "OXA Lane");
       const oxaSnap = await getDocs(oxaCollection);
 
       // Push the data
@@ -57,7 +57,7 @@ export default function Assets() {
       });
 
       // Update RWA
-      const rwaCollection = collection(userDataRef, "RWA");
+      const rwaCollection = collection(userDataRef, "RWA Lane");
       const rwaSnap = await getDocs(rwaCollection);
 
       // Push the data
@@ -85,7 +85,7 @@ export default function Assets() {
       });
 
       // Update AUT
-      const autCollection = collection(userDataRef, "AUT");
+      const autCollection = collection(userDataRef, "AUT Lane");
       const autSnap = await getDocs(autCollection);
 
       // Push the data

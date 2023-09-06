@@ -3,7 +3,14 @@ import { useState, useEffect } from "react";
 import Login from "../components/login.js";
 import { useAuthContext } from "../firebase/context";
 import cryptocurrency from "../assets/crypto.js";
-import { addUserActivity, addUserHoldings, getUserActivities, getUserHoldings, getUserSettings } from "../firebase/user.js";
+import images from "../assets/images.js";
+import {
+  addUserActivity,
+  addUserHoldings,
+  getUserActivities,
+  getUserHoldings,
+  getUserSettings,
+} from "../firebase/user.js";
 
 export default function Activity() {
   const [displayRecord, setDisplayRecord] = useState(false);
@@ -35,7 +42,7 @@ export default function Activity() {
         // Append the data
         TABLE_STATE.push({
           date: data.date,
-          coin: data.coin,
+          coin: data.coin.toUpperCase(),
           amount: data.amount,
           type: data.type,
           notes: data.notes,
@@ -71,16 +78,20 @@ export default function Activity() {
 
       if (data.type != "transfer") {
         if (holdings.hasOwnProperty(cryptocurrency[data.coin])) {
-          const holdingsAmount = data.type == "buy" ? Number(holdings[cryptocurrency[data.coin]].amount) + data.amount : Number(holdings[cryptocurrency[data.coin]].amount) - data.amount;
+          const holdingsAmount =
+            data.type == "buy"
+              ? Number(holdings[cryptocurrency[data.coin]].amount) + data.amount
+              : Number(holdings[cryptocurrency[data.coin]].amount) -
+                data.amount;
           holdings[cryptocurrency[data.coin]] = {
             amount: holdingsAmount,
-            symbol: data.coin
-          }
+            symbol: data.coin,
+          };
         } else {
           holdings[cryptocurrency[data.coin]] = {
             amount: data.amount,
-            symbol: data.coin
-          }
+            symbol: data.coin,
+          };
         }
       }
 
@@ -104,16 +115,14 @@ export default function Activity() {
   const renderTable = () => {
     return (
       <table className="dashboard-market-list-wrapper noselect">
-        <thead>
-          <tr className="headers-wrapper" data-list="dashboardMarket">
-            <th>Date</th>
-            <th>Coin</th>
-            <th>Amount</th>
-            <th>Type</th>
-            <th>Notes</th>
-          </tr>
-        </thead>
-        <tbody>{renderLogs()}</tbody>
+        <tr className="headers-wrapper" data-list="dashboardMarket">
+          <th>Date</th>
+          <th>Coin</th>
+          <th>Amount</th>
+          <th>Type</th>
+          <th>Notes</th>
+        </tr>
+        {renderLogs()}
       </table>
     );
   };
@@ -121,9 +130,22 @@ export default function Activity() {
   const renderLogs = () => {
     return activityData.map(({ date, coin, amount, type, notes }) => {
       return (
-        <tr className="coin-wrapper activity-row">
+        <tr className="coin-wrapper">
           <td>{date}</td>
-          <td>{coin}</td>
+          <td>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <img draggable="false" src={images[coin]} title={coin} />
+              <p className="coin" title={coin}>
+                {coin}
+              </p>
+            </div>
+          </td>
           <td>{amount}</td>
           <td>{type}</td>
           <td>{notes}</td>
@@ -371,7 +393,9 @@ export default function Activity() {
                   </button>
                 </div>
               </div>
-              {renderTable()}
+              <div className="holdings-list-wrapper noselect">
+                {renderTable()}
+              </div>
             </div>
           </div>
         </div>
