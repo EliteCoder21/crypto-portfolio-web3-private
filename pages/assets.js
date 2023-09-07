@@ -21,6 +21,27 @@ export default function Assets() {
     eventBus = handle;
   }
 
+  let getLaneIndex = function(laneName) {
+    let res = 0;
+
+    switch(laneLane) {
+      case "AUT Lane":
+        res = 1;
+        break;
+      case "OXA Lane":
+        res = 2;
+        break;
+      case "Digital Assets Lane":
+        res = 3;
+        break;
+      default:
+        res = 0;
+        break;
+    }
+
+    return res;
+  }
+
   // Get Data
   async function getAssetsData() {
     try {
@@ -28,27 +49,14 @@ export default function Assets() {
       // Base Firebase reference
       const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
 
-      let getLaneIndex = function(laneName) {
-        let res = 0;
-
-        if (laneName === "AUT Lane") {
-          res = 1;
-        } else if (laneName === "OXA Lane") {
-          res = 2;
-        } else if (laneName === "Digital Assets Lane") {
-          res = 3;
-        }
-
-        return res;
-      }
-
-      /*for (let lane in ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]) {
-        // Update OXA
-        const oxaCollection = collection(userDataRef, lane);
-        const oxaSnap = await getDocs(oxaCollection);
+      for (let lane of ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]) {
+        
+        // Update lane
+        const collection = collection(userDataRef, lane);
+        const snap = await getDocs(collection);
 
         // Push the data
-        oxaSnap.forEach((doc) => {
+        snap.forEach((doc) => {
           // Get the data
           const tempData = doc.data();
           const cardData = {
@@ -67,156 +75,14 @@ export default function Assets() {
             card: cardData
           })        
 
-          // Add to json file
+          // Add to JSON file
           data.lanes[getLaneIndex(lane)].cards.push(cardData);
         });
-      }*/
+      }
 
-              // Update OXA
-              const oxaCollection = collection(userDataRef, lane);
-              const oxaSnap = await getDocs(oxaCollection);
-      
-              // Push the data
-              oxaSnap.forEach((doc) => {
-                // Get the data
-                const tempData = doc.data();
-                const cardData = {
-                  id: tempData.id,
-                  laneId: tempData.laneId,
-                  title: tempData.title,
-                  label: tempData.label,
-                  cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-                  description: tempData.description
-                }
-      
-                // Append the data
-                eventBus.publish({
-                  type: "ADD_CARD", 
-                  laneId: lane, 
-                  card: cardData
-                })        
-      
-                // Add to json file
-                data.lanes[getLaneIndex(lane)].cards.push(cardData);
-              });
-
-      /*
-      // Update OXA
-      const oxaCollection = collection(userDataRef, "OXA Lane");
-      const oxaSnap = await getDocs(oxaCollection);
-
-      // Push the data
-      oxaSnap.forEach((doc) => {
-        // Get the data
-        const tempData = doc.data();
-        const cardData = {
-          id: tempData.id,
-          laneId: tempData.laneId,
-          title: tempData.title,
-          label: tempData.label,
-          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-          description: tempData.description
-        }
-
-        // Append the data
-        eventBus.publish({
-          type: "ADD_CARD", 
-          laneId: "OXA Lane", 
-          card: cardData
-        })        
-
-        // Add to json file
-        data.lanes[2].cards.push(cardData);
-      });
-
-      // Update RWA
-      const rwaCollection = collection(userDataRef, "RWA Lane");
-      const rwaSnap = await getDocs(rwaCollection);
-
-      // Push the data
-      rwaSnap.forEach((doc) => {
-        // Get the data
-        const tempData = doc.data();
-        const cardData = {
-          id: tempData.id,
-          laneId: tempData.laneId,
-          title: tempData.title,
-          label: tempData.label,
-          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-          description: tempData.description
-        }
-
-        // Append the data
-        eventBus.publish({
-          type: "ADD_CARD", 
-          laneId: "RWA Lane", 
-          card: cardData
-        })        
-
-        // Add to json file
-        data.lanes[0].cards.push(cardData);
-      });
-
-      // Update AUT
-      const autCollection = collection(userDataRef, "AUT Lane");
-      const autSnap = await getDocs(autCollection);
-
-      // Push the data
-      autSnap.forEach((doc) => {
-        // Get the data
-        const tempData = doc.data();
-        const cardData = {
-          id: tempData.id,
-          laneId: tempData.laneId,
-          title: tempData.title,
-          label: tempData.label,
-          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-          description: tempData.description
-        }
-
-        // Append the data
-        eventBus.publish({
-          type: "ADD_CARD", 
-          laneId: "AUT Lane", 
-          card: cardData
-        })        
-
-        // Add to json file
-        data.lanes[1].cards.push(cardData);
-      });
-
-      // Update digital assets
-      const digCollection = collection(userDataRef, "Digital Assets Lane");
-      const digSnap = await getDocs(digCollection);
-
-      // Push the data
-      digSnap.forEach((doc) => {
-        // Get the data
-        const tempData = doc.data();
-        const cardData = {
-          id: tempData.id,
-          laneId: tempData.laneId,
-          title: tempData.title,
-          label: tempData.label,
-          cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
-          description: tempData.description
-        }
-
-        // Append the data
-        eventBus.publish({
-          type: "ADD_CARD", 
-          laneId: "Digital Assets Lane", 
-          card: cardData
-        })
-
-        // Add to json file
-        data.lanes[3].cards.push(cardData);
-      });
-      */
       console.log("The final updated data is:")
       console.log(data);
-      
-      
+
     } catch (error) {
       console.log(error);
       console.log("IT DIDN'T WORK!")
@@ -247,38 +113,10 @@ export default function Assets() {
     console.log("card id: ", cardId);
 
     // Find the card data
-    let originalLaneInd;
-    switch(fromLaneId) {
-      case "AUT Lane":
-        originalLaneInd = 1;
-        break;
-      case "OXA Lane":
-        originalLaneInd = 2;
-        break;
-      case "Digital Assets Lane":
-        originalLaneInd = 3;
-        break;
-      default:
-        originalLaneInd = 0;
-        break;
-    }
+    let originalLaneInd = getLaneIndex(fromLaneId);
 
     // Find the index of the target lane
-    let FinalLaneInd;
-    switch(toLaneId) {
-      case "AUT Lane":
-        FinalLaneInd = 1;
-        break;
-      case "OXA Lane":
-        FinalLaneInd = 2;
-        break;
-      case "Digital Assets Lane":
-        FinalLaneInd = 3;
-        break;
-      default:
-        FinalLaneInd = 0;
-        break;
-    }
+    let FinalLaneInd = getLaneIndex(toLaneId);
 
     let arr = data.lanes[originalLaneInd];
     let cardData = {}
@@ -297,7 +135,7 @@ export default function Assets() {
     
     try {
       // Publish to front end
-      //To add a card
+      // To add a card
       eventBus.publish({
         type: "ADD_CARD", 
         laneId: toLaneId, 
@@ -317,7 +155,7 @@ export default function Assets() {
       }
 
       // Save
-      //saveUserAssets("5ntPFGMhxD4llc0ObTwF", data); // Replace with real UID
+      // saveUserAssets("5ntPFGMhxD4llc0ObTwF", data); // Replace with real UID
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId);
       console.log("Save finished!");
 

@@ -6,6 +6,7 @@ import {
   addUserHoldings,
   getUserHoldings,
   deleteUserHoldings,
+  getUserSettings,
 } from "../firebase/user.js";
 import cryptocurrency from "../assets/crypto.js";
 import { getMarketCoins } from "../assets/coindesk.js";
@@ -19,8 +20,9 @@ export default function Holdings() {
   const { user } = useAuthContext();
   const [totalValue, setTotalValue] = useState(0);
   const [holdingsDic, setHoldingsDic] = useState([]);
+  const [settings, setSettings] = useState();
 
-  async function fetchTotalValue(settings) {
+  async function fetchTotalValue() {
     let coins = await getUserHoldings(user.uid);
     const currency = settings ? settings.currency : "usd";
 
@@ -39,26 +41,18 @@ export default function Holdings() {
     }
   }
 
-  function editHoldings(coinSym, newAmount) {
-    let data = holdingsDic;
+  async function editHoldings(coinSym, newAmount) {
+    let data = {};
     data[cryptocurrency[coinSym.toUpperCase()]] = {
       amount: amount,
       symbol: coinSym.toUpperCase(),
     };
-    let currentTotalValue = fetchTotalValue();
-
-    const currentAmount = data[cryptocurrency[coinSym.toUpperCase()]].amount;
-    const amountChange = newAmount - currentAmount;
-    currentTotalValue += amountChange;
-
-    data[cryptocurrency[coinSym.toUpperCase()]].amount = newAmount;
-
-    setTotalValue(currentTotalValue);
-    addUserHoldings(user.uid, data);
-    setHoldingsDic(data);
     
     setEdit(null);
     setAmount(0);
+
+    await addUserHoldings(user.uid, data);
+    await fetchTotalValue();
   }
 
   function removeHoldings(coin) {
@@ -67,7 +61,12 @@ export default function Holdings() {
   }
 
   useEffect(() => {
-    fetchTotalValue();
+    async function getStarted() {
+      let settings = await getUserSettings(user.uid);
+      setSettings(settings);
+      fetchTotalValue();
+    }
+    getStarted();
   }, []);
 
   return (
