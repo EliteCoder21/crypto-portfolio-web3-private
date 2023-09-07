@@ -21,15 +21,23 @@ export default function Assets() {
     eventBus = handle;
   }
 
+  // Helper function
   let getLaneIndex = function(laneName) {
     let res = 0;
 
-    if (laneName === "AUT Lane") {
-      res = 1;
-    } else if (laneName === "OXA Lane") {
-      res = 2;
-    } else if (laneName === "Digital Assets Lane") {
-      res = 3;
+    switch(laneName) {
+      case "AUT Lane": 
+        res = 1;
+        break;
+      case "OXA Lane":
+        res = 2;
+        break;
+      case "Digital Assets Lane":
+        res = 3;
+        break;
+      default:
+        res = 0;
+        break;
     }
 
     return res;
@@ -42,14 +50,15 @@ export default function Assets() {
       // Base Firebase reference
       const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
 
+      // Iterate across all lanes
       for (let lane of ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]) {
         
         // Update lane
-        const rwaCollection = collection(userDataRef, lane);
-        const rwaSnap = await getDocs(rwaCollection);
+        const laneCollection = collection(userDataRef, lane);
+        const laneSnap = await getDocs(laneCollection);
 
         // Push the data
-        rwaSnap.forEach((doc) => {
+        laneSnap.forEach((doc) => {
           // Get the data
           const tempData = doc.data();
           const cardData = {
@@ -82,17 +91,6 @@ export default function Assets() {
     }
   }
 
-  // Find JSON data
-  function findIndexById(ID, section) {
-
-    for (let i = 0; i < section.length; i++) {
-      if (section[i].id === ID) {
-        return i;
-      }
-    }
-    return -1;
-  }
-
   // Define the Board functions
   const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId, index) => {
 
@@ -109,7 +107,7 @@ export default function Assets() {
     let originalLaneInd = getLaneIndex(fromLaneId);
 
     // Find the index of the target lane
-    let FinalLaneInd = getLaneIndex(toLaneId);
+    let finalLaneInd = getLaneIndex(toLaneId);
 
     let arr = data.lanes[originalLaneInd];
     let cardData = {}
@@ -136,19 +134,18 @@ export default function Assets() {
       })
       
       // Add to JSON
-      data.lanes[FinalLaneInd].cards.push(cardData);
+      data.lanes[finalLaneInd].cards.push(cardData);
 
       // To remove a card
       eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
 
       // Delete from JSON
-      const i1 = data.lanes[originalLaneInd].cards.indexOf(cardData);
-      if (i1 > -1) { // only splice array when item is found
-        data.lanes[originalLaneInd].cards.splice(i1, 1); // 2nd parameter means remove one item only
+      const j = data.lanes[originalLaneInd].cards.indexOf(cardData);
+      if (j > -1) { // only splice array when item is found
+        data.lanes[originalLaneInd].cards.splice(j, 1); // 2nd parameter means remove one item only
       }
 
-      // Save
-      // saveUserAssets("5ntPFGMhxD4llc0ObTwF", data); // Replace with real UID
+      // Save changes
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId);
       console.log("Save finished!");
 
