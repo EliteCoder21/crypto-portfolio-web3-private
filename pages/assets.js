@@ -146,7 +146,7 @@ export default function Assets() {
       }
 
       // Save changes
-      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId);
+      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData);
       console.log("Save finished!");
 
     } catch (error) {
@@ -168,7 +168,6 @@ export default function Assets() {
             eventBusHandle={setEventBus} 
             style={{backgroundColor: "rgba(31, 42, 71, 0)"}}
             data={data}
-            
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
           />
         </div>

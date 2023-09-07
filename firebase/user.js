@@ -75,16 +75,13 @@ export async function getUserAssets(id) {
   return doc(collection(db, "assets"), id);
 }
 
-export async function transferUserAsset(userId, originalLane, finalLane, id) {
+export async function transferUserAsset(userId, originalLane, finalLane, id, cardData) {
   try {
     // Save the document
-    const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane.replace(" Lane", ""));
-    const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane.replace(" Lane", ""));
-    const data = (await getDoc(doc(originalColRef, id))).data()
-
-    //data['laneId'] = finalLane;
-
-    setDoc(doc(finalColRef, id), data);
+    const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
+    const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
+  
+    setDoc(doc(finalColRef, id), cardData);
 
     // Delete the document
     deleteDoc(doc(originalColRef, id));
