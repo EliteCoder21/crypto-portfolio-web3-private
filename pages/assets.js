@@ -28,6 +28,79 @@ export default function Assets() {
       // Base Firebase reference
       const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
 
+      let getLaneIndex = function(laneName) {
+        let res = 0;
+
+        if (laneName === "AUT Lane") {
+          res = 1;
+        } else if (laneName === "OXA Lane") {
+          res = 2;
+        } else if (laneName === "Digital Assets Lane") {
+          res = 3;
+        }
+
+        return res;
+      }
+
+      /*for (let lane in ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]) {
+        // Update OXA
+        const oxaCollection = collection(userDataRef, lane);
+        const oxaSnap = await getDocs(oxaCollection);
+
+        // Push the data
+        oxaSnap.forEach((doc) => {
+          // Get the data
+          const tempData = doc.data();
+          const cardData = {
+            id: tempData.id,
+            laneId: tempData.laneId,
+            title: tempData.title,
+            label: tempData.label,
+            cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+            description: tempData.description
+          }
+
+          // Append the data
+          eventBus.publish({
+            type: "ADD_CARD", 
+            laneId: lane, 
+            card: cardData
+          })        
+
+          // Add to json file
+          data.lanes[getLaneIndex(lane)].cards.push(cardData);
+        });
+      }*/
+
+              // Update OXA
+              const oxaCollection = collection(userDataRef, lane);
+              const oxaSnap = await getDocs(oxaCollection);
+      
+              // Push the data
+              oxaSnap.forEach((doc) => {
+                // Get the data
+                const tempData = doc.data();
+                const cardData = {
+                  id: tempData.id,
+                  laneId: tempData.laneId,
+                  title: tempData.title,
+                  label: tempData.label,
+                  cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+                  description: tempData.description
+                }
+      
+                // Append the data
+                eventBus.publish({
+                  type: "ADD_CARD", 
+                  laneId: lane, 
+                  card: cardData
+                })        
+      
+                // Add to json file
+                data.lanes[getLaneIndex(lane)].cards.push(cardData);
+              });
+
+      /*
       // Update OXA
       const oxaCollection = collection(userDataRef, "OXA Lane");
       const oxaSnap = await getDocs(oxaCollection);
@@ -113,11 +186,11 @@ export default function Assets() {
       });
 
       // Update digital assets
-      const digCollection = collection(userDataRef, "Digital Assets");
+      const digCollection = collection(userDataRef, "Digital Assets Lane");
       const digSnap = await getDocs(digCollection);
 
       // Push the data
-      oxaSnap.forEach((doc) => {
+      digSnap.forEach((doc) => {
         // Get the data
         const tempData = doc.data();
         const cardData = {
@@ -139,7 +212,7 @@ export default function Assets() {
         // Add to json file
         data.lanes[3].cards.push(cardData);
       });
-      
+      */
       console.log("The final updated data is:")
       console.log(data);
       

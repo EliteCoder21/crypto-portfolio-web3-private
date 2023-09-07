@@ -7,7 +7,8 @@ import "../styles/microtip.css";
 import "../styles/navbar.css";
 import "../styles/section.css";
 import "../styles/view.css";
-import { AuthContextProvider } from '../firebase/context';
+import { AuthContextProvider } from "../firebase/context";
+import Head from "next/head";
 
 const config = createConfig(
   getDefaultConfig({
@@ -21,6 +22,10 @@ const config = createConfig(
 export default function RootLayout({ Component, pageProps }) {
   return (
     <div lang="en">
+      <Head>
+        <link rel="shortcut icon" href="/favicon.png" />
+        <title>OpenEXA Portfolio</title>
+      </Head>
       <WagmiConfig config={config}>
         <ConnectKitProvider mode="light">
           <div

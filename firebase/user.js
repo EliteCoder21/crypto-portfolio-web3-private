@@ -82,7 +82,7 @@ export async function transferUserAsset(userId, originalLane, finalLane, id) {
     const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane.replace(" Lane", ""));
     const data = (await getDoc(doc(originalColRef, id))).data()
 
-    data['laneId'] = finalLane;
+    //data['laneId'] = finalLane;
 
     setDoc(doc(finalColRef, id), data);
 
@@ -138,6 +138,22 @@ export async function addUserHoldings(id, data) {
   }
 
   return { result, error };
+}
+
+export async function deleteUserHoldings(id, coinName) {
+  const documentRef = doc(db, "holdings", id);
+
+  const updateData = {
+    [`${coinName}`]: deleteField()
+  };
+
+  try {
+    await updateDoc(documentRef, updateData);
+    return true;
+  } catch (error) {
+    console.error("Error deleting field:", error);
+    return false;
+  }
 }
 
 export async function getUserSettings(id) {

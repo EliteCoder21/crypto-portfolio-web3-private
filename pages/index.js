@@ -273,7 +273,7 @@ export default function InstructionsComponent() {
                             color: coin.priceChangeDay >= 0 ? "green" : "red",
                           }}
                         >
-                          {coin.priceChangeDay}
+                          {coin.priceChangeDay}%
                         </td>
                       </tr>
                     ))}

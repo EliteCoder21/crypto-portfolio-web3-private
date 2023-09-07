@@ -35,10 +35,8 @@ export default function Market() {
     return marketData.map(({ rank, image, coin, price, marketCap, change }) => {
       return (
         <tr className="coin-wrapper">
-          <td>{rank}</td>
           <td>
-            <img draggable="false" src={image} />
-            {coin}
+            {rank}
             <span>
               <button
                 className="deleteElement"
@@ -50,6 +48,10 @@ export default function Market() {
                 ↗
               </button>
             </span>
+          </td>
+          <td>
+            <img draggable="false" src={image} />
+            {coin}
           </td>
           <td>{price}</td>
           <td>{marketCap}</td>
