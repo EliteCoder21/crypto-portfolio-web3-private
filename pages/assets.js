@@ -24,19 +24,12 @@ export default function Assets() {
   let getLaneIndex = function(laneName) {
     let res = 0;
 
-    switch(laneLane) {
-      case "AUT Lane":
-        res = 1;
-        break;
-      case "OXA Lane":
-        res = 2;
-        break;
-      case "Digital Assets Lane":
-        res = 3;
-        break;
-      default:
-        res = 0;
-        break;
+    if (laneName === "AUT Lane") {
+      res = 1;
+    } else if (laneName === "OXA Lane") {
+      res = 2;
+    } else if (laneName === "Digital Assets Lane") {
+      res = 3;
     }
 
     return res;
@@ -52,11 +45,11 @@ export default function Assets() {
       for (let lane of ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]) {
         
         // Update lane
-        const collection = collection(userDataRef, lane);
-        const snap = await getDocs(collection);
+        const rwaCollection = collection(userDataRef, lane);
+        const rwaSnap = await getDocs(rwaCollection);
 
         // Push the data
-        snap.forEach((doc) => {
+        rwaSnap.forEach((doc) => {
           // Get the data
           const tempData = doc.data();
           const cardData = {
@@ -145,7 +138,7 @@ export default function Assets() {
       // Add to JSON
       data.lanes[FinalLaneInd].cards.push(cardData);
 
-      //To remove a card
+      // To remove a card
       eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
 
       // Delete from JSON
