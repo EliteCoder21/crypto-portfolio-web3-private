@@ -26,8 +26,8 @@ export default function Navbar({ active }) {
           <div className="relative group">
             <a
               className="launchApp-link"
-              href="https://openexa.to" //This is where we have to change
-              target="_blank" //Or maybe here
+              href="https://openexa.io"
+              target="_blank"
             >
               <button
                 className="transition shadow-md"
@@ -40,7 +40,7 @@ export default function Navbar({ active }) {
           <div className="relative group">
             <a
               className="launchApp-link"
-              href="https://openexa.io"
+              href="https://openexa.to"
               target="_blank"
             >
               <button
