@@ -1,13 +1,9 @@
-import { Text } from "react-native";
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
-import Plot from "react-plotly.js";
-import Grid from "@mui/material/Grid";
-import { TempCold } from "styled-icons/remix-fill";
-import { BlackTie } from "styled-icons/fa-brands";
-import "../index.css";
+import dynamic from "next/dynamic";
+const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
-const enableLoadIcon = true;
+const WINDOW_WIDTH = 850;
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
@@ -138,7 +134,7 @@ var quant_layout = {
   yaxis: {
     gridcolor: "#444444",
   },
-  width: (window.innerWidth - 60) / 2,
+  width: (WINDOW_WIDTH - 60) / 2,
   height: 440,
   title: "Return Quantiles",
   borderRadius: 10,
@@ -161,7 +157,7 @@ var month_percent_layout = {
     t: 50,
     pad: 4,
   },
-  width: window.innerWidth - 60,
+  width: WINDOW_WIDTH - 60,
   height: 440,
   title: "Monthly Returns (%)",
 };
@@ -189,7 +185,7 @@ var sharpe_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (window.innerWidth - 80) / 2,
+  width: (WINDOW_WIDTH - 80) / 2,
   height: 440,
   title: "Rolling Sharpe (6 Months)",
 };
@@ -217,7 +213,7 @@ var vol_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (window.innerWidth - 60) / 2,
+  width: (WINDOW_WIDTH - 60) / 2,
   height: 440,
   title: "Rolling Volatility (6 Months)",
 };
@@ -245,7 +241,7 @@ var beta_layout = {
     t: 50,
     pad: 4,
   },
-  width: (window.innerWidth - 80) / 2,
+  width: (WINDOW_WIDTH - 80) / 2,
   height: 440,
   title: "Rolling Beta to Benchmark",
 };
@@ -273,7 +269,7 @@ var drawdown_layout = {
     t: 50,
     pad: 4,
   },
-  width: window.innerWidth - 350 - 80,
+  width: WINDOW_WIDTH - 350 - 80,
   height: 440,
   title: "Top 5 Drawdown Periods",
 };
@@ -298,7 +294,7 @@ var monthly_layout = {
     t: 50,
     pad: 4,
   },
-  width: window.innerWidth - 350 - 80,
+  width: WINDOW_WIDTH - 350 - 80,
   height: 440,
   title: "Distribution of Monthly Returns",
 };
@@ -322,7 +318,7 @@ var EoY_layout = {
     t: 50,
     pad: 4,
   },
-  width: window.innerWidth - 350 - 80,
+  width: WINDOW_WIDTH - 350 - 80,
   height: 440,
   title: "End of Year Returns vs Benchmark",
 };
@@ -349,7 +345,7 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: window.innerWidth - 350 - 80,
+  width: WINDOW_WIDTH - 350 - 80,
   height: 440,
   title: "Cumulative Returns",
 };
@@ -377,7 +373,7 @@ var dreturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: window.innerWidth - 350 - 80,
+  width: WINDOW_WIDTH - 350 - 80,
   height: 440,
   title: "Daily Returns",
 };
@@ -405,7 +401,7 @@ var sort_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (window.innerWidth - 80) / 2,
+  width: (WINDOW_WIDTH - 80) / 2,
   height: 440,
   title: "Rolling Sortino (6 Months)",
 };
@@ -433,7 +429,7 @@ var under_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: window.innerWidth - 350 - 80,
+  width: WINDOW_WIDTH - 350 - 80,
   height: 440,
   title: "Underwater Plot",
 };
@@ -523,12 +519,6 @@ const Tearsheet = () => {
     setQuants([]);
     setSortino([]);
     setUnderwater([]);
-    let table = document.querySelector("#w_draw_table");
-    table.innerHTML = "";
-    let table2 = document.querySelector("#eoy_table");
-    table2.innerHTML = "";
-    let table3 = document.querySelector("#table");
-    table3.innerHTML = "";
   }
 
   function handleStratInputChange(newValue) {
@@ -540,7 +530,6 @@ const Tearsheet = () => {
   }
 
   function generateTable(table, data, Strategy, Benchmark) {
-    table.innerHTML = "";
     let keys = Object.keys(data[0]);
     console.log(keys);
     table.style.textAlign = "left";
@@ -598,7 +587,6 @@ const Tearsheet = () => {
   }
 
   function generateEOYTable(table, data) {
-    table.innerHTML = "";
     const keys = Object.keys(data[0].Strategy);
 
     table.style.textAlign = "left";
@@ -673,7 +661,6 @@ const Tearsheet = () => {
   }
 
   function generateWDrawTable(table, data) {
-    table.innerHTML = "";
     const keys = Object.keys(data[0].start);
 
     table.style.textAlign = "left";
@@ -729,7 +716,6 @@ const Tearsheet = () => {
   // similar to componentDidMount()
   useEffect(() => {
     handleRefresh(selectedCUSIPStrat, "010824GS3");
-    window.addEventListener("resize", handleResize, false);
   }, []);
 
   const handleResize = () => {
@@ -737,7 +723,7 @@ const Tearsheet = () => {
     //Set size of first set of visuals
 
     //Entire window - table - margins/padding
-    const first_size = window.innerWidth - 350 - 80;
+    const first_size = WINDOW_WIDTH - 350 - 80;
     Object.assign(ret, cret_Layout);
     ret.width = first_size;
     ret.title = "Cumulative Returns";
@@ -764,7 +750,7 @@ const Tearsheet = () => {
     drop.width = first_size;
     setWDPLayout(drop);
 
-    const second_size = (window.innerWidth - 80) / 2;
+    const second_size = (WINDOW_WIDTH - 80) / 2;
     let beta = {};
     Object.assign(beta, beta_Layout);
     beta.width = second_size;
@@ -795,7 +781,7 @@ const Tearsheet = () => {
     quant.width = second_size;
     setQuantLayout(quant);
 
-    const third_size = window.innerWidth - 60;
+    const third_size = WINDOW_WIDTH - 60;
     let hm = {};
     Object.assign(hm, heatmap_Layout);
     hm.width = third_size;
@@ -1278,7 +1264,7 @@ const Tearsheet = () => {
   };
 
   let initialSubheaderFontSize;
-  if (window.innerWidth > 568) {
+  if (WINDOW_WIDTH > 568) {
     initialSubheaderFontSize = 37;
   } else {
     initialSubheaderFontSize = 31;
@@ -1290,19 +1276,6 @@ const Tearsheet = () => {
 
   return (
     <div style={{ minHeight: "100vh" }}>
-      <div align="center" width="100%" height="80px">
-        <Text
-          backgroundColor="#131722"
-          style={{
-            lineHeight: "80px",
-            fontSize: 45,
-            color: "white",
-            marginTop: 10,
-          }}
-        >
-          Strategy Tearsheet
-        </Text>
-      </div>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
         <div className="d-flex justify-content-left ml-3 mb-3 selectContainer">
           <div className="d-flex flex-column benchSelectDiv">

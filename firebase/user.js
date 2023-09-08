@@ -80,11 +80,12 @@ export async function transferUserAsset(userId, originalLane, finalLane, id, car
     // Save the document
     const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
     const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
-  
-    setDoc(doc(finalColRef, id), cardData);
-
+    
     // Delete the document
     deleteDoc(doc(originalColRef, id));
+
+    setDoc(doc(finalColRef, id), cardData);
+
   } catch (e) {
     console.log(e);
   }
