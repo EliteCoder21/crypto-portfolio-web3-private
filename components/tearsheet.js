@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
-const WINDOW_WIDTH = 850;
+const WINDOW_WIDTH = 1000;
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
@@ -431,7 +431,7 @@ var under_layout = {
   },
   width: WINDOW_WIDTH - 350 - 80,
   height: 440,
-  title: "Underwater Plot",
+  title: "Underwater Plt",
 };
 
 const Tearsheet = () => {
@@ -1287,7 +1287,7 @@ const Tearsheet = () => {
               placeholder={selectedCUSIPStrat}
               onChange={handleStratInputChange}
               options={CUSIP_options}
-              styles={customStyles}
+              styles={customStyles} 
               isClearable
               value={selectedCUSIPStrat}
               isFilterable

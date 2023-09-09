@@ -3,7 +3,7 @@ import Login from "../components/login.js";
 import AsyncBoard from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
-import { addUserActivity, getUserAssets, transferUserAsset } from "../firebase/user.js";
+import addUserActivity, { getUserAssets, transferUserAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Assets() {
@@ -13,7 +13,7 @@ export default function Assets() {
 
   // Populate kanban data
   const data = require("./kanbanTestData.json");
-  getAssetsData("5ntPFGMhxD4llc0ObTwF");
+  getAssetsData(user.uid);
 
   // Event Bus for operations
   let eventBus = null;
@@ -92,7 +92,7 @@ export default function Assets() {
   }
 
   // Define the Board functions
-  const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId, index) => {
+  const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
 
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
@@ -156,16 +156,15 @@ export default function Assets() {
   }
 
   const onCardAdd = (card, laneId) => {
-    // Define this later
+    
   }
-
 
   const AssetInventory = () => {
     return (
       <div className="bond-data">
         <div className="myAssets">
           <AsyncBoard
-            eventBusHandle={setEventBus} 
+            eventBusHandle={setEventBus}
             style={{backgroundColor: "rgba(31, 42, 71, 0)"}}
             data={data}
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}

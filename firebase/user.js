@@ -80,44 +80,12 @@ export async function transferUserAsset(userId, originalLane, finalLane, id, car
     // Save the document
     const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
     const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
-    
+      
     // Delete the document
     deleteDoc(doc(originalColRef, id));
 
     setDoc(doc(finalColRef, id), cardData);
 
-  } catch (e) {
-    console.log(e);
-  }
-}
-
-export async function saveUserAssets(id, data) {
-
-  try {
-    clearUserAssets(id);
-
-    const autRef = collection(doc(collection(db, "assets"), id), 'AUT');
-    data.lanes[1].cards.forEach(c => {
-      setDoc(doc(autRef, c.id), c);
-    });
-    
-
-    const digRef = collection(doc(collection(db, "assets"), id), 'Digital Assets');
-    data.lanes[3].cards.forEach(c => {
-      setDoc(doc(digRef, c.id), c);
-    });
-    
-
-    const oxaRef = collection(doc(collection(db, "assets"), id), 'OXA');
-    data.lanes[2].cards.forEach(c => {
-      setDoc(doc(oxaRef, c.id), c);
-    });
-    
-    const rwaRef = collection(doc(collection(db, "assets"), id), 'RWA');
-    data.lanes[0].cards.forEach(c => {
-      setDoc(doc(rwaRef, c.id), c);
-    });
-    
   } catch (e) {
     console.log(e);
   }
