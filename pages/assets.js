@@ -3,17 +3,22 @@ import Login from "../components/login.js";
 import AsyncBoard from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
-import addUserActivity, { getUserAssets, transferUserAsset } from "../firebase/user.js"
+import { getUserAssets, transferUserAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Assets() {
 
-  // Essential Variables
+  // Essential variables
   const { user } = useAuthContext();
 
-  // Populate kanban data
-  const data = require("./kanbanTestData.json");
+  // Read empty Kanban lanes
+  const data = require("./emptyAssetsData.json");
+  
+  // Read user Firebase data
   getAssetsData(user.uid);
+  
+  // Pass test user ID as string literal
+  // getAssetsData("5ntPFGMhxD4llc0ObTwF");
 
   // Event Bus for operations
   let eventBus = null;
@@ -23,6 +28,8 @@ export default function Assets() {
 
   // Helper function
   let getLaneIndex = function(laneName) {
+    
+    // Default index value
     let res = 0;
 
     switch(laneName) {
@@ -43,7 +50,7 @@ export default function Assets() {
     return res;
   }
 
-  // Get Data
+  // Get data
   async function getAssetsData() {
     try {
       
@@ -59,8 +66,11 @@ export default function Assets() {
 
         // Push the data
         laneSnap.forEach((doc) => {
-          // Get the data
+          
+          // Read the data
           const tempData = doc.data();
+
+          // Populate new data object
           const cardData = {
             id: tempData.id,
             laneId: tempData.laneId,
@@ -104,12 +114,12 @@ export default function Assets() {
     console.log("card id: ", cardId);
 
     // Find the card data
-    let originalLaneInd = getLaneIndex(fromLaneId);
+    let originalLaneIndex = getLaneIndex(fromLaneId);
 
     // Find the index of the target lane
-    let finalLaneInd = getLaneIndex(toLaneId);
+    let finalLaneIndex = getLaneIndex(toLaneId);
 
-    let arr = data.lanes[originalLaneInd];
+    let arr = data.lanes[originalLaneIndex];
     let cardData = {}
 
     console.log("Began looking for cards in ", fromLaneId);
@@ -125,24 +135,23 @@ export default function Assets() {
     console.log("The found card is: ", cardData);
     
     try {
-      // Publish to front end
-      // To add a card
+      // Publish to frontend
       eventBus.publish({
         type: "ADD_CARD", 
         laneId: toLaneId, 
         card: cardData
       })
       
-      // Add to JSON
-      data.lanes[finalLaneInd].cards.push(cardData);
+      // Add card to destination lane
+      data.lanes[finalLaneIndex].cards.push(cardData);
 
-      // To remove a card
+      // Remove card from previous lane
       eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
 
       // Delete from JSON
-      const j = data.lanes[originalLaneInd].cards.indexOf(cardData);
+      const j = data.lanes[originalLaneIndex].cards.indexOf(cardData);
       if (j > -1) { // only splice array when item is found
-        data.lanes[originalLaneInd].cards.splice(j, 1); // 2nd parameter means remove one item only
+        data.lanes[originalLaneIndex].cards.splice(j, 1); // 2nd parameter means remove one item only
       }
 
       // Save changes
