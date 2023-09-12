@@ -9,7 +9,7 @@ import {
   collection,
   updateDoc,
   deleteDoc,
-  deleteField
+  deleteField,
 } from "firebase/firestore";
 
 const db = getFirestore(firebase_app);
@@ -70,22 +70,59 @@ export async function getUserHoldings(id) {
   }
 }
 
-export async function getUserAssets(id) {
-
-  return doc(collection(db, "assets"), id);
+export async function getUserAssets(userId) {
+  console.log("Getting all user assets!");
+  return doc(db, "assets", userId);
 }
 
-export async function transferUserAsset(userId, originalLane, finalLane, id, cardData) {
+export async function getSingleAsset(userId, lane, cardId) {
   try {
+    console.log("userId: "+ userId+ " lane: "+ lane+ " cardId: "+ cardId);
+    const docRef = doc(collection(doc(db, "assets", userId), lane), cardId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (error) {
+    console.error("Error getting document:", error);
+    return null;
+  }
+}
+
+export async function transferUserAsset(
+  userId,
+  originalLane,
+  finalLane,
+  id,
+  cardData
+) {
+  try {
+    console.log("Original Lane Id ", originalLane);
+    console.log("Final Lane Id ", finalLane);
+
     // Save the document
-    const originalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
-    const finalColRef = collection(doc(collection(db, "assets"), userId), originalLane);
-      
+    const originalColRef = collection(
+      doc(collection(db, "assets"), userId),
+      originalLane
+    );
+    const finalColRef = collection(
+      doc(collection(db, "assets"), userId),
+      originalLane
+    );
+
+    cardData = getSingleAsset(userId, originalLane, id);
+    console.log("Consumed data successfully: ", cardData);
+
     // Delete the document
     deleteDoc(doc(originalColRef, id));
+    console.log("Check for delete!");
 
     setDoc(doc(finalColRef, id), cardData);
-
+    console.log("Check for add!");
   } catch (e) {
     console.log(e);
   }
@@ -110,7 +147,7 @@ export async function deleteUserHoldings(id, coinName) {
   const documentRef = doc(db, "holdings", id);
 
   const updateData = {
-    [`${coinName}`]: deleteField()
+    [`${coinName}`]: deleteField(),
   };
 
   try {
@@ -159,7 +196,7 @@ export async function deleteWatchlist(id, coinName) {
   const documentRef = doc(db, "settings", id);
 
   const updateData = {
-    [`watchlist.${coinName}`]: deleteField()
+    [`watchlist.${coinName}`]: deleteField(),
   };
 
   try {

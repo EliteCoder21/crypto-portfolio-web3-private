@@ -3,7 +3,7 @@ import Login from "../components/login.js";
 import AsyncBoard from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
-import addUserActivity, { getUserAssets, transferUserAsset } from "../firebase/user.js"
+import addUserActivity, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Assets() {
@@ -13,7 +13,7 @@ export default function Assets() {
 
   // Populate kanban data
   const data = require("./kanbanTestData.json");
-  getAssetsData(user.uid);
+  getAssetsData("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
 
   // Event Bus for operations
   let eventBus = null;
@@ -82,12 +82,10 @@ export default function Assets() {
         });
       }
 
-      console.log("The final updated data is:")
-      console.log(data);
-
+      console.log("Current data", data);
+      console.log("-------------------------");
     } catch (error) {
       console.log(error);
-      console.log("IT DIDN'T WORK!")
     }
   }
 
@@ -99,28 +97,8 @@ export default function Assets() {
       return;
     }
     
-    console.log("start: ", fromLaneId);
-    console.log("end: ", toLaneId);
-    console.log("card id: ", cardId);
-
-    // Find the card data
-    let originalLaneInd = getLaneIndex(fromLaneId);
-
-    // Find the index of the target lane
-    let finalLaneInd = getLaneIndex(toLaneId);
-
-    let arr = data.lanes[originalLaneInd];
-    let cardData = {}
-
-    console.log("Began looking for cards in ", fromLaneId);
-    console.log(data);
-    for (let c in arr.cards) {
-      console.log(c);
-      if (arr.cards[c].id === cardId) {
-        cardData = arr.cards[c];
-        break;
-      }
-    }
+    // Get an individual record
+    let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, cardId);
 
     console.log("The found card is: ", cardData);
     
@@ -134,20 +112,21 @@ export default function Assets() {
       })
       
       // Add to JSON
-      data.lanes[finalLaneInd].cards.push(cardData);
+      //data.lanes[finalLaneInd].cards.push(cardData);
 
       // To remove a card
       eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
 
       // Delete from JSON
-      const j = data.lanes[originalLaneInd].cards.indexOf(cardData);
-      if (j > -1) { // only splice array when item is found
-        data.lanes[originalLaneInd].cards.splice(j, 1); // 2nd parameter means remove one item only
-      }
+      //const j = data.lanes[originalLaneInd].cards.indexOf(cardData);
+      //if (j > -1) { // only splice array when item is found
+      //  data.lanes[originalLaneInd].cards.splice(j, 1); // 2nd parameter means remove one item only
+      //  console.log("Deletion success!");
+      //}
 
       // Save changes
-      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData);
-      console.log("Save finished!");
+      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
+      getAssetsData();
 
     } catch (error) {
       console.log(error);

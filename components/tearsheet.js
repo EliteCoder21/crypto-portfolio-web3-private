@@ -185,7 +185,7 @@ var sharpe_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 80) / 2,
+  width: (WINDOW_WIDTH - 100) / 2,
   height: 440,
   title: "Rolling Sharpe (6 Months)",
 };
@@ -213,7 +213,7 @@ var vol_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 60) / 2,
+  width: (WINDOW_WIDTH - 100) / 2,
   height: 440,
   title: "Rolling Volatility (6 Months)",
 };
@@ -345,7 +345,7 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 350 - 80,
+  width: WINDOW_WIDTH - 350,
   height: 440,
   title: "Cumulative Returns",
 };
@@ -401,7 +401,7 @@ var sort_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 80) / 2,
+  width: (WINDOW_WIDTH - 100) / 2,
   height: 440,
   title: "Rolling Sortino (6 Months)",
 };
@@ -431,7 +431,7 @@ var under_layout = {
   },
   width: WINDOW_WIDTH - 350 - 80,
   height: 440,
-  title: "Underwater Plt",
+  title: "Underwater Plot",
 };
 
 const Tearsheet = () => {
