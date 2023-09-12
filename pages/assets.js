@@ -8,7 +8,7 @@ import { collection, getDocs } from "firebase/firestore";
 
 export default function Assets() {
 
-  // Essential Variables
+  // Essential variables
   const { user } = useAuthContext();
 
   // Populate kanban data
@@ -23,6 +23,8 @@ export default function Assets() {
 
   // Helper function
   let getLaneIndex = function(laneName) {
+    
+    // Default index value
     let res = 0;
 
     switch(laneName) {
@@ -43,7 +45,7 @@ export default function Assets() {
     return res;
   }
 
-  // Get Data
+  // Get data
   async function getAssetsData() {
     try {
       
@@ -59,8 +61,11 @@ export default function Assets() {
 
         // Push the data
         laneSnap.forEach((doc) => {
-          // Get the data
+          
+          // Read the data
           const tempData = doc.data();
+
+          // Populate new data object
           const cardData = {
             id: tempData.id,
             laneId: tempData.laneId,
@@ -103,8 +108,7 @@ export default function Assets() {
     console.log("The found card is: ", cardData);
     
     try {
-      // Publish to front end
-      // To add a card
+      // Publish to frontend
       eventBus.publish({
         type: "ADD_CARD", 
         laneId: toLaneId, 
@@ -114,15 +118,14 @@ export default function Assets() {
       // Add to JSON
       //data.lanes[finalLaneInd].cards.push(cardData);
 
-      // To remove a card
+      // Remove card from previous lane
       eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
 
       // Delete from JSON
-      //const j = data.lanes[originalLaneInd].cards.indexOf(cardData);
-      //if (j > -1) { // only splice array when item is found
-      //  data.lanes[originalLaneInd].cards.splice(j, 1); // 2nd parameter means remove one item only
-      //  console.log("Deletion success!");
-      //}
+      const j = data.lanes[originalLaneInd].cards.indexOf(cardData);
+      if (j > -1) { // only splice array when item is found
+        data.lanes[originalLaneInd].cards.splice(j, 1); // 2nd parameter means remove one item only
+      }
 
       // Save changes
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
