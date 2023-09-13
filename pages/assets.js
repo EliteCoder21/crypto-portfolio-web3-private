@@ -10,10 +10,6 @@ require("firebase/firestore");
 
 export default function Assets() {
 
-  //TEST HERE of getting data
-  const testData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", "RWA Lane", "NFE6lqYWhI17nABQbqC9");
-  console.log("TEST: ", testData);
-
   // Essential variables
   const { user } = useAuthContext();
 
@@ -65,6 +61,9 @@ export default function Assets() {
         const laneCollection = collection(userDataRef, lane);
         const laneSnap = await getDocs(laneCollection);
 
+        // Clear lane
+        data.lanes[getLaneIndex(lane)].cards = [];
+
         // Push the data
         laneSnap.forEach((doc) => {
           
@@ -93,6 +92,11 @@ export default function Assets() {
         });
       }
 
+      eventBus.publish({
+        type: "UPDATE_LANES", 
+        lanes: data.lanes
+      });
+
       console.log("Current data", data);
       console.log("-------------------------");
     } catch (error) {
@@ -102,12 +106,6 @@ export default function Assets() {
 
   // Define the Board functions
   const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
-
-    console.log("------------------");
-    console.log("HANDLE MOVE ACROSS");
-    console.log("fromLaneId: ", fromLaneId);
-    console.log("CARD ID ", cardId);
-    
 
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
@@ -125,7 +123,7 @@ export default function Assets() {
         type: "ADD_CARD", 
         laneId: toLaneId, 
         card: cardData
-      })
+      });
       
       // Add to JSON
       //data.lanes[finalLaneInd].cards.push(cardData);

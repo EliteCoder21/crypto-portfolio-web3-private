@@ -77,7 +77,6 @@ export async function getUserAssets(userId) {
 
 export async function getSingleAsset(userId, lane, cardId) {
   try {
-    console.log("userId: " + userId + " lane: "+ lane + " cardId: " + cardId);
     const docRef = doc(collection(doc(db, "assets", userId), lane), cardId);
     const docSnap = await getDoc(docRef);
 
@@ -101,30 +100,27 @@ export async function transferUserAsset(
   cardData
 ) {
 
+  originalLane = originalLane.trimStart();
+  finalLane = finalLane.trimStart();
+
   try {
-    console.log("Original Lane Id ", originalLane);
-    console.log("Final Lane Id ", finalLane);
 
-    // Save the document
-    const originalColRef = collection(
-      doc(db, "assets", userId),
-      originalLane
-    );
-    const finalColRef = collection(
-      doc(db, "assets", userId),
-      originalLane
-    );
-
-    cardData = getSingleAsset(userId, originalLane, id);
+    cardData = await getSingleAsset(userId, originalLane, id);
     console.log("Consumed data successfully: ", cardData);
 
     // Delete the document
-    deleteDoc(doc(originalColRef, id));
-    console.log("Check for delete!");
+    const deleteTarget = doc(db, "assets", userId, originalLane, id);
+    const targetSnap = getDoc(deleteTarget);
 
-    setDoc(doc(finalColRef, id), cardData);
-    console.log("Here is the data that was added: ", cardData);
-    console.log("Check for add!");
+    if (targetSnap.exists()) {
+      console.log("This exists!");
+    }
+
+    const res1 = await deleteDoc(targetSnap);
+    console.log("Check for delete!", res1);
+
+    const res2 = await setDoc(doc(db, "assets", userId, originalLane, id), cardData);
+    console.log("Check for add!", res2);
   } catch (e) {
     console.log(e);
   }
