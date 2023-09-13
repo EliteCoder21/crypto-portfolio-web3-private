@@ -5,14 +5,20 @@ import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
 import addUserActivity, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
+const firebase = require("firebase/app");
+require("firebase/firestore");
 
 export default function Assets() {
+
+  //TEST HERE of getting data
+  const testData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", "RWA Lane", "NFE6lqYWhI17nABQbqC9");
+  console.log("TEST: ", testData);
 
   // Essential variables
   const { user } = useAuthContext();
 
   // Populate kanban data
-  const data = require("./kanbanTestData.json");
+  const data = require("./emptyAssetsData.json");
   getAssetsData("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
 
   // Event Bus for operations
@@ -97,13 +103,19 @@ export default function Assets() {
   // Define the Board functions
   const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
 
+    console.log("------------------");
+    console.log("HANDLE MOVE ACROSS");
+    console.log("fromLaneId: ", fromLaneId);
+    console.log("CARD ID ", cardId);
+    
+
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
       return;
     }
     
     // Get an individual record
-    let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, cardId);
+    let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId.trimStart(), cardId.trimStart());
 
     console.log("The found card is: ", cardData);
     
@@ -120,12 +132,6 @@ export default function Assets() {
 
       // Remove card from previous lane
       eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
-
-      // Delete from JSON
-      const j = data.lanes[originalLaneInd].cards.indexOf(cardData);
-      if (j > -1) { // only splice array when item is found
-        data.lanes[originalLaneInd].cards.splice(j, 1); // 2nd parameter means remove one item only
-      }
 
       // Save changes
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id

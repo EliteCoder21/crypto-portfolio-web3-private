@@ -55,7 +55,7 @@ export default function Market() {
           </td>
           <td>{price}</td>
           <td>{marketCap}</td>
-          <td>{change}</td>
+          <td style = {{color: change[0] != "-" ? "green" : "red",}}>{change}</td>
         </tr>
       );
     });

@@ -420,7 +420,7 @@ var under_layout = {
     r: 50,
     b: 50,
     t: 50,
-    pad: 4,
+    pad: 4, 
   },
   yaxis: {
     tickformat: "p",
@@ -429,7 +429,7 @@ var under_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: WINDOW_WIDTH - 350 - 80,
+  width: WINDOW_WIDTH - 350,
   height: 440,
   title: "Underwater Plot",
 };

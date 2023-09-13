@@ -77,7 +77,7 @@ export async function getUserAssets(userId) {
 
 export async function getSingleAsset(userId, lane, cardId) {
   try {
-    console.log("userId: "+ userId+ " lane: "+ lane+ " cardId: "+ cardId);
+    console.log("userId: " + userId + " lane: "+ lane + " cardId: " + cardId);
     const docRef = doc(collection(doc(db, "assets", userId), lane), cardId);
     const docSnap = await getDoc(docRef);
 
@@ -100,17 +100,18 @@ export async function transferUserAsset(
   id,
   cardData
 ) {
+
   try {
     console.log("Original Lane Id ", originalLane);
     console.log("Final Lane Id ", finalLane);
 
     // Save the document
     const originalColRef = collection(
-      doc(collection(db, "assets"), userId),
+      doc(db, "assets", userId),
       originalLane
     );
     const finalColRef = collection(
-      doc(collection(db, "assets"), userId),
+      doc(db, "assets", userId),
       originalLane
     );
 
@@ -122,6 +123,7 @@ export async function transferUserAsset(
     console.log("Check for delete!");
 
     setDoc(doc(finalColRef, id), cardData);
+    console.log("Here is the data that was added: ", cardData);
     console.log("Check for add!");
   } catch (e) {
     console.log(e);
