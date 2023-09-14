@@ -77,6 +77,8 @@ export async function getUserAssets(userId) {
 
 export async function getSingleAsset(userId, lane, cardId) {
   try {
+    console.log("userId: " + userId + " lane: "+ lane + " cardId: " + cardId);
+
     const docRef = doc(collection(doc(db, "assets", userId), lane), cardId);
     const docSnap = await getDoc(docRef);
 
@@ -108,19 +110,17 @@ export async function transferUserAsset(
     cardData = await getSingleAsset(userId, originalLane, id);
     console.log("Consumed data successfully: ", cardData);
 
+    // Change the the laneId
+    cardData['laneId'] = finalLane;
+
     // Delete the document
     const deleteTarget = doc(db, "assets", userId, originalLane, id);
-    const targetSnap = getDoc(deleteTarget);
 
-    if (targetSnap.exists()) {
-      console.log("This exists!");
-    }
+    await deleteDoc(deleteTarget);
+    console.log("Check for delete!");
 
-    const res1 = await deleteDoc(targetSnap);
-    console.log("Check for delete!", res1);
-
-    const res2 = await setDoc(doc(db, "assets", userId, originalLane, id), cardData);
-    console.log("Check for add!", res2);
+    await addDoc(collection(db, "assets", userId, finalLane), cardData);
+    console.log("Check for add!");
   } catch (e) {
     console.log(e);
   }
@@ -207,18 +207,13 @@ export async function deleteWatchlist(id, coinName) {
 }
 
 export async function getUserActivities(id) {
-  const dataCollection = collection(
-    doc(collection(db, "user-activity"), id),
-    "activity-data"
-  );
-
+  const dataCollection = collection(db, "user-activity", id, "activity-data");
   const docsSnap = await getDocs(dataCollection);
   return docsSnap;
 }
 
 export async function addUserActivity(id, data) {
-  const userActivityDocRef = doc(collection(db, "user-activity"), id);
-  const nestedCollectionRef = collection(userActivityDocRef, "activity-data");
+  const nestedCollectionRef = collection(db, "user-activity", id, "activity-data");
   await addDoc(nestedCollectionRef, data);
 
   return true;

@@ -140,11 +140,7 @@ export default function Assets() {
     }
     
   }
-
-  const onCardAdd = (card, laneId) => {
-    
-  }
-
+  
   const AssetInventory = () => {
     return (
       <div className="bond-data">

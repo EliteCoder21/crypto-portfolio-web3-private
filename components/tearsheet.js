@@ -213,7 +213,7 @@ var vol_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 100) / 2,
+  width: (WINDOW_WIDTH - 105) / 2,
   height: 440,
   title: "Rolling Volatility (6 Months)",
 };
@@ -318,7 +318,7 @@ var EoY_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 350 - 80,
+  width: WINDOW_WIDTH - 350,
   height: 440,
   title: "End of Year Returns vs Benchmark",
 };
