@@ -104,9 +104,6 @@ export async function transferUserAsset(
   cardData
 ) {
 
-  originalLane = originalLane.trimStart();
-  finalLane = finalLane.trimStart();
-
   try {
 
     cardData = await getSingleAsset(userId, originalLane, id);
@@ -122,14 +119,17 @@ export async function transferUserAsset(
     console.log("Check for delete!");
 
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
-    await setDoc(addedDocRef, {
-      "cardId": addedDocRef.id,
-      "laneId": addedDocRef.laneId,
-      "title": addedDocRef.title,
-      "label": addedDocRef.label,
-      "cardStyle": DEFAULT_CARD_STYLE,
-      "description": addedDocRef.description,
+    console.log("The id of the recently created doc: ), addedDocRef.id
+;
+d    await setDoc(addedDocRef, {
+      id: addedDocRef.id,
+      laneId: addedDocRef.laneId,
+      title: addedDocRef.title,
+      label: addedDocRef.label,
+      cardStyle: DEFAULT_CARD_STYLE,
+      description: addedDocRef.description,
     });
+    
     console.log("Card ID:" + addedDocRef.cardId);
     console.log("Check for add!");
   } catch (e) {

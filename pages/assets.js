@@ -72,7 +72,7 @@ export default function Assets() {
 
           // Populate new data object
           const cardData = {
-            cardId: tempData.id,
+            id: tempData.id,
             laneId: tempData.laneId,
             title: tempData.title,
             label: tempData.label,
@@ -113,7 +113,7 @@ export default function Assets() {
     }
     
     // Get an individual record
-    let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId.trimStart(), cardId.trimStart());
+    let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, cardId);
 
     console.log("The found card is: ", cardData);
     
@@ -129,7 +129,7 @@ export default function Assets() {
       //data.lanes[finalLaneInd].cards.push(cardData);
 
       // Remove card from previous lane
-      eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, cardId: cardId})
+      eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, id: cardId})
 
       // Save changes
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
