@@ -176,7 +176,7 @@ var sharpe_layout = {
     r: 50,
     b: 50,
     t: 50,
-    pad: 4,
+    pad: 3, //4
   },
   yaxis: {
     tickformat: "p",

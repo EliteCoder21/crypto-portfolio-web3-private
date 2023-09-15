@@ -14,6 +14,8 @@ import {
 
 const db = getFirestore(firebase_app);
 
+export const DEFAULT_CARD_STYLE = { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 };
+
 export async function createUser(id) {
   let result = null;
   let error = null;
@@ -119,7 +121,16 @@ export async function transferUserAsset(
     await deleteDoc(deleteTarget);
     console.log("Check for delete!");
 
-    await addDoc(collection(db, "assets", userId, finalLane), cardData);
+    const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
+    await setDoc(addedDocRef, {
+      "cardId": addedDocRef.id,
+      "laneId": addedDocRef.laneId,
+      "title": addedDocRef.title,
+      "label": addedDocRef.label,
+      "cardStyle": DEFAULT_CARD_STYLE,
+      "description": addedDocRef.description,
+    });
+    console.log("Card ID:" + addedDocRef.cardId);
     console.log("Check for add!");
   } catch (e) {
     console.log(e);

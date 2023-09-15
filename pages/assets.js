@@ -3,7 +3,7 @@ import Login from "../components/login.js";
 import AsyncBoard from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
-import addUserActivity, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
+import DEFAULT_CARD_STYLE, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 const firebase = require("firebase/app");
 require("firebase/firestore");
@@ -13,7 +13,7 @@ export default function Assets() {
   // Essential variables
   const { user } = useAuthContext();
 
-  // Populate kanban data
+  // Populate Kanban data
   const data = require("./emptyAssetsData.json");
   getAssetsData("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
 
@@ -64,23 +64,23 @@ export default function Assets() {
         // Clear lane
         data.lanes[getLaneIndex(lane)].cards = [];
 
-        // Push the data
+        // Push data
         laneSnap.forEach((doc) => {
           
-          // Read the data
+          // Read data
           const tempData = doc.data();
 
           // Populate new data object
           const cardData = {
-            id: tempData.id,
+            cardId: tempData.id,
             laneId: tempData.laneId,
             title: tempData.title,
             label: tempData.label,
-            cardStyle: { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+            cardStyle: DEFAULT_CARD_STYLE,
             description: tempData.description
           }
 
-          // Append the data
+          // Append the data object
           eventBus.publish({
             type: "ADD_CARD", 
             laneId: lane, 
