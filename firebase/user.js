@@ -109,29 +109,29 @@ export async function transferUserAsset(
     cardData = await getSingleAsset(userId, originalLane, id);
     console.log("Consumed data successfully: ", cardData);
 
-    // Change the the laneId
+    // Update the laneId
     cardData['laneId'] = finalLane;
 
     // Delete the document
     const deleteTarget = doc(db, "assets", userId, originalLane, id);
-
+    
     await deleteDoc(deleteTarget);
     console.log("Check for delete!");
 
-    const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
+    const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), {});
+    console.log("Check for add");
     console.log("The id of the recently created doc:" + addedDocRef.id);
     
     await setDoc(addedDocRef, {
-      id: addedDocRef.id,
-      laneId: addedDocRef.laneId,
-      title: addedDocRef.title,
-      label: addedDocRef.label,
-      cardStyle: DEFAULT_CARD_STYLE,
-      description: addedDocRef.description,
+      "id": addedDocRef.id,
+      "laneId": cardData.laneId,
+      "title": cardData.title,
+      "label": cardData.label,
+      "cardStyle": DEFAULT_CARD_STYLE,
+      "description": cardData.description,
     });
-    
-    console.log("Card ID:" + addedDocRef.cardId);
-    console.log("Check for add!");
+
+    console.log("Successful transfer");
   } catch (e) {
     console.log(e);
   }

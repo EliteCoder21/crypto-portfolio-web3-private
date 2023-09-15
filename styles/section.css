@@ -6,6 +6,12 @@
     margin-left: auto;
 }
 
+.flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .flex-type {
     flex-direction: row;
 }
@@ -15,9 +21,9 @@
     justify-content: center!important;
 }
 
-.d-flex {
-    display: -ms-flexbox!important;
-    display: flex!important;
+.tearsheet-grid {
+    display: grid !important;
+    grid-template-columns: 50% 50%;
 }
 
 .card-deck {

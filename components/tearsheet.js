@@ -39,6 +39,7 @@ const customStyles = {
   option: (provided, state, isSelected) => ({
     ...provided,
     color: state.isSelected ? "rgb(169, 169, 169)" : "rgb(169, 169, 169)",
+    fontSize: "15px",
     backgroundColor: isSelected ? "rgb(19, 19, 21)" : "rgb(19, 19, 21)",
     cursor: "pointer",
     "&:hover": {
@@ -47,7 +48,7 @@ const customStyles = {
   }),
   singleValue: (provided, state) => ({
     ...provided,
-    color: state.selectProps.menuIsOpen ? "transparent" : provided.color,
+    color: state.selectProps.menuIsOpen ? "transparent" : "white",
   }),
   valueContainer: (provided) => ({
     ...provided,
@@ -77,6 +78,7 @@ const wDrawboxColor = {
 
 const divStyle = {
   margin: "5px",
+  width: "100%"
 };
 
 const tableStyle = {
@@ -1277,7 +1279,7 @@ const Tearsheet = () => {
   return (
     <div style={{ minHeight: "100vh" }}>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
-        <div className="d-flex justify-content-left ml-3 mb-3 selectContainer">
+        <div className="d-flex justify-content-left ml-3 selectContainer">
           <div className="d-flex flex-column benchSelectDiv">
             <div style={dropdownTitle}>Strategy CUSIP</div>
             {/* <div className="selectContainer">  */}
@@ -1297,8 +1299,9 @@ const Tearsheet = () => {
             {/* </div> */}
           </div>
         </div>
+        <br /><br />
         <div className="d-flex justify-content-evenly ml-3">
-          <div className="d-flex flex-column">
+          <div className="tearsheet-grid">
             <Plot
               className="plot"
               data={creturn_data}
@@ -1332,7 +1335,7 @@ const Tearsheet = () => {
           </div>
         </div>
         <div id="First_Visuals" className="d-flex justify-content-evenly ml-3">
-          <div className="d-flex flex-column">
+          <div className="tearsheet-grid">
             <Plot
               className="plot"
               data={underwater}
@@ -1353,6 +1356,7 @@ const Tearsheet = () => {
               </div>
               <table id="eoy_table" style={tableStyle} />
             </div>
+            <br />
             <div className="tables" style={wDrawboxColor}>
               <div id="w_draw_table_Title" style={tableTitle}>
                 Worst Drawdowns
@@ -1362,7 +1366,7 @@ const Tearsheet = () => {
           </div>
         </div>
         <div className="d-flex justify-content-evenly ml-3">
-          <div className="d-flex flex-column">
+          <div className="tearsheet-grid">
             <Plot
               className="plot"
               data={sharpe}
@@ -1375,8 +1379,6 @@ const Tearsheet = () => {
               layout={sort_Layout}
               style={divStyle}
             />
-          </div>
-          <div className="d-flex flex-column">
             <Plot
               className="plot"
               data={vol}
