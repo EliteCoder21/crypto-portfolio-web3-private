@@ -1,10 +1,11 @@
 import Navbar from "../components/navbar.js";
 import Login from "../components/login.js";
-import AsyncBoard from "react-trello";
+import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
 import DEFAULT_CARD_STYLE, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
+import Bar from "../components/bar.js";
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
@@ -77,25 +78,19 @@ export default function Assets() {
             title: tempData.title,
             label: tempData.label,
             cardStyle: DEFAULT_CARD_STYLE,
-            description: tempData.description
+            description: tempData.description,
+            cardColor: "white"
           }
 
           // Append the data object
-          eventBus.publish({
-            type: "ADD_CARD", 
-            laneId: lane, 
-            card: cardData
-          })        
+          //eventBus.publish({ type: "ADD_CARD", laneId: lane, card: cardData })        
 
           // Add to JSON file
           data.lanes[getLaneIndex(lane)].cards.push(cardData);
         });
       }
 
-      eventBus.publish({
-        type: "UPDATE_LANES", 
-        lanes: data.lanes
-      });
+      eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
 
       console.log("Current data", data);
       console.log("-------------------------");
@@ -145,7 +140,7 @@ export default function Assets() {
     return (
       <div className="bond-data">
         <div className="myAssets">
-          <AsyncBoard
+          <Board
             eventBusHandle={setEventBus}
             style={{backgroundColor: "rgba(31, 42, 71, 0)"}}
             data={data}
@@ -174,6 +169,9 @@ export default function Assets() {
             >
               Asset Inventory
             </h1>
+            <div style={{ paddingTop: 10, paddingBottom: 10 }}>
+              <Bar />
+            </div>
             <div style={{ width: "80%", margin: "auto" }}>
               <AssetInventory />
             </div>

@@ -118,7 +118,7 @@ export async function transferUserAsset(
     await deleteDoc(deleteTarget);
     console.log("Check for delete!");
 
-    const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), {});
+    const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
     console.log("Check for add");
     console.log("The id of the recently created doc:" + addedDocRef.id);
     
