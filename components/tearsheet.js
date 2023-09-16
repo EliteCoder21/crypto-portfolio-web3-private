@@ -725,7 +725,7 @@ const Tearsheet = () => {
     //Set size of first set of visuals
 
     //Entire window - table - margins/padding
-    const first_size = WINDOW_WIDTH - 350 - 80;
+    const first_size = "100%";
     Object.assign(ret, cret_Layout);
     ret.width = first_size;
     ret.title = "Cumulative Returns";

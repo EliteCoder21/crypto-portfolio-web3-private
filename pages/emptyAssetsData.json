@@ -5,44 +5,32 @@
         "title": "RWA Pool",
         "label": "RWA",
         "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
-        "cardStyle": { "backgroundColor": "rgba(154, 0, 255, 0.5)", "fontColor": "white" },
-        "disallowAddingCard": true,
-        "cards": [
-          
-        ]
+        "cardStyle": { "backgroundColor": "rgba(154, 0, 255, 0.2)" },
+        "disallowAddingCard": true
       },
       {
         "id": "AUT Lane",
         "title": "AUT Pool",
         "label": "AUT",
         "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
-        "cardStyle": { "backgroundColor": "rgba(27, 0, 255, 0.5)", "fontColor": "white" },
-        "disallowAddingCard": true,
-        "cards": [
-          
-        ]
+        "cardStyle": { "backgroundColor": "rgba(27, 0, 255, 0.2)" },
+        "disallowAddingCard": true
       },
       {
         "id": "OXA Lane",
         "title": "OXA Pool",
         "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
-        "cardStyle": { "backgroundColor": "rgba(0, 124, 255, 0.5)", "fontColor": "white" },
+        "cardStyle": { "backgroundColor": "rgba(0, 124, 255, 0.2)" },
         "label": "OXA",
-        "disallowAddingCard": true,
-        "cards": [
-          
-        ]
+        "disallowAddingCard": true
       },
       {
         "id": "Digital Assets Lane",
         "title": "Digital Wallet",
         "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
-        "cardStyle": { "backgroundColor": "rgba(0, 205, 255, 0.5)", "fontColor": "white" },
+        "cardStyle": { "backgroundColor": "rgba(0, 205, 255, 0.2)" },
         "label": "Digital Assets",
-        "disallowAddingCard": true,
-        "cards": [
-          
-        ]
+        "disallowAddingCard": true
       }
     ]
   }
