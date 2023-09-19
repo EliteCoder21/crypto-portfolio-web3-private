@@ -63,7 +63,15 @@ export default function Assets() {
         const laneSnap = await getDocs(laneCollection);
 
         // Clear lane
-        data.lanes[getLaneIndex(lane)].cards = [];
+        data.lanes[getLaneIndex(lane)].cards = [
+          {
+            "id": "Add " + lane + " cards here:",
+            "laneId": lane,
+            "title": "Add your asset to your OpenEXA RWA - AUT pool",
+            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5, "backgroundColor": "white" },
+            "draggable": false
+          }
+        ];
 
         // Push data
         laneSnap.forEach((doc) => {

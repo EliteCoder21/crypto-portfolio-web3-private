@@ -4,33 +4,69 @@
         "id": "RWA Lane",
         "title": "RWA Pool",
         "label": "RWA",
-        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)"},
         "cardStyle": { "backgroundColor": "rgba(154, 0, 255, 0.2)" },
-        "disallowAddingCard": true
+        "disallowAddingCard": true,
+        "cards": [
+          {
+            "id": "RWA Title Card",
+            "laneId": "RWA Lane",
+            "title": "Add your asset to your OpenEXA RWA - AUT pool",
+            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+            "draggable": false
+          }
+        ]
       },
       {
         "id": "AUT Lane",
         "title": "AUT Pool",
         "label": "AUT",
-        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)"},
         "cardStyle": { "backgroundColor": "rgba(27, 0, 255, 0.2)" },
-        "disallowAddingCard": true
+        "disallowAddingCard": true,
+        "cards": [
+          {
+            "id": "RWA Title Card",
+            "laneId": "RWA Lane",
+            "title": "Add your asset to your OpenEXA RWA - AUT pool",
+            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+            "draggable": false
+          }
+        ]
       },
       {
         "id": "OXA Lane",
         "title": "OXA Pool",
-        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)"},
         "cardStyle": { "backgroundColor": "rgba(0, 124, 255, 0.2)" },
         "label": "OXA",
-        "disallowAddingCard": true
+        "disallowAddingCard": true,
+        "cards": [
+          {
+            "id": "RWA Title Card",
+            "laneId": "RWA Lane",
+            "title": "Add your asset to your OpenEXA RWA - AUT pool",
+            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 },
+            "draggable": false
+          }
+        ]
       },
       {
         "id": "Digital Assets Lane",
         "title": "Digital Wallet",
-        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+        "style": {"width": 280, "backgroundColor": "rgba(31, 42, 71, 0.8)"},
         "cardStyle": { "backgroundColor": "rgba(0, 205, 255, 0.2)" },
         "label": "Digital Assets",
-        "disallowAddingCard": true
+        "disallowAddingCard": true,
+        "cards": [
+          {
+            "id": "RWA Title Card",
+            "laneId": "RWA Lane",
+            "title": "Add your asset to your OpenEXA RWA - AUT pool",
+            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5, "border": 10 },
+            "draggable": false
+          }
+        ]
       }
     ]
   }

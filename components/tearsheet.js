@@ -3,8 +3,6 @@ import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
 
-const WINDOW_WIDTH = 1000;
-
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
   { value: "0121227P6", label: "0121227P6" },
@@ -29,18 +27,25 @@ const CUSIP_options = [
 ];
 
 const customStyles = {
+  menu: (styles) => ({
+    ...styles,
+    backgroundColor: "rgb(19, 19, 21)",
+    margin: "0"
+  }),
   control: (styles) => ({
     ...styles,
     backgroundColor: "rgb(19, 19, 21)",
     borderRadius: "10px",
     height: "30px",
     width: "200px",
+    borderWidth: "0",
+    margin: "0",
   }),
   option: (provided, state, isSelected) => ({
     ...provided,
-    color: state.isSelected ? "rgb(169, 169, 169)" : "rgb(169, 169, 169)",
+    color: "rgb(169, 169, 169)",
     fontSize: "15px",
-    backgroundColor: isSelected ? "rgb(19, 19, 21)" : "rgb(19, 19, 21)",
+    backgroundColor: "rgb(19, 19, 21)",
     cursor: "pointer",
     "&:hover": {
       backgroundColor: "gray",
@@ -49,17 +54,20 @@ const customStyles = {
   singleValue: (provided, state) => ({
     ...provided,
     color: state.selectProps.menuIsOpen ? "transparent" : "white",
+    borderWidth: "0px",
+    margin: "0px",
   }),
   valueContainer: (provided) => ({
     ...provided,
     height: "100%",
+    borderWidth: "0px",
+    margin: "0px",
   }),
   input: (provided) => ({
     ...provided,
     width: "161px",
     height: "36px",
-    margin: "0",
-  }),
+  })
 };
 
 const bgColor = {
@@ -85,7 +93,7 @@ const tableStyle = {
   margin: "5px",
   cellspacing: "0",
   cellpadding: "0",
-  width: "350px",
+  width: "100%",
   border: "0px",
 };
 
@@ -136,7 +144,7 @@ var quant_layout = {
   yaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 60) / 2,
+  width: "100%",
   height: 440,
   title: "Return Quantiles",
   borderRadius: 10,
@@ -159,7 +167,7 @@ var month_percent_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 60,
+  width: "100%",
   height: 440,
   title: "Monthly Returns (%)",
 };
@@ -187,7 +195,7 @@ var sharpe_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 100) / 2,
+  width: "100%",
   height: 440,
   title: "Rolling Sharpe (6 Months)",
 };
@@ -215,7 +223,7 @@ var vol_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 105) / 2,
+  width: "100%",
   height: 440,
   title: "Rolling Volatility (6 Months)",
 };
@@ -243,7 +251,7 @@ var beta_layout = {
     t: 50,
     pad: 4,
   },
-  width: (WINDOW_WIDTH - 80) / 2,
+  width: "100%",
   height: 440,
   title: "Rolling Beta to Benchmark",
 };
@@ -271,7 +279,7 @@ var drawdown_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 350 - 80,
+  width: "100%",
   height: 440,
   title: "Top 5 Drawdown Periods",
 };
@@ -296,7 +304,7 @@ var monthly_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 350 - 80,
+  width: "100%",
   height: 440,
   title: "Distribution of Monthly Returns",
 };
@@ -320,7 +328,7 @@ var EoY_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 350,
+  width: "100%",
   height: 440,
   title: "End of Year Returns vs Benchmark",
 };
@@ -347,8 +355,8 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 350,
-  height: 440,
+  width: "100%",
+  autosize: true,
   title: "Cumulative Returns",
 };
 
@@ -375,7 +383,7 @@ var dreturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: WINDOW_WIDTH - 350 - 80,
+  width: "100%",
   height: 440,
   title: "Daily Returns",
 };
@@ -403,7 +411,7 @@ var sort_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (WINDOW_WIDTH - 100) / 2,
+  width: "100%",
   height: 440,
   title: "Rolling Sortino (6 Months)",
 };
@@ -431,7 +439,7 @@ var under_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: WINDOW_WIDTH - 350,
+  width: (window.innerWidth / 2) + "px",
   height: 440,
   title: "Underwater Plot",
 };
@@ -725,7 +733,7 @@ const Tearsheet = () => {
     //Set size of first set of visuals
 
     //Entire window - table - margins/padding
-    const first_size = "100%";
+    const first_size = "10px";
     Object.assign(ret, cret_Layout);
     ret.width = first_size;
     ret.title = "Cumulative Returns";
@@ -752,7 +760,7 @@ const Tearsheet = () => {
     drop.width = first_size;
     setWDPLayout(drop);
 
-    const second_size = (WINDOW_WIDTH - 80) / 2;
+    const second_size = "100%";
     let beta = {};
     Object.assign(beta, beta_Layout);
     beta.width = second_size;
@@ -783,7 +791,7 @@ const Tearsheet = () => {
     quant.width = second_size;
     setQuantLayout(quant);
 
-    const third_size = WINDOW_WIDTH - 60;
+    const third_size = "100%";
     let hm = {};
     Object.assign(hm, heatmap_Layout);
     hm.width = third_size;
@@ -1265,12 +1273,7 @@ const Tearsheet = () => {
       });
   };
 
-  let initialSubheaderFontSize;
-  if (WINDOW_WIDTH > 568) {
-    initialSubheaderFontSize = 37;
-  } else {
-    initialSubheaderFontSize = 31;
-  }
+  let initialSubheaderFontSize = 37;
 
   const [subheaderFontSize, setSubheaderFontSize] = useState(
     initialSubheaderFontSize
@@ -1306,6 +1309,7 @@ const Tearsheet = () => {
               className="plot"
               data={creturn_data}
               layout={cret_Layout}
+              useResizeHandler={true}
               style={divStyle}
             />
             <Plot
