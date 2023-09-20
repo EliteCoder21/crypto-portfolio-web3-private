@@ -114,10 +114,6 @@ export default function Assets() {
       // Save changes
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
 
-      console.log("DATA:")
-      console.log("-------------------");
-      console.log(data);
-
     } catch (error) {
       console.log(error);
     }
