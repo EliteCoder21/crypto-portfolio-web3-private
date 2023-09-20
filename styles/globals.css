@@ -1536,3 +1536,7 @@ td {
 .transactionTable .text-gray-700 {
   color: white !important;
 }
+
+.react-trello-card {
+  border: 5px solid white;
+}

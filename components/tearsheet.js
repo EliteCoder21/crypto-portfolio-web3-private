@@ -355,8 +355,8 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
-  autosize: true,
+  width: "90%",
+  height: 440,
   title: "Cumulative Returns",
 };
 
@@ -439,7 +439,7 @@ var under_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: (window.innerWidth / 2) + "px",
+  width: "100%",
   height: 440,
   title: "Underwater Plot",
 };

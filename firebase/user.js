@@ -73,14 +73,11 @@ export async function getUserHoldings(id) {
 }
 
 export async function getUserAssets(userId) {
-  console.log("Getting all user assets!");
   return doc(db, "assets", userId);
 }
 
 export async function getSingleAsset(userId, lane, cardId) {
   try {
-    console.log("userId: " + userId + " lane: "+ lane + " cardId: " + cardId);
-
     const docRef = doc(collection(doc(db, "assets", userId), lane), cardId);
     const docSnap = await getDoc(docRef);
 
@@ -107,7 +104,6 @@ export async function transferUserAsset(
   try {
 
     cardData = await getSingleAsset(userId, originalLane, id);
-    console.log("Consumed data successfully: ", cardData);
 
     // Update the laneId
     cardData['laneId'] = finalLane;
@@ -116,11 +112,8 @@ export async function transferUserAsset(
     const deleteTarget = doc(db, "assets", userId, originalLane, id);
     
     await deleteDoc(deleteTarget);
-    console.log("Check for delete!");
 
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
-    console.log("Check for add");
-    console.log("The id of the recently created doc:" + addedDocRef.id);
     
     await setDoc(addedDocRef, {
       "id": addedDocRef.id,
@@ -131,7 +124,6 @@ export async function transferUserAsset(
       "description": cardData.description,
     });
 
-    console.log("Successful transfer");
   } catch (e) {
     console.log(e);
   }

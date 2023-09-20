@@ -63,15 +63,7 @@ export default function Assets() {
         const laneSnap = await getDocs(laneCollection);
 
         // Clear lane
-        data.lanes[getLaneIndex(lane)].cards = [
-          {
-            "id": "Add " + lane + " cards here:",
-            "laneId": lane,
-            "title": "Add your asset to your OpenEXA RWA - AUT pool",
-            "cardStyle": { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5, "backgroundColor": "white" },
-            "draggable": false
-          }
-        ];
+        data.lanes[getLaneIndex(lane)].cards = [];
 
         // Push data
         laneSnap.forEach((doc) => {
@@ -89,26 +81,25 @@ export default function Assets() {
             description: tempData.description,
             cardColor: "white"
           }
-
-          // Append the data object
-          //eventBus.publish({ type: "ADD_CARD", laneId: lane, card: cardData })        
-
+          
           // Add to JSON file
-          data.lanes[getLaneIndex(lane)].cards.push(cardData);
+          if (!(cardData == {})) {
+            data.lanes[getLaneIndex(lane)].cards.push(cardData);
+          }
+
         });
       }
 
       eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
 
-      console.log("Current data", data);
-      console.log("-------------------------");
+      
     } catch (error) {
       console.log(error);
     }
   }
 
   // Define the Board functions
-  const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
+  const  handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
 
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
@@ -117,26 +108,15 @@ export default function Assets() {
     
     // Get an individual record
     let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, cardId);
-
-    console.log("The found card is: ", cardData);
     
     try {
-      // Publish to frontend
-      eventBus.publish({
-        type: "ADD_CARD", 
-        laneId: toLaneId, 
-        card: cardData
-      });
       
-      // Add to JSON
-      //data.lanes[finalLaneInd].cards.push(cardData);
-
-      // Remove card from previous lane
-      eventBus.publish({type: "REMOVE_CARD", laneId: fromLaneId, id: cardId})
-
       // Save changes
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
-      getAssetsData();
+
+      console.log("DATA:")
+      console.log("-------------------");
+      console.log(data);
 
     } catch (error) {
       console.log(error);
