@@ -3,7 +3,8 @@ import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
-import Popup from 'reactjs-popup';
+// import Modal from "../components/modal.js"
+import Tearsheet from "../components/tearsheet.js"
 import DEFAULT_CARD_STYLE, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -11,22 +12,11 @@ import 'reactjs-popup/dist/index.css';
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
-const PopupExample = () => (
-  <Popup trigger={<button> Trigger</button>} position="right center">
-    <div>Popup content here !!</div>
-  </Popup>
-);
-
-const Modal = () => (
-  <Popup trigger={<button className="button"> Open Modal </button>} modal>
-    <span> Modal content </span>
-  </Popup>
-);
-
 export default function Assets() {
-
-  // Essential variables
+  
   const { user } = useAuthContext();
+
+  const [displayPopup, setDisplayPopup] = useState(true);
 
   // Populate Kanban data
   const data = require("./emptyAssetsData.json");
@@ -113,6 +103,7 @@ export default function Assets() {
 
   // Define the Board functions
   const  handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
+    open = true;
 
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
@@ -170,22 +161,52 @@ export default function Assets() {
               <Bar />
             </div>
             <div style={{ width: "80%", margin: "auto" }}>
-              <AssetInventory />
+              {/* <AssetInventory /> */}
             </div>
           </div>
-          <Popup
-            trigger={open => (
-              <button className="button">Trigger - {open ? 'Opened' : 'Closed'}</button>
-            )}
-            position="right center"
-            closeOnDocumentClick
-          >
-            <span> Popup content </span>
-          </Popup>;
         </div>
         : 
         <Login />
       }
-    </div>
-  );
+    {displayPopup ? (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{ width: "50%", height: "90%", overflow: "auto" }}
+        >
+          <div className="top">
+            <span className="title">Strategy Tearsheet</span>
+          </div>
+
+          <div className="bottom">
+            <Tearsheet />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayPopup(!displayPopup);
+              }}
+            >
+              Exit
+            </button>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <></>
+    )}
+  </div>);
 }

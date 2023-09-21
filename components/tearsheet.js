@@ -31,6 +31,7 @@ const customStyles = {
     ...styles,
     backgroundColor: "rgb(19, 19, 21)",
     margin: "0",
+    width: "200px",
   }),
   control: (styles) => ({
     ...styles,
@@ -67,10 +68,11 @@ const boxColor = {
   backgroundColor: "#1f2436",
   margin: "5px",
   marginTop: "15px",
-  maxWidth: "700px",
+  maxWidth: "690px",
   width: "100%",
   marginLeft: "auto",
   marginRight: "auto",
+  padding: "5px"
 };
 
 const wDrawboxColor = {
@@ -100,7 +102,7 @@ const tableStyle = {
 const tableTitle = {
   color: "white",
   fontSize: 20,
-  textAlign: "center",
+  textAlign: "left",
 };
 
 const dropdownTitle = {
@@ -559,7 +561,7 @@ const Tearsheet = () => {
     let th1 = document.createElement("th");
     let met = document.createTextNode("Metric");
     th1.appendChild(met);
-    th1.style.textAlign = "center";
+    th1.style.textAlign = "left";
     row.appendChild(th1);
     let th2 = document.createElement("th");
     let strat = document.createTextNode("Strategy");
@@ -588,6 +590,7 @@ const Tearsheet = () => {
         let cell = row.insertCell();
         let key_text = document.createTextNode(key);
         cell.appendChild(key_text);
+        cell.style.textAlign = "left";
         let cell1 = row.insertCell();
         let strat_text = document.createTextNode(data[0][key]);
         cell1.style.textAlign = "right";
@@ -1306,23 +1309,25 @@ const Tearsheet = () => {
   return (
     <div style={{ minHeight: "100vh", margin: 5 }}>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
-        <div className="d-flex justify-content-left ml-3 selectContainer">
+        <div className="d-flex justify-content-left ml-3 selectContainer" style={{ marginBottom: 20 }}>
           <div className="d-flex flex-column benchSelectDiv">
-            <div style={dropdownTitle}>Strategy CUSIP</div>
-            {/* <div className="selectContainer">  */}
-            <Select
-              className="benchSelect"
-              maxWidth={300}
-              placeholder={selectedCUSIPStrat}
-              onChange={handleStratInputChange}
-              options={CUSIP_options}
-              styles={customStyles}
-              isClearable
-              value={selectedCUSIPStrat}
-              isFilterable
-              showCreate
-              // marginBottom="10px"
-            />
+            <div>
+              <div style={dropdownTitle}>Strategy CUSIP</div>
+              {/* <div className="selectContainer">  */}
+              <Select
+                className="benchSelect"
+                maxWidth={300}
+                placeholder={selectedCUSIPStrat}
+                onChange={handleStratInputChange}
+                options={CUSIP_options}
+                styles={customStyles}
+                isClearable
+                value={selectedCUSIPStrat}
+                isFilterable
+                showCreate
+                // marginBottom="10px"
+              />
+            </div>
             {/* </div> */}
           </div>
         </div>

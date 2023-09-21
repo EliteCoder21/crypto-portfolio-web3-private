@@ -33,7 +33,7 @@ export default function TearsheetButton() {
         >
           <div
             className="popup-wrapper active"
-            style={{ width: "90%", height: "90%", overflow: "auto" }}
+            style={{ width: "50%", height: "90%", overflow: "auto" }}
           >
             <div className="top">
               <span className="title">Strategy Tearsheet</span>
