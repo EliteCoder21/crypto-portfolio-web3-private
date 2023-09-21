@@ -1,7 +1,7 @@
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false, })
+const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
@@ -30,7 +30,7 @@ const customStyles = {
   menu: (styles) => ({
     ...styles,
     backgroundColor: "rgb(19, 19, 21)",
-    margin: "0"
+    margin: "0",
   }),
   control: (styles) => ({
     ...styles,
@@ -55,8 +55,8 @@ const customStyles = {
     ...provided,
     width: "161px",
     height: "36px",
-    display: "flex"
-  })
+    display: "flex",
+  }),
 };
 
 const bgColor = {
@@ -66,19 +66,27 @@ const bgColor = {
 const boxColor = {
   backgroundColor: "#1f2436",
   margin: "5px",
-  marginTop: "15px"
+  marginTop: "15px",
+  maxWidth: "700px",
+  width: "100%",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
 
 const wDrawboxColor = {
   backgroundColor: "#1f2436",
   margin: "5px",
+  marginTop: "15px",
+  maxWidth: "700px",
+  marginLeft: "auto",
+  marginRight: "auto",
 };
 
 const divStyle = {
   margin: "5px",
   width: "fit-content",
   marginLeft: "auto",
-  marginRight: "auto"
+  marginRight: "auto",
 };
 
 const tableStyle = {
@@ -99,7 +107,7 @@ const dropdownTitle = {
   color: "rgb(169, 169, 169)",
   fontSize: 14,
   textAlign: "left",
-  marginBottom: "10px"
+  marginBottom: "10px",
 };
 
 const headerStyle = {
@@ -423,7 +431,7 @@ var under_layout = {
     r: 50,
     b: 50,
     t: 50,
-    pad: 4, 
+    pad: 4,
   },
   yaxis: {
     tickformat: "p",
@@ -532,7 +540,14 @@ const Tearsheet = () => {
     console.log(newValue);
   }
 
-  function generateTable(table, data, Strategy, Benchmark) {
+  function generateTable(
+    table,
+    data,
+    Strategy,
+    Benchmark,
+    hor_bar,
+    special_keys
+  ) {
     let keys = Object.keys(data[0]);
     console.log(keys);
     table.style.textAlign = "left";
@@ -544,7 +559,7 @@ const Tearsheet = () => {
     let th1 = document.createElement("th");
     let met = document.createTextNode("Metric");
     th1.appendChild(met);
-    th1.style.textAlign = "left";
+    th1.style.textAlign = "center";
     row.appendChild(th1);
     let th2 = document.createElement("th");
     let strat = document.createTextNode("Strategy");
@@ -552,40 +567,34 @@ const Tearsheet = () => {
     th2.style.textAlign = "right";
     row.appendChild(th2);
 
-    const hor_bar = [
-      "Cumulative Return ",
-      "Sharpe ",
-      "Max Drawdown ",
-      "Expected Daily % ",
-      "Gain/Pain Ratio ",
-      "Payoff Ratio ",
-      "MTD ",
-      "Best Day ",
-      "Avg. Drawdown ",
-      "Avg. Up Month ",
-    ];
+    let prev_key = "Metric";
     for (const key of keys) {
       //Adding row for each key
       if (hor_bar.includes(key)) {
-        let div = table.insertRow();
-        let cell_hold = div.insertCell();
-        cell_hold.colSpan = "3";
-        let bar = document.createElement("hr");
-        bar.className = "benchmark_bar";
-        cell_hold.appendChild(bar);
-        div.className = "benchmark_table";
-        div.appendChild(cell_hold);
+        if (special_keys.includes(key)) {
+          let div = table.insertRow();
+          let cell_hold = div.insertCell();
+          cell_hold.colSpan = "3";
+          let bar = document.createElement("hr");
+          bar.className = "benchmark_bar";
+          cell_hold.appendChild(bar);
+          div.className = "benchmark_table";
+          div.appendChild(cell_hold);
+        }
+        prev_key = key;
       }
-      let row = table.insertRow();
-      let cell = row.insertCell();
-      let key_text = document.createTextNode(key);
-      cell.appendChild(key_text);
-      let cell1 = row.insertCell();
-      let strat_text = document.createTextNode(data[0][key]);
-      cell1.style.textAlign = "right";
-      cell1.appendChild(strat_text);
-      let cell2 = row.insertCell();
-      row.className = "benchmark_table";
+      if (special_keys.includes(prev_key)) {
+        let row = table.insertRow();
+        let cell = row.insertCell();
+        let key_text = document.createTextNode(key);
+        cell.appendChild(key_text);
+        let cell1 = row.insertCell();
+        let strat_text = document.createTextNode(data[0][key]);
+        cell1.style.textAlign = "right";
+        cell1.appendChild(strat_text);
+        let cell2 = row.insertCell();
+        row.className = "benchmark_table";
+      }
     }
   }
 
@@ -830,8 +839,30 @@ const Tearsheet = () => {
       .then((response) => response.json())
       .then((json) => {
         let bond_metrics = [JSON.parse(JSON.stringify(json))];
-        let tab = document.querySelector("#table");
-        generateTable(tab, bond_metrics, Strategy, Benchmark); // generate the table first
+
+        const list_hor_bar = [
+          "Cumulative Return ",
+          "Max Drawdown ",
+          "MTD ",
+          "Best Day ",
+          "Avg. Drawdown ",
+          "Avg. Up Month ",
+        ];
+        const hor_bar = {
+          cumulative_return: "Cumulative Return ",
+          max_drawdown: "Max Drawdown ",
+          mtd: "MTD ",
+          best_day: "Best Day ",
+          avg_drawdown: "Avg. Drawdown ",
+          avg_up_month: "Avg. Up Month ",
+        };
+
+        for (const [key, value] of Object.entries(hor_bar)) {
+          let tab = document.querySelector("#table_" + key);
+          generateTable(tab, bond_metrics, Strategy, Benchmark, list_hor_bar, [
+            value,
+          ]); // generate the table first
+        }
       });
 
     fetch(
@@ -1285,7 +1316,7 @@ const Tearsheet = () => {
               placeholder={selectedCUSIPStrat}
               onChange={handleStratInputChange}
               options={CUSIP_options}
-              styles={customStyles} 
+              styles={customStyles}
               isClearable
               value={selectedCUSIPStrat}
               isFilterable
@@ -1295,7 +1326,12 @@ const Tearsheet = () => {
             {/* </div> */}
           </div>
         </div>
-        <div className="d-flex justify-content-evenly ml-3" style={{ marginTop: 15 }}>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>Cummulative Returns</strong>
+          </div>
           <div className="tearsheet-grid">
             <div className="tearsheet-grid-item">
               <Plot
@@ -1306,12 +1342,26 @@ const Tearsheet = () => {
                 style={divStyle}
               />
             </div>
+            <div className="tables d-flex flex-column" style={boxColor}>
+              <div id="tableTitle" style={tableTitle}>
+                Key Performance Metrics
+              </div>
+              <table id="table_cumulative_return" style={tableStyle} />
+            </div>
+          </div>
+        </div>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>Monthly Returns (%)</strong>
+          </div>
+          <div className="tearsheet-grid">
             <div className="tearsheet-grid-item">
               <Plot
-                className="plot"
-                data={eoy_return}
-                layout={eoy_Layout}
-                style={divStyle}
+                className="big"
+                data={monthly_percents}
+                layout={heatmap_Layout}
               />
             </div>
             <div className="tearsheet-grid-item">
@@ -1322,6 +1372,44 @@ const Tearsheet = () => {
                 style={divStyle}
               />
             </div>
+          </div>
+          <div className="tables d-flex flex-column" style={boxColor}>
+            <div id="tableTitle" style={tableTitle}>
+              Key Performance Metrics
+            </div>
+            <table id="table_avg_up_month" style={tableStyle} />
+          </div>
+        </div>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>End of Year Returns vs Benchmark</strong>
+          </div>
+          <div className="tearsheet-grid">
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={eoy_return}
+                layout={eoy_Layout}
+                style={divStyle}
+              />
+            </div>
+          </div>
+          <div className="tables" style={boxColor}>
+            <div id="eoyTitle" style={tableTitle}>
+              EOY Returns vs Benchmark
+            </div>
+            <table id="eoy_table" style={tableStyle} />
+          </div>
+        </div>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>Daily Returns</strong>
+          </div>
+          <div className="tearsheet-grid">
             <div className="tearsheet-grid-item">
               <Plot
                 className="plot"
@@ -1335,10 +1423,15 @@ const Tearsheet = () => {
             <div id="tableTitle" style={tableTitle}>
               Key Performance Metrics
             </div>
-            <table id="table" style={tableStyle} />
+            <table id="table_best_day" style={tableStyle} />
           </div>
         </div>
-        <div id="First_Visuals" className="d-flex justify-content-evenly ml-3" style={{ marginTop: 15 }}>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>Underwater Plot</strong>
+          </div>
           <div className="tearsheet-grid">
             <div className="tearsheet-grid-item">
               <Plot
@@ -1348,6 +1441,15 @@ const Tearsheet = () => {
                 style={divStyle}
               />
             </div>
+          </div>
+        </div>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>Top 5 Drawdown Periods</strong>
+          </div>
+          <div className="tearsheet-grid">
             <div className="tearsheet-grid-item">
               <Plot
                 className="plot"
@@ -1357,23 +1459,31 @@ const Tearsheet = () => {
               />
             </div>
           </div>
-          <div className="d-flex flex-column">
-            <div className="tables" style={boxColor}>
-              <div id="eoyTitle" style={tableTitle}>
-                EOY Returns vs Benchmark
-              </div>
-              <table id="eoy_table" style={tableStyle} />
+          <div className="tables" style={boxColor}>
+            <div id="w_draw_table_Title" style={tableTitle}>
+              Worst Drawdowns
             </div>
-            <br />
-            <div className="tables" style={wDrawboxColor}>
-              <div id="w_draw_table_Title" style={tableTitle}>
-                Worst Drawdowns
-              </div>
-              <table id="w_draw_table" style={tableStyle} />
+            <table id="w_draw_table" style={tableStyle} />
+          </div>
+          <div className="tables d-flex flex-column" style={boxColor}>
+            <div id="tableTitle" style={tableTitle}>
+              Key Performance Metrics
             </div>
+            <table id="table_max_drawdown" style={tableStyle} />
+          </div>
+          <div className="tables d-flex flex-column" style={boxColor}>
+            <div id="tableTitle" style={tableTitle}>
+              Key Performance Metrics
+            </div>
+            <table id="table_avg_drawdown" style={tableStyle} />
           </div>
         </div>
-        <div className="d-flex justify-content-evenly ml-3" style={{ marginTop: 15 }}>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>Rollings (6 months)</strong>
+          </div>
           <div className="tearsheet-grid">
             <div className="tearsheet-grid-item">
               <Plot
@@ -1408,13 +1518,12 @@ const Tearsheet = () => {
               />
             </div>
           </div>
-        </div>
-        <div className="ml-3" style={{ marginTop: 15 }}>
-          <Plot
-            className="big"
-            data={monthly_percents}
-            layout={heatmap_Layout}
-          />
+          <div className="tables d-flex flex-column" style={boxColor}>
+            <div id="tableTitle" style={tableTitle}>
+              Key Performance Metrics
+            </div>
+            <table id="table_mtd" style={tableStyle} />
+          </div>
         </div>
       </div>
     </div>

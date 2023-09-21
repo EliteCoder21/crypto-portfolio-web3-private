@@ -23,8 +23,8 @@ export default function TearsheetButton() {
             zIndex: 100,
             top: 0,
             left: 0,
-            width: "100%",
-            height: "100%",
+            width: "100vw",
+            height: "100vh",
             backgroundColor: "rgba(0, 0, 0, 0.8)",
             display: "flex",
             alignItems: "center",
@@ -33,7 +33,7 @@ export default function TearsheetButton() {
         >
           <div
             className="popup-wrapper active"
-            style={{ width: "100vw", height: "100vh" }}
+            style={{ width: "90%", height: "90%", overflow: "auto" }}
           >
             <div className="top">
               <span className="title">Strategy Tearsheet</span>
