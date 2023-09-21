@@ -3,8 +3,8 @@ import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
-// import Modal from "../components/modal.js"
-import Tearsheet from "../components/tearsheet.js"
+// import Modal from "../components/modal.js";
+import Tearsheet from "../components/tearsheet.js";
 import DEFAULT_CARD_STYLE, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -16,7 +16,7 @@ export default function Assets() {
   
   const { user } = useAuthContext();
 
-  const [displayPopup, setDisplayPopup] = useState(true);
+  const [displayPopup, setDisplayPopup] = useState(false);
 
   // Populate Kanban data
   const data = require("./emptyAssetsData.json");
@@ -103,7 +103,7 @@ export default function Assets() {
 
   // Define the Board functions
   const  handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
-    open = true;
+    setDisplayPopup(true);
 
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
@@ -161,7 +161,7 @@ export default function Assets() {
               <Bar />
             </div>
             <div style={{ width: "80%", margin: "auto" }}>
-              {/* <AssetInventory /> */}
+              <AssetInventory />
             </div>
           </div>
         </div>
