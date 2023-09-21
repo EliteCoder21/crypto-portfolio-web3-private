@@ -48,25 +48,14 @@ const customStyles = {
     backgroundColor: "rgb(19, 19, 21)",
     cursor: "pointer",
     "&:hover": {
-      backgroundColor: "gray",
+      backgroundColor: "#404040",
     },
-  }),
-  singleValue: (provided, state) => ({
-    ...provided,
-    color: state.selectProps.menuIsOpen ? "transparent" : "white",
-    borderWidth: "0px",
-    margin: "0px",
-  }),
-  valueContainer: (provided) => ({
-    ...provided,
-    height: "100%",
-    borderWidth: "0px",
-    margin: "0px",
   }),
   input: (provided) => ({
     ...provided,
     width: "161px",
     height: "36px",
+    display: "flex"
   })
 };
 
@@ -77,6 +66,7 @@ const bgColor = {
 const boxColor = {
   backgroundColor: "#1f2436",
   margin: "5px",
+  marginTop: "15px"
 };
 
 const wDrawboxColor = {
@@ -86,7 +76,9 @@ const wDrawboxColor = {
 
 const divStyle = {
   margin: "5px",
-  width: "100%"
+  width: "fit-content",
+  marginLeft: "auto",
+  marginRight: "auto"
 };
 
 const tableStyle = {
@@ -107,6 +99,7 @@ const dropdownTitle = {
   color: "rgb(169, 169, 169)",
   fontSize: 14,
   textAlign: "left",
+  marginBottom: "10px"
 };
 
 const headerStyle = {
@@ -1280,7 +1273,7 @@ const Tearsheet = () => {
   );
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: "100vh", margin: 5 }}>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
         <div className="d-flex justify-content-left ml-3 selectContainer">
           <div className="d-flex flex-column benchSelectDiv">
@@ -1302,34 +1295,41 @@ const Tearsheet = () => {
             {/* </div> */}
           </div>
         </div>
-        <br /><br />
-        <div className="d-flex justify-content-evenly ml-3">
+        <div className="d-flex justify-content-evenly ml-3" style={{ marginTop: 15 }}>
           <div className="tearsheet-grid">
-            <Plot
-              className="plot"
-              data={creturn_data}
-              layout={cret_Layout}
-              useResizeHandler={true}
-              style={divStyle}
-            />
-            <Plot
-              className="plot"
-              data={eoy_return}
-              layout={eoy_Layout}
-              style={divStyle}
-            />
-            <Plot
-              className="plot"
-              data={monthly_returns}
-              layout={month_Layout}
-              style={divStyle}
-            />
-            <Plot
-              className="plot"
-              data={daily_returns}
-              layout={daily_Layout}
-              style={divStyle}
-            />
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={creturn_data}
+                layout={cret_Layout}
+                useResizeHandler={true}
+                style={divStyle}
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={eoy_return}
+                layout={eoy_Layout}
+                style={divStyle}
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={monthly_returns}
+                layout={month_Layout}
+                style={divStyle}
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={daily_returns}
+                layout={daily_Layout}
+                style={divStyle}
+              />
+            </div>
           </div>
           <div className="tables d-flex flex-column" style={boxColor}>
             <div id="tableTitle" style={tableTitle}>
@@ -1338,20 +1338,24 @@ const Tearsheet = () => {
             <table id="table" style={tableStyle} />
           </div>
         </div>
-        <div id="First_Visuals" className="d-flex justify-content-evenly ml-3">
+        <div id="First_Visuals" className="d-flex justify-content-evenly ml-3" style={{ marginTop: 15 }}>
           <div className="tearsheet-grid">
-            <Plot
-              className="plot"
-              data={underwater}
-              layout={under_Layout}
-              style={divStyle}
-            />
-            <Plot
-              className="plot"
-              data={worst_drawdowns}
-              layout={wdp_Layout}
-              style={divStyle}
-            />
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={underwater}
+                layout={under_Layout}
+                style={divStyle}
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={worst_drawdowns}
+                layout={wdp_Layout}
+                style={divStyle}
+              />
+            </div>
           </div>
           <div className="d-flex flex-column">
             <div className="tables" style={boxColor}>
@@ -1369,35 +1373,43 @@ const Tearsheet = () => {
             </div>
           </div>
         </div>
-        <div className="d-flex justify-content-evenly ml-3">
+        <div className="d-flex justify-content-evenly ml-3" style={{ marginTop: 15 }}>
           <div className="tearsheet-grid">
-            <Plot
-              className="plot"
-              data={sharpe}
-              layout={sharpe_Layout}
-              style={divStyle}
-            />
-            <Plot
-              className="plot"
-              data={sortino}
-              layout={sort_Layout}
-              style={divStyle}
-            />
-            <Plot
-              className="plot"
-              data={vol}
-              layout={vol_Layout}
-              style={divStyle}
-            />
-            <Plot
-              className="plot"
-              data={quants}
-              layout={quant_Layout}
-              style={divStyle}
-            />
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={sharpe}
+                layout={sharpe_Layout}
+                style={divStyle}
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={sortino}
+                layout={sort_Layout}
+                style={divStyle}
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={vol}
+                layout={vol_Layout}
+                style={divStyle}
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={quants}
+                layout={quant_Layout}
+                style={divStyle}
+              />
+            </div>
           </div>
         </div>
-        <div className="ml-3">
+        <div className="ml-3" style={{ marginTop: 15 }}>
           <Plot
             className="big"
             data={monthly_percents}

@@ -261,21 +261,6 @@ input[type="number"] {
 #desktop .popup-wrapper .bottom button:hover {
   background: var(--main-fourth);
 }
-.popup-wrapper .bottom div {
-  display: block;
-  text-align: center;
-  margin-bottom: 20px;
-}
-.popup-wrapper .bottom div .choice {
-  display: inline-block;
-  margin: 0 10px 0 10px;
-  padding: 0 15.333px 0 15.333px;
-}
-.popup-wrapper .bottom div .choice.active {
-  background: var(--accent-first);
-  color: var(--accent-contrast);
-  pointer-events: none;
-}
 .popup-wrapper button.delete {
   background: rgb(230, 50, 50);
   color: var(--accent-contrast);
@@ -1539,4 +1524,5 @@ td {
 
 .react-trello-card {
   border: 5px solid white;
+  border-bottom: 10px;
 }

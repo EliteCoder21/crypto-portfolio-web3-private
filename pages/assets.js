@@ -3,11 +3,25 @@ import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useEffect, useState } from "react";
+import Popup from 'reactjs-popup';
 import DEFAULT_CARD_STYLE, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
+import 'reactjs-popup/dist/index.css';
 const firebase = require("firebase/app");
 require("firebase/firestore");
+
+const PopupExample = () => (
+  <Popup trigger={<button> Trigger</button>} position="right center">
+    <div>Popup content here !!</div>
+  </Popup>
+);
+
+const Modal = () => (
+  <Popup trigger={<button className="button"> Open Modal </button>} modal>
+    <span> Modal content </span>
+  </Popup>
+);
 
 export default function Assets() {
 
@@ -92,7 +106,6 @@ export default function Assets() {
 
       eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
 
-      
     } catch (error) {
       console.log(error);
     }
@@ -160,6 +173,15 @@ export default function Assets() {
               <AssetInventory />
             </div>
           </div>
+          <Popup
+            trigger={open => (
+              <button className="button">Trigger - {open ? 'Opened' : 'Closed'}</button>
+            )}
+            position="right center"
+            closeOnDocumentClick
+          >
+            <span> Popup content </span>
+          </Popup>;
         </div>
         : 
         <Login />

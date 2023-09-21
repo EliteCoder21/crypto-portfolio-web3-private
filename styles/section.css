@@ -26,6 +26,14 @@
     grid-template-columns: 50% 50%;
 }
 
+.tearsheet-grid-item {
+    overflow-x: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+}
+
 .card-deck {
     -ms-flex-flow: row wrap;
     flex-flow: row wrap;
