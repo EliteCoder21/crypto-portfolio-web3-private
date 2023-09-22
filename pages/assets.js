@@ -2,9 +2,7 @@ import Navbar from "../components/navbar.js";
 import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
-import React, { useEffect, useState } from "react";
-// import Modal from "../components/modal.js";
-import Tearsheet from "../components/tearsheet.js";
+import React, { useState } from "react";
 import DEFAULT_CARD_STYLE, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -102,9 +100,8 @@ export default function Assets() {
   }
 
   // Define the Board functions
-  const  handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
-    setDisplayPopup(true);
-
+  const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
+    
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
       return;
@@ -115,13 +112,12 @@ export default function Assets() {
     
     try {
       
-      // Save changes
-      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
+      setDisplayPopup(true);
 
+      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
     } catch (error) {
       console.log(error);
     }
-    
   }
   
   const AssetInventory = () => {
@@ -188,11 +184,13 @@ export default function Assets() {
           style={{ width: "50%", height: "90%", overflow: "auto" }}
         >
           <div className="top">
-            <span className="title">Strategy Tearsheet</span>
+            <center>
+              <span className="title">
+                Choose New Asset
+              </span>
+            </center>
           </div>
-
           <div className="bottom">
-            <Tearsheet />
             <button
               className="reject"
               id="popup-cancel"
@@ -200,7 +198,47 @@ export default function Assets() {
                 setDisplayPopup(!displayPopup);
               }}
             >
-              Exit
+              Option 1
+            </button>
+            <br />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayPopup(!displayPopup);
+              }}
+            >
+              Option 2
+            </button>
+            <br />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayPopup(!displayPopup);
+              }}
+            >
+              Option 3
+            </button>
+            <br />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayPopup(!displayPopup);
+              }}
+            >
+              Option 4
+            </button>
+            <br />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayPopup(!displayPopup);
+              }}
+            >
+              Option 5
             </button>
           </div>
         </div>
