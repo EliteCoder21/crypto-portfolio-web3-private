@@ -3,7 +3,7 @@ import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState } from "react";
-import DEFAULT_CARD_STYLE, { getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
+import { DEFAULT_CARD_STYLE, getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import 'reactjs-popup/dist/index.css';
