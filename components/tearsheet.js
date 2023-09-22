@@ -1,10 +1,7 @@
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-const Plot = dynamic(() => import('react-plotly.js'), {
-  ssr: true, // Keep SSR enabled for this component
-  loading: () => <div>Loading...</div>, // Optional loading component
-});
+import Plot from "./plot.js";
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
@@ -1348,6 +1345,7 @@ const Tearsheet = () => {
                 layout={cret_Layout}
                 useResizeHandler={true}
                 style={divStyle}
+                id="chart1"
               />
             </div>
             <div className="tables d-flex flex-column" style={boxColor}>
@@ -1370,6 +1368,7 @@ const Tearsheet = () => {
                 className="big"
                 data={monthly_percents}
                 layout={heatmap_Layout}
+                id="chart2"
               />
             </div>
             <div className="tearsheet-grid-item">
@@ -1378,6 +1377,7 @@ const Tearsheet = () => {
                 data={monthly_returns}
                 layout={month_Layout}
                 style={divStyle}
+                id="chart3"
               />
             </div>
           </div>
@@ -1401,6 +1401,7 @@ const Tearsheet = () => {
                 data={eoy_return}
                 layout={eoy_Layout}
                 style={divStyle}
+                id="chart4"
               />
             </div>
           </div>
@@ -1424,6 +1425,7 @@ const Tearsheet = () => {
                 data={daily_returns}
                 layout={daily_Layout}
                 style={divStyle}
+                id="chart5"
               />
             </div>
           </div>
@@ -1447,6 +1449,7 @@ const Tearsheet = () => {
                 data={underwater}
                 layout={under_Layout}
                 style={divStyle}
+                id="chart6"
               />
             </div>
           </div>
@@ -1464,6 +1467,7 @@ const Tearsheet = () => {
                 data={worst_drawdowns}
                 layout={wdp_Layout}
                 style={divStyle}
+                id="chart7"
               />
             </div>
           </div>
@@ -1499,6 +1503,7 @@ const Tearsheet = () => {
                 data={sharpe}
                 layout={sharpe_Layout}
                 style={divStyle}
+                id="chart8"
               />
             </div>
             <div className="tearsheet-grid-item">
@@ -1507,6 +1512,7 @@ const Tearsheet = () => {
                 data={sortino}
                 layout={sort_Layout}
                 style={divStyle}
+                id="chart9"
               />
             </div>
             <div className="tearsheet-grid-item">
@@ -1515,6 +1521,7 @@ const Tearsheet = () => {
                 data={vol}
                 layout={vol_Layout}
                 style={divStyle}
+                id="chart10"
               />
             </div>
             <div className="tearsheet-grid-item">
@@ -1523,6 +1530,7 @@ const Tearsheet = () => {
                 data={quants}
                 layout={quant_Layout}
                 style={divStyle}
+                id="chart11"
               />
             </div>
           </div>

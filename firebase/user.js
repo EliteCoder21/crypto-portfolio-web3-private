@@ -105,6 +105,15 @@ export async function transferUserAsset(
 
     cardData = await getSingleAsset(userId, originalLane, id);
 
+    // Update the title if necessary
+    if (finalLane === "OXA Lane" && !cardData.isConvertedToOXA) {
+      cardData.title = "OXA Offer: " + cardData.title;
+      cardData.isConvertedToOXA = true;
+    } else {
+      cardData.title.replace("OXA Offer: ", "");
+      cardData.isConvertedToOXA = false;
+    }
+
     // Update the laneId
     cardData['laneId'] = finalLane;
 
@@ -122,6 +131,7 @@ export async function transferUserAsset(
       "label": cardData.label,
       "cardStyle": DEFAULT_CARD_STYLE,
       "description": cardData.description,
+      "isConvertedToOXA": cardData.isConvertedToOXA
     });
 
   } catch (e) {

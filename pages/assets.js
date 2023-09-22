@@ -81,7 +81,7 @@ export default function Assets() {
             label: tempData.label,
             cardStyle: DEFAULT_CARD_STYLE,
             description: tempData.description,
-            cardColor: "white"
+            isConvertedToOXA: tempData.isConvertedToOXA
           }
           
           // Add to JSON file
@@ -92,6 +92,7 @@ export default function Assets() {
         });
       }
 
+      // Publish JSON Data
       eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
 
     } catch (error) {
