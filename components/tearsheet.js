@@ -1,7 +1,10 @@
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-const Plot = dynamic(() => import("react-plotly.js"), { ssr: false });
+const Plot = dynamic(() => import('react-plotly.js'), {
+  ssr: true, // Keep SSR enabled for this component
+  loading: () => <div>Loading...</div>, // Optional loading component
+});
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
