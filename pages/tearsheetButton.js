@@ -37,6 +37,24 @@ export default function TearsheetButton() {
           >
             <div className="top">
               <span className="title">Strategy Tearsheet</span>
+              <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayPopup(false);
+              }}
+            >
+              X
+            </button>
             </div>
 
             <div className="bottom">

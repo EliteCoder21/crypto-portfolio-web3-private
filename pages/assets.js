@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { DEFAULT_CARD_STYLE, getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
+import Tearsheet from "../components/tearsheet.js"
 import 'reactjs-popup/dist/index.css';
 const firebase = require("firebase/app");
 require("firebase/firestore");
@@ -14,7 +15,9 @@ export default function Assets() {
   
   const { user } = useAuthContext();
 
-  const [displayPopup, setDisplayPopup] = useState(false);
+  const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
+
+  const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
 
   // Populate Kanban data
   const data = require("./emptyAssetsData.json");
@@ -113,12 +116,16 @@ export default function Assets() {
     
     try {
       
-      setDisplayPopup(true);
+      setDisplayOptionsPopup(true);
 
       transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
     } catch (error) {
       console.log(error);
     }
+  }
+
+  const handleCardClick = () => {
+    setDisplayTearsheetPopup(true);
   }
   
   const AssetInventory = () => {
@@ -130,6 +137,7 @@ export default function Assets() {
             style={{backgroundColor: "rgba(31, 42, 71, 0)"}}
             data={data}
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
+            onCardClick={handleCardClick}
           />
         </div>
       </div>
@@ -165,7 +173,7 @@ export default function Assets() {
         : 
         <Login />
       }
-    {displayPopup ? (
+    {displayOptionsPopup ? (
       <div
         style={{
           position: "absolute",
@@ -196,7 +204,7 @@ export default function Assets() {
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayPopup(!displayPopup);
+                setDisplayOptionsPopup(!displayOptionsPopup);
               }}
             >
               Option 1
@@ -206,7 +214,7 @@ export default function Assets() {
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayPopup(!displayPopup);
+                setDisplayOptionsPopup(!displayOptionsPopup);
               }}
             >
               Option 2
@@ -216,7 +224,7 @@ export default function Assets() {
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayPopup(!displayPopup);
+                setDisplayOptionsPopup(!displayOptionsPopup);
               }}
             >
               Option 3
@@ -226,7 +234,7 @@ export default function Assets() {
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayPopup(!displayPopup);
+                setDisplayOptionsPopup(!displayOptionsPopup);
               }}
             >
               Option 4
@@ -236,10 +244,58 @@ export default function Assets() {
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayPopup(!displayPopup);
+                setDisplayOptionsPopup(!displayOptionsPopup);
               }}
             >
               Option 5
+            </button>
+          </div>
+        </div>
+      </div>
+    ) : (
+      <></>
+    )}
+    {displayTearsheetPopup ? (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{ maxWidth: "800px", width: "90%", height: "90%", overflow: "auto" }}
+        >
+          <div className="top">
+            <span className="title">Strategy Tearsheet</span>
+            <button
+              className="exit-button"
+              onClick={() => {
+                setDisplayTearsheetPopup(false);
+              }}
+            >
+              X
+            </button>
+          </div>
+
+          <div className="bottom">
+            <Tearsheet />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayTearsheetPopup(!displayTearsheetPopup);
+              }}
+            >
+              Exit
             </button>
           </div>
         </div>

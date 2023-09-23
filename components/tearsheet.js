@@ -1360,38 +1360,6 @@ const Tearsheet = () => {
         {/*SECTION*/}
         <div style={{ marginTop: 15 }}>
           <div id="tableTitle" style={tableTitle}>
-            <strong>Monthly Returns (%)</strong>
-          </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
-              <Plot
-                className="big"
-                data={monthly_percents}
-                layout={heatmap_Layout}
-                id="chart2"
-              />
-            </div>
-            <div className="tearsheet-grid-item">
-              <Plot
-                className="plot"
-                data={monthly_returns}
-                layout={month_Layout}
-                style={divStyle}
-                id="chart3"
-              />
-            </div>
-          </div>
-          <div className="tables d-flex flex-column" style={boxColor}>
-            <div id="tableTitle" style={tableTitle}>
-              Key Performance Metrics
-            </div>
-            <table id="table_avg_up_month" style={tableStyle} />
-          </div>
-        </div>
-
-        {/*SECTION*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
             <strong>End of Year Returns vs Benchmark</strong>
           </div>
           <div className="tearsheet-grid">
@@ -1539,6 +1507,38 @@ const Tearsheet = () => {
               Key Performance Metrics
             </div>
             <table id="table_mtd" style={tableStyle} />
+          </div>
+        </div>
+
+        {/*SECTION*/}
+        <div style={{ marginTop: 15 }}>
+          <div id="tableTitle" style={tableTitle}>
+            <strong>Monthly Returns (%)</strong>
+          </div>
+          <div className="tables d-flex flex-column" style={boxColor}>
+            <div id="tableTitle" style={tableTitle}>
+              Key Performance Metrics
+            </div>
+            <table id="table_avg_up_month" style={tableStyle} />
+          </div>
+          <div className="tearsheet-grid">
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="plot"
+                data={monthly_returns}
+                layout={month_Layout}
+                style={divStyle}
+                id="chart3"
+              />
+            </div>
+            <div className="tearsheet-grid-item">
+              <Plot
+                className="big"
+                data={monthly_percents}
+                layout={heatmap_Layout}
+                id="chart2"
+              />
+            </div>
           </div>
         </div>
       </div>
