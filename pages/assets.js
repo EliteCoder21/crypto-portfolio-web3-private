@@ -7,7 +7,7 @@ import { DEFAULT_CARD_STYLE, getUserAssets, transferUserAsset, getSingleAsset } 
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js"
-import 'reactjs-popup/dist/index.css';
+import "reactjs-popup/dist/index.css";
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
@@ -127,7 +127,7 @@ export default function Assets() {
   const handleCardClick = () => {
     setDisplayTearsheetPopup(true);
   }
-  
+
   const AssetInventory = () => {
     return (
       <div className="bond-data">
@@ -277,15 +277,24 @@ export default function Assets() {
           <div className="top">
             <span className="title">Strategy Tearsheet</span>
             <button
-              className="exit-button"
-              onClick={() => {
-                setDisplayTearsheetPopup(false);
-              }}
-            >
-              X
-            </button>
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setDisplayTearsheetPopup(false);
+            }}
+          >
+            X
+          </button>
           </div>
-
           <div className="bottom">
             <Tearsheet />
             <button

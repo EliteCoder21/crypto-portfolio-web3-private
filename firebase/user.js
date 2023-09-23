@@ -72,10 +72,6 @@ export async function getUserHoldings(id) {
   }
 }
 
-export async function getUserAssets(userId) {
-  return doc(db, "assets", userId);
-}
-
 export async function getSingleAsset(userId, lane, cardId) {
   try {
     const docRef = doc(collection(doc(db, "assets", userId), lane), cardId);
@@ -91,6 +87,10 @@ export async function getSingleAsset(userId, lane, cardId) {
     console.error("Error getting document:", error);
     return null;
   }
+}
+
+export async function getUserAssets(userId) {
+  return doc(db, "assets", userId);
 }
 
 export async function transferUserAsset(
@@ -117,7 +117,7 @@ export async function transferUserAsset(
     }
 
     // Update the laneId
-    cardData['laneId'] = finalLane;
+    cardData["laneId"] = finalLane;
 
     // Delete the document
     const deleteTarget = doc(db, "assets", userId, originalLane, id);
