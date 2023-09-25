@@ -35,19 +35,13 @@ export default function Assets() {
     // Default index value
     let res = 0;
 
-    switch(laneName) {
-      case "AUT Lane": 
-        res = 1;
+    const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]
+
+    for (let i = 0; i < lanes.length; i++) {
+      if (lanes[i] === laneName) {
+        res = i;
         break;
-      case "OXA Lane":
-        res = 2;
-        break;
-      case "Digital Assets Lane":
-        res = 3;
-        break;
-      default:
-        res = 0;
-        break;
+      }
     }
 
     return res;
