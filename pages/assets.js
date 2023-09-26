@@ -8,6 +8,8 @@ import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js"
 import "reactjs-popup/dist/index.css";
+
+const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
@@ -35,8 +37,6 @@ export default function Assets() {
     // Default index value
     let res = 0;
 
-    const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]
-
     for (let i = 0; i < lanes.length; i++) {
       if (lanes[i] === laneName) {
         res = i;
@@ -45,6 +45,38 @@ export default function Assets() {
     }
 
     return res;
+  }
+
+  function titleCardHelper(laneName) {
+
+    let title;
+
+    switch(laneName) {
+      case "RWA Lane":
+        title = "Add your Asset to your OpenEXA RWA - AUT pool";
+        break;
+      case "AUT Lane":
+        title = "Drop here to convert your RWA to OpenEXA AUT Offers";
+        break;
+      case "OXA Lane":
+        title = "Drop here for offers to convert your AUT into OXAs";
+        break;
+      default:
+        title = "Drop here for an offer to convert your OXAs to other digital assets";
+        break;
+    }
+
+    const cardData = {
+      id: "Title Card",
+      laneId: laneName,
+      title: title,
+      label: "",
+      cardStyle: { "width": 500, "maxWidth": 500, "margin": "auto", "marginBottom": 5, "fontWeight": 20, "color": "black", "backgroundColor": "white", "draggable": false },
+      description: "",
+      whiteSpace: 'pre-wrap',
+    }
+
+    return cardData;
   }
 
   // Get data
@@ -62,7 +94,7 @@ export default function Assets() {
         const laneSnap = await getDocs(laneCollection);
 
         // Clear lane
-        data.lanes[getLaneIndex(lane)].cards = [];
+        data.lanes[getLaneIndex(lane)].cards = [titleCardHelper(lane)];
 
         // Push data
         laneSnap.forEach((doc) => {
@@ -87,6 +119,11 @@ export default function Assets() {
           }
 
         });
+
+        // Test
+        console.log("IMPORTANT");
+        console.log("-----------------");
+        console.log(data.lanes[getLaneIndex(lane)].cards);
       }
 
       // Publish JSON Data
@@ -122,6 +159,34 @@ export default function Assets() {
     setDisplayTearsheetPopup(true);
   }
 
+  const CustomLaneHeader = (lane) => {
+    const relvalButtonStyle = {
+      backgroundColor: "red",
+      color: "white",
+    };
+
+    const tearsheetButtonStyle = {
+      backgroundColor: "green",
+      color: "white",
+    };
+
+    return (
+      <div className="custom-lane-header">
+        <h1 style={{ fontSize: 20, margin: 0, marginBottom: 5, padding: 0 }}>{lane.title}</h1>
+        <button onClick={() => {
+          setDisplayTearsheetPopup(!displayTearsheetPopup) 
+          }} 
+          className="red-hover-button"
+        >
+          RelVal
+        </button>
+        <button className="green-hover-button" onClick={() => { setDisplayTearsheetPopup(!displayTearsheetPopup) }}>
+          Tear Sheet
+        </button>
+      </div>
+    );
+  }
+  
   const AssetInventory = () => {
     return (
       <div className="bond-data">
@@ -132,6 +197,9 @@ export default function Assets() {
             data={data}
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
             onCardClick={handleCardClick}
+            components={{
+              LaneHeader: CustomLaneHeader,
+            }}
           />
         </div>
       </div>

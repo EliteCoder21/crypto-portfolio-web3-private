@@ -1559,3 +1559,30 @@ td {
   border-radius: 18px;
   border: 1px solid #cfcece;
 }
+
+.green-hover-button {
+  background-color: green;
+  border: white 2px solid;
+  cursor: pointer;
+  transition-duration: 0.5s;
+  color: white;
+  margin-left: 10px;
+}
+
+.green-hover-button:hover {
+  background-color: limegreen;
+  transition-duration: 0.5s;
+}
+
+.red-hover-button {
+  background-color: red;
+  border: white 2px solid;
+  cursor: pointer;
+  transition-duration: 0.5s;
+  color: white;
+}
+
+.red-hover-button:hover {
+  background-color: rgb(255, 127, 127);
+  transition-duration: 0.5s;
+}
