@@ -142,24 +142,26 @@ export default function Assets() {
         <div className="react-trello-card-body">
           <p>{card.description}</p>
         </div>
-        <div>
-          <button
-            onClick={() => {
-              setDisplayRelVal(!displayRelVal);
-            }}
-            className="red-hover-button"
-          >
-            RelVal
-          </button>
-          <button
-            className="green-hover-button"
-            onClick={() => {
-              setDisplayTearsheetPopup(!displayTearsheetPopup);
-            }}
-          >
-            Tear Sheet
-          </button>
-        </div>
+        {(card.laneId == "RWA Lane" || card.laneId == "AUT Lane") ? (
+          <div>
+            <button
+              onClick={() => {
+                setDisplayRelVal(!displayRelVal);
+              }}
+              className="red-hover-button"
+            >
+              RelVal
+            </button>
+            <button
+              className="green-hover-button"
+              onClick={() => {
+                setDisplayTearsheetPopup(!displayTearsheetPopup);
+              }}
+            >
+              Tear Sheet
+            </button>
+          </div>
+        ) : <></>}
       </div>
     );
   };
@@ -189,8 +191,8 @@ export default function Assets() {
     return (
       <div className="lane-image">
         {laneTitle == "RWA Pool" ? (
-          <button 
-            className="add-button" 
+          <button
+            className="add-button"
             onClick={() => {
               setDisplayOptionsPopup(true);
             }}
