@@ -1307,7 +1307,7 @@ const Tearsheet = () => {
   );
 
   return (
-    <div style={{ minHeight: "100vh", margin: 5 }}>
+    <div style={{ minHeight: "100vh", margin: 5, borderWidth: 20, borderColor: "white" }}>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
         <div className="d-flex justify-content-left ml-3 selectContainer" style={{ marginBottom: 20 }}>
           <div className="d-flex flex-column benchSelectDiv">
@@ -1337,8 +1337,8 @@ const Tearsheet = () => {
           <div id="tableTitle" style={tableTitle}>
             <strong>Cummulative Returns</strong>
           </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
+          <div className="-grid">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={creturn_data}
@@ -1362,8 +1362,8 @@ const Tearsheet = () => {
           <div id="tableTitle" style={tableTitle}>
             <strong>End of Year Returns vs Benchmark</strong>
           </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
+          <div className="-grid">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={eoy_return}
@@ -1386,8 +1386,8 @@ const Tearsheet = () => {
           <div id="tableTitle" style={tableTitle}>
             <strong>Daily Returns</strong>
           </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
+          <div className="-grid">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={daily_returns}
@@ -1410,8 +1410,8 @@ const Tearsheet = () => {
           <div id="tableTitle" style={tableTitle}>
             <strong>Underwater Plot</strong>
           </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
+          <div className="-grid">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={underwater}
@@ -1428,8 +1428,8 @@ const Tearsheet = () => {
           <div id="tableTitle" style={tableTitle}>
             <strong>Top 5 Drawdown Periods</strong>
           </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
+          <div className="-grid">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={worst_drawdowns}
@@ -1464,8 +1464,8 @@ const Tearsheet = () => {
           <div id="tableTitle" style={tableTitle}>
             <strong>Rollings (6 months)</strong>
           </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
+          <div className="-grid">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={sharpe}
@@ -1474,7 +1474,7 @@ const Tearsheet = () => {
                 id="chart8"
               />
             </div>
-            <div className="tearsheet-grid-item">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={sortino}
@@ -1483,7 +1483,7 @@ const Tearsheet = () => {
                 id="chart9"
               />
             </div>
-            <div className="tearsheet-grid-item">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={vol}
@@ -1492,7 +1492,7 @@ const Tearsheet = () => {
                 id="chart10"
               />
             </div>
-            <div className="tearsheet-grid-item">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={quants}
@@ -1521,8 +1521,8 @@ const Tearsheet = () => {
             </div>
             <table id="table_avg_up_month" style={tableStyle} />
           </div>
-          <div className="tearsheet-grid">
-            <div className="tearsheet-grid-item">
+          <div className="-grid">
+            <div className="-grid-item">
               <Plot
                 className="plot"
                 data={monthly_returns}
@@ -1531,7 +1531,7 @@ const Tearsheet = () => {
                 id="chart3"
               />
             </div>
-            <div className="tearsheet-grid-item">
+            <div className="-grid-item">
               <Plot
                 className="big"
                 data={monthly_percents}

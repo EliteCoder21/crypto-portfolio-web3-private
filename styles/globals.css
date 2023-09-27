@@ -16,6 +16,7 @@ html,
 body {
   margin: 0 !important;
   width: 100vw !important;
+  overflow: hidden;
 }
 
 :root {
@@ -1643,11 +1644,30 @@ td {
 }
 
 .lane-image {
-  font-size: 10px;
+  font-size: 13px;
   color: #12CDD4;
   transform: scale(2.2);
 }
 
 .custom-lane-header {
   border-radius: 10px;
+}
+
+.add-button {
+  font-size: 13px;
+  transform: scale(0.7);
+  color: #12CDD4;
+  margin: 10px;
+  padding: 2px;
+  border-radius: 500px;
+  transition-duration: 0.5;
+}
+
+.add-button:hover {
+  color: white;
+  background-color: #12CDD4;
+  box-shadow: #202231;
+  padding: 4px;
+  margin: 8px;
+  transition-duration: 0.5;
 }

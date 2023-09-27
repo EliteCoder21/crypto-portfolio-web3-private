@@ -3,21 +3,24 @@ import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState } from "react";
-import { DEFAULT_CARD_STYLE, getUserAssets, transferUserAsset, getSingleAsset } from "../firebase/user.js"
+import {
+  DEFAULT_CARD_STYLE,
+  getUserAssets,
+  transferUserAsset,
+  getSingleAsset,
+} from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
-import Tearsheet from "../components/tearsheet.js"
+import Tearsheet from "../components/tearsheet.js";
 import "reactjs-popup/dist/index.css";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
-import AddIcon from "@mui/icons-material/Add"
-
+import AddIcon from "@mui/icons-material/Add";
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"];
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
 export default function Assets() {
-
   const { user } = useAuthContext();
 
   const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
@@ -32,11 +35,10 @@ export default function Assets() {
   let eventBus = null;
   const setEventBus = (handle) => {
     eventBus = handle;
-  }
+  };
 
   // Helper function
   let getLaneIndex = function (laneName) {
-
     // Default index value
     let res = 0;
 
@@ -48,18 +50,21 @@ export default function Assets() {
     }
 
     return res;
-  }
+  };
 
   // Get data
   async function getAssetsData() {
     try {
-
       // Base Firebase reference
       const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
 
       // Iterate across all lanes
-      for (let lane of ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"]) {
-
+      for (let lane of [
+        "RWA Lane",
+        "AUT Lane",
+        "OXA Lane",
+        "Digital Assets Lane",
+      ]) {
         // Update lane
         const laneCollection = collection(userDataRef, lane);
         const laneSnap = await getDocs(laneCollection);
@@ -69,7 +74,6 @@ export default function Assets() {
 
         // Push data
         laneSnap.forEach((doc) => {
-
           // Read data
           const tempData = doc.data();
 
@@ -83,19 +87,17 @@ export default function Assets() {
             description: tempData.description,
             isConvertedToOXA: tempData.isConvertedToOXA,
             component: CustomCard,
-          }
+          };
 
           // Add to JSON file
           if (!(cardData == {})) {
             data.lanes[getLaneIndex(lane)].cards.push(cardData);
           }
-
         });
       }
 
       // Publish JSON Data
       eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
-
     } catch (error) {
       console.log(error);
     }
@@ -103,7 +105,6 @@ export default function Assets() {
 
   // Define the Board functions
   const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
-
     // If the card stays in the same aisle, stop
     if (fromLaneId === toLaneId) {
       return;
@@ -113,19 +114,27 @@ export default function Assets() {
     let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, cardId);
 
     try {
-
       setDisplayOptionsPopup(true);
 
-      transferUserAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, toLaneId, cardId, cardData); // Replace with user.id
+      transferUserAsset(
+        "5ntPFGMhxD4llc0ObTwF",
+        fromLaneId,
+        toLaneId,
+        cardId,
+        cardData
+      ); // Replace with user.id
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   // Create a custom card component.
   const CustomCard = (card) => {
     return (
-      <div className="react-trello-card" style={{ backgroundColor: card.style.backgroundColor }}>
+      <div
+        className="react-trello-card"
+        style={{ backgroundColor: card.style.backgroundColor }}
+      >
         <div className="react-trello-card-header">
           <h3 className="react-trello-card-title">{card.title}</h3>
           <span className="react-trello-card-label">{card.label}</span>
@@ -134,10 +143,20 @@ export default function Assets() {
           <p>{card.description}</p>
         </div>
         <div>
-          <button onClick={() => { setDisplayRelVal(!displayRelVal) }} className="red-hover-button">
+          <button
+            onClick={() => {
+              setDisplayRelVal(!displayRelVal);
+            }}
+            className="red-hover-button"
+          >
             RelVal
           </button>
-          <button className="green-hover-button" onClick={() => { setDisplayTearsheetPopup(!displayTearsheetPopup) }}>
+          <button
+            className="green-hover-button"
+            onClick={() => {
+              setDisplayTearsheetPopup(!displayTearsheetPopup);
+            }}
+          >
             Tear Sheet
           </button>
         </div>
@@ -169,13 +188,23 @@ export default function Assets() {
   function getLaneImage(laneTitle) {
     return (
       <div className="lane-image">
-        {laneTitle == "RWA Pool" ? <AddIcon /> : <SwapHorizIcon />}
+        {laneTitle == "RWA Pool" ? (
+          <button 
+            className="add-button" 
+            onClick={() => {
+              setDisplayOptionsPopup(true);
+            }}
+          >
+            <AddIcon />
+          </button>
+        ) : (
+          <SwapHorizIcon />
+        )}
       </div>
     );
   }
 
   const CustomLaneHeader = (lane) => {
-
     return (
       <div className="custom-lane-header">
         <center>
@@ -183,13 +212,15 @@ export default function Assets() {
             {lane.title}
           </h1>
           <div className="lane-subtitle">
-            <center><p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.title)}</p></center>
+            <center>
+              <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.title)}</p>
+            </center>
             {getLaneImage(lane.title)}
           </div>
         </center>
       </div>
     );
-  }
+  };
 
   const AssetInventory = () => {
     return (
@@ -202,7 +233,7 @@ export default function Assets() {
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
             components={{
               LaneHeader: CustomLaneHeader,
-              Card: CustomCard
+              Card: CustomCard,
             }}
           />
         </div>
@@ -212,7 +243,7 @@ export default function Assets() {
 
   return (
     <div>
-      {user ?
+      {user ? (
         <div>
           <Navbar active="/assets" />
           <div className="page autpage active" id="page-autpage">
@@ -236,9 +267,78 @@ export default function Assets() {
             </div>
           </div>
         </div>
-        :
+      ) : (
         <Login />
-      }
+      )}
+      {displayRelVal ? (
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 100,
+            top: 0,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            backgroundColor: "rgba(0, 0, 0, 0.8)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            className="popup-wrapper active"
+            style={{
+              maxWidth: "800px",
+              width: "90%",
+              height: "90vh",
+              overflow: "auto",
+            }}
+          >
+            <div className="top">
+              <span className="title">Relative Value</span>
+              <button
+                className="exit-button"
+                style={{
+                  position: "absolute",
+                  top: "10px",
+                  right: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "24px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setDisplayRelVal(false);
+                }}
+              >
+                X
+              </button>
+            </div>
+            <div className="bottom" style={{ height: "80%" }}>
+              <iframe
+                src="https://react-relval-wmn5n7rc5q-uc.a.run.app/"
+                width="100%"
+                height="100%"
+                scrolling="no"
+                frameBorder="0"
+              ></iframe>
+              <button
+                className="reject"
+                id="popup-cancel"
+                onClick={() => {
+                  setDisplayRelVal(false);
+                }}
+                style={{ marginTop: 20 }}
+              >
+                Exit
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <></>
+      )}
       {displayOptionsPopup ? (
         <div
           style={{
@@ -260,9 +360,7 @@ export default function Assets() {
           >
             <div className="top">
               <center>
-                <span className="title">
-                  Choose New Asset
-                </span>
+                <span className="title">Choose New Asset</span>
               </center>
             </div>
             <div className="bottom">
@@ -338,7 +436,12 @@ export default function Assets() {
         >
           <div
             className="popup-wrapper active"
-            style={{ maxWidth: "800px", width: "90%", height: "90%", overflow: "auto" }}
+            style={{
+              maxWidth: "800px",
+              width: "90%",
+              height: "90%",
+              overflow: "auto",
+            }}
           >
             <div className="top">
               <span className="title">Strategy Tearsheet</span>
@@ -378,5 +481,6 @@ export default function Assets() {
       ) : (
         <></>
       )}
-    </div>);
+    </div>
+  );
 }
