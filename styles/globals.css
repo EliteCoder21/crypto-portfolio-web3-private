@@ -16,7 +16,7 @@ html,
 body {
   margin: 0 !important;
   width: 100vw !important;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 :root {
@@ -1647,6 +1647,7 @@ td {
   font-size: 13px;
   color: #12CDD4;
   transform: scale(2.2);
+  width: fit-content;
 }
 
 .custom-lane-header {

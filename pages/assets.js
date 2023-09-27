@@ -142,7 +142,7 @@ export default function Assets() {
         <div className="react-trello-card-body">
           <p>{card.description}</p>
         </div>
-        {(card.laneId == "RWA Lane" || card.laneId == "AUT Lane") ? (
+        {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" ? (
           <div>
             <button
               onClick={() => {
@@ -161,7 +161,9 @@ export default function Assets() {
               Tear Sheet
             </button>
           </div>
-        ) : <></>}
+        ) : (
+          <></>
+        )}
       </div>
     );
   };
@@ -217,7 +219,9 @@ export default function Assets() {
             <center>
               <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.title)}</p>
             </center>
-            {getLaneImage(lane.title)}
+            <center>
+              {getLaneImage(lane.title)}
+            </center>
           </div>
         </center>
       </div>
@@ -230,7 +234,11 @@ export default function Assets() {
         <div className="myAssets">
           <Board
             eventBusHandle={setEventBus}
-            style={{ backgroundColor: "rgba(31, 42, 71, 0)" }}
+            style={{
+              backgroundColor: "rgba(31, 42, 71, 0)",
+              width: "fit-content",
+              margin: "auto"
+            }}
             data={data}
             onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
             components={{
@@ -264,7 +272,9 @@ export default function Assets() {
             <div style={{ paddingTop: 10, paddingBottom: 10 }}>
               <Bar />
             </div>
-            <div style={{ width: "80%", margin: "auto" }}>
+            <div
+              style={{ width: "100%", marginLeft: "auto", marginRight: "auto" }}
+            >
               <AssetInventory />
             </div>
           </div>
