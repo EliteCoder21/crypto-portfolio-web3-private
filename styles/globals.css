@@ -1562,7 +1562,6 @@ td {
 
 .green-hover-button {
   background-color: green;
-  border: white 2px solid;
   cursor: pointer;
   transition-duration: 0.5s;
   color: white;
@@ -1576,7 +1575,6 @@ td {
 
 .red-hover-button {
   background-color: red;
-  border: white 2px solid;
   cursor: pointer;
   transition-duration: 0.5s;
   color: white;
@@ -1585,4 +1583,71 @@ td {
 .red-hover-button:hover {
   background-color: rgb(255, 127, 127);
   transition-duration: 0.5s;
+}
+
+.lane-subtitle {
+  background-color: #414BB2;
+  font-size: 40px;
+  color: white;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  text-wrap: wrap;
+}
+
+.react-trello-card {
+  border-radius: 5px;
+  border: 4px solid #ccc;
+  position: relative;
+  padding: 20px;
+  cursor: pointer;
+  max-width: 250px;
+  margin-bottom: 7px;
+  min-width: 230px;
+  text-wrap: wrap;
+}
+
+.react-trello-card-header {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 6px;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.react-trello-card-title {
+  font-size: 25px;
+  font-weight: bold;
+  margin: 0;
+  padding: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 65%;
+  width: 65%;
+}
+
+.react-trello-card-label {
+  font-size: 10px;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  max-width: 30%;
+  width: 30%;
+  font-weight: bold;
+}
+
+.react-trello-card-body {
+  font-size: 12px;
+  color: black;
+}
+
+.lane-image {
+  font-size: 10px;
+  color: #12CDD4;
+  transform: scale(2.2);
+}
+
+.custom-lane-header {
+  border-radius: 10px;
 }
