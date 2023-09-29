@@ -15,6 +15,20 @@ import {
 const db = getFirestore(firebase_app);
 
 export const DEFAULT_CARD_STYLE = { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 };
+export const DEFAULT_ASSET_OPTIONS = [
+  {
+    name: "Option 1",
+    cardId: "qdTqpuGmRhZu"
+  },
+  {
+    name: "Option 2",
+    cardId: "9ONFIxwiLVp5"
+  },
+  {
+    name: "Option 3",
+    cardId: "RupI19tzhjnq"
+  }
+];
 
 export async function createUser(id) {
   let result = null;
@@ -104,8 +118,6 @@ export async function transferUserAsset(
   try {
 
     cardData = await getSingleAsset(userId, originalLane, id);
-
-    console.log(finalLane);
 
     // Update the title if necessary
     if (finalLane === "OXA Lane" && !cardData.isConvertedToOXA) {
@@ -240,4 +252,8 @@ export async function addUserActivityBulk(id, documents) {
   });
 
   return true;
+}
+
+export async function getAssetOptions(id) {
+  
 }

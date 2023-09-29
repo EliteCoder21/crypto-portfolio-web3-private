@@ -1657,7 +1657,8 @@ td {
 .add-button {
   font-size: 13px;
   transform: scale(0.7);
-  color: #12CDD4;
+  background-color: #12CDD4;
+  color: white;
   margin: 10px;
   padding: 2px;
   border-radius: 500px;

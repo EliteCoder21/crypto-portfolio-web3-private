@@ -5,6 +5,7 @@ import { useAuthContext } from "../firebase/context";
 import React, { useState } from "react";
 import {
   DEFAULT_CARD_STYLE,
+  DEFAULT_ASSET_OPTIONS,
   getUserAssets,
   transferUserAsset,
   getSingleAsset,
@@ -26,6 +27,9 @@ export default function Assets() {
   const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
   const [displayRelVal, setDisplayRelVal] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
+  const [assetOptionsData, setAssetOptionsData] = useState(DEFAULT_ASSET_OPTIONS);
+
+  // setAssetOptionsData(DEFAULT_ASSET_OPTIONS_DATA);
 
   // Populate Kanban data
   const data = require("./emptyAssetsData.json");
@@ -230,22 +234,232 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-      <div className="bond-data">
-        <div className="myAssets">
-          <Board
-            eventBusHandle={setEventBus}
-            style={{
-              backgroundColor: "rgba(31, 42, 71, 0)",
-              width: "fit-content",
-              margin: "auto"
+      <div className="page autpage active" id="page-autpage">
+        <h1
+          style={{
+            fontWeight: 300,
+            fontSize: 40,
+            color: "white",
+            margin: 20,
+            padding: 0,
+            textAlign: "center",
+          }}
+        >
+        Asset Inventory
+        </h1>
+        <div style={{ paddingTop: 10, paddingBottom: 10 }}>
+          <Bar />
+        </div>
+        <div
+          style={{ width: "100%", marginLeft: "auto", marginRight: "auto" }}
+        >
+          <div className="bond-data">
+            <div className="myAssets">
+              <Board
+                eventBusHandle={setEventBus}
+                style={{
+                  backgroundColor: "rgba(31, 42, 71, 0)",
+                  width: "fit-content",
+                  margin: "auto"
+                }}
+                data={data}
+                onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
+                components={{
+                  LaneHeader: CustomLaneHeader,
+                  Card: CustomCard,
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const OptionsList = () => {
+    return assetOptionsData.map(({ name, cardId }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setDisplayOptionsPopup(!displayOptionsPopup);
+              /* Write to somewhere using cardId */
             }}
-            data={data}
-            onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
-            components={{
-              LaneHeader: CustomLaneHeader,
-              Card: CustomCard,
-            }}
-          />
+          >
+            {name}
+          </button>
+        </div>
+      );
+    });
+  };
+
+  const OptionsPopup = () => {
+    return (
+      <div
+      style={{
+        position: "absolute",
+        zIndex: 100,
+        top: 0,
+        left: 0,
+        width: "90vw",
+        height: "100vh",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      >
+        <div 
+          className="popup-wrapper active"
+          style={{ 
+              width: "50%", 
+              height: "90%", 
+              overflow: "auto"}}>
+          <div className="top">
+          <center>
+            <span className="title">Choose New Asset</span>
+          </center>
+          </div>
+          <div className="bottom" style={{border: "4px solid white"}}>
+            <OptionsList />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const TearsheetPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            maxWidth: "800px",
+            width: "90%",
+            height: "90%",
+            overflow: "auto",
+            border: "4px solid white",
+          }}
+        >
+          <div className="top">
+            <span className="title">Strategy Tearsheet</span>
+            <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayTearsheetPopup(false);
+              }}
+            >
+              X
+            </button>
+          </div>
+          <div className="bottom">
+            <Tearsheet />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayTearsheetPopup(!displayTearsheetPopup);
+              }}
+            >
+              Exit
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const RelValPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          border: "4px solid white",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            maxWidth: "800px",
+            width: "90%",
+            height: "90vh",
+            overflow: "auto",
+          }}
+        >
+          <div className="top">
+            <span className="title">Relative Value</span>
+            <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayRelVal(false);
+              }}
+            >
+              X
+            </button>
+          </div>
+          <div className="bottom" style={{ height: "80%" }}>
+            <iframe
+              src="https://react-relval-wmn5n7rc5q-uc.a.run.app/"
+              width="100%"
+              height="100%"
+              scrolling="no"
+              frameBorder="0"
+            ></iframe>
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayRelVal(false);
+              }}
+              style={{ marginTop: 20 }}
+            >
+              Exit
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -256,240 +470,23 @@ export default function Assets() {
       {user ? (
         <div>
           <Navbar active="/assets" />
-          <div className="page autpage active" id="page-autpage">
-            <h1
-              style={{
-                fontWeight: 300,
-                fontSize: 40,
-                color: "white",
-                margin: 20,
-                padding: 0,
-                textAlign: "center",
-              }}
-            >
-              Asset Inventory
-            </h1>
-            <div style={{ paddingTop: 10, paddingBottom: 10 }}>
-              <Bar />
-            </div>
-            <div
-              style={{ width: "100%", marginLeft: "auto", marginRight: "auto" }}
-            >
-              <AssetInventory />
-            </div>
-          </div>
+          <AssetInventory />
         </div>
       ) : (
         <Login />
       )}
       {displayRelVal ? (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 100,
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            className="popup-wrapper active"
-            style={{
-              maxWidth: "800px",
-              width: "90%",
-              height: "90vh",
-              overflow: "auto",
-            }}
-          >
-            <div className="top">
-              <span className="title">Relative Value</span>
-              <button
-                className="exit-button"
-                style={{
-                  position: "absolute",
-                  top: "10px",
-                  right: "10px",
-                  background: "none",
-                  border: "none",
-                  fontSize: "24px",
-                  cursor: "pointer",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setDisplayRelVal(false);
-                }}
-              >
-                X
-              </button>
-            </div>
-            <div className="bottom" style={{ height: "80%" }}>
-              <iframe
-                src="https://react-relval-wmn5n7rc5q-uc.a.run.app/"
-                width="100%"
-                height="100%"
-                scrolling="no"
-                frameBorder="0"
-              ></iframe>
-              <button
-                className="reject"
-                id="popup-cancel"
-                onClick={() => {
-                  setDisplayRelVal(false);
-                }}
-                style={{ marginTop: 20 }}
-              >
-                Exit
-              </button>
-            </div>
-          </div>
-        </div>
+        <RelValPopup />
       ) : (
         <></>
       )}
       {displayOptionsPopup ? (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 100,
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            className="popup-wrapper active"
-            style={{ width: "50%", height: "90%", overflow: "auto" }}
-          >
-            <div className="top">
-              <center>
-                <span className="title">Choose New Asset</span>
-              </center>
-            </div>
-            <div className="bottom">
-              <button
-                className="reject"
-                id="popup-cancel"
-                onClick={() => {
-                  setDisplayOptionsPopup(!displayOptionsPopup);
-                }}
-              >
-                Option 1
-              </button>
-              <br />
-              <button
-                className="reject"
-                id="popup-cancel"
-                onClick={() => {
-                  setDisplayOptionsPopup(!displayOptionsPopup);
-                }}
-              >
-                Option 2
-              </button>
-              <br />
-              <button
-                className="reject"
-                id="popup-cancel"
-                onClick={() => {
-                  setDisplayOptionsPopup(!displayOptionsPopup);
-                }}
-              >
-                Option 3
-              </button>
-              <br />
-              <button
-                className="reject"
-                id="popup-cancel"
-                onClick={() => {
-                  setDisplayOptionsPopup(!displayOptionsPopup);
-                }}
-              >
-                Option 4
-              </button>
-              <br />
-              <button
-                className="reject"
-                id="popup-cancel"
-                onClick={() => {
-                  setDisplayOptionsPopup(!displayOptionsPopup);
-                }}
-              >
-                Option 5
-              </button>
-            </div>
-          </div>
-        </div>
+        <OptionsPopup />
       ) : (
         <></>
       )}
       {displayTearsheetPopup ? (
-        <div
-          style={{
-            position: "absolute",
-            zIndex: 100,
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            backgroundColor: "rgba(0, 0, 0, 0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <div
-            className="popup-wrapper active"
-            style={{
-              maxWidth: "800px",
-              width: "90%",
-              height: "90%",
-              overflow: "auto",
-            }}
-          >
-            <div className="top">
-              <span className="title">Strategy Tearsheet</span>
-              <button
-                className="exit-button"
-                style={{
-                  position: "absolute",
-                  top: "10px",
-                  right: "10px",
-                  background: "none",
-                  border: "none",
-                  fontSize: "24px",
-                  cursor: "pointer",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setDisplayTearsheetPopup(false);
-                }}
-              >
-                X
-              </button>
-            </div>
-            <div className="bottom">
-              <Tearsheet />
-              <button
-                className="reject"
-                id="popup-cancel"
-                onClick={() => {
-                  setDisplayTearsheetPopup(!displayTearsheetPopup);
-                }}
-              >
-                Exit
-              </button>
-            </div>
-          </div>
-        </div>
+        <TearsheetPopup />
       ) : (
         <></>
       )}
