@@ -28,12 +28,12 @@ export default function Assets() {
   const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
   const [displayRelVal, setDisplayRelVal] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [displayAssetsPopup, setDisplayAssetsPopup] = useState(false);
+  const [displayAddAssetPopup, setDisplayAddAssetPopup] = useState(false);
   const [assetOptionsData, setAssetOptionsData] = useState([]);
 
   async function getAssetOptionsData() {
     try {
-      const docsSnap = await getAssetOptions("5ntPFGMhxD4llc0ObTwF");
+      const docsSnap = await getAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
       const TABLE_STATE = [];
   
       docsSnap.forEach((doc) => {
@@ -82,7 +82,7 @@ export default function Assets() {
   async function getAssetsData() {
     try {
       // Base Firebase reference
-      const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); //Replace with user.uid
+      const userDataRef = await getUserAssets("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
 
       // Iterate across all lanes
       for (let lane of [
@@ -234,7 +234,7 @@ export default function Assets() {
             className="add-button"
             onClick={() => {
               //setDisplayOptionsPopup(true);
-              setDisplayAssetsPopup(true);
+              setDisplayAddAssetPopup(true);
             }}
           >
             <AddIcon />
@@ -497,6 +497,69 @@ export default function Assets() {
     );
   };
 
+  const AddAssetPopup = () => {
+    return (
+      <div
+      style={{
+        position: "absolute",
+        zIndex: 100,
+        top: 0,
+        left: 0,
+        width: "90vw",
+        height: "100vh",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      >
+        <div 
+          className="popup-wrapper active"
+          style={{ 
+              width: "50%", 
+              height: "90%", 
+              overflow: "auto"}}>
+          <div className="top">
+          <center>
+            <span className="title">Add New Asset</span>
+          </center>
+          </div>
+          <div className="bottom" style={{border: "4px solid white"}}>
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayAddAssetPopup(false);
+              }}
+            >
+              Option #1
+            </button>
+            <br />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayAddAssetPopup(false);
+              }}
+            >
+              Option #2
+            </button>
+            <br />
+            <button
+              className="reject"
+              id="popup-cancel"
+              onClick={() => {
+                setDisplayAddAssetPopup(false);
+              }}
+            >
+              Option #3
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   useEffect(() => {
     getAssetOptionsData();
   }, []);
@@ -526,8 +589,8 @@ export default function Assets() {
       ) : (
         <></>
       )}
-      {displayAssetsPopup ? (
-        <TearsheetPopup />
+      {displayAddAssetPopup ? (
+        <AddAssetPopup />
       ) : (
         <></>
       )}
