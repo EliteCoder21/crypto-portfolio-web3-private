@@ -15,20 +15,6 @@ import {
 const db = getFirestore(firebase_app);
 
 export const DEFAULT_CARD_STYLE = { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 };
-export const DEFAULT_ASSET_OPTIONS = [
-  {
-    name: "Option 1",
-    cardId: "qdTqpuGmRhZu"
-  },
-  {
-    name: "Option 2",
-    cardId: "9ONFIxwiLVp5"
-  },
-  {
-    name: "Option 3",
-    cardId: "RupI19tzhjnq"
-  }
-];
 
 export async function createUser(id) {
   let result = null;
@@ -107,6 +93,8 @@ export async function getSingleAsset(userId, lane, cardId) {
   }
 }
 
+
+
 export async function transferUserAsset(
   userId,
   originalLane,
@@ -151,6 +139,19 @@ export async function transferUserAsset(
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function addUserAsset(uid, data) {
+  let result = null;
+  let error = null;
+
+  try {
+    result = await collection(db, "assets", uid, "RWA Lane").add(data);
+  } catch (e) {
+    error = e;
+  }
+
+  return { result, error };
 }
 
 export async function addUserHoldings(id, data) {
@@ -255,5 +256,7 @@ export async function addUserActivityBulk(id, documents) {
 }
 
 export async function getAssetOptions(id) {
-  
+  const dataCollection = collection(db, "assets", id, "asset-options");
+  const docsSnap = await getDocs(dataCollection);
+  return docsSnap;
 }

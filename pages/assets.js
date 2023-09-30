@@ -2,13 +2,14 @@ import Navbar from "../components/navbar.js";
 import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   DEFAULT_CARD_STYLE,
-  DEFAULT_ASSET_OPTIONS,
   getUserAssets,
   transferUserAsset,
   getSingleAsset,
+  addUserAsset,
+  getAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -27,9 +28,30 @@ export default function Assets() {
   const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
   const [displayRelVal, setDisplayRelVal] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [assetOptionsData, setAssetOptionsData] = useState(DEFAULT_ASSET_OPTIONS);
+  const [displayAssetsPopup, setDisplayAssetsPopup] = useState(false);
+  const [assetOptionsData, setAssetOptionsData] = useState([]);
 
-  // setAssetOptionsData(DEFAULT_ASSET_OPTIONS_DATA);
+  async function getAssetOptionsData() {
+    try {
+      const docsSnap = await getAssetOptions("5ntPFGMhxD4llc0ObTwF");
+      const TABLE_STATE = [];
+  
+      docsSnap.forEach((doc) => {
+        // Get the data
+        const data = doc.data();
+  
+        // Append the data
+        TABLE_STATE.push({
+          id: data.id,
+          name: data.name
+        });
+      });
+  
+      setAssetOptionsData(TABLE_STATE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   // Populate Kanban data
   const data = require("./emptyAssetsData.json");
@@ -132,6 +154,17 @@ export default function Assets() {
     }
   };
 
+  const handleAddCard = (card, laneId) => {
+
+    // Popup to add card
+
+    // Add card to rwa lane
+
+    // Add card to firebase
+    addUserAsset("5ntPFGMhxD4llc0ObTwF", {})
+
+  }
+
   // Create a custom card component.
   const CustomCard = (card) => {
     return (
@@ -200,7 +233,8 @@ export default function Assets() {
           <button
             className="add-button"
             onClick={() => {
-              setDisplayOptionsPopup(true);
+              //setDisplayOptionsPopup(true);
+              setDisplayAssetsPopup(true);
             }}
           >
             <AddIcon />
@@ -446,8 +480,6 @@ export default function Assets() {
               src="https://react-relval-wmn5n7rc5q-uc.a.run.app/"
               width="100%"
               height="100%"
-              scrolling="no"
-              frameBorder="0"
             ></iframe>
             <button
               className="reject"
@@ -464,6 +496,10 @@ export default function Assets() {
       </div>
     );
   };
+
+  useEffect(() => {
+    getAssetOptionsData();
+  }, []);
 
   return (
     <div>
@@ -486,6 +522,11 @@ export default function Assets() {
         <></>
       )}
       {displayTearsheetPopup ? (
+        <TearsheetPopup />
+      ) : (
+        <></>
+      )}
+      {displayAssetsPopup ? (
         <TearsheetPopup />
       ) : (
         <></>
