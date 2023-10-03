@@ -9,7 +9,8 @@ import {
   transferUserAsset,
   getSingleAsset,
   addUserAsset,
-  getAssetOptions
+  getAssetOptions,
+  getRwaAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -25,11 +26,12 @@ require("firebase/firestore");
 export default function Assets() {
   const { user } = useAuthContext();
 
-  const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
   const [displayRelVal, setDisplayRelVal] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [displayAddAssetPopup, setDisplayAddAssetPopup] = useState(false);
+  const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
   const [assetOptionsData, setAssetOptionsData] = useState([]);
+  const [displayRwaOptionsPopup, setDisplayRwaOptionsPopup] = useState(false);
+  const [rwaAssetOptionsData, setRwaAssetOptionsData] = useState([]);
 
   async function getAssetOptionsData() {
     try {
@@ -48,6 +50,28 @@ export default function Assets() {
       });
   
       setAssetOptionsData(TABLE_STATE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getRwaAssetOptionsData() {
+    try {
+      const docsSnap = await getRwaAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const TABLE_STATE = [];
+  
+      docsSnap.forEach((doc) => {
+        // Get the data
+        const data = doc.data();
+  
+        // Append the data
+        TABLE_STATE.push({
+          id: data.id,
+          name: data.name
+        });
+      });
+  
+      setRwaAssetOptionsData(TABLE_STATE);
     } catch (error) {
       console.log(error);
     }
@@ -233,8 +257,7 @@ export default function Assets() {
           <button
             className="add-button"
             onClick={() => {
-              //setDisplayOptionsPopup(true);
-              setDisplayAddAssetPopup(true);
+              setDisplayRwaOptionsPopup(true);
             }}
           >
             <AddIcon />
@@ -310,7 +333,7 @@ export default function Assets() {
     );
   };
 
-  const OptionsList = () => {
+  const AssetOptionsList = () => {
     return assetOptionsData.map(({ name, cardId }) => {
       return (
         <div>
@@ -357,71 +380,61 @@ export default function Assets() {
           </center>
           </div>
           <div className="bottom" style={{border: "4px solid white"}}>
-            <OptionsList />
+            <AssetOptionsList />
           </div>
         </div>
       </div>
     );
   };
 
-  const TearsheetPopup = () => {
+  const RwaOptionsList = () => {
+    return rwaAssetOptionsData.map(({ name, cardId }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setDisplayRwaOptionsPopup(false);
+              /* Write to somewhere using cardId */
+            }}
+          >
+            {name}
+          </button>
+        </div>
+      );
+    });
+  };
+
+  const RwaOptionsPopup = () => {
     return (
       <div
-        style={{
-          position: "absolute",
-          zIndex: 100,
-          top: 0,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
+      style={{
+        position: "absolute",
+        zIndex: 100,
+        top: 0,
+        left: 0,
+        width: "90vw",
+        height: "100vh",
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
       >
-        <div
+        <div 
           className="popup-wrapper active"
-          style={{
-            maxWidth: "800px",
-            width: "90%",
-            height: "90%",
-            overflow: "auto",
-            border: "4px solid white",
-          }}
-        >
+          style={{ 
+              width: "50%", 
+              height: "90%", 
+              overflow: "auto"}}>
           <div className="top">
-            <span className="title">Strategy Tearsheet</span>
-            <button
-              className="exit-button"
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "24px",
-                cursor: "pointer",
-                color: "white",
-              }}
-              onClick={() => {
-                setDisplayTearsheetPopup(false);
-              }}
-            >
-              X
-            </button>
+          <center>
+            <span className="title">Choose New Asset</span>
+          </center>
           </div>
-          <div className="bottom">
-            <Tearsheet />
-            <button
-              className="reject"
-              id="popup-cancel"
-              onClick={() => {
-                setDisplayTearsheetPopup(!displayTearsheetPopup);
-              }}
-            >
-              Exit
-            </button>
+          <div className="bottom" style={{border: "4px solid white"}}>
+            <RwaOptionsList />
           </div>
         </div>
       </div>
@@ -497,62 +510,63 @@ export default function Assets() {
     );
   };
 
-  const AddAssetPopup = () => {
+  const TearsheetPopup = () => {
     return (
       <div
-      style={{
-        position: "absolute",
-        zIndex: 100,
-        top: 0,
-        left: 0,
-        width: "90vw",
-        height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <div 
+        <div
           className="popup-wrapper active"
-          style={{ 
-              width: "50%", 
-              height: "90%", 
-              overflow: "auto"}}>
+          style={{
+            maxWidth: "800px",
+            width: "90%",
+            height: "90%",
+            overflow: "auto",
+            border: "4px solid white",
+          }}
+        >
           <div className="top">
-          <center>
-            <span className="title">Add New Asset</span>
-          </center>
+            <span className="title">Strategy Tearsheet</span>
+            <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayTearsheetPopup(false);
+              }}
+            >
+              X
+            </button>
           </div>
-          <div className="bottom" style={{border: "4px solid white"}}>
+          <div className="bottom">
+            <Tearsheet />
             <button
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayAddAssetPopup(false);
+                setDisplayTearsheetPopup(!displayTearsheetPopup);
               }}
             >
-              Option #1
-            </button>
-            <br />
-            <button
-              className="reject"
-              id="popup-cancel"
-              onClick={() => {
-                setDisplayAddAssetPopup(false);
-              }}
-            >
-              Option #2
-            </button>
-            <br />
-            <button
-              className="reject"
-              id="popup-cancel"
-              onClick={() => {
-                setDisplayAddAssetPopup(false);
-              }}
-            >
-              Option #3
+              Exit
             </button>
           </div>
         </div>
@@ -562,6 +576,7 @@ export default function Assets() {
 
   useEffect(() => {
     getAssetOptionsData();
+    getRwaAssetOptionsData();
   }, []);
 
   return (
@@ -574,23 +589,23 @@ export default function Assets() {
       ) : (
         <Login />
       )}
-      {displayRelVal ? (
-        <RelValPopup />
-      ) : (
-        <></>
-      )}
       {displayOptionsPopup ? (
         <OptionsPopup />
       ) : (
         <></>
       )}
-      {displayTearsheetPopup ? (
-        <TearsheetPopup />
+      {displayRwaOptionsPopup ? (
+        <RwaOptionsPopup />
       ) : (
         <></>
       )}
-      {displayAddAssetPopup ? (
-        <AddAssetPopup />
+      {displayRelVal ? (
+        <RelValPopup />
+      ) : (
+        <></>
+      )}
+      {displayTearsheetPopup ? (
+        <TearsheetPopup />
       ) : (
         <></>
       )}

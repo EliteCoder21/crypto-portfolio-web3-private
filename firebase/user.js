@@ -260,3 +260,9 @@ export async function getAssetOptions(id) {
   const docsSnap = await getDocs(dataCollection);
   return docsSnap;
 }
+
+export async function getRwaAssetOptions(id) {
+  const dataCollection = collection(db, "assets", id, "rwa-asset-options");
+  const docsSnap = await getDocs(dataCollection);
+  return docsSnap;
+}
