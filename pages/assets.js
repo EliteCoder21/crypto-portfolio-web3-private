@@ -344,9 +344,7 @@ export default function Assets() {
             onClick={() => {
               setDisplayOptionsPopup(!displayOptionsPopup);
 
-              console.log("card with cardId" + cardId + "chosen");
-
-              
+              console.log("card with cardId " + cardId + " chosen");
             }}
           >
             {name}
@@ -402,7 +400,7 @@ export default function Assets() {
             onClick={() => {
               setDisplayRwaOptionsPopup(false);
 
-              console.log("card with cardId" + cardId + "chosen");
+              console.log("card with cardId " + cardId + " chosen");
 
               // Write to firebase
               addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", name, name, "Description goes here:")

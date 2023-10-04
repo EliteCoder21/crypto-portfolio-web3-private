@@ -100,19 +100,20 @@ export async function addUserRwaAsset(
   description
 ) {
   try {
-    const addedDocRef = await addDoc(collection(db, "assets", userId, "RWA Lane"), {});
+    await addDoc(collection(db, "assets", userId, "RWA Lane"),
+      {
+        "laneId": "RWA Lane",
+        "title": title,
+        "label": label,
+        "cardStyle": DEFAULT_CARD_STYLE,
+        "description": description,
+        "isConvertedToOXA": false,
+      }
+    );
 
-    await setDoc(addedDocRef, {
-      "laneId": "RWA Lane",
-      "title": title,
-      "label": label,
-      "cardStyle": DEFAULT_CARD_STYLE,
-      "description": description,
-      "isConvertedToOXA": false,
-      "id": addedDocRef.data().id,
-    });
+    console.log("Finished add!");
   } catch (e) {
-    console.error(e);
+    console.log(e);
   }
 }
 
