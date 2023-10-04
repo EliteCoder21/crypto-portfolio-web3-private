@@ -10,7 +10,8 @@ import {
   getSingleAsset,
   addUserAsset,
   getAssetOptions,
-  getRwaAssetOptions
+  getRwaAssetOptions,
+  addUserRwaAsset
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -37,18 +38,18 @@ export default function Assets() {
     try {
       const docsSnap = await getAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
       const TABLE_STATE = [];
-  
+
       docsSnap.forEach((doc) => {
         // Get the data
         const data = doc.data();
-  
+
         // Append the data
         TABLE_STATE.push({
           id: data.id,
           name: data.name
         });
       });
-  
+
       setAssetOptionsData(TABLE_STATE);
     } catch (error) {
       console.log(error);
@@ -59,18 +60,18 @@ export default function Assets() {
     try {
       const docsSnap = await getRwaAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
       const TABLE_STATE = [];
-  
+
       docsSnap.forEach((doc) => {
         // Get the data
         const data = doc.data();
-  
+
         // Append the data
         TABLE_STATE.push({
           id: data.id,
           name: data.name
         });
       });
-  
+
       setRwaAssetOptionsData(TABLE_STATE);
     } catch (error) {
       console.log(error);
@@ -302,7 +303,7 @@ export default function Assets() {
             textAlign: "center",
           }}
         >
-        Asset Inventory
+          Asset Inventory
         </h1>
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Bar />
@@ -342,7 +343,10 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setDisplayOptionsPopup(!displayOptionsPopup);
-              /* Write to somewhere using cardId */
+
+              console.log("card with cardId" + cardId + "chosen");
+
+              
             }}
           >
             {name}
@@ -355,31 +359,32 @@ export default function Assets() {
   const OptionsPopup = () => {
     return (
       <div
-      style={{
-        position: "absolute",
-        zIndex: 100,
-        top: 0,
-        left: 0,
-        width: "90vw",
-        height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "90vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <div 
+        <div
           className="popup-wrapper active"
-          style={{ 
-              width: "50%", 
-              height: "90%", 
-              overflow: "auto"}}>
+          style={{
+            width: "50%",
+            height: "90%",
+            overflow: "auto"
+          }}>
           <div className="top">
-          <center>
-            <span className="title">Choose New Asset</span>
-          </center>
+            <center>
+              <span className="title">Choose New Asset</span>
+            </center>
           </div>
-          <div className="bottom" style={{border: "4px solid white"}}>
+          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
             <AssetOptionsList />
           </div>
         </div>
@@ -396,7 +401,14 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setDisplayRwaOptionsPopup(false);
-              /* Write to somewhere using cardId */
+
+              console.log("card with cardId" + cardId + "chosen");
+
+              // Write to firebase
+              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", name, name, "Description goes here:")
+
+              // Update page using new data
+              getAssetsData();
             }}
           >
             {name}
@@ -409,31 +421,32 @@ export default function Assets() {
   const RwaOptionsPopup = () => {
     return (
       <div
-      style={{
-        position: "absolute",
-        zIndex: 100,
-        top: 0,
-        left: 0,
-        width: "90vw",
-        height: "100vh",
-        backgroundColor: "rgba(0, 0, 0, 0.8)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "90vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <div 
+        <div
           className="popup-wrapper active"
-          style={{ 
-              width: "50%", 
-              height: "90%", 
-              overflow: "auto"}}>
+          style={{
+            width: "50%",
+            height: "90%",
+            overflow: "auto"
+          }}>
           <div className="top">
-          <center>
-            <span className="title">Choose New Asset</span>
-          </center>
+            <center>
+              <span className="title">Choose New Asset</span>
+            </center>
           </div>
-          <div className="bottom" style={{border: "4px solid white"}}>
+          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
             <RwaOptionsList />
           </div>
         </div>
@@ -455,7 +468,6 @@ export default function Assets() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          border: "4px solid white",
         }}
       >
         <div
@@ -465,6 +477,7 @@ export default function Assets() {
             width: "90%",
             height: "90vh",
             overflow: "auto",
+            border: "4px solid #ac50ef",
           }}
         >
           <div className="top">
@@ -494,16 +507,6 @@ export default function Assets() {
               width="100%"
               height="100%"
             ></iframe>
-            <button
-              className="reject"
-              id="popup-cancel"
-              onClick={() => {
-                setDisplayRelVal(false);
-              }}
-              style={{ marginTop: 20 }}
-            >
-              Exit
-            </button>
           </div>
         </div>
       </div>
@@ -533,7 +536,7 @@ export default function Assets() {
             width: "90%",
             height: "90%",
             overflow: "auto",
-            border: "4px solid white",
+            border: "4px solid #ac50ef"
           }}
         >
           <div className="top">

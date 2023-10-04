@@ -1646,8 +1646,9 @@ td {
 .lane-image {
   font-size: 13px;
   color: #12CDD4;
-  transform: scale(2.2);
+  transform: scale(3.3);
   width: fit-content;
+  margin: 10px;
 }
 
 .custom-lane-header {
@@ -1656,7 +1657,7 @@ td {
 
 .add-button {
   font-size: 13px;
-  transform: scale(0.7);
+  transform: scale(0.5);
   background-color: #12CDD4;
   color: white;
   margin: 10px;

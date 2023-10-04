@@ -93,7 +93,28 @@ export async function getSingleAsset(userId, lane, cardId) {
   }
 }
 
+export async function addUserRwaAsset(
+  userId,
+  title,
+  label,
+  description
+) {
+  try {
+    const addedDocRef = await addDoc(collection(db, "assets", userId, "RWA Lane"), {});
 
+    await setDoc(addedDocRef, {
+      "laneId": "RWA Lane",
+      "title": title,
+      "label": label,
+      "cardStyle": DEFAULT_CARD_STYLE,
+      "description": description,
+      "isConvertedToOXA": false,
+      "id": addedDocRef.data().id,
+    });
+  } catch (e) {
+    console.error(e);
+  }
+}
 
 export async function transferUserAsset(
   userId,
@@ -121,11 +142,11 @@ export async function transferUserAsset(
 
     // Delete the document
     const deleteTarget = doc(db, "assets", userId, originalLane, id);
-    
+
     await deleteDoc(deleteTarget);
 
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
-    
+
     await setDoc(addedDocRef, {
       "id": addedDocRef.id,
       "laneId": cardData.laneId,
