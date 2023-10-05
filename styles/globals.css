@@ -1586,6 +1586,17 @@ td {
   transition-duration: 0.5s;
 }
 
+.delete-hover-button {
+  background-color: red;
+  color: white;
+  margin-left: 10px;
+}
+
+.delete-hover-button:hover {
+  background-color: rgb(255, 127, 127);
+  transition-duration: 0.5s;
+}
+
 .lane-subtitle {
   background-color: #414BB2;
   font-size: 40px;

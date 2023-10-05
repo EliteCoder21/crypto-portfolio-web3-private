@@ -11,6 +11,7 @@ import {
   deleteDoc,
   deleteField,
 } from "firebase/firestore";
+import getRandomString from "../pages/math.js"
 
 const db = getFirestore(firebase_app);
 
@@ -95,24 +96,34 @@ export async function getSingleAsset(userId, lane, cardId) {
 
 export async function addUserRwaAsset(
   userId,
+  cardId,
   title,
   label,
   description
 ) {
   try {
-    await addDoc(collection(db, "assets", userId, "RWA Lane"),
+    const docRef = await addDoc(collection(db, "assets", userId, "RWA Lane"),
       {
-        "laneId": "RWA Lane",
-        "title": title,
-        "label": label,
-        "cardStyle": DEFAULT_CARD_STYLE,
-        "description": description,
-        "isConvertedToOXA": false,
+        laneId: "RWA Lane",
+        title: title,
+        label: label,
+        cardStyle: DEFAULT_CARD_STYLE,
+        description: description,
+        isConvertedToOXA: false,
+        cardId: cardId,
       }
     );
 
     console.log("Finished add!");
   } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function deleteUserRwaAsset(userId, laneId, cardId) {
+  try {
+    await deleteDoc(doc(db, "assets", userId, laneId, cardId));
+  } catch(e) {
     console.log(e);
   }
 }

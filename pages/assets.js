@@ -8,10 +8,10 @@ import {
   getUserAssets,
   transferUserAsset,
   getSingleAsset,
-  addUserAsset,
   getAssetOptions,
   getRwaAssetOptions,
-  addUserRwaAsset
+  addUserRwaAsset,
+  deleteUserRwaAsset
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -45,7 +45,7 @@ export default function Assets() {
 
         // Append the data
         TABLE_STATE.push({
-          id: data.id,
+          cardId: data.cardId,
           name: data.name
         });
       });
@@ -67,8 +67,8 @@ export default function Assets() {
 
         // Append the data
         TABLE_STATE.push({
-          id: data.id,
-          name: data.name
+          cardId: data.cardId,
+          title: data.title
         });
       });
 
@@ -179,17 +179,6 @@ export default function Assets() {
     }
   };
 
-  const handleAddCard = (card, laneId) => {
-
-    // Popup to add card
-
-    // Add card to rwa lane
-
-    // Add card to firebase
-    addUserAsset("5ntPFGMhxD4llc0ObTwF", {})
-
-  }
-
   // Create a custom card component.
   const CustomCard = (card) => {
     return (
@@ -221,7 +210,19 @@ export default function Assets() {
               }}
             >
               Tear Sheet
-            </button>
+            </button> 
+            {card.laneId == "RWA Lane" && card.title[card.title.length-2] == "#" ? (
+            <button
+              className="delete-hover-button"
+              onClick={() => {
+                deleteUserRwaAsset("5ntPFGMhxD4llc0ObTwF", card.laneId, card.cardId);
+              }}
+            >
+              Delete
+            </button>) : (
+              <></>
+            )
+            }
           </div>
         ) : (
           <></>
@@ -391,7 +392,7 @@ export default function Assets() {
   };
 
   const RwaOptionsList = () => {
-    return rwaAssetOptionsData.map(({ name, cardId }) => {
+    return rwaAssetOptionsData.map(({ title, cardId }) => {
       return (
         <div>
           <button
@@ -403,13 +404,13 @@ export default function Assets() {
               console.log("card with cardId " + cardId + " chosen");
 
               // Write to firebase
-              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", name, name, "Description goes here:")
+              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", cardId, title, cardId, "Description goes here:")
 
               // Update page using new data
               getAssetsData();
             }}
           >
-            {name}
+            {title}
           </button>
         </div>
       );
