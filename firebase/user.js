@@ -111,6 +111,7 @@ export async function addUserRwaAsset(
         description: description,
         isConvertedToOXA: false,
         cardId: cardId,
+        id: cardId,
       }
     );
 
@@ -123,6 +124,7 @@ export async function addUserRwaAsset(
 export async function deleteUserRwaAsset(userId, laneId, cardId) {
   try {
     await deleteDoc(doc(db, "assets", userId, laneId, cardId));
+    console.log("Delete function complete");
   } catch(e) {
     console.log(e);
   }

@@ -46,7 +46,7 @@ export default function Assets() {
         // Append the data
         TABLE_STATE.push({
           cardId: data.cardId,
-          name: data.name
+          title: data.title
         });
       });
 
@@ -211,11 +211,13 @@ export default function Assets() {
             >
               Tear Sheet
             </button> 
-            {card.laneId == "RWA Lane" && card.title[card.title.length-2] == "#" ? (
+            {card.laneId == "RWA Lane" ? (
             <button
               className="delete-hover-button"
               onClick={() => {
-                deleteUserRwaAsset("5ntPFGMhxD4llc0ObTwF", card.laneId, card.cardId);
+                console.log("The card is ", card);
+                console.log("delete button clicked for cardId " + card.id);
+                deleteUserRwaAsset("5ntPFGMhxD4llc0ObTwF", card.laneId, card.id); // Replace with user.uid
               }}
             >
               Delete
@@ -336,7 +338,7 @@ export default function Assets() {
   };
 
   const AssetOptionsList = () => {
-    return assetOptionsData.map(({ name, cardId }) => {
+    return assetOptionsData.map(({ title, cardId }) => {
       return (
         <div>
           <button
@@ -348,7 +350,7 @@ export default function Assets() {
               console.log("card with cardId " + cardId + " chosen");
             }}
           >
-            {name}
+            {title}
           </button>
         </div>
       );
@@ -404,7 +406,7 @@ export default function Assets() {
               console.log("card with cardId " + cardId + " chosen");
 
               // Write to firebase
-              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", cardId, title, cardId, "Description goes here:")
+              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", cardId, title, cardId, "Description goes here:");
 
               // Update page using new data
               getAssetsData();
