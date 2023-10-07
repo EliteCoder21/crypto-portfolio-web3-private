@@ -11,7 +11,6 @@ import {
   getAssetOptions,
   getRwaAssetOptions,
   addUserRwaAsset,
-  deleteUserRwaAsset
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -19,6 +18,8 @@ import Tearsheet from "../components/tearsheet.js";
 import "reactjs-popup/dist/index.css";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import AddIcon from "@mui/icons-material/Add";
+import RelValIcon from "@mui/icons-material/ScatterPlot";
+import TearSheetIcon from "@mui/icons-material/Summarize";
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"];
 const firebase = require("firebase/app");
@@ -201,7 +202,7 @@ export default function Assets() {
               }}
               className="red-hover-button"
             >
-              RelVal
+              <RelValIcon />
             </button>
             <button
               className="green-hover-button"
@@ -209,22 +210,8 @@ export default function Assets() {
                 setDisplayTearsheetPopup(!displayTearsheetPopup);
               }}
             >
-              Tear Sheet
+              <TearSheetIcon />
             </button> 
-            {card.laneId == "RWA Lane" ? (
-            <button
-              className="delete-hover-button"
-              onClick={() => {
-                console.log("The card is ", card);
-                console.log("delete button clicked for cardId " + card.id);
-                deleteUserRwaAsset("5ntPFGMhxD4llc0ObTwF", card.laneId, card.id); // Replace with user.uid
-              }}
-            >
-              Delete
-            </button>) : (
-              <></>
-            )
-            }
           </div>
         ) : (
           <></>

@@ -1,4 +1,5 @@
 import firebase_app from "./config";
+import {React, window} from 'react';
 import {
   getFirestore,
   doc,
@@ -11,11 +12,11 @@ import {
   deleteDoc,
   deleteField,
 } from "firebase/firestore";
-import getRandomString from "../pages/math.js"
 
 const db = getFirestore(firebase_app);
 
-export const DEFAULT_CARD_STYLE = { "width": 380, "maxWidth": 380, "margin": "auto", "marginBottom": 5 };
+
+export const DEFAULT_CARD_STYLE = { "width": 380 , "maxWidth": 380 ,  "margin": "auto", "marginBottom": 5, "opacity": 0.1 };
 
 export async function createUser(id) {
   let result = null;
@@ -117,15 +118,6 @@ export async function addUserRwaAsset(
 
     console.log("Finished add!");
   } catch (e) {
-    console.log(e);
-  }
-}
-
-export async function deleteUserRwaAsset(userId, laneId, cardId) {
-  try {
-    await deleteDoc(doc(db, "assets", userId, laneId, cardId));
-    console.log("Delete function complete");
-  } catch(e) {
     console.log(e);
   }
 }
