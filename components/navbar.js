@@ -4,7 +4,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Image from "next/image";
 import { useAuthContext } from '../firebase/context';
-import BottomNav from "./bottom-nav";
+import BottomNav from "./BottomNav.js";
 
 export default function Navbar({ active }) {
   const { handleSignOut } = useAuthContext();

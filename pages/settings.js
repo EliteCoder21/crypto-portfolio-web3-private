@@ -1,6 +1,6 @@
-import Navbar from "../components/navbar.js";
+import Navbar from "../components/Navbar.js";
 import { useAuthContext } from "../firebase/context";
-import Login from "../components/login.js";
+import Login from "../components/Login.js";
 import { useEffect, useState } from "react";
 import {
   addUserActivityBulk,

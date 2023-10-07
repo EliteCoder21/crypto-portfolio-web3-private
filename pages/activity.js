@@ -1,6 +1,6 @@
-import Navbar from "../components/navbar.js";
+import Navbar from "../components/Navbar.js";
 import { useState, useEffect } from "react";
-import Login from "../components/login.js";
+import Login from "../components/Login.js";
 import { useAuthContext } from "../firebase/context";
 import cryptocurrency from "../assets/crypto.js";
 import images from "../assets/images.js";

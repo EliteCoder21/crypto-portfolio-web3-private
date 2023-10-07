@@ -1,5 +1,5 @@
-import Navbar from "../components/navbar.js";
-import Login from "../components/login.js";
+import Navbar from "../components/Navbar.js";
+import Login from "../components/Login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState, useEffect } from "react";
@@ -13,13 +13,14 @@ import {
   addUserRwaAsset,
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
-import Bar from "../components/bar.js";
-import Tearsheet from "../components/tearsheet.js";
-import "reactjs-popup/dist/index.css";
+import Bar from "../components/Bar.js";
+import Tearsheet from "../components/Tearsheet.js";
+import ChatButton from "../components/ChatButton.js";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
 import TearSheetIcon from "@mui/icons-material/Summarize";
+import "reactjs-popup/dist/index.css";
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"];
 const firebase = require("firebase/app");
@@ -197,15 +198,17 @@ export default function Assets() {
         {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" ? (
           <div>
             <button
+              className="red-hover-button"
+              title="RelVal"
               onClick={() => {
                 setDisplayRelVal(!displayRelVal);
               }}
-              className="red-hover-button"
             >
               <RelValIcon />
             </button>
             <button
               className="green-hover-button"
+              title = "Sheets"
               onClick={() => {
                 setDisplayTearsheetPopup(!displayTearsheetPopup);
               }}
@@ -228,7 +231,7 @@ export default function Assets() {
         res = "Add your Asset to your OpenEXA RWA - AUT pool";
         break;
       case "AUT Pool":
-        res = "Drop here to convert your RWA into OpenEXA AUT Offers";
+        res = "Drop here to convert your RWA into AUT Offers";
         break;
       case "OXA Pool":
         res = "Drop here for offers to convert your AUT into OXAs";
@@ -600,6 +603,7 @@ export default function Assets() {
       ) : (
         <></>
       )}
+      <ChatButton />
     </div>
   );
 }

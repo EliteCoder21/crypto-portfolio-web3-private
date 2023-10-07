@@ -1,10 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 const LiveCoinWatchWidget = ({coin}) => {
   useEffect(() => {
     // Create a script element for the LiveCoinWatch script
-    const script = document.createElement('script');
-    script.src = 'https://www.livecoinwatch.com/static/lcw-widget.js';
+    const script = document.createElement("script");
+    script.src = "https://www.livecoinwatch.com/static/lcw-widget.js";
     script.defer = true;
 
     // Add the script to the document's head
@@ -15,12 +15,12 @@ const LiveCoinWatchWidget = ({coin}) => {
       if (window.LiveCoinWatch) {
         window.LiveCoinWatch.init({
           lcwCoin: coin,
-          lcwBase: 'USD',
+          lcwBase: "USD",
           lcwSecondary: coin,
-          lcwPeriod: 'd',
-          lcwColorTx: '#ffffff',
-          lcwColorPr: '#4b83f9',
-          lcwColorBg: '#202334',
+          lcwPeriod: "d",
+          lcwColorTx: "#ffffff",
+          lcwColorPr: "#4b83f9",
+          lcwColorBg: "#202334",
           lcwBorderW: 1,
         });
       }

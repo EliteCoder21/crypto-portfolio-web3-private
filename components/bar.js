@@ -1,6 +1,6 @@
-import Time from "./time.js";
+import Time from "./Time.js";
 import { useContext, useEffect, useState } from "react";
-import { AppContext } from "./webContextProvider.js";
+import { AppContext } from "./WebContextProvider.js";
 
 export default function Bar() {
     const [totalSupply, setTotalSupply] = useState(0);

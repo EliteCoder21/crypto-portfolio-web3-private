@@ -1,9 +1,9 @@
-import Navbar from "../components/navbar.js";
+import Navbar from "../components/Navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
-import Login from "../components/login.js";
+import Login from "../components/Login.js";
 import { getAllCoins, getMarketCap } from "../assets/coindesk.js";
-import LiveCoinWatchWidget from "../components/live-coin-widget.js";
+import LiveCoinWatchWidget from "../components/LiveCoinWatchWidget.js";
 
 export default function Market() {
   const [globalMarketCap, setGlobalMarketCap] = useState();
