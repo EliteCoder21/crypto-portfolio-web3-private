@@ -15,8 +15,7 @@ import {
 
 const db = getFirestore(firebase_app);
 
-
-export const DEFAULT_CARD_STYLE = { "width": 380 , "maxWidth": 380 ,  "margin": "auto", "marginBottom": 5, "opacity": 0.1 };
+export const DEFAULT_CARD_STYLE = { "width": 340 , "margin": "auto", "marginBottom": 5, "opacity": 1.0 };
 
 export async function createUser(id) {
   let result = null;
@@ -111,7 +110,6 @@ export async function addUserRwaAsset(
         cardStyle: DEFAULT_CARD_STYLE,
         description: description,
         isConvertedToOXA: false,
-        cardId: cardId,
         id: cardId,
       }
     );

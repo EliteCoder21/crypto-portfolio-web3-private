@@ -208,13 +208,13 @@ export default function Assets() {
             </button>
             <button
               className="green-hover-button"
-              title = "Sheets"
+              title="Sheets"
               onClick={() => {
                 setDisplayTearsheetPopup(!displayTearsheetPopup);
               }}
             >
               <TearSheetIcon />
-            </button> 
+            </button>
           </div>
         ) : (
           <></>
@@ -228,10 +228,10 @@ export default function Assets() {
 
     switch (laneTitle) {
       case "RWA Pool":
-        res = "Add your Asset to your OpenEXA RWA - AUT pool";
+        res = "Add Real-World Assets (RWAs) here";
         break;
       case "AUT Pool":
-        res = "Drop here to convert your RWA into AUT Offers";
+        res = "Drop here for offers to convert your RWA tokens into AUTs";
         break;
       case "OXA Pool":
         res = "Drop here for offers to convert your AUT into OXAs";
@@ -305,13 +305,25 @@ export default function Assets() {
           style={{ width: "100%", marginLeft: "auto", marginRight: "auto" }}
         >
           <div className="bond-data">
-            <div className="myAssets">
+            <div
+              style={{
+                backgroundColor: 'rgba(32, 34, 50, 0.55)',
+                borderRadius: 20,
+                width: "100%",
+                height: "100%",
+                margin: "auto",
+              }}
+            >
               <Board
                 eventBusHandle={setEventBus}
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
-                  width: "fit-content",
-                  margin: "auto"
+                  width: "100%",
+                  height: "100%",
+                  margin: "auto",
+                  borderRadius: 20,
+                  marginLeft: 12,
+                  marginRight: 12,
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
