@@ -1,5 +1,5 @@
 import firebase_app from "./config";
-import {React, window} from 'react';
+import { React, window } from 'react';
 import {
   getFirestore,
   doc,
@@ -15,7 +15,7 @@ import {
 
 const db = getFirestore(firebase_app);
 
-export const DEFAULT_CARD_STYLE = { "width": 500 , "margin": "auto", "marginBottom": 5, "opacity": 1.0 };
+export const DEFAULT_CARD_STYLE = { "width": 500, "margin": "auto", "marginBottom": 5, "opacity": 1.0 };
 
 export async function createUser(id) {
   let result = null;
@@ -104,13 +104,14 @@ export async function addUserRwaAsset(
   try {
     const docRef = await addDoc(collection(db, "assets", userId, "RWA Lane"),
       {
-        laneId: "RWA Lane",
-        title: title,
-        label: label,
-        cardStyle: DEFAULT_CARD_STYLE,
-        description: description,
-        isConvertedToOXA: false,
-        id: cardId,
+        "laneId": "RWA Lane",
+        "title": title,
+        "label": label,
+        "cardStyle": DEFAULT_CARD_STYLE,
+        "description": description,
+        "isConvertedToOXA": false,
+        "cardId": cardId,
+        "id": cardId,
       }
     );
 
