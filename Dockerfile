@@ -1,4 +1,4 @@
-FROM node:16.15.1 as build
+FROM node:18.18.1 as build
 
 # Set the working directory in the container
 WORKDIR /app
