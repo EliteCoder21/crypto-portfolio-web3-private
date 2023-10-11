@@ -15,7 +15,7 @@ import {
 
 const db = getFirestore(firebase_app);
 
-export const DEFAULT_CARD_STYLE = { "width": 340 , "margin": "auto", "marginBottom": 5, "opacity": 1.0 };
+export const DEFAULT_CARD_STYLE = { "width": 500 , "margin": "auto", "marginBottom": 5, "opacity": 1.0 };
 
 export async function createUser(id) {
   let result = null;

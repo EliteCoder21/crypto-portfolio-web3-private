@@ -5,12 +5,10 @@
       "title": "RWA Pool",
       "label": "RWA",
       "style": {"width": 340, "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
-      "cardStyle": {"width": 340, "backgroundColor": "#FEC8A7"},
+      "cardStyle": {"backgroundColor": "#FEC8A7"},
       "disallowAddingCard": true,
       "cards": [
-        {
-          
-        }
+
       ]
     },
     {
@@ -21,7 +19,7 @@
       "cardStyle": {"backgroundColor": "#FCECA5"},
       "disallowAddingCard": true,
       "cards": [
-        
+
       ]
     },
     {

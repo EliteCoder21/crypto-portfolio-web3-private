@@ -196,9 +196,9 @@ export default function Assets() {
           <p>{card.description}</p>
         </div>
         {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" ? (
-          <div>
+          <div style={{ boxAlign: "center" }}>
             <button
-              className="red-hover-button"
+              className="hover-button"
               title="RelVal"
               onClick={() => {
                 setDisplayRelVal(!displayRelVal);
@@ -207,7 +207,7 @@ export default function Assets() {
               <RelValIcon />
             </button>
             <button
-              className="green-hover-button"
+              className="hover-button"
               title="Sheets"
               onClick={() => {
                 setDisplayTearsheetPopup(!displayTearsheetPopup);

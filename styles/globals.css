@@ -1523,10 +1523,6 @@ td {
   color: white !important;
 }
 
-.react-trello-card {
-  border-bottom: 10px;
-}
-
 .modal {
   font-size: 12px;
 }
@@ -1561,29 +1557,24 @@ td {
   border: 1px solid #cfcece;
 }
 
-.green-hover-button {
-  background-color: green;
-  cursor: pointer;
+.hover-button {
+  background-color: transparent;
+  border: gray 1px solid;
+  border-radius: 10px;
+  transition-duration: 0.5s;
+  color: gray;
+  margin: 10px;
+  padding: 2px;
+}
+
+.hover-button:hover {
+  background-color: gray;
+  border: white 1px solid;
+  border-radius: 10px;
   transition-duration: 0.5s;
   color: white;
-  margin-left: 10px;
-}
-
-.green-hover-button:hover {
-  background-color: limegreen;
-  transition-duration: 0.5s;
-}
-
-.red-hover-button {
-  background-color: red;
-  cursor: pointer;
-  transition-duration: 0.5s;
-  color: white;
-}
-
-.red-hover-button:hover {
-  background-color: rgb(255, 127, 127);
-  transition-duration: 0.5s;
+  margin: 7px;
+  padding: 5px;
 }
 
 .lane-subtitle {
@@ -1603,7 +1594,6 @@ td {
   position: relative;
   padding: 20px;
   cursor: pointer;
-  max-width: 250px;
   margin-bottom: 7px;
   min-width: 230px;
   text-wrap: wrap;
