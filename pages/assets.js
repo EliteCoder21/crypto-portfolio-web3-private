@@ -15,7 +15,6 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
-import ChatButton from "../components/chat-button.js";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
@@ -614,7 +613,6 @@ export default function Assets() {
       ) : (
         <></>
       )}
-      <ChatButton />
     </div>
   );
 }
