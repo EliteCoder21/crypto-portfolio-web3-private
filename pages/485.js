@@ -1,4 +1,4 @@
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/navbar.js";
 
 export default function Error() {
   return (

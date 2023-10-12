@@ -1,7 +1,7 @@
-import Navbar from "../components/Navbar.js";
+import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
-import Login from "../components/Login.js";
+import Login from "../components/login.js";
 import { getAllCoins, getMarketCap } from "../assets/coindesk.js";
 import LiveCoinWatchWidget from "../components/LiveCoinWatchWidget.js";
 

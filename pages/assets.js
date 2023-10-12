@@ -1,5 +1,5 @@
-import Navbar from "../components/Navbar.js";
-import Login from "../components/Login.js";
+import Navbar from "../components/navbar.js";
+import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState, useEffect } from "react";
@@ -13,7 +13,7 @@ import {
   addUserRwaAsset,
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
-import Bar from "../components/Bar.js";
+import Bar from "../components/bar.js";
 import Tearsheet from "../components/Tearsheet.js";
 import ChatButton from "../components/ChatButton.js";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
