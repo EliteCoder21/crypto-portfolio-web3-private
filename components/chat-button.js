@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Chat from "./Chat";
+import Chat from "./chat";
 
 const ChatButton = () => {
   const [open, setOpen] = useState(false);

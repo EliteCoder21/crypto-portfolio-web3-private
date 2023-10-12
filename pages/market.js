@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
 import Login from "../components/login.js";
 import { getAllCoins, getMarketCap } from "../assets/coindesk.js";
-import LiveCoinWatchWidget from "../components/LiveCoinWatchWidget.js";
+import LiveCoinWatchWidget from "../components/watch-widget.js";
 
 export default function Market() {
   const [globalMarketCap, setGlobalMarketCap] = useState();

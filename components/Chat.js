@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { ChatLine } from "./ChatLine.js";
+import { ChatLine } from "./chat-line.js";
 import clsx from "clsx";
 
 export default function Chat() {

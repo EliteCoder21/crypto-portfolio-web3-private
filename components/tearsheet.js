@@ -1,7 +1,7 @@
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import Plot from "./Plot.js";
+import Plot from "./plot.js";
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
