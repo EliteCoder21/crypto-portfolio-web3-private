@@ -102,22 +102,10 @@ export async function addUserRwaAsset(
   description
 ) {
   try {
-    const docRef = await addDoc(collection(db, "assets", userId, "RWA Lane"),
-      {
-        "laneId": "RWA Lane",
-        "title": title,
-        "label": label,
-        "cardStyle": DEFAULT_CARD_STYLE,
-        "description": description,
-        "isConvertedToOXA": false,
-        "id": cardId,
-      }
-    );
-
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
 
     await setDoc(addedDocRef, {
-      "id": cardId, // Randomize this
+      "id": addedDocRef.id, // Randomize this
       "laneId": "RWA Lane",
       "title": title,
       "label": label,

@@ -348,7 +348,6 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setDisplayOptionsPopup(!displayOptionsPopup);
-
               console.log("card with cardId " + cardId + " chosen");
             }}
           >
