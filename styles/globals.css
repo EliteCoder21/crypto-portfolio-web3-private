@@ -1590,7 +1590,7 @@ td {
 
 .react-trello-card {
   border-radius: 5px;
-  border: 4px solid #ccc;
+  border: 4px solid white;
   position: relative;
   padding: 20px;
   cursor: pointer;
@@ -1650,7 +1650,7 @@ td {
   font-size: 13px;
   transform: scale(0.5);
   background-color: white;
-  color: darkgrey;
+  color: gray;
   margin: 9px;
   padding: 2px;
   border-radius: 100%;
@@ -1659,12 +1659,12 @@ td {
 
 .add-button:hover {
   color: white;
-  background-color: darkgrey;
+  background-color: gray;
 }
 
 .rectangle {
   width: "100%";
   height: "0%";
-  background-color: darkgrey;
+  background-color: darkgray;
   opacity: 0.5
 }

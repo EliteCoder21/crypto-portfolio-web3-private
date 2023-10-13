@@ -326,9 +326,8 @@ export default function Assets() {
                   width: "100%",
                   height: "100%",
                   margin: "auto",
-                  borderRadius: 20,
-                  marginLeft: 12,
-                  marginRight: 12,
+                  marginLeft: "1%",
+                  marginRight: "1%",
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
