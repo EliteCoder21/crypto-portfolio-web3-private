@@ -96,13 +96,14 @@ export async function getSingleAsset(userId, lane, cardId) {
 
 export async function addUserRwaAsset(
   userId,
-  cardId,
   title,
   label,
   description
 ) {
   try {
-    const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
+    const addedDocRef = await addDoc(collection(db, "assets", userId, "RWA Lane"), {});
+
+    console.log("ID IS: ", addedDocRef.id);
 
     await setDoc(addedDocRef, {
       "id": addedDocRef.id, // Randomize this

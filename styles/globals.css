@@ -1563,7 +1563,7 @@ td {
   border-radius: 10px;
   transition-duration: 0.5s;
   color: gray;
-  margin: 10px;
+  margin: 5px;
   padding: 2px;
 }
 
@@ -1573,7 +1573,7 @@ td {
   border-radius: 10px;
   transition-duration: 0.5s;
   color: white;
-  margin: 7px;
+  margin: 2px;
   padding: 5px;
 }
 
@@ -1635,22 +1635,22 @@ td {
 
 .lane-image {
   font-size: 13px;
-  color: #12CDD4;
-  transform: scale(3.3);
+  color: white;
+  transform: scale(3.9);
   width: fit-content;
   margin: 10px;
+  margin-top: 28px;
 }
 
 .custom-lane-header {
   border-radius: 10px;
-  
 }
 
 .add-button {
   font-size: 13px;
   transform: scale(0.5);
-  background-color: #12CDD4;
-  color: white;
+  background-color: white;
+  color: darkgrey;
   margin: 9px;
   padding: 2px;
   border-radius: 100%;
@@ -1658,8 +1658,8 @@ td {
 }
 
 .add-button:hover {
-  color: #12CDD4;
-  background-color: white;
+  color: white;
+  background-color: darkgrey;
 }
 
 .rectangle {

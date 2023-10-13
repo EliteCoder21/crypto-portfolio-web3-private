@@ -1,5 +1,6 @@
 import Navbar from "../components/navbar.js";
 import Login from "../components/login.js";
+import ChatButton from "../components/chat-button.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState, useEffect } from "react";
@@ -131,26 +132,28 @@ export default function Assets() {
 
           // Populate new data object
           const cardData = {
-            id: tempData.id,
-            laneId: tempData.laneId,
-            title: tempData.title,
-            label: tempData.label,
-            cardStyle: DEFAULT_CARD_STYLE,
-            description: tempData.description,
-            isConvertedToOXA: tempData.isConvertedToOXA,
-            component: CustomCard,
+            "id": tempData.id,
+            "laneId": tempData.laneId,
+            "title": tempData.title,
+            "label": tempData.label,
+            "cardStyle": DEFAULT_CARD_STYLE,
+            "description": tempData.description,
+            "isConvertedToOXA": tempData.isConvertedToOXA,
+            "component": CustomCard,
           };
 
           // Add to JSON file
           if (!(cardData == {})) {
-            data.lanes[getLaneIndex(lane)].cards.push(cardData);
+            eventBus.publish({type: 'ADD_CARD', laneId: lane, card: cardData})
+            //data.lanes[getLaneIndex(lane)].cards.push(cardData);
           }
         });
       }
 
       // Publish JSON Data
-      eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
+      //eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
     } catch (error) {
+      console.log("ABCDEFG");
       console.log(error);
     }
   }
@@ -175,6 +178,9 @@ export default function Assets() {
         cardId,
         cardData
       ); // Replace with user.id
+
+      // Refresh the data
+      getAssetsData();
     } catch (error) {
       console.log(error);
     }
@@ -189,12 +195,7 @@ export default function Assets() {
       >
         <div className="react-trello-card-header">
           <h3 className="react-trello-card-title">{card.title}</h3>
-          <span className="react-trello-card-label">{card.label}</span>
-        </div>
-        <div className="react-trello-card-body">
-          <p>{card.description}</p>
-        </div>
-        {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" ? (
+          {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" ? (
           <div style={{ boxAlign: "center" }}>
             <button
               className="hover-button"
@@ -218,6 +219,10 @@ export default function Assets() {
         ) : (
           <></>
         )}
+        </div>
+        <div className="react-trello-card-body">
+          <p>{card.description}</p>
+        </div>
       </div>
     );
   };
@@ -247,6 +252,7 @@ export default function Assets() {
     return (
       <div className="lane-image">
         {laneTitle == "RWA Pool" ? (
+
           <button
             className="add-button"
             onClick={() => {
@@ -266,9 +272,9 @@ export default function Assets() {
     return (
       <div className="custom-lane-header">
         <center>
-          <h1 style={{ fontSize: 20, margin: 0, marginBottom: 5, padding: 0 }}>
+          <div style={{ fontSize: 20, margin: 0, marginBottom: 5, padding: 0 }}>
             {lane.title}
-          </h1>
+          </div>
           <div className="lane-subtitle">
             <center>
               <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.title)}</p>
@@ -406,7 +412,7 @@ export default function Assets() {
               console.log("card with cardId " + cardId + " chosen");
 
               // Write to firebase
-              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", cardId, title, cardId, "Description goes here:");
+              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
 
               // Update page using new data
               getAssetsData();
@@ -613,6 +619,7 @@ export default function Assets() {
       ) : (
         <></>
       )}
+      <ChatButton />
     </div>
   );
 }
