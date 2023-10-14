@@ -324,10 +324,7 @@ export default function Assets() {
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "100%",
-                  height: "100%",
-                  margin: "auto",
-                  marginLeft: "1%",
-                  marginRight: "1%",
+                  height: "100%"
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}

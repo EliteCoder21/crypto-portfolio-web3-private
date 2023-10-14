@@ -1582,7 +1582,6 @@ td {
   font-size: 40px;
   color: white;
   margin: 10px;
-  padding: 10px;
   border-radius: 10px;
   text-align: center;
   text-wrap: wrap;
@@ -1600,10 +1599,10 @@ td {
   position: relative;
   padding: 20px;
   cursor: pointer;
-  margin-bottom: 7px;
+  margin-bottom: 3%;
   text-wrap: wrap;
-  margin-right: 10%;
-  margin-left: 10%;
+  margin-right: 1%;
+  margin-left: 1%;
 }
 
 .react-trello-card-header {

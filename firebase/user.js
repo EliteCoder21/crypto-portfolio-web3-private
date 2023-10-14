@@ -135,10 +135,10 @@ export async function transferUserAsset(
 
     // Update the title if necessary
     if (finalLane === "OXA Lane" && !cardData.isConvertedToOXA) {
-      cardData.title = "OXA Equivalent: " + cardData.title;
+      // cardData.title = "OXA Equivalent: " + cardData.title;
       cardData.isConvertedToOXA = true;
     } else {
-      cardData.title = cardData.title.replace("OXA Equivalent: ", "");
+      // cardData.title = cardData.title.replace("OXA Equivalent: ", "");
       cardData.isConvertedToOXA = false;
     }
 

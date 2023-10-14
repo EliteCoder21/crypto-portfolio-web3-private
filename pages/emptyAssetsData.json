@@ -19,17 +19,17 @@
     {
       "id": "OXA Lane",
       "title": "OXA Pool",
+      "label": "OXA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#B5EECB"},
-      "label": "OXA",
       "disallowAddingCard": true
     },
     {
       "id": "Digital Assets Lane",
       "title": "Digital Wallet",
+      "label": "Digital Assets",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#CBC7FC"},
-      "label": "Digital Assets",
       "disallowAddingCard": true
     }
   ]
