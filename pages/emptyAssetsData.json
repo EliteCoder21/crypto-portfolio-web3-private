@@ -4,7 +4,7 @@
       "id": "RWA Lane",
       "title": "RWA Pool",
       "label": "RWA",
-      "style": {"width": "23.7%", "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+      "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#FEC8A7"},
       "disallowAddingCard": true
     },
@@ -12,14 +12,14 @@
       "id": "AUT Lane",
       "title": "AUT Pool",
       "label": "AUT",
-      "style": {"width": "23.7%", "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+      "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#FCECA5"},
       "disallowAddingCard": true
     },
     {
       "id": "OXA Lane",
       "title": "OXA Pool",
-      "style": {"width": "23.7%", "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+      "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#B5EECB"},
       "label": "OXA",
       "disallowAddingCard": true
@@ -27,7 +27,7 @@
     {
       "id": "Digital Assets Lane",
       "title": "Digital Wallet",
-      "style": {"width": "23.7%", "backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+      "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#CBC7FC"},
       "label": "Digital Assets",
       "disallowAddingCard": true

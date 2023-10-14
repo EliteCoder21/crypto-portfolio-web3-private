@@ -1586,6 +1586,12 @@ td {
   border-radius: 10px;
   text-align: center;
   text-wrap: wrap;
+  height: 170px;
+  padding: 10px;
+}
+
+.react-trello-lane {
+  width: 24%;
 }
 
 .react-trello-card {
@@ -1595,8 +1601,9 @@ td {
   padding: 20px;
   cursor: pointer;
   margin-bottom: 7px;
-  min-width: 230px;
   text-wrap: wrap;
+  margin-right: 10%;
+  margin-left: 10%;
 }
 
 .react-trello-card-header {
@@ -1638,8 +1645,7 @@ td {
   color: white;
   transform: scale(3.9);
   width: fit-content;
-  margin: 10px;
-  margin-top: 28px;
+  margin-top: 10%;
 }
 
 .custom-lane-header {
@@ -1651,9 +1657,10 @@ td {
   transform: scale(0.5);
   background-color: white;
   color: gray;
-  margin: 9px;
+  margin: 10px;
+  width: 100px;
   padding: 2px;
-  border-radius: 100%;
+  border-radius: 5px;
   transition-duration: 0.5;
 }
 
