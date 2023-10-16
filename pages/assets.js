@@ -477,9 +477,9 @@ export default function Assets() {
           className="popup-wrapper active"
           style={{
             maxWidth: "800px",
-            width: "90%",
+            width: "90vh",
             height: "90vh",
-            overflow: "auto",
+            overflow: "hidden !important",
             border: "4px solid #ac50ef",
           }}
         >
