@@ -468,7 +468,7 @@ export default function Assets() {
           zIndex: 100,
           top: 0,
           left: 0,
-          width: "100vw",
+          width: "100%",
           height: "100vh",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
@@ -480,7 +480,7 @@ export default function Assets() {
           className="popup-wrapper active"
           style={{
             maxWidth: "800px",
-            width: "90%",
+            width: "95%",
             height: "90vh",
             overflow: "auto",
             border: "4px solid #ac50ef",
