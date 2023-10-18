@@ -9,9 +9,14 @@ import {
   getUserAssets,
   transferUserAsset,
   getSingleAsset,
-  getAssetOptions,
   getRwaAssetOptions,
   addUserRwaAsset,
+  getAutAssetOptions,
+  addUserAutAsset,
+  getOxaAssetOptions,
+  addUserOxaAsset,
+  getDigAssetOptions,
+  addUserDigAsset
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -31,32 +36,14 @@ export default function Assets() {
 
   const [displayRelVal, setDisplayRelVal] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [displayOptionsPopup, setDisplayOptionsPopup] = useState(false);
-  const [assetOptionsData, setAssetOptionsData] = useState([]);
   const [displayRwaOptionsPopup, setDisplayRwaOptionsPopup] = useState(false);
   const [rwaAssetOptionsData, setRwaAssetOptionsData] = useState([]);
-
-  async function getAssetOptionsData() {
-    try {
-      const docsSnap = await getAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
-      const TABLE_STATE = [];
-
-      docsSnap.forEach((doc) => {
-        // Get the data
-        const data = doc.data();
-
-        // Append the data
-        TABLE_STATE.push({
-          cardId: data.cardId,
-          title: data.title
-        });
-      });
-
-      setAssetOptionsData(TABLE_STATE);
-    } catch (error) {
-      console.log(error);
-    }
-  }
+  const [displayOxaOptionsPopup, setDisplayOxaOptionsPopup] = useState(false);
+  const [oxaAssetOptionsData, setOxaAssetOptionsData] = useState([]);
+  const [displayAutOptionsPopup, setDisplayAutOptionsPopup] = useState(false);
+  const [autAssetOptionsData, setAutAssetOptionsData] = useState([]);
+  const [displayDigOptionsPopup, setDisplayDigOptionsPopup] = useState(false);
+  const [digAssetOptionsData, setDigAssetOptionsData] = useState([]);
 
   async function getRwaAssetOptionsData() {
     try {
@@ -75,6 +62,72 @@ export default function Assets() {
       });
 
       setRwaAssetOptionsData(TABLE_STATE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getOxaAssetOptionsData() {
+    try {
+      const docsSnap = await getOxaAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const TABLE_STATE = [];
+
+      docsSnap.forEach((doc) => {
+        // Get the data
+        const data = doc.data();
+
+        // Append the data
+        TABLE_STATE.push({
+          cardId: data.cardId,
+          title: data.title
+        });
+      });
+
+      setOxaAssetOptionsData(TABLE_STATE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getAutAssetOptionsData() {
+    try {
+      const docsSnap = await getAutAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const TABLE_STATE = [];
+
+      docsSnap.forEach((doc) => {
+        // Get the data
+        const data = doc.data();
+
+        // Append the data
+        TABLE_STATE.push({
+          cardId: data.cardId,
+          title: data.title
+        });
+      });
+
+      setAutAssetOptionsData(TABLE_STATE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getDigAssetOptionsData() {
+    try {
+      const docsSnap = await getDigAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const TABLE_STATE = [];
+
+      docsSnap.forEach((doc) => {
+        // Get the data
+        const data = doc.data();
+
+        // Append the data
+        TABLE_STATE.push({
+          cardId: data.cardId,
+          title: data.title
+        });
+      });
+
+      setDigAssetOptionsData(TABLE_STATE);
     } catch (error) {
       console.log(error);
     }
@@ -169,7 +222,19 @@ export default function Assets() {
     let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, cardId);
 
     try {
-      setDisplayOptionsPopup(true);
+      switch(toLaneId) {
+        case "AUT Lane":
+          setDisplayAutOptionsPopup(true);
+          break;
+        case "OXA Lane":
+          setDisplayOxaOptionsPopup(true);
+          break;
+        case "Digital Assets Lane":
+          setDisplayDigOptionsPopup(true);
+          break;
+        default:
+          break;
+      }
 
       transferUserAsset(
         "5ntPFGMhxD4llc0ObTwF",
@@ -340,61 +405,6 @@ export default function Assets() {
     );
   };
 
-  const AssetOptionsList = () => {
-    return assetOptionsData.map(({ title, cardId }) => {
-      return (
-        <div>
-          <button
-            className="reject"
-            id="popup-cancel"
-            onClick={() => {
-              setDisplayOptionsPopup(!displayOptionsPopup);
-              console.log("card with cardId " + cardId + " chosen");
-            }}
-          >
-            {title}
-          </button>
-        </div>
-      );
-    });
-  };
-
-  const OptionsPopup = () => {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 100,
-          top: 0,
-          left: 0,
-          width: "90vw",
-          height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          className="popup-wrapper active"
-          style={{
-            width: "50%",
-            height: "90%",
-            overflow: "auto"
-          }}>
-          <div className="top">
-            <center>
-              <span className="title">Choose New Asset</span>
-            </center>
-          </div>
-          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
-            <AssetOptionsList />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const RwaOptionsList = () => {
     return rwaAssetOptionsData.map(({ title, cardId }) => {
       return (
@@ -446,11 +456,197 @@ export default function Assets() {
           }}>
           <div className="top">
             <center>
-              <span className="title">Choose New Asset</span>
+              <span className="title">Select Offer</span>
             </center>
           </div>
           <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
             <RwaOptionsList />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const AutOptionsList = () => {
+    return autAssetOptionsData.map(({ title, cardId }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setDisplayAutOptionsPopup(false);
+
+              console.log("card with cardId " + cardId + " chosen");
+
+              // Write to firebase
+              addUserAutAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
+
+              // Update page using new data
+              getAssetsData();
+            }}
+          >
+            {title}
+          </button>
+        </div>
+      );
+    });
+  };
+
+  const AutOptionsPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "90vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+            overflow: "auto"
+          }}>
+          <div className="top">
+            <center>
+              <span className="title">Select Offer</span>
+            </center>
+          </div>
+          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+            <AutOptionsList />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const OxaOptionsList = () => {
+    return oxaAssetOptionsData.map(({ title, cardId }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setDisplayOxaOptionsPopup(false);
+
+              console.log("card with cardId " + cardId + " chosen");
+
+              // Write to firebase
+              addUserOxaAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
+
+              // Update page using new data
+              getAssetsData();
+            }}
+          >
+            {title}
+          </button>
+        </div>
+      );
+    });
+  };
+
+  const OxaOptionsPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "90vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+            overflow: "auto"
+          }}>
+          <div className="top">
+            <center>
+              <span className="title">Select Offer</span>
+            </center>
+          </div>
+          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+            <OxaOptionsList />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const DigOptionsList = () => {
+    return digAssetOptionsData.map(({ title, cardId }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setDisplayDigOptionsPopup(false);
+
+              console.log("card with cardId " + cardId + " chosen");
+
+              // Write to firebase
+              addUserDigAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
+
+              // Update page using new data
+              getAssetsData();
+            }}
+          >
+            {title}
+          </button>
+        </div>
+      );
+    });
+  };
+
+  const DigOptionsPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "90vw",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+            overflow: "auto"
+          }}>
+          <div className="top">
+            <center>
+              <span className="title">Select Offer</span>
+            </center>
+          </div>
+          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+            <DigOptionsList />
           </div>
         </div>
       </div>
@@ -581,8 +777,10 @@ export default function Assets() {
   };
 
   useEffect(() => {
-    getAssetOptionsData();
     getRwaAssetOptionsData();
+    getAutAssetOptionsData();
+    getOxaAssetOptionsData();
+    getDigAssetOptionsData();
   }, []);
 
   return (
@@ -595,13 +793,23 @@ export default function Assets() {
       ) : (
         <Login />
       )}
-      {displayOptionsPopup ? (
-        <OptionsPopup />
+      {displayRwaOptionsPopup ? (
+        <RwaOptionsPopup />
       ) : (
         <></>
       )}
-      {displayRwaOptionsPopup ? (
-        <RwaOptionsPopup />
+      {displayAutOptionsPopup ? (
+        <AutOptionsPopup />
+      ) : (
+        <></>
+      )}
+      {displayOxaOptionsPopup ? (
+        <OxaOptionsPopup />
+      ) : (
+        <></>
+      )}
+      {displayDigOptionsPopup ? (
+        <DigOptionsPopup />
       ) : (
         <></>
       )}

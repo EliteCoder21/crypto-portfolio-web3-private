@@ -121,6 +121,87 @@ export async function addUserRwaAsset(
   }
 }
 
+export async function addUserAutAsset(
+  userId,
+  title,
+  label,
+  description
+) {
+  try {
+    const addedDocRef = await addDoc(collection(db, "assets", userId, "AUT Lane"), {});
+
+    console.log("ID IS: ", addedDocRef.id);
+
+    await setDoc(addedDocRef, {
+      "id": addedDocRef.id, // Randomize this
+      "laneId": "AUT Lane",
+      "title": title,
+      "label": label,
+      "cardStyle": DEFAULT_CARD_STYLE,
+      "description": description,
+      "isConvertedToOXA": false,
+    });
+
+    console.log("Finished add!");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function addUserOxaAsset(
+  userId,
+  title,
+  label,
+  description
+) {
+  try {
+    const addedDocRef = await addDoc(collection(db, "assets", userId, "OXA Lane"), {});
+
+    console.log("ID IS: ", addedDocRef.id);
+
+    await setDoc(addedDocRef, {
+      "id": addedDocRef.id, // Randomize this
+      "laneId": "OXA Lane",
+      "title": title,
+      "label": label,
+      "cardStyle": DEFAULT_CARD_STYLE,
+      "description": description,
+      "isConvertedToOXA": true,
+    });
+
+    console.log("Finished add!");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export async function addUserDigAsset(
+  userId,
+  title,
+  label,
+  description
+) {
+  try {
+    const addedDocRef = await addDoc(collection(db, "assets", userId, "Digital Assets Lane"), {});
+
+    console.log("ID IS: ", addedDocRef.id);
+
+    await setDoc(addedDocRef, {
+      "id": addedDocRef.id, // Randomize this
+      "laneId": "Digital Assets Lane",
+      "title": title,
+      "label": label,
+      "cardStyle": DEFAULT_CARD_STYLE,
+      "description": description,
+      "isConvertedToOXA": true,
+    });
+
+    console.log("Finished add!");
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function transferUserAsset(
   userId,
   originalLane,
@@ -289,6 +370,24 @@ export async function getAssetOptions(id) {
 
 export async function getRwaAssetOptions(id) {
   const dataCollection = collection(db, "assets", id, "rwa-asset-options");
+  const docsSnap = await getDocs(dataCollection);
+  return docsSnap;
+}
+
+export async function getAutAssetOptions(id) {
+  const dataCollection = collection(db, "assets", id, "aut-asset-options");
+  const docsSnap = await getDocs(dataCollection);
+  return docsSnap;
+}
+
+export async function getOxaAssetOptions(id) {
+  const dataCollection = collection(db, "assets", id, "oxa-asset-options");
+  const docsSnap = await getDocs(dataCollection);
+  return docsSnap;
+}
+
+export async function getDigAssetOptions(id) {
+  const dataCollection = collection(db, "assets", id, "digital-assets-asset-options");
   const docsSnap = await getDocs(dataCollection);
   return docsSnap;
 }
