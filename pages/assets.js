@@ -24,6 +24,7 @@ import Tearsheet from "../components/tearsheet.js";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 
@@ -197,7 +198,7 @@ export default function Assets() {
 
           // Add to JSON file
           if (!(cardData == {})) {
-            eventBus.publish({type: 'ADD_CARD', laneId: lane, card: cardData})
+            eventBus.publish({ type: 'ADD_CARD', laneId: lane, card: cardData })
             //data.lanes[getLaneIndex(lane)].cards.push(cardData);
           }
         });
@@ -222,7 +223,7 @@ export default function Assets() {
     let cardData = getSingleAsset("5ntPFGMhxD4llc0ObTwF", fromLaneId, cardId);
 
     try {
-      switch(toLaneId) {
+      switch (toLaneId) {
         case "AUT Lane":
           setDisplayAutOptionsPopup(true);
           break;
@@ -256,38 +257,46 @@ export default function Assets() {
     return (
       <div
         className="react-trello-card"
-        style={{ backgroundColor: card.style.backgroundColor }}
+        style={{ 
+          backgroundColor: card.style.backgroundColor,
+          
+         }}
       >
         <div className="react-trello-card-header">
           <h3 className="react-trello-card-title">{card.title}</h3>
           {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" ? (
-          <div style={{ boxAlign: "center" }}>
-            <button
-              className="hover-button"
-              title="RelVal"
-              onClick={() => {
-                setDisplayRelVal(!displayRelVal);
-              }}
-            >
-              <RelValIcon />
-            </button>
-            <button
-              className="hover-button"
-              title="Sheets"
-              onClick={() => {
-                setDisplayTearsheetPopup(!displayTearsheetPopup);
-              }}
-            >
-              <TearSheetIcon />
-            </button>
-          </div>
-        ) : (
-          <></>
-        )}
+            <div style={{ boxAlign: "center" }}>
+              <button
+                className="hover-button"
+                title="RelVal"
+                onClick={() => {
+                  setDisplayRelVal(!displayRelVal);
+                }}
+              >
+                <RelValIcon />
+              </button>
+              <button
+                className="hover-button"
+                title="Sheets"
+                onClick={() => {
+                  setDisplayTearsheetPopup(!displayTearsheetPopup);
+                }}
+              >
+                <TearSheetIcon />
+              </button>
+            </div>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="react-trello-card-body">
           <p>{card.description}</p>
+          <div className="progress">
+            <HourglassEmptyIcon />
+            In Progress
+          </div>
         </div>
+
       </div>
     );
   };

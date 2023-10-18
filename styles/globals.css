@@ -1674,3 +1674,13 @@ td {
   background-color: darkgray;
   opacity: 0.5
 }
+
+.progress {
+  border-color: black;
+  border-width: 2px;
+  border-radius: 10px;
+  background-color: transparent;
+  padding: 10px;
+  width: 40%;
+  
+}
