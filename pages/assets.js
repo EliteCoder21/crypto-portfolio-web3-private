@@ -324,10 +324,7 @@ export default function Assets() {
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "100%",
-                  height: "100%",
-                  margin: "auto",
-                  marginLeft: "1%",
-                  marginRight: "1%",
+                  height: "100%"
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -480,9 +477,13 @@ export default function Assets() {
           className="popup-wrapper active"
           style={{
             maxWidth: "800px",
+<<<<<<< HEAD
             width: "95%",
+=======
+            width: "90vh",
+>>>>>>> 5f8eae967557b1e216607ea415f1100b19434318
             height: "90vh",
-            overflow: "auto",
+            overflow: "hidden !important",
             border: "4px solid #ac50ef",
           }}
         >
