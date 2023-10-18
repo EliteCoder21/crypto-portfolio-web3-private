@@ -661,7 +661,7 @@ export default function Assets() {
           zIndex: 100,
           top: 0,
           left: 0,
-          width: "100vw",
+          width: "100%",
           height: "100vh",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
@@ -673,9 +673,17 @@ export default function Assets() {
           className="popup-wrapper active"
           style={{
             maxWidth: "800px",
+<<<<<<< HEAD
+<<<<<<< HEAD
+            width: "95%",
+=======
             width: "90vh",
+>>>>>>> 5f8eae967557b1e216607ea415f1100b19434318
+=======
+            width: "90%",
+>>>>>>> parent of 5f8eae9 (removed scrollbar in RelVal popup)
             height: "90vh",
-            overflow: "hidden !important",
+            overflow: "auto",
             border: "4px solid #ac50ef",
           }}
         >
