@@ -96,8 +96,8 @@ export async function getSingleAsset(userId, lane, cardId) {
 
 export async function addUserRwaAsset(
   userId,
-  title,
-  label,
+  id,
+  cusip,
   description
 ) {
   try {
@@ -106,10 +106,10 @@ export async function addUserRwaAsset(
     console.log("ID IS: ", addedDocRef.id);
 
     await setDoc(addedDocRef, {
-      "id": addedDocRef.id, // Randomize this
+      "id": id,
       "laneId": "RWA Lane",
-      "title": title,
-      "label": label,
+      "cusip": cusip,
+      "title": "CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
       "description": description,
       "isConvertedToOXA": false,

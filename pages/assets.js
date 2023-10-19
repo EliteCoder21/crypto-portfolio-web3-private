@@ -1,6 +1,5 @@
 import Navbar from "../components/navbar.js";
 import Login from "../components/login.js";
-import ChatButton from "../components/chat-button.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState, useEffect } from "react";
@@ -57,8 +56,10 @@ export default function Assets() {
 
         // Append the data
         TABLE_STATE.push({
-          cardId: data.cardId,
-          title: data.title
+          id: data.id,
+          cusip: data.cusip,
+          offer: data.offer,
+          description: data.description
         });
       });
 
@@ -257,10 +258,9 @@ export default function Assets() {
     return (
       <div
         className="react-trello-card"
-        style={{ 
-          backgroundColor: card.style.backgroundColor,
-          
-         }}
+        style={{
+          backgroundColor: card.style.backgroundColor
+        }}
       >
         <div className="react-trello-card-header">
           <h3 className="react-trello-card-title">{card.title}</h3>
@@ -294,6 +294,7 @@ export default function Assets() {
           <div className="progress">
             <HourglassEmptyIcon />
             In Progress
+
           </div>
         </div>
 
@@ -415,7 +416,7 @@ export default function Assets() {
   };
 
   const RwaOptionsList = () => {
-    return rwaAssetOptionsData.map(({ title, cardId }) => {
+    return rwaAssetOptionsData.map(({ id, cusip, offer, description }) => {
       return (
         <div>
           <button
@@ -424,16 +425,16 @@ export default function Assets() {
             onClick={() => {
               setDisplayRwaOptionsPopup(false);
 
-              console.log("card with cardId " + cardId + " chosen");
+              console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
+              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
 
               // Update page using new data
               getAssetsData();
             }}
           >
-            {title}
+            {offer}
           </button>
         </div>
       );
@@ -834,7 +835,6 @@ export default function Assets() {
       ) : (
         <></>
       )}
-      <ChatButton />
     </div>
   );
 }
