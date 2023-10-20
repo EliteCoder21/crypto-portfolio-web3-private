@@ -15,7 +15,7 @@ import {
 
 const db = getFirestore(firebase_app);
 
-export const DEFAULT_CARD_STYLE = { "width": 500 , "margin": "auto", "marginBottom": 5, "opacity": 1.0 };
+export const DEFAULT_CARD_STYLE = { "width": 200 , "marginBottom": 5, "opacity": 1.0 };
 
 export async function createUser(id) {
   let result = null;
@@ -103,7 +103,7 @@ export async function addUserRwaAsset(
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "RWA Lane"), {});
 
-    console.log("ID IS: ", addedDocRef.id);
+    // console.log("ID IS: ", addedDocRef.id);
 
     await setDoc(addedDocRef, {
       "id": id,
@@ -123,20 +123,20 @@ export async function addUserRwaAsset(
 
 export async function addUserAutAsset(
   userId,
-  title,
-  label,
+  id,
+  cusip,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "AUT Lane"), {});
 
-    console.log("ID IS: ", addedDocRef.id);
+    // console.log("ID IS: ", addedDocRef.id);
 
     await setDoc(addedDocRef, {
-      "id": addedDocRef.id, // Randomize this
+      "id": id,
       "laneId": "AUT Lane",
-      "title": title,
-      "label": label,
+      "cusip": cusip,
+      "title": "AUT for CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
       "description": description,
       "isConvertedToOXA": false,
@@ -150,20 +150,20 @@ export async function addUserAutAsset(
 
 export async function addUserOxaAsset(
   userId,
-  title,
-  label,
+  id,
+  cusip,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "OXA Lane"), {});
 
-    console.log("ID IS: ", addedDocRef.id);
+    // console.log("ID IS: ", addedDocRef.id);
 
     await setDoc(addedDocRef, {
-      "id": addedDocRef.id, // Randomize this
+      "id": id,
       "laneId": "OXA Lane",
-      "title": title,
-      "label": label,
+      "cusip": cusip,
+      "title": "OXA for CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
       "description": description,
       "isConvertedToOXA": true,
@@ -177,23 +177,23 @@ export async function addUserOxaAsset(
 
 export async function addUserDigAsset(
   userId,
-  title,
-  label,
+  id,
+  cusip,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "Digital Assets Lane"), {});
 
-    console.log("ID IS: ", addedDocRef.id);
+    // console.log("ID IS: ", addedDocRef.id);
 
     await setDoc(addedDocRef, {
-      "id": addedDocRef.id, // Randomize this
+      "id": id,
       "laneId": "Digital Assets Lane",
-      "title": title,
-      "label": label,
+      "cusip": cusip,
+      "title": "Digital Asset for CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
       "description": description,
-      "isConvertedToOXA": true,
+      "isConvertedToOXA": false,
     });
 
     console.log("Finished add!");

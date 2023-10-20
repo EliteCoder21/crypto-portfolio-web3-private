@@ -69,28 +69,6 @@ export default function Assets() {
     }
   }
 
-  async function getOxaAssetOptionsData() {
-    try {
-      const docsSnap = await getOxaAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
-      const TABLE_STATE = [];
-
-      docsSnap.forEach((doc) => {
-        // Get the data
-        const data = doc.data();
-
-        // Append the data
-        TABLE_STATE.push({
-          cardId: data.cardId,
-          title: data.title
-        });
-      });
-
-      setOxaAssetOptionsData(TABLE_STATE);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   async function getAutAssetOptionsData() {
     try {
       const docsSnap = await getAutAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
@@ -102,12 +80,38 @@ export default function Assets() {
 
         // Append the data
         TABLE_STATE.push({
-          cardId: data.cardId,
-          title: data.title
+          id: data.id,
+          cusip: data.cusip,
+          offer: data.offer,
+          description: data.description
         });
       });
 
       setAutAssetOptionsData(TABLE_STATE);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function getOxaAssetOptionsData() {
+    try {
+      const docsSnap = await getOxaAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const TABLE_STATE = [];
+
+      docsSnap.forEach((doc) => {
+        // Get the data
+        const data = doc.data();
+
+        // Append the data
+        TABLE_STATE.push({
+          id: data.id,
+          cusip: data.cusip,
+          offer: data.offer,
+          description: data.description
+        });
+      });
+
+      setOxaAssetOptionsData(TABLE_STATE);
     } catch (error) {
       console.log(error);
     }
@@ -124,8 +128,10 @@ export default function Assets() {
 
         // Append the data
         TABLE_STATE.push({
-          cardId: data.cardId,
-          title: data.title
+          id: data.id,
+          cusip: data.cusip,
+          offer: data.offer,
+          description: data.description
         });
       });
 
@@ -190,6 +196,7 @@ export default function Assets() {
             "id": tempData.id,
             "laneId": tempData.laneId,
             "title": tempData.title,
+            "cusip": tempData.cusip,
             "label": tempData.label,
             "cardStyle": DEFAULT_CARD_STYLE,
             "description": tempData.description,
@@ -253,6 +260,7 @@ export default function Assets() {
     }
   };
 
+
   // Create a custom card component.
   const CustomCard = (card) => {
     return (
@@ -289,14 +297,17 @@ export default function Assets() {
             <></>
           )}
         </div>
-        <div className="react-trello-card-body">
-          <p>{card.description}</p>
-          <div className="progress">
-            <HourglassEmptyIcon />
-            In Progress
 
+        {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" || card.laneId == "OXA Lane" ? ( 
+          <div className="react-trello-card-body">
+            <p style={{ wordWrap: "break-word" }}>{card.description}</p>
+            <div className="progress">
+              <HourglassEmptyIcon />
+            </div>
           </div>
-        </div>
+        ) : (
+          <></>
+        )};
 
       </div>
     );
@@ -389,7 +400,7 @@ export default function Assets() {
               style={{
                 backgroundColor: 'rgba(32, 34, 50, 0.55)',
                 borderRadius: 20,
-                width: "100%",
+                width: "95%",
                 height: "100%",
                 margin: "auto",
               }}
@@ -399,7 +410,7 @@ export default function Assets() {
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "100%",
-                  height: "100%"
+                  height: "500%"
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -469,7 +480,7 @@ export default function Assets() {
               <span className="title">Select Offer</span>
             </center>
           </div>
-          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <RwaOptionsList />
           </div>
         </div>
@@ -478,7 +489,7 @@ export default function Assets() {
   };
 
   const AutOptionsList = () => {
-    return autAssetOptionsData.map(({ title, cardId }) => {
+    return autAssetOptionsData.map(({ id, cusip, offer, description }) => {
       return (
         <div>
           <button
@@ -487,16 +498,16 @@ export default function Assets() {
             onClick={() => {
               setDisplayAutOptionsPopup(false);
 
-              console.log("card with cardId " + cardId + " chosen");
+              console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserAutAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
+              addUserAutAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
 
               // Update page using new data
               getAssetsData();
             }}
           >
-            {title}
+            {offer}
           </button>
         </div>
       );
@@ -531,7 +542,7 @@ export default function Assets() {
               <span className="title">Select Offer</span>
             </center>
           </div>
-          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <AutOptionsList />
           </div>
         </div>
@@ -540,7 +551,7 @@ export default function Assets() {
   };
 
   const OxaOptionsList = () => {
-    return oxaAssetOptionsData.map(({ title, cardId }) => {
+    return oxaAssetOptionsData.map(({ id, cusip, offer, description }) => {
       return (
         <div>
           <button
@@ -549,16 +560,16 @@ export default function Assets() {
             onClick={() => {
               setDisplayOxaOptionsPopup(false);
 
-              console.log("card with cardId " + cardId + " chosen");
+              console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserOxaAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
+              addUserOxaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
 
               // Update page using new data
               getAssetsData();
             }}
           >
-            {title}
+            {offer}
           </button>
         </div>
       );
@@ -573,7 +584,7 @@ export default function Assets() {
           zIndex: 100,
           top: 0,
           left: 0,
-          width: "90vw",
+          width: "100vw",
           height: "100vh",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
@@ -586,14 +597,13 @@ export default function Assets() {
           style={{
             width: "50%",
             height: "90%",
-            overflow: "auto"
           }}>
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
             </center>
           </div>
-          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <OxaOptionsList />
           </div>
         </div>
@@ -602,7 +612,7 @@ export default function Assets() {
   };
 
   const DigOptionsList = () => {
-    return digAssetOptionsData.map(({ title, cardId }) => {
+    return digAssetOptionsData.map(({ id, cusip, offer, description }) => {
       return (
         <div>
           <button
@@ -611,16 +621,16 @@ export default function Assets() {
             onClick={() => {
               setDisplayDigOptionsPopup(false);
 
-              console.log("card with cardId " + cardId + " chosen");
+              console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserDigAsset("5ntPFGMhxD4llc0ObTwF", title, title, "Description goes here:");
+              addUserDigAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
 
               // Update page using new data
               getAssetsData();
             }}
           >
-            {title}
+            {offer}
           </button>
         </div>
       );
@@ -655,7 +665,7 @@ export default function Assets() {
               <span className="title">Select Offer</span>
             </center>
           </div>
-          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <DigOptionsList />
           </div>
         </div>
@@ -688,7 +698,7 @@ export default function Assets() {
             width: "90%",
             height: "90vh",
             overflow: "auto",
-            border: "4px solid #ac50ef",
+            border: "4px solid #30CCF6",
           }}
         >
           <div className="top">
@@ -747,7 +757,7 @@ export default function Assets() {
             width: "90%",
             height: "90%",
             overflow: "auto",
-            border: "4px solid #ac50ef"
+            border: "4px solid #30CCF6"
           }}
         >
           <div className="top">

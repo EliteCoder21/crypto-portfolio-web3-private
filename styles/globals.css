@@ -198,6 +198,7 @@ input[type="number"] {
 .popup-wrapper .top {
   z-index: 4;
   height: 40px;
+  width: 100.8%;
   background: var(--main-third-transparent);
   box-shadow: var(--shadow-smooth);
 }
@@ -1754,20 +1755,21 @@ td {
   padding: 10px;
 }
 
+
+
 .react-trello-lane {
-  width: 24%;
+  width: 500px;
+  text-wrap: true;
 }
 
 .react-trello-card {
-  border-radius: 5px;
+  border-radius: 10px;
   border: 4px solid white;
   position: relative;
-  padding: 20px;
+  padding: 10px;
+  width: 400px;
   cursor: pointer;
-  margin-bottom: 3%;
-  text-wrap: wrap;
-  margin-right: 1%;
-  margin-left: 1%;
+  margin: 5px;
 }
 
 .react-trello-card-header {
@@ -1788,6 +1790,7 @@ td {
   word-wrap: break-word;
   max-width: 65%;
   width: 65%;
+  text-wrap: break-word;
 }
 
 .react-trello-card-label {
@@ -1802,6 +1805,7 @@ td {
 .react-trello-card-body {
   font-size: 12px;
   color: black;
+  
 }
 
 .lane-image {
@@ -1846,10 +1850,9 @@ td {
   border-width: 5px;
   border-radius: 10px;
   color: black;
-  font-size: 15px;
   background-color: transparent;
   padding: 10px;
-  width: 40%;
-  align-content: center;
-
+  margin: 10px;
+  width: 55px;
+  align-items: center;
 }
