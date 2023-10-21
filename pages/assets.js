@@ -23,7 +23,7 @@ import Tearsheet from "../components/tearsheet.js";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
-import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import InProgressIcon from '@mui/icons-material/HourglassEmpty';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 
@@ -297,35 +297,17 @@ export default function Assets() {
           )}
         </div>
 
-        {!(card.laneId == "Digital Assets Lane") ? (
+        {card.laneId != "Digital Assets Lane" ? (
           <div className="react-trello-card-body">
             {/* <p style={{ wordWrap: "break-word", flexShrink: 1 }}>{card.description}</p> */}
             <p style={{ fontSize: "78%" }}>{card.description}</p>
             <div className="progress">
-              <HourglassEmptyIcon />
+              <InProgressIcon />
             </div>
           </div>
         ) : (
-          <div>
-            Bro
-          </div>
+          <></>
         )};
-
-        {(card.laneId == "Digital Assets Lane") ? (
-          <div className="react-trello-card-body">
-            {/* <p style={{ wordWrap: "break-word", flexShrink: 1 }}>{card.description}</p> */}
-            <p style={{ fontSize: "78%" }}>{card.description}</p>
-            <div className="progress">
-              <HourglassEmptyIcon />
-            </div>
-          </div>
-        ) : (
-          <div>
-            Stonks
-          </div>
-        )};
-
-
       </div>
     );
   };
@@ -346,7 +328,6 @@ export default function Assets() {
         res = "Drop here for offers to convert your AUT into OXAs";
         break;
       default:
-        res = "Drop here to convert your OXAs into digital assets";
         break;
     }
 
@@ -357,7 +338,6 @@ export default function Assets() {
     return (
       <div className="lane-image">
         {laneTitle == "RWA Pool" ? (
-
           <button
             className="add-button"
             onClick={() => {
@@ -503,6 +483,24 @@ export default function Assets() {
           <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <RwaOptionsList />
           </div>
+          <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayRwaOptionsPopup(false);
+              }}
+            >
+              X
+            </button>
         </div>
       </div>
     );
@@ -565,6 +563,24 @@ export default function Assets() {
           <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <AutOptionsList />
           </div>
+          <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayAutOptionsPopup(false);
+              }}
+            >
+              X
+            </button>
         </div>
       </div>
     );
@@ -626,6 +642,24 @@ export default function Assets() {
           <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <OxaOptionsList />
           </div>
+          <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayOxaOptionsPopup(false);
+              }}
+            >
+              X
+            </button>
         </div>
       </div>
     );
@@ -688,6 +722,24 @@ export default function Assets() {
           <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <DigOptionsList />
           </div>
+          <button
+              className="exit-button"
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setDisplayDigOptionsPopup(false);
+              }}
+            >
+              X
+            </button>
         </div>
       </div>
     );
