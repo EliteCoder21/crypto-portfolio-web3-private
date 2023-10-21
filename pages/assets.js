@@ -214,9 +214,8 @@ export default function Assets() {
 
       // Publish JSON Data
       //eventBus.publish({ type: "UPDATE_LANES", lanes: data.lanes });
-    } catch (error) {
-      console.log("ABCDEFG");
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -298,20 +297,40 @@ export default function Assets() {
           )}
         </div>
 
-        {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" || card.laneId == "OXA Lane" ? ( 
+        {!(card.laneId == "Digital Assets Lane") ? (
           <div className="react-trello-card-body">
-            <p style={{ wordWrap: "break-word" }}>{card.description}</p>
+            {/* <p style={{ wordWrap: "break-word", flexShrink: 1 }}>{card.description}</p> */}
+            <p style={{ fontSize: "78%" }}>{card.description}</p>
             <div className="progress">
               <HourglassEmptyIcon />
             </div>
           </div>
         ) : (
-          <></>
+          <div>
+            Bro
+          </div>
         )};
+
+        {(card.laneId == "Digital Assets Lane") ? (
+          <div className="react-trello-card-body">
+            {/* <p style={{ wordWrap: "break-word", flexShrink: 1 }}>{card.description}</p> */}
+            <p style={{ fontSize: "78%" }}>{card.description}</p>
+            <div className="progress">
+              <HourglassEmptyIcon />
+            </div>
+          </div>
+        ) : (
+          <div>
+            Stonks
+          </div>
+        )};
+
 
       </div>
     );
   };
+
+
 
   function getLaneSubtitle(laneTitle) {
     let res;
@@ -376,6 +395,7 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
+
       <div className="page autpage active" id="page-autpage">
         <h1
           style={{
@@ -807,6 +827,9 @@ export default function Assets() {
 
   return (
     <div>
+      <head>
+        <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script>
+      </head>
       {user ? (
         <div>
           <Navbar active="/assets" />

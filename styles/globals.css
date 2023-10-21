@@ -1758,7 +1758,7 @@ td {
 
 
 .react-trello-lane {
-  width: 500px;
+  width: 24%;
   text-wrap: true;
 }
 
@@ -1851,8 +1851,11 @@ td {
   border-radius: 10px;
   color: black;
   background-color: transparent;
-  padding: 10px;
-  margin: 10px;
-  width: 55px;
-  align-items: center;
+  margin: 5px;
+  padding: 7px;
+  width: 50px;
+  height: 50px;
+  size: 10px;
+  align-content: center;
+  transform: scale(0.5);  
 }

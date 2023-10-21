@@ -1,5 +1,5 @@
 import firebase_app from "./config";
-import {React, window} from 'react';
+import { React, window } from 'react';
 import {
   getFirestore,
   doc,
@@ -15,7 +15,7 @@ import {
 
 const db = getFirestore(firebase_app);
 
-export const DEFAULT_CARD_STYLE = { "width": 200 , "marginBottom": 5, "opacity": 1.0 };
+export const DEFAULT_CARD_STYLE = { "width": 200, "marginBottom": 5, "opacity": 1.0 };
 
 export async function createUser(id) {
   let result = null;
