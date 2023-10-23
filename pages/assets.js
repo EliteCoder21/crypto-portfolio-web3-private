@@ -23,7 +23,7 @@ import Tearsheet from "../components/tearsheet.js";
 import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
-import InProgressIcon from '@mui/icons-material/HourglassEmpty';
+import InProgressIcon from "@mui/icons-material/HourglassEmpty";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 
@@ -141,6 +141,13 @@ export default function Assets() {
     }
   }
 
+  async function getAssetOptionsData() {
+    getRwaAssetOptionsData();
+    getAutAssetOptionsData();
+    getOxaAssetOptionsData();
+    getDigAssetOptionsData();
+  }
+
   // Populate Kanban data
   const data = require("./emptyAssetsData.json");
   getAssetsData("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
@@ -206,7 +213,7 @@ export default function Assets() {
 
           // Add to JSON file
           if (!(cardData == {})) {
-            eventBus.publish({ type: 'ADD_CARD', laneId: lane, card: cardData })
+            eventBus.publish({ type: "ADD_CARD", laneId: lane, card: cardData })
             //data.lanes[getLaneIndex(lane)].cards.push(cardData);
           }
         });
@@ -398,7 +405,7 @@ export default function Assets() {
           <div className="bond-data">
             <div
               style={{
-                backgroundColor: 'rgba(32, 34, 50, 0.55)',
+                backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
                 width: "95%",
                 height: "100%",
@@ -871,10 +878,7 @@ export default function Assets() {
   };
 
   useEffect(() => {
-    getRwaAssetOptionsData();
-    getAutAssetOptionsData();
-    getOxaAssetOptionsData();
-    getDigAssetOptionsData();
+    getAssetOptionsData();
   }, []);
 
   return (
