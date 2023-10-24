@@ -329,12 +329,13 @@ export default function Assets() {
         res = "Add Real-World Assets (RWAs) here";
         break;
       case "AUT Pool":
-        res = "Drop here for offers to convert your RWA tokens into AUTs";
+        res = "Drop here to convert your RWA tokens into AUTs";
         break;
       case "OXA Pool":
-        res = "Drop here for offers to convert your AUT into OXAs";
+        res = "Drop here to convert your AUT into OXAs";
         break;
       default:
+        res = "Drop here to convert your OXAs into Digital Assets"
         break;
     }
 
@@ -467,7 +468,7 @@ export default function Assets() {
           zIndex: 100,
           top: 0,
           left: 0,
-          width: "90vw",
+          width: "100%",
           height: "100vh",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
@@ -478,8 +479,8 @@ export default function Assets() {
         <div
           className="popup-wrapper active"
           style={{
-            width: "50%",
-            height: "90%",
+            width: "45%",
+            height: "100%",
             overflow: "auto"
           }}>
           <div className="top">
@@ -547,7 +548,7 @@ export default function Assets() {
           zIndex: 100,
           top: 0,
           left: 0,
-          width: "90vw",
+          width: "100%",
           height: "100vh",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
@@ -706,7 +707,7 @@ export default function Assets() {
           zIndex: 100,
           top: 0,
           left: 0,
-          width: "90vw",
+          width: "100%",
           height: "100vh",
           backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
