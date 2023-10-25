@@ -105,6 +105,9 @@ export async function addUserRwaAsset(
 
     // console.log("ID IS: ", addedDocRef.id);
 
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
+
     await setDoc(addedDocRef, {
       "id": id,
       "laneId": "RWA Lane",
@@ -114,6 +117,9 @@ export async function addUserRwaAsset(
       "description": description,
       "isConvertedToOXA": false,
     });
+
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
 
     console.log("Finished add!");
   } catch (e) {
@@ -132,6 +138,9 @@ export async function addUserAutAsset(
 
     // console.log("ID IS: ", addedDocRef.id);
 
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
+
     await setDoc(addedDocRef, {
       "id": id,
       "laneId": "AUT Lane",
@@ -141,6 +150,9 @@ export async function addUserAutAsset(
       "description": description,
       "isConvertedToOXA": false,
     });
+
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
 
     console.log("Finished add!");
   } catch (e) {
@@ -159,6 +171,9 @@ export async function addUserOxaAsset(
 
     // console.log("ID IS: ", addedDocRef.id);
 
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
+
     await setDoc(addedDocRef, {
       "id": id,
       "laneId": "OXA Lane",
@@ -168,6 +183,9 @@ export async function addUserOxaAsset(
       "description": description,
       "isConvertedToOXA": true,
     });
+
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
 
     console.log("Finished add!");
   } catch (e) {
@@ -186,6 +204,9 @@ export async function addUserDigAsset(
 
     // console.log("ID IS: ", addedDocRef.id);
 
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
+
     await setDoc(addedDocRef, {
       "id": id,
       "laneId": "Digital Assets Lane",
@@ -195,6 +216,9 @@ export async function addUserDigAsset(
       "description": description,
       "isConvertedToOXA": false,
     });
+
+    console.log("CUSIP: " + cusip);
+    console.log("Title: " + title);
 
     console.log("Finished add!");
   } catch (e) {

@@ -313,7 +313,15 @@ export default function Assets() {
             </div>
           </div>
         ) : (
-          <></>
+          <div>
+            Mouse cat fish
+            <script src="https://price-static.crypto.com/latest/public/static/widget/index.js"></script>
+            <div
+              id="crypto-widget-CoinList"
+              data-design="classic"
+              data-coin-ids="1">
+            </div>
+          </div>
         )};
       </div>
     );
@@ -408,9 +416,8 @@ export default function Assets() {
               style={{
                 backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
-                width: "95%",
+                width: "100%",
                 height: "100%",
-                margin: "auto",
               }}
             >
               <Board
@@ -492,23 +499,23 @@ export default function Assets() {
             <RwaOptionsList />
           </div>
           <button
-              className="exit-button"
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "24px",
-                cursor: "pointer",
-                color: "white",
-              }}
-              onClick={() => {
-                setDisplayRwaOptionsPopup(false);
-              }}
-            >
-              X
-            </button>
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setDisplayRwaOptionsPopup(false);
+            }}
+          >
+            X
+          </button>
         </div>
       </div>
     );
@@ -572,23 +579,23 @@ export default function Assets() {
             <AutOptionsList />
           </div>
           <button
-              className="exit-button"
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "24px",
-                cursor: "pointer",
-                color: "white",
-              }}
-              onClick={() => {
-                setDisplayAutOptionsPopup(false);
-              }}
-            >
-              X
-            </button>
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setDisplayAutOptionsPopup(false);
+            }}
+          >
+            X
+          </button>
         </div>
       </div>
     );
@@ -651,23 +658,23 @@ export default function Assets() {
             <OxaOptionsList />
           </div>
           <button
-              className="exit-button"
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "24px",
-                cursor: "pointer",
-                color: "white",
-              }}
-              onClick={() => {
-                setDisplayOxaOptionsPopup(false);
-              }}
-            >
-              X
-            </button>
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setDisplayOxaOptionsPopup(false);
+            }}
+          >
+            X
+          </button>
         </div>
       </div>
     );
@@ -731,23 +738,23 @@ export default function Assets() {
             <DigOptionsList />
           </div>
           <button
-              className="exit-button"
-              style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "24px",
-                cursor: "pointer",
-                color: "white",
-              }}
-              onClick={() => {
-                setDisplayDigOptionsPopup(false);
-              }}
-            >
-              X
-            </button>
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setDisplayDigOptionsPopup(false);
+            }}
+          >
+            X
+          </button>
         </div>
       </div>
     );
@@ -833,11 +840,14 @@ export default function Assets() {
         <div
           className="popup-wrapper active"
           style={{
-            maxWidth: "800px",
+            maxWidth: "none",
             width: "90%",
             height: "90%",
             overflow: "auto",
-            border: "4px solid #30CCF6"
+            border: "4px solid #30CCF6",
+            display: "flex",
+            flexDirection: "column",
+            alighItems: "denter"
           }}
         >
           <div className="top">
@@ -845,14 +855,14 @@ export default function Assets() {
             <button
               className="exit-button"
               style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
                 background: "none",
                 border: "none",
                 fontSize: "24px",
                 cursor: "pointer",
                 color: "white",
+                position: "absolute",
+                top: "10px",
+                left: "10px"
               }}
               onClick={() => {
                 setDisplayTearsheetPopup(false);

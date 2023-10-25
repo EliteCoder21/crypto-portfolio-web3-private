@@ -1755,10 +1755,8 @@ td {
   padding: 10px;
 }
 
-
-
 .react-trello-lane {
-  width: 35%;
+  width: 25%;
   text-wrap: true;
 }
 
@@ -1835,13 +1833,6 @@ td {
 .add-button:hover {
   color: white;
   background-color: gray;
-}
-
-.rectangle {
-  width: "100%";
-  height: "0%";
-  background-color: darkgray;
-  opacity: 0.5
 }
 
 .progress {
