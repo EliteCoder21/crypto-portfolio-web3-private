@@ -454,7 +454,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
+              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
 
               // Update page using new data
               getAssetsData();
@@ -534,7 +534,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserAutAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
+              addUserAutAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
 
               // Update page using new data
               getAssetsData();
@@ -614,7 +614,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserOxaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
+              addUserOxaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
 
               // Update page using new data
               getAssetsData();
@@ -693,7 +693,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserDigAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, description);
+              addUserDigAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
 
               // Update page using new data
               getAssetsData();

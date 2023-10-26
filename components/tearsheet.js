@@ -358,7 +358,7 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "90%",
+  width: "50%",
   height: 440,
   title: "Cumulative Returns",
 };

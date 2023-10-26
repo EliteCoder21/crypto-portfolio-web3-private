@@ -98,15 +98,11 @@ export async function addUserRwaAsset(
   userId,
   id,
   cusip,
+  offer,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "RWA Lane"), {});
-
-    // console.log("ID IS: ", addedDocRef.id);
-
-    console.log("CUSIP: " + cusip);
-    console.log("Title: " + title);
 
     await setDoc(addedDocRef, {
       "id": id,
@@ -118,9 +114,6 @@ export async function addUserRwaAsset(
       "isConvertedToOXA": false,
     });
 
-    console.log("CUSIP: " + cusip);
-    console.log("Title: " + title);
-
     console.log("Finished add!");
   } catch (e) {
     console.log(e);
@@ -131,15 +124,11 @@ export async function addUserAutAsset(
   userId,
   id,
   cusip,
+  offer,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "AUT Lane"), {});
-
-    // console.log("ID IS: ", addedDocRef.id);
-
-    console.log("CUSIP: " + cusip);
-    console.log("Title: " + title);
 
     await setDoc(addedDocRef, {
       "id": id,
@@ -147,6 +136,7 @@ export async function addUserAutAsset(
       "cusip": cusip,
       "title": "AUT for CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
+      "offer": offer,
       "description": description,
       "isConvertedToOXA": false,
     });
@@ -164,15 +154,11 @@ export async function addUserOxaAsset(
   userId,
   id,
   cusip,
+  offer,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "OXA Lane"), {});
-
-    // console.log("ID IS: ", addedDocRef.id);
-
-    console.log("CUSIP: " + cusip);
-    console.log("Title: " + title);
 
     await setDoc(addedDocRef, {
       "id": id,
@@ -180,6 +166,7 @@ export async function addUserOxaAsset(
       "cusip": cusip,
       "title": "OXA for CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
+      "offer": offer,
       "description": description,
       "isConvertedToOXA": true,
     });
@@ -197,15 +184,11 @@ export async function addUserDigAsset(
   userId,
   id,
   cusip,
+  offer,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, "Digital Assets Lane"), {});
-
-    // console.log("ID IS: ", addedDocRef.id);
-
-    console.log("CUSIP: " + cusip);
-    console.log("Title: " + title);
 
     await setDoc(addedDocRef, {
       "id": id,
@@ -213,12 +196,10 @@ export async function addUserDigAsset(
       "cusip": cusip,
       "title": "Digital Asset for CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
+      "offer": offer,
       "description": description,
       "isConvertedToOXA": false,
     });
-
-    console.log("CUSIP: " + cusip);
-    console.log("Title: " + title);
 
     console.log("Finished add!");
   } catch (e) {
@@ -260,9 +241,11 @@ export async function transferUserAsset(
     await setDoc(addedDocRef, {
       "id": addedDocRef.id,
       "laneId": cardData.laneId,
+      "cusip": cardData.cusip,
       "title": cardData.title,
       "label": cardData.label,
       "cardStyle": DEFAULT_CARD_STYLE,
+      "offer": offer,
       "description": cardData.description,
       "isConvertedToOXA": cardData.isConvertedToOXA,
     });
