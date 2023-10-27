@@ -8,14 +8,8 @@ import {
   getUserAssets,
   transferUserAsset,
   getSingleAsset,
-  getRwaAssetOptions,
-  addUserRwaAsset,
-  getAutAssetOptions,
-  addUserAutAsset,
-  getOxaAssetOptions,
-  addUserOxaAsset,
-  getDigAssetOptions,
-  addUserDigAsset
+  addUserAsset,
+  getUserAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -27,7 +21,7 @@ import InProgressIcon from "@mui/icons-material/HourglassEmpty";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 
-const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Digital Assets Lane"];
+const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Dig Lane"];
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
@@ -47,7 +41,7 @@ export default function Assets() {
 
   async function getRwaAssetOptionsData() {
     try {
-      const docsSnap = await getRwaAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const docsSnap = await getUserAssetOptions("5ntPFGMhxD4llc0ObTwF", "rwa-asset-options"); // Replace with user.uid
       const TABLE_STATE = [];
 
       docsSnap.forEach((doc) => {
@@ -71,7 +65,7 @@ export default function Assets() {
 
   async function getAutAssetOptionsData() {
     try {
-      const docsSnap = await getAutAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const docsSnap = await getUserAssetOptions("5ntPFGMhxD4llc0ObTwF", "aut-asset-options"); // Replace with user.uid
       const TABLE_STATE = [];
 
       docsSnap.forEach((doc) => {
@@ -95,7 +89,7 @@ export default function Assets() {
 
   async function getOxaAssetOptionsData() {
     try {
-      const docsSnap = await getOxaAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const docsSnap = await getUserAssetOptions("5ntPFGMhxD4llc0ObTwF", "oxa-asset-options"); // Replace with user.uid
       const TABLE_STATE = [];
 
       docsSnap.forEach((doc) => {
@@ -119,7 +113,7 @@ export default function Assets() {
 
   async function getDigAssetOptionsData() {
     try {
-      const docsSnap = await getDigAssetOptions("5ntPFGMhxD4llc0ObTwF"); // Replace with user.uid
+      const docsSnap = await getUserAssetOptions("5ntPFGMhxD4llc0ObTwF", "dig-asset-options"); // Replace with user.uid
       const TABLE_STATE = [];
 
       docsSnap.forEach((doc) => {
@@ -184,7 +178,7 @@ export default function Assets() {
         "RWA Lane",
         "AUT Lane",
         "OXA Lane",
-        "Digital Assets Lane",
+        "Dig Lane",
       ]) {
         // Update lane
         const laneCollection = collection(userDataRef, lane);
@@ -244,7 +238,7 @@ export default function Assets() {
         case "OXA Lane":
           setDisplayOxaOptionsPopup(true);
           break;
-        case "Digital Assets Lane":
+        case "Dig Lane":
           setDisplayDigOptionsPopup(true);
           break;
         default:
@@ -304,10 +298,10 @@ export default function Assets() {
           )}
         </div>
 
-        {card.laneId != "Digital Assets Lane" ? (
+        {card.laneId != "Dig Lane" ? (
           <div className="react-trello-card-body">
             {/* <p style={{ wordWrap: "break-word", flexShrink: 1 }}>{card.description}</p> */}
-            <p style={{ fontSize: "78%" }}>{card.description}</p>
+            <p>{card.description}</p>
             <div className="progress">
               <InProgressIcon />
             </div>
@@ -454,7 +448,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserRwaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
+              addUserAsset("5ntPFGMhxD4llc0ObTwF", "RWA Lane", id, cusip, description);
 
               // Update page using new data
               getAssetsData();
@@ -534,7 +528,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserAutAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
+              addUserAsset("5ntPFGMhxD4llc0ObTwF", "AUT Lane", id, cusip, offer, description);
 
               // Update page using new data
               getAssetsData();
@@ -614,7 +608,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserOxaAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
+              addUserAsset("5ntPFGMhxD4llc0ObTwF", "OXA Lane", id, cusip, offer, description);
 
               // Update page using new data
               getAssetsData();
@@ -693,7 +687,7 @@ export default function Assets() {
               console.log("card with id " + id + " chosen");
 
               // Write to firebase
-              addUserDigAsset("5ntPFGMhxD4llc0ObTwF", id, cusip, offer, description);
+              addUserAsset("5ntPFGMhxD4llc0ObTwF", "Dig Lane", id, cusip, offer, description);
 
               // Update page using new data
               getAssetsData();
@@ -727,7 +721,6 @@ export default function Assets() {
           style={{
             width: "50%",
             height: "90%",
-            overflow: "auto"
           }}>
           <div className="top">
             <center>

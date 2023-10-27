@@ -25,7 +25,7 @@
       "disallowAddingCard": true
     },
     {
-      "id": "Digital Assets Lane",
+      "id": "Dig Lane",
       "title": "Digital Wallet",
       "label": "Digital Assets",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},

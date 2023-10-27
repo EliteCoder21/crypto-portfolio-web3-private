@@ -1803,7 +1803,7 @@ td {
 .react-trello-card-body {
   font-size: 12px;
   color: black;
-  
+  flex-shrink: 1;
 }
 
 .lane-image {
