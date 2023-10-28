@@ -30,13 +30,12 @@ export default function Assets() {
 
   const [displayRelVal, setDisplayRelVal] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [displayRwaOptionsPopup, setDisplayRwaOptionsPopup] = useState(false);
+
+  const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
+
   const [rwaAssetOptionsData, setRwaAssetOptionsData] = useState([]);
-  const [displayOxaOptionsPopup, setDisplayOxaOptionsPopup] = useState(false);
   const [oxaAssetOptionsData, setOxaAssetOptionsData] = useState([]);
-  const [displayAutOptionsPopup, setDisplayAutOptionsPopup] = useState(false);
   const [autAssetOptionsData, setAutAssetOptionsData] = useState([]);
-  const [displayDigOptionsPopup, setDisplayDigOptionsPopup] = useState(false);
   const [digAssetOptionsData, setDigAssetOptionsData] = useState([]);
 
   async function getRwaAssetOptionsData() {
@@ -233,13 +232,13 @@ export default function Assets() {
     try {
       switch (toLaneId) {
         case "AUT Lane":
-          setDisplayAutOptionsPopup(true);
+          setOptionsPopupIndex(1);
           break;
         case "OXA Lane":
-          setDisplayOxaOptionsPopup(true);
+          setOptionsPopupIndex(2);
           break;
         case "Dig Lane":
-          setDisplayDigOptionsPopup(true);
+          setOptionsPopupIndex(3);
           break;
         default:
           break;
@@ -351,7 +350,7 @@ export default function Assets() {
           <button
             className="add-button"
             onClick={() => {
-              setDisplayRwaOptionsPopup(true);
+              setOptionsPopupIndex(0);
             }}
           >
             <AddIcon />
@@ -443,7 +442,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              setDisplayRwaOptionsPopup(false);
+              setOptionsPopupIndex(-1);
 
               console.log("card with id " + id + " chosen");
 
@@ -505,7 +504,7 @@ export default function Assets() {
               color: "white",
             }}
             onClick={() => {
-              setDisplayRwaOptionsPopup(false);
+              setOptionsPopupIndex(-1);
             }}
           >
             X
@@ -523,7 +522,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              setDisplayAutOptionsPopup(false);
+              setOptionsPopupIndex(-1);
 
               console.log("card with id " + id + " chosen");
 
@@ -585,7 +584,7 @@ export default function Assets() {
               color: "white",
             }}
             onClick={() => {
-              setDisplayAutOptionsPopup(false);
+              setOptionsPopupIndex(-1);
             }}
           >
             X
@@ -603,7 +602,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              setDisplayOxaOptionsPopup(false);
+              setOptionsPopupIndex(-1);
 
               console.log("card with id " + id + " chosen");
 
@@ -664,7 +663,7 @@ export default function Assets() {
               color: "white",
             }}
             onClick={() => {
-              setDisplayOxaOptionsPopup(false);
+              setOptionsPopupIndex(-1);
             }}
           >
             X
@@ -682,7 +681,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              setDisplayDigOptionsPopup(false);
+              setOptionsPopupIndex(-1);
 
               console.log("card with id " + id + " chosen");
 
@@ -743,7 +742,7 @@ export default function Assets() {
               color: "white",
             }}
             onClick={() => {
-              setDisplayDigOptionsPopup(false);
+              setOptionsPopupIndex(-1);
             }}
           >
             X
@@ -898,22 +897,22 @@ export default function Assets() {
       ) : (
         <Login />
       )}
-      {displayRwaOptionsPopup ? (
+      {optionsPopupIndex == 0 ? (
         <RwaOptionsPopup />
       ) : (
         <></>
       )}
-      {displayAutOptionsPopup ? (
+      {optionsPopupIndex == 1 ? (
         <AutOptionsPopup />
       ) : (
         <></>
       )}
-      {displayOxaOptionsPopup ? (
+      {optionsPopupIndex == 2 ? (
         <OxaOptionsPopup />
       ) : (
         <></>
       )}
-      {displayDigOptionsPopup ? (
+      {optionsPopupIndex == 3 ? (
         <DigOptionsPopup />
       ) : (
         <></>
