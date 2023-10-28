@@ -120,27 +120,6 @@ export async function addUserAsset(
   }
 }
 
-export async function helperFunction(laneId) {
-  let res = "aut-asset-options";
-  
-  switch(laneId) {
-    case "RWA Lane":
-      res = "rwa-asset-options";
-      break;
-    case "AUT Lane":
-      res = "aut-asset-options";
-      break;
-    case "OXA Lane":
-      res = "oxa-asset-options";
-      break;
-    case "Dig Lane":
-      res = "dig-asset-options";
-      break;
-  }
-
-  return res;
-}
-
 export async function getUserAssetOptions(id, collectionId) {
   const dataCollection = collection(db, "assets", id, collectionId);
   const docsSnap = await getDocs(dataCollection);
@@ -159,13 +138,13 @@ export async function transferUserAsset(
 
     cardData = await getSingleAsset(userId, originalLane, id);
 
-    // Update the title if necessary
-    if (finalLane === "OXA Lane" && !cardData.isConvertedToOXA) {
-      cardData.title = "OXA Equivalent: " + cardData.title;
-      cardData.isConvertedToOXA = true;
-    } else {
-      cardData.title = cardData.title.replace("OXA Equivalent: ", "");
-      cardData.isConvertedToOXA = false;
+    // Update the title to reflect lane ID
+    if (finalLane == "RWA Lane") {
+      cardData.title = "CUSIP# " + cardData.cusip;
+    } else if (finalLane == "AUT Lane") {
+      cardData.title = "AUT for CUSIP# " + cardData.cusip;
+    } else if (finalLane == 'OXA Lane') {
+      cardData.title = "Immobilized CUSIP# " + cardData.cusip;
     }
 
     // Update the laneId
