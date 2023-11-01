@@ -113,7 +113,7 @@ export async function addUserAsset(
       "title": "CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
       "description": description,
-      "isConvertedToOXA": laneId == "OXA Lane",
+      "isConvertedToOXA": laneId == "OXA Lane"
     });
 
     console.log("Finished add!");
@@ -135,26 +135,21 @@ export async function transferUserAsset(
   id,
   cardData
 ) {
-
   try {
-
     cardData = await getSingleAsset(userId, originalLane, id);
-
-    // Update the title to reflect lane ID
+    console.log(userId)
     if (finalLane == "RWA Lane") {
       cardData.title = "CUSIP# " + cardData.cusip;
     } else if (finalLane == "AUT Lane") {
       cardData.title = "AUT for CUSIP# " + cardData.cusip;
-    } else if (finalLane == 'OXA Lane') {
+    } else if (finalLane == "OXA Lane") {
       cardData.title = "Immobilized CUSIP# " + cardData.cusip;
     }
 
-    // Update the laneId
     cardData["laneId"] = finalLane;
 
-    // Delete the document
     const deleteTarget = doc(db, "assets", userId, originalLane, id);
-
+    
     await deleteDoc(deleteTarget);
 
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
@@ -168,7 +163,7 @@ export async function transferUserAsset(
       "cardStyle": DEFAULT_CARD_STYLE,
       "offer": offer,
       "description": cardData.description,
-      "isConvertedToOXA": cardData.isConvertedToOXA,
+      "isConvertedToOXA": cardData.isConvertedToOXA
     });
 
   } catch (e) {

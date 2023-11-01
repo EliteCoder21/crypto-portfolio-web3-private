@@ -135,7 +135,7 @@ export default function Assets() {
     try {
       let laneIndex = getLaneIndex(toLaneId)
 
-      if (laneIndex != 0) {
+      if (laneIndex  != 0) {
         setOptionsPopupIndex(laneIndex);
       }
 
@@ -337,7 +337,7 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              addUserAsset(DEFAULT_USER_ID, "RWA Lane", id, cusip, description);
+              addUserAsset(DEFAULT_USER_ID, id, "RWA Lane", cusip, description);
 
               getAssetsData();
             }}
@@ -413,7 +413,7 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              addUserAsset(DEFAULT_USER_ID, "AUT Lane", id, cusip, offer, description);
+              addUserAsset(DEFAULT_USER_ID, id, "AUT Lane", cusip, offer, description);
 
               getAssetsData();
             }}
@@ -489,7 +489,7 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              addUserAsset(DEFAULT_USER_ID, "OXA Lane", id, cusip, offer, description);
+              addUserAsset(DEFAULT_USER_ID, id, "OXA Lane", cusip, offer, description);
 
               getAssetsData();
             }}
@@ -564,7 +564,7 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              addUserAsset(DEFAULT_USER_ID, "Dig Lane", id, cusip, offer, description);
+              addUserAsset(DEFAULT_USER_ID, id, "Dig Lane", cusip, offer, description);
 
               getAssetsData();
             }}
