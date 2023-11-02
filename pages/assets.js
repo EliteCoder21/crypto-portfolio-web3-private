@@ -387,7 +387,7 @@ export default function Assets() {
               <span className="title">Choose New Asset</span>
             </center>
           </div>
-          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <AssetOptionsList />
           </div>
         </div>
@@ -442,14 +442,14 @@ export default function Assets() {
           style={{
             width: "50%",
             height: "90%",
-            overflow: "auto"
+            overflow: "auto",
           }}>
           <div className="top">
             <center>
               <span className="title">Choose New Asset</span>
             </center>
           </div>
-          <div className="bottom" style={{ border: "4px solid #ac50ef" }}>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <RwaOptionsList />
           </div>
         </div>
@@ -480,7 +480,7 @@ export default function Assets() {
             width: "90vh",
             height: "90vh",
             overflow: "hidden !important",
-            border: "4px solid #ac50ef",
+            border: "4px solid #30CCF6",
           }}
         >
           <div className="top">
@@ -531,6 +531,9 @@ export default function Assets() {
           alignItems: "center",
           justifyContent: "center",
         }}
+        onClick={() => {
+          setDisplayTearsheetPopup(false);
+        }}
       >
         <div
           className="popup-wrapper active"
@@ -539,7 +542,8 @@ export default function Assets() {
             width: "90%",
             height: "90%",
             overflow: "auto",
-            border: "4px solid #ac50ef"
+            border: "4px solid #30CCF6",
+            borderRadius: 15
           }}
         >
           <div className="top">
