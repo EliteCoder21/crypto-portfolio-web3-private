@@ -1,5 +1,5 @@
 import firebase_app from "./config";
-import {React, window} from 'react';
+import { React, window } from "react";
 import {
   getFirestore,
   doc,
@@ -15,7 +15,9 @@ import {
 
 const db = getFirestore(firebase_app);
 
-export const DEFAULT_CARD_STYLE = { "width": 500 , "margin": "auto", "marginBottom": 5, "opacity": 1.0 };
+export const DEFAULT_USER_ID = "5ntPFGMhxD4llc0ObTwF";
+
+export const DEFAULT_CARD_STYLE = { "width": 200, "marginBottom": 5, "opacity": 1.0 };
 
 export async function createUser(id) {
   let result = null;
@@ -94,31 +96,36 @@ export async function getSingleAsset(userId, lane, cardId) {
   }
 }
 
-export async function addUserRwaAsset(
+export async function addUserAsset(
   userId,
-  title,
-  label,
+  id,
+  laneId,
+  cusip,
   description
 ) {
   try {
-    const addedDocRef = await addDoc(collection(db, "assets", userId, "RWA Lane"), {});
-
-    console.log("ID IS: ", addedDocRef.id);
+    const addedDocRef = await addDoc(collection(db, "assets", userId, laneId), {});
 
     await setDoc(addedDocRef, {
-      "id": addedDocRef.id, // Randomize this
-      "laneId": "RWA Lane",
-      "title": title,
-      "label": label,
+      "id": id,
+      "laneId": laneId,
+      "cusip": cusip,
+      "title": "CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
       "description": description,
-      "isConvertedToOXA": false,
+      "isConvertedToOXA": laneId == "OXA Lane"
     });
 
     console.log("Finished add!");
   } catch (e) {
     console.log(e);
   }
+}
+
+export async function getUserAssetOptions(id, collectionId) {
+  const dataCollection = collection(db, "assets", id, collectionId);
+  const docsSnap = await getDocs(dataCollection);
+  return docsSnap;
 }
 
 export async function transferUserAsset(
@@ -128,26 +135,21 @@ export async function transferUserAsset(
   id,
   cardData
 ) {
-
   try {
-
     cardData = await getSingleAsset(userId, originalLane, id);
-
-    // Update the title if necessary
-    if (finalLane === "OXA Lane" && !cardData.isConvertedToOXA) {
-      // cardData.title = "OXA Equivalent: " + cardData.title;
-      cardData.isConvertedToOXA = true;
-    } else {
-      // cardData.title = cardData.title.replace("OXA Equivalent: ", "");
-      cardData.isConvertedToOXA = false;
+    console.log(userId)
+    if (finalLane == "RWA Lane") {
+      cardData.title = "CUSIP# " + cardData.cusip;
+    } else if (finalLane == "AUT Lane") {
+      cardData.title = "AUT for CUSIP# " + cardData.cusip;
+    } else if (finalLane == "OXA Lane") {
+      cardData.title = "Immobilized CUSIP# " + cardData.cusip;
     }
 
-    // Update the laneId
     cardData["laneId"] = finalLane;
 
-    // Delete the document
     const deleteTarget = doc(db, "assets", userId, originalLane, id);
-
+    
     await deleteDoc(deleteTarget);
 
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
@@ -155,29 +157,18 @@ export async function transferUserAsset(
     await setDoc(addedDocRef, {
       "id": addedDocRef.id,
       "laneId": cardData.laneId,
+      "cusip": cardData.cusip,
       "title": cardData.title,
       "label": cardData.label,
       "cardStyle": DEFAULT_CARD_STYLE,
+      "offer": offer,
       "description": cardData.description,
-      "isConvertedToOXA": cardData.isConvertedToOXA,
+      "isConvertedToOXA": cardData.isConvertedToOXA
     });
 
   } catch (e) {
     console.log(e);
   }
-}
-
-export async function addUserAsset(uid, data) {
-  let result = null;
-  let error = null;
-
-  try {
-    result = await collection(db, "assets", uid, "RWA Lane").add(data);
-  } catch (e) {
-    error = e;
-  }
-
-  return { result, error };
 }
 
 export async function addUserHoldings(id, data) {
@@ -279,16 +270,4 @@ export async function addUserActivityBulk(id, documents) {
   });
 
   return true;
-}
-
-export async function getAssetOptions(id) {
-  const dataCollection = collection(db, "assets", id, "asset-options");
-  const docsSnap = await getDocs(dataCollection);
-  return docsSnap;
-}
-
-export async function getRwaAssetOptions(id) {
-  const dataCollection = collection(db, "assets", id, "rwa-asset-options");
-  const docsSnap = await getDocs(dataCollection);
-  return docsSnap;
 }
