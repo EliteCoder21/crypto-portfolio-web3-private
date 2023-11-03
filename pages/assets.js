@@ -15,7 +15,8 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
-import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+// import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
+import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
 import InProgressIcon from "@mui/icons-material/HourglassEmpty";
@@ -33,10 +34,8 @@ export default function Assets() {
   const [displayRelVal, setDisplayRelVal] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
-  const [assetOptionsData, setAssetOptionsData] = useState([[],
-                                                            [],
-                                                            [],
-                                                            []]);
+  const [refreshScreen, setRefreshScreen] = useState(false);
+  const [assetOptionsData, setAssetOptionsData] = useState([[],[],[],[]]);
 
   let getLaneIndex = function (laneName) {
     let res = -1;
@@ -52,10 +51,7 @@ export default function Assets() {
   };
 
   async function getAssetOptionsData() {
-    const tableState = [[], 
-                        [], 
-                        [], 
-                        []];
+    const tableState = [[],[],[],[]];
 
     let helperFunction = function(docsSnap, index) {
       docsSnap.forEach((doc) => {
@@ -108,10 +104,10 @@ export default function Assets() {
             "laneId": tempData.laneId,
             "title": tempData.title,
             "cusip": tempData.cusip,
-            "label": tempData.label,
             "cardStyle": DEFAULT_CARD_STYLE,
             "description": tempData.description,
             "isConvertedToOXA": tempData.isConvertedToOXA,
+            "offer": tempData.offer,
             "component": CustomCard,
           };
 
@@ -132,11 +128,15 @@ export default function Assets() {
 
     let cardData = getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
+    console.log("cardData: " + cardData);
+
     try {
       let laneIndex = getLaneIndex(toLaneId)
 
-      if (laneIndex  != 0) {
+      if (laneIndex != 0) {
         setOptionsPopupIndex(laneIndex);
+      } else {
+        setOptionsPopupIndex(-2);
       }
 
       transferUserAsset(
@@ -219,17 +219,17 @@ export default function Assets() {
     let res;
 
     switch (laneTitle) {
-      case "RWA Pool":
-        res = "Add Real-World Assets (RWAs) here";
+      case "RWA Pool - Your Bond's in Custody":
+        res = "Add Assets from onboarded RWA's";
         break;
-      case "AUT Pool":
-        res = "Drop here to convert your RWA tokens into AUTs";
+      case "AUT Pool - Asset Unique Tokens":
+        res = "Drop here to convert your RWA to OpenEXA AUT";
         break;
-      case "OXA Pool":
-        res = "Drop here to convert your AUT into OXAs";
+      case "Immobilized Collateral - AUT":
+        res = "Drop here to get OXA credit for Immobilized AUT";
         break;
       default:
-        res = "Drop here to convert your OXAs into Digital Assets"
+        res = "Your liquid OXA: you can swap with other digital assets"
         break;
     }
 
@@ -239,7 +239,7 @@ export default function Assets() {
   function getLaneImage(laneTitle) {
     return (
       <div className="lane-image">
-        {laneTitle == "RWA Pool" ? (
+        {laneTitle == "RWA Pool - Your Bond's in Custody" ? (
           <button
             className="add-button"
             onClick={() => {
@@ -248,8 +248,14 @@ export default function Assets() {
           >
             <AddIcon />
           </button>
+        ) : laneTitle == "Digital Assets - In Your Custody" ? (
+          <div style={{marginTop: 25}}>
+            <MultipleStopOutlinedIcon />
+          </div>
         ) : (
-          <SwapHorizIcon />
+          <div style={{marginTop: 50}}>
+          <MultipleStopOutlinedIcon />
+        </div>
         )}
       </div>
     );
@@ -335,9 +341,9 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              setOptionsPopupIndex(-1);
+              setOptionsPopupIndex(-2);
 
-              addUserAsset(DEFAULT_USER_ID, id, "RWA Lane", cusip, description);
+              addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
 
               getAssetsData();
             }}
@@ -413,8 +419,6 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              addUserAsset(DEFAULT_USER_ID, id, "AUT Lane", cusip, offer, description);
-
               getAssetsData();
             }}
           >
@@ -489,8 +493,6 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              addUserAsset(DEFAULT_USER_ID, id, "OXA Lane", cusip, offer, description);
-
               getAssetsData();
             }}
           >
@@ -564,8 +566,6 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              addUserAsset(DEFAULT_USER_ID, id, "Dig Lane", cusip, offer, description);
-
               getAssetsData();
             }}
           >
@@ -606,6 +606,51 @@ export default function Assets() {
           <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <DigOptionsList />
           </div>
+          <button
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setOptionsPopupIndex(-1);
+            }}
+          >
+            X
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const TemporaryPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+          }}>
           <button
             className="exit-button"
             style={{
@@ -791,6 +836,11 @@ export default function Assets() {
       )}
       {optionsPopupIndex == getLaneIndex("Dig Lane") ? (
         <DigOptionsPopup />
+      ) : (
+        <></>
+      )}
+      {optionsPopupIndex == -2 ? (
+        <TemporaryPopup />
       ) : (
         <></>
       )}

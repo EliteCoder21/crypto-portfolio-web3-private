@@ -98,20 +98,21 @@ export async function getSingleAsset(userId, lane, cardId) {
 
 export async function addUserAsset(
   userId,
-  id,
   laneId,
   cusip,
+  offer,
   description
 ) {
   try {
     const addedDocRef = await addDoc(collection(db, "assets", userId, laneId), {});
 
     await setDoc(addedDocRef, {
-      "id": id,
+      "id": addedDocRef.id,
       "laneId": laneId,
       "cusip": cusip,
       "title": "CUSIP# " + cusip,
       "cardStyle": DEFAULT_CARD_STYLE,
+      "offer": offer,
       "description": description,
       "isConvertedToOXA": laneId == "OXA Lane"
     });
@@ -137,7 +138,13 @@ export async function transferUserAsset(
 ) {
   try {
     cardData = await getSingleAsset(userId, originalLane, id);
-    console.log(userId)
+    
+    console.log(userId);
+    console.log(originalLane);
+    console.log(finalLane);
+    console.log(id);
+    console.log(cardData);
+    
     if (finalLane == "RWA Lane") {
       cardData.title = "CUSIP# " + cardData.cusip;
     } else if (finalLane == "AUT Lane") {
@@ -154,18 +161,20 @@ export async function transferUserAsset(
 
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
 
+    console.log("New cardId: " + addedDocRef.id);
+
     await setDoc(addedDocRef, {
       "id": addedDocRef.id,
       "laneId": cardData.laneId,
       "cusip": cardData.cusip,
       "title": cardData.title,
-      "label": cardData.label,
       "cardStyle": DEFAULT_CARD_STYLE,
-      "offer": offer,
+      "offer": cardData.offer,
       "description": cardData.description,
       "isConvertedToOXA": cardData.isConvertedToOXA
     });
 
+    console.log("New cardId: " + addedDocRef.id);
   } catch (e) {
     console.log(e);
   }
