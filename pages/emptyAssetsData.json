@@ -2,7 +2,7 @@
   "lanes": [
     {
       "id": "RWA Lane",
-      "title": "RWA Pool",
+      "title": "RWA Pool - Your Bond's in Custody",
       "label": "RWA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#FEC8A7"},
@@ -10,7 +10,7 @@
     },
     {
       "id": "AUT Lane",
-      "title": "AUT Pool",
+      "title": "AUT Pool - Asset Unique Tokens",
       "label": "AUT",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#FCECA5"},
@@ -18,7 +18,7 @@
     },
     {
       "id": "OXA Lane",
-      "title": "OXA Pool",
+      "title": "Immobilized Collateral - AUT",
       "label": "OXA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#B5EECB"},
@@ -26,7 +26,7 @@
     },
     {
       "id": "Dig Lane",
-      "title": "Digital Wallet",
+      "title": "Digital Assets - In Your Custody",
       "label": "Digital Assets",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#CBC7FC"},

@@ -1767,6 +1767,7 @@ td {
   padding: 10px;
   width: 400px;
   cursor: pointer;
+  text-wrap: wrap;
   margin: 5px;
 }
 
