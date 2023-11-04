@@ -53,7 +53,7 @@ export default function Assets() {
   async function getAssetOptionsData() {
     const tableState = [[],[],[],[]];
 
-    let helperFunction = function(docsSnap, index) {
+    let getRow = function(docsSnap, index) {
       docsSnap.forEach((doc) => {
         const data = doc.data();
 
@@ -67,10 +67,10 @@ export default function Assets() {
     }
 
     try {
-      helperFunction(await getUserAssetOptions(DEFAULT_USER_ID, "rwa-asset-options"), getLaneIndex("RWA Lane"));
-      helperFunction(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
-      helperFunction(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA Lane"));
-      helperFunction(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
+      getRow(await getUserAssetOptions(DEFAULT_USER_ID, "rwa-asset-options"), getLaneIndex("RWA Lane"));
+      getRow(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
+      getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA Lane"));
+      getRow(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
     } catch (error) {
       console.log(error);
     }
@@ -128,8 +128,6 @@ export default function Assets() {
 
     let cardData = getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
-    console.log("cardData: " + cardData);
-
     try {
       let laneIndex = getLaneIndex(toLaneId)
 
@@ -139,6 +137,8 @@ export default function Assets() {
         setOptionsPopupIndex(-2);
       }
 
+      console.log(cardData.title);
+
       transferUserAsset(
         DEFAULT_USER_ID,
         fromLaneId,
@@ -146,6 +146,8 @@ export default function Assets() {
         cardId,
         cardData
       );
+
+      console.log(cardData.title);
 
       getAssetsData();
     } catch (error) {
@@ -212,8 +214,6 @@ export default function Assets() {
       </div>
     );
   };
-
-
 
   function getLaneSubtitle(laneTitle) {
     let res;
@@ -333,6 +333,14 @@ export default function Assets() {
     );
   };
 
+  async function helperFunction(cusip, offer, description) {
+    await addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
+  
+    await getAssetsData();
+  
+    setOptionsPopupIndex(-1);
+  }
+
   const RwaOptionsList = () => {
     return assetOptionsData[0].map(({ id, cusip, offer, description }) => {
       return (
@@ -341,11 +349,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              setOptionsPopupIndex(-2);
-
-              addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
-
-              getAssetsData();
+              helperFunction(cusip, offer, description);
             }}
           >
             {offer}

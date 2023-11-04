@@ -70,7 +70,7 @@ export async function getUserHoldings(id) {
       return null;
     }
   } catch (error) {
-    console.error("Error getting document:", error);
+    console.log("Error getting document:", error);
     return null;
   }
 }
@@ -91,7 +91,7 @@ export async function getSingleAsset(userId, lane, cardId) {
       return null;
     }
   } catch (error) {
-    console.error("Error getting document:", error);
+    console.log("Error getting document:", error);
     return null;
   }
 }
@@ -116,8 +116,6 @@ export async function addUserAsset(
       "description": description,
       "isConvertedToOXA": laneId == "OXA Lane"
     });
-
-    console.log("Finished add!");
   } catch (e) {
     console.log(e);
   }
@@ -138,13 +136,7 @@ export async function transferUserAsset(
 ) {
   try {
     cardData = await getSingleAsset(userId, originalLane, id);
-    
-    console.log(userId);
-    console.log(originalLane);
-    console.log(finalLane);
-    console.log(id);
-    console.log(cardData);
-    
+
     if (finalLane == "RWA Lane") {
       cardData.title = "CUSIP# " + cardData.cusip;
     } else if (finalLane == "AUT Lane") {
@@ -161,8 +153,6 @@ export async function transferUserAsset(
 
     const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
 
-    console.log("New cardId: " + addedDocRef.id);
-
     await setDoc(addedDocRef, {
       "id": addedDocRef.id,
       "laneId": cardData.laneId,
@@ -173,8 +163,6 @@ export async function transferUserAsset(
       "description": cardData.description,
       "isConvertedToOXA": cardData.isConvertedToOXA
     });
-
-    console.log("New cardId: " + addedDocRef.id);
   } catch (e) {
     console.log(e);
   }
@@ -206,7 +194,7 @@ export async function deleteUserHoldings(id, coinName) {
     await updateDoc(documentRef, updateData);
     return true;
   } catch (error) {
-    console.error("Error deleting field:", error);
+    console.log("Error deleting field:", error);
     return false;
   }
 }
@@ -224,7 +212,7 @@ export async function getUserSettings(id) {
       return null;
     }
   } catch (error) {
-    console.error("Error getting document:", error);
+    console.log("Error getting document:", error);
     return null;
   }
 }
@@ -255,7 +243,7 @@ export async function deleteWatchlist(id, coinName) {
     await updateDoc(documentRef, updateData);
     return true;
   } catch (error) {
-    console.error("Error deleting field:", error);
+    console.log("Error deleting field:", error);
     return false;
   }
 }
