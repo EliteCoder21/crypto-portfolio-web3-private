@@ -333,7 +333,7 @@ export default function Assets() {
     );
   };
 
-  async function helperFunction(cusip, offer, description) {
+  async function processAddRwaAsset(cusip, offer, description) {
     await addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
   
     await getAssetsData();
@@ -349,7 +349,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              helperFunction(cusip, offer, description);
+              processAddRwaAsset(cusip, offer, description);
             }}
           >
             {offer}
@@ -647,6 +647,9 @@ export default function Assets() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+        }}
+        onClick={() => {
+          setOptionsPopupIndex(-1);
         }}
       >
         <div
