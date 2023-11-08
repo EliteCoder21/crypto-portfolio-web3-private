@@ -467,12 +467,12 @@ export default function Assets() {
             width: "50%",
             height: "90%",
           }}>
-          <div className="top" style={{}}>
+          <div className="top">
             <center>
               <span className="title">Select Offer</span>
             </center>
           </div>
-          <div className="bottom" style={{ }}>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <AutOptionsList />
           </div>
           <button
@@ -544,7 +544,7 @@ export default function Assets() {
               <span className="title">Select Offer</span>
             </center>
           </div>
-          <div className="bottom">
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <OxaOptionsList />
           </div>
           <button
@@ -617,7 +617,7 @@ export default function Assets() {
               <span className="title">Select Offer</span>
             </center>
           </div>
-          <div className="bottom">
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
             <DigOptionsList />
           </div>
           <button
@@ -935,6 +935,11 @@ export default function Assets() {
       )}
       {displayTearsheetPopup ? (
         <TearsheetPopup />
+      ) : (
+        <></>
+      )}
+      {displayCryptoTearsheetPopup ? (
+        <CryptoTearsheetPopup />
       ) : (
         <></>
       )}

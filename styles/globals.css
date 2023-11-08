@@ -10,6 +10,7 @@ input::placeholder {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    overflow-y: hidden
 }
 
 html,
@@ -198,9 +199,13 @@ input[type="number"] {
 .popup-wrapper .top {
   z-index: 4;
   height: 40px;
-  width: 100.8%;
+  width: 100%;
   background: var(--main-third-transparent);
   box-shadow: var(--shadow-smooth);
+  border: 4px solid #30CCF6;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 0;
 }
 
 .popup-wrapper .top span {
@@ -243,6 +248,10 @@ input[type="number"] {
   scroll-behavior: smooth;
   text-align: center;
   background: black;
+  border: 4px solid #30CCF6;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top: 0;
 }
 
 .popup-wrapper .bottom input {
