@@ -30,10 +30,19 @@ var scatter_layout = {
 
 var flex = {
   width: "100%",
-  justifyContent: "center",
-  alignItems: "center",
-  display: "flex",
   marginBottom: 15
+}
+
+const divStyle = {
+  margin: "5px",
+  width: "fit-content",
+  marginLeft: "auto",
+  marginRight: "auto",
+};
+
+const plotTitle = {
+  fontSize: 20,
+  color: "white"
 }
 
 const CryptoTearsheet = () => {
@@ -85,11 +94,19 @@ const CryptoTearsheet = () => {
   }, []);
 
   return (
-    <div style={{ minHeight: "100vh" }}>
+    <div style={{ minHeight: "40vh" }}>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
         {cryptoTokens.map((crypto) => (
           <div style={flex}>
-            <Plot className="plot" data={[plotData[crypto]]} layout={{...scatter_layout, ...{title: crypto + " Historical Prices"}}} />
+            <h3 style={plotTitle}>{crypto} Prices over Time</h3>
+            <Plot 
+              className="plot"
+              data={[plotData[crypto]]} 
+              layout={scatter_layout} 
+              useResizeHandler={true}
+              style={divStyle}
+              id={`graph${crypto}`}
+            />
           </div>
         ))}
       </div>

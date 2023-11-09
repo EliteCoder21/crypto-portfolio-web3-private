@@ -69,8 +69,8 @@ export async function getUserHoldings(id) {
       console.log("No such document!");
       return null;
     }
-  } catch (error) {
-    console.log("Error getting document:", error);
+  } catch (e) {
+    console.log(e);
     return null;
   }
 }
@@ -90,8 +90,8 @@ export async function getSingleAsset(userId, lane, cardId) {
       console.log("No such document!");
       return null;
     }
-  } catch (error) {
-    console.log("Error getting document:", error);
+  } catch (e) {
+    console.log(e);
     return null;
   }
 }
@@ -193,8 +193,8 @@ export async function deleteUserHoldings(id, coinName) {
   try {
     await updateDoc(documentRef, updateData);
     return true;
-  } catch (error) {
-    console.log("Error deleting field:", error);
+  } catch (e) {
+    console.log(e);
     return false;
   }
 }
@@ -211,8 +211,8 @@ export async function getUserSettings(id) {
       console.log("No such document!");
       return null;
     }
-  } catch (error) {
-    console.log("Error getting document:", error);
+  } catch (e) {
+    console.log(e);
     return null;
   }
 }
@@ -242,8 +242,8 @@ export async function deleteWatchlist(id, coinName) {
   try {
     await updateDoc(documentRef, updateData);
     return true;
-  } catch (error) {
-    console.log("Error deleting field:", error);
+  } catch (e) {
+    console.log(e);
     return false;
   }
 }

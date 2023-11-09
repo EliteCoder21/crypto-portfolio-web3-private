@@ -16,7 +16,6 @@ import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
-// import SwapHorizIcon from "@mui/icons-material/SwapHoriz";
 import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
@@ -36,7 +35,6 @@ export default function Assets() {
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
-  const [refreshScreen, setRefreshScreen] = useState(false);
   const [assetOptionsData, setAssetOptionsData] = useState([[],[],[],[]]);
 
   let getLaneIndex = function (laneName) {
@@ -73,8 +71,8 @@ export default function Assets() {
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
 
     setAssetOptionsData(tableState);
@@ -118,8 +116,8 @@ export default function Assets() {
           }
         });
       }
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -139,8 +137,6 @@ export default function Assets() {
         setOptionsPopupIndex(-2);
       }
 
-      console.log(cardData.title);
-
       transferUserAsset(
         DEFAULT_USER_ID,
         fromLaneId,
@@ -149,11 +145,9 @@ export default function Assets() {
         cardData
       );
 
-      console.log(cardData.title);
-
       getAssetsData();
-    } catch (error) {
-      console.log(error);
+    } catch (e) {
+      console.log(e);
     }
   };
 
@@ -793,7 +787,7 @@ export default function Assets() {
                 color: "white",
                 position: "absolute",
                 top: "10px",
-                left: "10px"
+                right: "10px"
               }}
               onClick={() => {
                 setDisplayTearsheetPopup(false);
@@ -840,12 +834,13 @@ export default function Assets() {
           style={{
             maxWidth: "none",
             width: "90%",
-            height: "90%",
-            overflow: "auto",
-            border: "4px solid #30CCF6",
+            maxHeight: "90%",
+            overflowX: "hidden",
+            overflowY: "auto",
             display: "flex",
             flexDirection: "column",
-            alighItems: "denter"
+            alignItems: "center",
+            padding: "0 10px"
           }}
         >
           <div className="top">
@@ -935,6 +930,11 @@ export default function Assets() {
       )}
       {displayTearsheetPopup ? (
         <TearsheetPopup />
+      ) : (
+        <></>
+      )}
+      {displayCryptoTearsheetPopup ? (
+        <CryptoTearsheetPopup />
       ) : (
         <></>
       )}
