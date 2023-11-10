@@ -19,6 +19,11 @@ const PlotlyChart = ({ id, data, layout, useResizeHandler, style }) => {
             Plotly.Plots.resize(chartElement);
           });
         }
+
+        var plotDiv = document.getElementsByClassName('main-svg');
+        for(var index=0;index < plotDiv.length;index++){
+          plotDiv[index].style.borderRadius = "15px";
+        }
       }
     };
 
@@ -34,7 +39,8 @@ const PlotlyChart = ({ id, data, layout, useResizeHandler, style }) => {
     }
   }, [id, data, layout, useResizeHandler]);
 
-  return <div id={id} style={style} />;
+  return (    <d id={id} style={style}diu />
+  );
 };
 
 export default PlotlyChart;

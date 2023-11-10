@@ -114,7 +114,6 @@ export async function addUserAsset(
       "cardStyle": DEFAULT_CARD_STYLE,
       "offer": offer,
       "description": description,
-      "isConvertedToOXA": laneId == "OXA Lane"
     });
   } catch (e) {
     console.log(e);
@@ -161,7 +160,6 @@ export async function transferUserAsset(
       "cardStyle": DEFAULT_CARD_STYLE,
       "offer": cardData.offer,
       "description": cardData.description,
-      "isConvertedToOXA": cardData.isConvertedToOXA
     });
   } catch (e) {
     console.log(e);

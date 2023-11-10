@@ -106,7 +106,6 @@ export default function Assets() {
             "cusip": tempData.cusip,
             "cardStyle": DEFAULT_CARD_STYLE,
             "description": tempData.description,
-            "isConvertedToOXA": tempData.isConvertedToOXA,
             "offer": tempData.offer,
             "component": CustomCard,
           };
@@ -765,8 +764,8 @@ export default function Assets() {
         <div
           className="popup-wrapper active"
           style={{
-            maxWidth: "none",
-            width: "90%",
+            maxWidth: "750px",
+            width: "50%",
             height: "90%",
             overflow: "auto",
             border: "4px solid #30CCF6",
@@ -775,7 +774,7 @@ export default function Assets() {
             alighItems: "denter"
           }}
         >
-          <div className="top">
+          <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
             <span className="title">Strategy Tearsheet</span>
             <button
               className="exit-button"
@@ -785,9 +784,6 @@ export default function Assets() {
                 fontSize: "24px",
                 cursor: "pointer",
                 color: "white",
-                position: "absolute",
-                top: "10px",
-                right: "10px"
               }}
               onClick={() => {
                 setDisplayTearsheetPopup(false);
@@ -798,6 +794,19 @@ export default function Assets() {
           </div>
           <div className="bottom">
             <Tearsheet />
+            <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+            <div 
+              class="livecoinwatch-widget-1" 
+              lcw-coin="BTC" 
+              lcw-base="USD" 
+              lcw-secondary="BTC" 
+              lcw-period="d" 
+              lcw-color-tx="#ffffff" 
+              lcw-color-pr="#58c7c5" 
+              lcw-color-bg="#1f2434" 
+              lcw-border-w="1"
+            >
+            </div>
             <button
               className="reject"
               id="popup-cancel"

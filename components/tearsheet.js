@@ -72,7 +72,8 @@ const boxColor = {
   width: "100%",
   marginLeft: "auto",
   marginRight: "auto",
-  padding: "5px"
+  padding: "5px",
+  borderRadius: "15px"
 };
 
 const wDrawboxColor = {
@@ -149,8 +150,7 @@ var quant_layout = {
   },
   width: "100%",
   height: 440,
-  title: "Return Quantiles",
-  borderRadius: 10,
+  title: "Return Quantiles"
 };
 
 var month_percent_layout = {
@@ -1528,7 +1528,7 @@ const Tearsheet = () => {
                 data={monthly_returns}
                 layout={month_Layout}
                 style={divStyle}
-                id="chart3"
+                id="chart3" 
               />
             </div>
             <div className="-grid-item">
