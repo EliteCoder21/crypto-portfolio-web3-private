@@ -745,6 +745,25 @@ export default function Assets() {
     );
   };
 
+  const LiveCoinWatchWidget = () => {
+    return (
+      <div src="https://www.livecoinwatch.com/static/lcw-widget.js">
+        <div 
+          class="livecoinwatch-widget-1" 
+          lcw-coin="BTC" 
+          lcw-base="USD" 
+          lcw-secondary="BTC" 
+          lcw-period="d" 
+          lcw-color-tx="#ffffff" 
+          lcw-color-pr="#58c7c5" 
+          lcw-color-bg="#1f2434" 
+          lcw-border-w="1"
+        >
+        </div>
+      </div>
+    );
+  }
+
   const TearsheetPopup = () => {
     return (
       <div
@@ -794,19 +813,7 @@ export default function Assets() {
           </div>
           <div className="bottom">
             <Tearsheet />
-            <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
-            <div 
-              class="livecoinwatch-widget-1" 
-              lcw-coin="BTC" 
-              lcw-base="USD" 
-              lcw-secondary="BTC" 
-              lcw-period="d" 
-              lcw-color-tx="#ffffff" 
-              lcw-color-pr="#58c7c5" 
-              lcw-color-bg="#1f2434" 
-              lcw-border-w="1"
-            >
-            </div>
+            <LiveCoinWatchWidget />
             <button
               className="reject"
               id="popup-cancel"
