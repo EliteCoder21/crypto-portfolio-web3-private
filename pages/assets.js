@@ -31,7 +31,7 @@ require("firebase/firestore");
 export default function Assets() {
   const { user } = useAuthContext();
 
-  const [displayRelVal, setDisplayRelVal] = useState(false);
+  const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
@@ -167,7 +167,7 @@ export default function Assets() {
                 className="hover-button"
                 title="RelVal"
                 onClick={() => {
-                  setDisplayRelVal(!displayRelVal);
+                  setDisplayRelValPopup(!displayRelValPopup);
                 }}
               >
                 <RelValIcon />
@@ -699,6 +699,9 @@ export default function Assets() {
           alignItems: "center",
           justifyContent: "center",
         }}
+        onClick={() => {
+          setDisplayRelValPopup(!displayRelValPopup);
+        }}
       >
         <div
           className="popup-wrapper active"
@@ -727,7 +730,7 @@ export default function Assets() {
                 color: "white",
               }}
               onClick={() => {
-                setDisplayRelVal(false);
+                setDisplayRelValPopup(false);
               }}
             >
               X
@@ -744,26 +747,7 @@ export default function Assets() {
       </div>
     );
   };
-
-  const LiveCoinWatchWidget = () => {
-    return (
-      <div src="https://www.livecoinwatch.com/static/lcw-widget.js">
-        <div 
-          class="livecoinwatch-widget-1" 
-          lcw-coin="BTC" 
-          lcw-base="USD" 
-          lcw-secondary="BTC" 
-          lcw-period="d" 
-          lcw-color-tx="#ffffff" 
-          lcw-color-pr="#58c7c5" 
-          lcw-color-bg="#1f2434" 
-          lcw-border-w="1"
-        >
-        </div>
-      </div>
-    );
-  }
-
+  
   const TearsheetPopup = () => {
     return (
       <div
@@ -792,6 +776,9 @@ export default function Assets() {
             flexDirection: "column",
             alighItems: "denter"
           }}
+          onClick={() => {
+            setDisplayTearsheetPopup(!displayTearsheetPopup);
+          }}
         >
           <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
             <span className="title">Strategy Tearsheet</span>
@@ -813,7 +800,20 @@ export default function Assets() {
           </div>
           <div className="bottom">
             <Tearsheet />
-            <LiveCoinWatchWidget />
+            <div src="https://www.livecoinwatch.com/static/lcw-widget.js">
+              <div 
+                class="livecoinwatch-widget-1" 
+                lcw-coin="BTC" 
+                lcw-base="USD" 
+                lcw-secondary="BTC" 
+                lcw-period="d" 
+                lcw-color-tx="#ffffff" 
+                lcw-color-pr="#58c7c5" 
+                lcw-color-bg="#1f2434" 
+                lcw-border-w="1"
+              >
+              </div>
+            </div>
             <button
               className="reject"
               id="popup-cancel"
@@ -939,7 +939,7 @@ export default function Assets() {
       ) : (
         <></>
       )}
-      {displayRelVal ? (
+      {displayRelValPopup ? (
         <RelValPopup />
       ) : (
         <></>
