@@ -194,7 +194,7 @@ input[type="number"] {
 .popup-wrapper .top,
 .popup-wrapper .bottom {
   width: 100%;
-  border: 4px solid #9454F4;
+  /* border: 4px solid #9454F4; */
 }
 
 .popup-wrapper .top {
@@ -247,7 +247,7 @@ input[type="number"] {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   text-align: center;
-  background: black;
+  background: rgba(32, 34, 50, 0.8);
   border-bottom-left-radius: 30px;
   border-bottom-right-radius: 30px;
   border-top: 0;
@@ -284,7 +284,7 @@ input[type="number"] {
   padding: 0 10px 0 10px;
   height: 40px;
   font-size: 16px;
-  background: var(--main-third);
+  background: var(--purple-gradient);
   color: var(--main-contrast);
   border-radius: var(--border-radius);
   cursor: pointer;

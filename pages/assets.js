@@ -374,7 +374,6 @@ export default function Assets() {
           left: 0,
           width: "100%",
           height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -390,20 +389,15 @@ export default function Assets() {
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
-            </center>
-          </div>
-          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
-            <RwaOptionsList />
-          </div>
-          <button
+              <button
             className="exit-button"
             style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
+              float: "right",
+              paddingRight: "20px",
+              paddingTop: "10px",
               background: "none",
               border: "none",
-              fontSize: "24px",
+              fontSize: "20px",
               cursor: "pointer",
               color: "white",
             }}
@@ -413,6 +407,11 @@ export default function Assets() {
           >
             X
           </button>
+            </center>
+          </div>
+          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
+            <RwaOptionsList />
+          </div>
         </div>
       </div>
     );
@@ -448,10 +447,10 @@ export default function Assets() {
           left: 0,
           width: "100vw",
           height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          top: "300px",
         }}
       >
         <div
@@ -460,23 +459,18 @@ export default function Assets() {
             width: "50%",
             height: "90%",
           }}>
-          <div className="top" style={{}}>
+          <div className="top">
             <center>
-              <span className="title">Select Offer</span>
-            </center>
-          </div>
-          <div className="bottom" style={{ }}>
-            <AutOptionsList />
-          </div>
-          <button
+            <span className="title">Select Offer</span>
+            <button
             className="exit-button"
             style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
+              float: "right",
+              paddingRight: "20px",
+              paddingTop: "10px",
               background: "none",
               border: "none",
-              fontSize: "24px",
+              fontSize: "20px",
               cursor: "pointer",
               color: "white",
             }}
@@ -486,6 +480,11 @@ export default function Assets() {
           >
             X
           </button>
+          </center>
+          </div>
+          <div className="bottom">
+            <AutOptionsList />
+          </div>
         </div>
       </div>
     );
@@ -520,7 +519,6 @@ export default function Assets() {
           left: 0,
           width: "100vw",
           height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -535,20 +533,15 @@ export default function Assets() {
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
-            </center>
-          </div>
-          <div className="bottom">
-            <OxaOptionsList />
-          </div>
-          <button
+              <button
             className="exit-button"
             style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
+              float: "right",
+              paddingRight: "20px",
+              paddingTop: "10px",
               background: "none",
               border: "none",
-              fontSize: "24px",
+              fontSize: "20px",
               cursor: "pointer",
               color: "white",
             }}
@@ -558,6 +551,11 @@ export default function Assets() {
           >
             X
           </button>
+            </center>
+          </div>
+          <div className="bottom">
+            <OxaOptionsList />
+          </div>
         </div>
       </div>
     );
@@ -608,20 +606,15 @@ export default function Assets() {
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
-            </center>
-          </div>
-          <div className="bottom">
-            <DigOptionsList />
-          </div>
-          <button
+              <button
             className="exit-button"
             style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
+              float: "right",
+              paddingRight: "20px",
+              paddingTop: "10px",
               background: "none",
               border: "none",
-              fontSize: "24px",
+              fontSize: "20px",
               cursor: "pointer",
               color: "white",
             }}
@@ -631,6 +624,11 @@ export default function Assets() {
           >
             X
           </button>
+            </center>
+          </div>
+          <div className="bottom">
+            <DigOptionsList />
+          </div>
         </div>
       </div>
     );
