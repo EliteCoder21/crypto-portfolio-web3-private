@@ -25,6 +25,14 @@
       "disallowAddingCard": true
     },
     {
+      "id": "OXA2 Lane",
+      "title": "OXA Pool",
+      "label": "OXA",
+      "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
+      "cardStyle": {"backgroundColor": "#98B9D0"},
+      "disallowAddingCard": true
+    },
+    {
       "id": "Dig Lane",
       "title": "Digital Assets - In Your Custody",
       "label": "Digital Assets",

@@ -23,7 +23,7 @@ import InProgressIcon from "@mui/icons-material/HourglassEmpty";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 
-const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "Dig Lane"];
+const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 
 const firebase = require("firebase/app");
 require("firebase/firestore");
@@ -70,6 +70,7 @@ export default function Assets() {
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "rwa-asset-options"), getLaneIndex("RWA Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA Lane"));
+      getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA2 Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
     } catch (e) {
       console.log(e);
@@ -561,6 +562,77 @@ export default function Assets() {
     );
   };
 
+  const Oxa2OptionsList = () => {
+    return assetOptionsData[2].map(({ id, cusip, offer, description }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setOptionsPopupIndex(-1);
+              getAssetsData();
+            }}
+          >
+            {offer}
+          </button>
+        </div>
+      );
+    });
+  };
+
+  const Oxa2OptionsPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+          }}>
+          <div className="top">
+            <center>
+              <span className="title">Select Offer</span>
+              <button
+            className="exit-button"
+            style={{
+              float: "right",
+              paddingRight: "20px",
+              paddingTop: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "20px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setOptionsPopupIndex(-1);
+            }}
+          >
+            X
+          </button>
+            </center>
+          </div>
+          <div className="bottom">
+            <Oxa2OptionsList />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const DigOptionsList = () => {
     return assetOptionsData[3].map(({ id, cusip, offer, description }) => {
       return (
@@ -924,6 +996,11 @@ export default function Assets() {
       )}
       {optionsPopupIndex == getLaneIndex("OXA Lane") ? (
         <OxaOptionsPopup />
+      ) : (
+        <></>
+      )}
+      {optionsPopupIndex == getLaneIndex("OXA2 Lane") ? (
+        <DigOptionsPopup />
       ) : (
         <></>
       )}
