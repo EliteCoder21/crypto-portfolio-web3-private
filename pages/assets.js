@@ -121,12 +121,19 @@ export default function Assets() {
     }
   }
 
-  const handleCardMoveAcrossLanes = (fromLaneId, toLaneId, cardId) => {
+  async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
     if (fromLaneId == toLaneId) {
       return;
     }
 
-    let cardData = getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
+    let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
+
+    console.log(cardData);
+    console.log(cardData.title.substring(0, 10));
+
+    if (cardData.title.substring(0, 10) == "Liquid OXA") {
+      return;
+    }
 
     try {
       let laneIndex = getLaneIndex(toLaneId)

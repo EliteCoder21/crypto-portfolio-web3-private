@@ -142,6 +142,10 @@ export async function transferUserAsset(
       cardData.title = "AUT for CUSIP# " + cardData.cusip;
     } else if (finalLane == "OXA Lane") {
       cardData.title = "Immobilized CUSIP# " + cardData.cusip;
+    } else if (finalLane == "OXA2 Lane") {
+      cardData.title = "Credit for CUSIP# " + cardData.cusip;
+    } else if (finalLane == "Dig Lane") {
+      cardData.title = "BTC - Bitcoin";
     }
 
     cardData["laneId"] = finalLane;
