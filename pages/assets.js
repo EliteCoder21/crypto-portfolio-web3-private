@@ -22,8 +22,11 @@ import RelValIcon from "@mui/icons-material/ScatterPlot";
 import InProgressIcon from "@mui/icons-material/HourglassEmpty";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
+import Script from "next/script";
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
+
+const liquidOxaAmount = 1000000;
 
 const firebase = require("firebase/app");
 require("firebase/firestore");
@@ -207,21 +210,24 @@ export default function Assets() {
 
         {card.laneId != "Dig Lane" ? (
           <div className="react-trello-card-body">
-            {/* <p style={{ wordWrap: "break-word", flexShrink: 1 }}>{card.description}</p> */}
-            <p style={{}}>{card.description}</p>
+            <p>{card.description}</p>
             <div className="progress">
               <InProgressIcon />
             </div>
           </div>
         ) : (
           <div>
-            Mouse cat fish
-            <script src="https://price-static.crypto.com/latest/public/static/widget/index.js"></script>
-            <div
-              id="crypto-widget-CoinList"
-              data-design="classic"
-              data-coin-ids="1">
-            </div>
+            <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+              <div class="livecoinwatch-widget-1" 
+                   lcw-coin="BTC" 
+                   lcw-base="USD" 
+                   lcw-secondary="BTC" 
+                   lcw-period="d" 
+                   lcw-color-tx="#ffffff" 
+                   lcw-color-pr="#58c7c5" 
+                   lcw-color-bg="#1f2434" 
+                   lcw-border-w="1" >
+              </div>
           </div>
         )};
       </div>
@@ -241,8 +247,11 @@ export default function Assets() {
       case "Immobilized Collateral - AUT":
         res = "Drop here to get OXA credit for Immobilized AUT";
         break;
-      default:
+      case "OXA Pool - Open Exchange of Assets":
         res = "Your liquid OXA: you can swap with other digital assets"
+        break;
+      default:
+        res = "Your digital assets"
         break;
     }
 
@@ -274,7 +283,16 @@ export default function Assets() {
     );
   }
 
-  const CustomLaneHeader = (lane) => {
+  const numberWithCommas = (number) => {
+    number = number.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(number)) {
+      number = number.replace(pattern, "$1,$2");
+    }
+    return number;
+  }
+
+  const CustomLaneHeader = (lane) => {    
     return (
       <div className="custom-lane-header">
         <center>
@@ -282,13 +300,18 @@ export default function Assets() {
             {lane.title}
           </div>
           <div className="lane-subtitle">
-            <center>
               <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.title)}</p>
-            </center>
             <center>
               {getLaneImage(lane.title)}
             </center>
           </div>
+          {lane.id == "OXA2 Lane" ? (
+            <div className="liquid-oxa-subtitle">
+              Liquid OXA:&nbsp;<b>{numberWithCommas(liquidOxaAmount)}</b>
+            </div>
+          ) : (
+          <></>
+          )}
         </center>
       </div>
     );
@@ -775,6 +798,7 @@ export default function Assets() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          borderRadius: "20px",
         }}
         onClick={() => {
           setDisplayRelValPopup(!displayRelValPopup);
@@ -783,13 +807,15 @@ export default function Assets() {
         <div
           className="popup-wrapper active"
           style={{
-            maxWidth: "800px",
+            maxWidth: "150%",
+            maxHeight: "150%",
             width: "95%",
             width: "90vh",
             width: "90%",
             height: "90vh",
             overflow: "auto",
             border: "4px solid #30CCF6",
+            borderRadius: "20px",
           }}
         >
           <div className="top">
@@ -813,7 +839,7 @@ export default function Assets() {
               X
             </button>
           </div>
-          <div className="bottom" style={{ height: "80%" }}>
+          <div className="bottom" style={{ height: "100%" }}>
             <iframe
               src="https://react-relval-wmn5n7rc5q-uc.a.run.app/"
               width="100%"
@@ -839,29 +865,32 @@ export default function Assets() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          borderRadius: "20px",
         }}
       >
         <div
           className="popup-wrapper active"
           style={{
-            maxWidth: "750px",
+            maxWidth: "100%",
             width: "50%",
             height: "90%",
             overflow: "auto",
             border: "4px solid #30CCF6",
             display: "flex",
             flexDirection: "column",
-            alighItems: "denter"
+            alignItems: "center",
+            borderRadius: "20px",
           }}
           onClick={() => {
             setDisplayTearsheetPopup(!displayTearsheetPopup);
           }}
         >
-          <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
+          <div className="top" style={{ display: "flex", justifyContent: "space-between"}}>
             <span className="title">Strategy Tearsheet</span>
             <button
               className="exit-button"
               style={{
+                marginRight: "10px",
                 background: "none",
                 border: "none",
                 fontSize: "24px",
@@ -877,20 +906,6 @@ export default function Assets() {
           </div>
           <div className="bottom">
             <Tearsheet />
-            <div src="https://www.livecoinwatch.com/static/lcw-widget.js">
-              <div 
-                class="livecoinwatch-widget-1" 
-                lcw-coin="BTC" 
-                lcw-base="USD" 
-                lcw-secondary="BTC" 
-                lcw-period="d" 
-                lcw-color-tx="#ffffff" 
-                lcw-color-pr="#58c7c5" 
-                lcw-color-bg="#1f2434" 
-                lcw-border-w="1"
-              >
-              </div>
-            </div>
             <button
               className="reject"
               id="popup-cancel"
@@ -980,9 +995,6 @@ export default function Assets() {
 
   return (
     <div>
-      <head>
-        <script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"></script>
-      </head>
       {user ? (
         <div>
           <Navbar active="/assets" />

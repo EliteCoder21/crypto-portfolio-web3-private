@@ -1763,6 +1763,18 @@ td {
   padding: 10px;
 }
 
+.liquid-oxa-subtitle {
+  background: #98B9D0;
+  font-size: 40px;
+  color: black;
+  margin: 10px;
+  border-radius: 10px;
+  text-align: center;
+  text-wrap: wrap;
+  height: 80px;
+  padding: 10px;
+}
+
 .react-trello-lane {
   width: 25%;
   text-wrap: true;
