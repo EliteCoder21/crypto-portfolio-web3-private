@@ -218,15 +218,17 @@ export default function Assets() {
         ) : (
           <div>
             <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
-              <div class="livecoinwatch-widget-1" 
-                   lcw-coin="BTC" 
-                   lcw-base="USD" 
-                   lcw-secondary="BTC" 
-                   lcw-period="d" 
-                   lcw-color-tx="#ffffff" 
-                   lcw-color-pr="#58c7c5" 
-                   lcw-color-bg="#1f2434" 
-                   lcw-border-w="1" >
+              <div 
+                class="livecoinwatch-widget-1" 
+                lcw-coin="BTC" 
+                lcw-base="USD" 
+                lcw-secondary="BTC" 
+                lcw-period="d" 
+                lcw-color-tx="#ffffff" 
+                lcw-color-pr="#58c7c5" 
+                lcw-color-bg="#1f2434" 
+                lcw-border-w="1"
+              >
               </div>
           </div>
         )};
@@ -234,34 +236,35 @@ export default function Assets() {
     );
   };
 
-  function getLaneSubtitle(laneTitle) {
+  function getLaneSubtitle(laneId) {
     let res;
 
-    switch (laneTitle) {
-      case "RWA Pool - Your Bond's in Custody":
+    switch (laneId) {
+      case "RWA Lane":
         res = "Add Assets from onboarded RWA's";
         break;
-      case "AUT Pool - Asset Unique Tokens":
+      case "AUT Lane":
         res = "Drop here to convert your RWA to OpenEXA AUT";
         break;
-      case "Immobilized Collateral - AUT":
+      case "OXA Lane":
         res = "Drop here to get OXA credit for Immobilized AUT";
         break;
-      case "OXA Pool - Open Exchange of Assets":
+      case "OXA2 Lane":
         res = "Your liquid OXA: you can swap with other digital assets"
         break;
+      case "Dig Lane":
+        res = "Your Digital Assets: You can swap back with OXA or AUT or bonds"
       default:
-        res = "Your digital assets"
         break;
     }
 
     return res;
   }
 
-  function getLaneImage(laneTitle) {
+  function getLaneImage(laneId) {
     return (
       <div className="lane-image">
-        {laneTitle == "RWA Pool - Your Bond's in Custody" ? (
+        {laneId == "RWA Lane" ? (
           <button
             className="add-button"
             onClick={() => {
@@ -270,7 +273,7 @@ export default function Assets() {
           >
             <AddIcon />
           </button>
-        ) : laneTitle == "Digital Assets - In Your Custody" ? (
+        ) : laneId == "Dig Lane" ? (
           <div style={{marginTop: 25}}>
             <MultipleStopOutlinedIcon />
           </div>
@@ -293,6 +296,9 @@ export default function Assets() {
   }
 
   const CustomLaneHeader = (lane) => {    
+    console.log("Custom lane header");
+    console.log(lane);
+
     return (
       <div className="custom-lane-header">
         <center>
@@ -300,9 +306,9 @@ export default function Assets() {
             {lane.title}
           </div>
           <div className="lane-subtitle">
-              <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.title)}</p>
+              <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.id)}</p>
             <center>
-              {getLaneImage(lane.title)}
+              {getLaneImage(lane.id)}
             </center>
           </div>
           {lane.id == "OXA2 Lane" ? (
