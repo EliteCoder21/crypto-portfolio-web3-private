@@ -212,7 +212,7 @@ export default function Assets() {
           <div className="react-trello-card-body">
             <p>{card.description}</p>
             <div className="progress">
-              <InProgressIcon />
+            <p>&#9680; In Progress</p>
             </div>
           </div>
         ) : (
@@ -800,7 +800,7 @@ export default function Assets() {
           left: 0,
           width: "100%",
           height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          backgroundColor: "rgba(32, 34, 50, 0.9)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -845,11 +845,11 @@ export default function Assets() {
               X
             </button>
           </div>
-          <div className="bottom" style={{ height: "100%" }}>
+          <div className="bottom" style={{ height: "92%" }}>
             <iframe
               src="https://react-relval-wmn5n7rc5q-uc.a.run.app/"
               width="100%"
-              height="100%"
+              height="99%"
             ></iframe>
           </div>
         </div>
@@ -867,7 +867,7 @@ export default function Assets() {
           left: 0,
           width: "100vw",
           height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          backgroundColor: "rgba(32, 34, 50, 0.9)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
