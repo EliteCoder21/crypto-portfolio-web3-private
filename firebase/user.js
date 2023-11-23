@@ -139,11 +139,11 @@ export async function transferUserAsset(
     if (finalLane == "RWA Lane") {
       cardData.title = "CUSIP# " + cardData.cusip;
     } else if (finalLane == "AUT Lane") {
-      cardData.title = "AUT for CUSIP# " + cardData.cusip;
+      cardData.title = "AUT for " + cardData.cusip;
     } else if (finalLane == "OXA Lane") {
-      cardData.title = "Immobilized CUSIP# " + cardData.cusip;
+      cardData.title = "Immobilized " + cardData.cusip;
     } else if (finalLane == "OXA2 Lane") {
-      cardData.title = "Credit for CUSIP# " + cardData.cusip;
+      cardData.title = "Credit for " + cardData.cusip;
     } else if (finalLane == "Dig Lane") {
       cardData.title = "BTC - Bitcoin";
     }

@@ -323,7 +323,7 @@ export default function Assets() {
       <center>
         <div className="custom-lane-header">
           <center>
-            <div style={{ width: "100%", fontSize: 20, margin: 0, marginBottom: 5, padding: 0, overflowWrap: "break-word", wordBreak: "break-all" }}>
+            <div style={{ width: "100%", fontSize: 20, margin: 0, marginBottom: 5, padding: 0, whiteSpace: "normal" }}>
               {lane.title}
             </div>
             <div className="lane-subtitle">
@@ -334,7 +334,7 @@ export default function Assets() {
             </div>
             {lane.id == "OXA2 Lane" ? (
               <div className="liquid-oxa-subtitle">
-                Liquid OXA:&nbsp;<b>{numberWithCommas(liquidOxaAmount)}</b>
+                Liquid OXA:<br/><b>{numberWithCommas(liquidOxaAmount)}</b>
               </div>
             ) : (
             <></>
@@ -374,7 +374,8 @@ export default function Assets() {
                 borderRadius: 20,
                 width: "100%",
                 height: "70vh",
-                paddingBottom: 10
+                paddingBottom: 10,
+                overflowX: "scroll"
               }}
             >
               <Board

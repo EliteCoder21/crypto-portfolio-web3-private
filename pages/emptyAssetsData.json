@@ -18,7 +18,7 @@
     },
     {
       "id": "OXA Lane",
-      "title": "Immobilized Collateral - AUT",
+      "title": "Immobilized AUT - Collateral",
       "label": "OXA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#B5EECB"},
@@ -26,7 +26,7 @@
     },
     {
       "id": "OXA2 Lane",
-      "title": "OXA Pool - Open Exchange of Assets",
+      "title": "OXA - OpenEXA Credit Tokens",
       "label": "OXA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#98B9D0"},
@@ -34,7 +34,7 @@
     },
     {
       "id": "Dig Lane",
-      "title": "Digital Assets - In Your Custody",
+      "title": "Digital Assets - In your Custody",
       "label": "Digital Assets",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#CBC7FC"},
