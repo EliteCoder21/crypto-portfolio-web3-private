@@ -1863,7 +1863,13 @@ td {
   border: 3px solid white;
   border-radius: 5px;
   width: 90px;
-  background-color: #FF6865;
+  height: 21px;
+}
+
+.progress > .leftProgressText {
+  color: rgb(69,96,228);
+  float: left;
+  margin-right: 5px;
 }
 
 .progress > p {

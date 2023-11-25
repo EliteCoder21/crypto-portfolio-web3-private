@@ -212,7 +212,8 @@ export default function Assets() {
           <div className="react-trello-card-body">
             <p>{card.description}</p>
             <div className="progress">
-            <p>&#9680; In Progress</p>
+            <p class="leftProgressText">&#9680;</p>
+            <p class="rightProgressText">In Progress</p>
             </div>
           </div>
         ) : (
@@ -241,19 +242,19 @@ export default function Assets() {
 
     switch (laneId) {
       case "RWA Lane":
-        res = "Add Assets from onboarded RWA's";
+        res = "Add Assets from Onboarded RWA's";
         break;
       case "AUT Lane":
-        res = "Drop here to convert your RWA to OpenEXA AUT";
+        res = "Drop here to convert to AUT";
         break;
       case "OXA Lane":
-        res = "Drop here to get OXA credit for Immobilized AUT";
+        res = "Drop here to immobilize the AUT";
         break;
       case "OXA2 Lane":
-        res = "Your liquid OXA: you can swap with other digital assets"
+        res = "Drop here to get credit for AUT's"
         break;
       case "Dig Lane":
-        res = "Your Digital Assets: You can swap back with OXA or AUT or bonds"
+        res = "Swap back to OXA/AUT/RWA"
       default:
         break;
     }
