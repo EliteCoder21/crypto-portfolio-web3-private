@@ -1774,9 +1774,15 @@ td {
   padding: 10px;
 }
 
+.smooth-dnd-container.horizontal {
+  height: 75vh;
+}
+
 .react-trello-lane {
   width: 19%;
   text-wrap: true;
+  overflow-y: scroll !important;
+  overflow-x: hidden;
 }
 
 .react-trello-card {

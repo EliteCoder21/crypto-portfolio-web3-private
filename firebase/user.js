@@ -120,6 +120,22 @@ export async function addUserAsset(
   }
 }
 
+export async function deleteUserAsset(
+  userId,
+  laneId,
+  cardId
+) {
+  try {    
+    const deleteTarget = doc(db, "assets", userId, laneId, cardId);
+
+    console.log("Deleted document: " + deleteTarget);
+
+    await deleteDoc(deleteTarget);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getUserAssetOptions(id, collectionId) {
   const dataCollection = collection(db, "assets", id, collectionId);
   const docsSnap = await getDocs(dataCollection);
