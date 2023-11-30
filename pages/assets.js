@@ -10,7 +10,6 @@ import {
   transferUserAsset,
   getSingleAsset,
   addUserAsset,
-  deleteUserAsset,
   getUserAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
@@ -125,15 +124,20 @@ export default function Assets() {
     }
   }
 
+  async function helperFunction() {
+    while (true) {
+      if (optionsPopupIndex == -1 || optionsPopupIndex == -3) {
+        return;
+      }
+    }
+  }
+
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
     if (fromLaneId == toLaneId) {
       return;
     }
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
-
-    console.log(cardData);
-    console.log(cardData.title.substring(0, 10));
 
     if (cardData.title.substring(0, 10) == "Liquid OXA") {
       return;
@@ -146,6 +150,22 @@ export default function Assets() {
         setOptionsPopupIndex(laneIndex);
       } else {
         setOptionsPopupIndex(-2);
+      }
+
+      await helperFunction();
+
+      console.log(optionsPopupIndex);
+
+      if (optionsPopupIndex == -3) {
+        transferUserAsset(
+          DEFAULT_USER_ID,
+          toLaneId,
+          fromLaneId,
+          cardId,
+          cardData
+        );
+
+        return;
       }
 
       transferUserAsset(
@@ -318,9 +338,6 @@ export default function Assets() {
   }
 
   const CustomLaneHeader = (lane) => {    
-    console.log("Custom lane header");
-    console.log(lane);
-
     return (
       <center>
         <div className="custom-lane-header">
@@ -349,7 +366,6 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-
       <div className="page autpage active" id="page-autpage">
         <h1
           style={{
@@ -366,21 +382,9 @@ export default function Assets() {
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Bar />
         </div>
-        <div
-          style={{ width: "100%", marginLeft: "auto", marginRight: "auto", overflowY: "hidden" }}
-        >
-          <div className="bond-data" style={{ overflowY: "hidden" }}>
-            <div
-              style={{
-                backgroundColor: "rgba(32, 34, 50, 0.55)",
-                borderRadius: 20,
-                width: "100%",
-                height: "70vh",
-                paddingBottom: 10,
-                overflowX: "scroll",
-                overflowY: "hidden"
-              }}
-            >
+        <div className="board-data-container">
+          <div className="bond-data">
+            <div className="board-container">
               <Board
                 eventBusHandle={setEventBus}
                 style={{
@@ -540,7 +544,7 @@ export default function Assets() {
               color: "white",
             }}
             onClick={() => {
-              setOptionsPopupIndex(-1);
+              setOptionsPopupIndex(-3);
             }}
           >
             X
