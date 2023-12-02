@@ -10,6 +10,7 @@ import {
   transferUserAsset,
   getSingleAsset,
   addUserAsset,
+  deleteUserAsset,
   getUserAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
@@ -126,7 +127,7 @@ export default function Assets() {
 
   async function helperFunction() {
     while (true) {
-      if (optionsPopupIndex == -1 || optionsPopupIndex == -3) {
+      if (optionsPopupIndex == -1 || optionsPopupIndex == -4) {
         return;
       }
     }
@@ -156,14 +157,8 @@ export default function Assets() {
 
       console.log(optionsPopupIndex);
 
-      if (optionsPopupIndex == -3) {
-        transferUserAsset(
-          DEFAULT_USER_ID,
-          toLaneId,
-          fromLaneId,
-          cardId,
-          cardData
-        );
+      if (optionsPopupIndex == -4) {
+        // deleteUserAsset(DEFAULT_USER_ID, fromlaneId, cardId);
 
         return;
       }
@@ -544,7 +539,7 @@ export default function Assets() {
               color: "white",
             }}
             onClick={() => {
-              setOptionsPopupIndex(-3);
+              setOptionsPopupIndex(-4);
             }}
           >
             X
