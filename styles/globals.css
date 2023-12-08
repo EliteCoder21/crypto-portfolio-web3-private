@@ -1902,18 +1902,20 @@ td {
   margin-bottom: -5px;
   border: 3px solid white;
   border-radius: 5px;
-  width: 90px;
-  height: 21px;
+  width: 100px;
+  height: 25px;
 }
 
 .progress > .leftProgressText {
   color: rgb(69,96,228);
   float: left;
-  margin-right: 5px;
+  margin-right: 3px;
+  margin-top: -2px;
+  font-size: 150%;
 }
 
 .progress > p {
-  margin-bottom: 0.1px;
   margin-left: 2px;
-  margin-top: -0.5px;
+  margin-top: 2px;
+  font-weight: bold;
 }

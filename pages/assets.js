@@ -10,17 +10,15 @@ import {
   transferUserAsset,
   getSingleAsset,
   addUserAsset,
-  deleteUserAsset,
+  // deleteUserAsset,
   getUserAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
-// import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
-// import InProgressIcon from "@mui/icons-material/HourglassEmpty";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 import Script from "next/script";
@@ -125,9 +123,17 @@ export default function Assets() {
     }
   }
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   async function helperFunction() {
+    await sleep(1000);
+    
     while (true) {
       if (optionsPopupIndex == -1 || optionsPopupIndex == -4) {
+        console.log("optionsPopupIndex: " + optionsPopupIndex);
+
         return;
       }
     }
@@ -140,12 +146,12 @@ export default function Assets() {
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
-    if (cardData.title.substring(0, 10) == "Liquid OXA") {
-      return;
-    }
+    console.log(cardData);
+
+    console.log(cardData.title);
 
     try {
-      let laneIndex = getLaneIndex(toLaneId)
+      let laneIndex = getLaneIndex(toLaneId);
 
       if (laneIndex != 0) {
         setOptionsPopupIndex(laneIndex);
@@ -155,9 +161,9 @@ export default function Assets() {
 
       await helperFunction();
 
-      console.log(optionsPopupIndex);
-
       if (optionsPopupIndex == -4) {
+        // Reverse the card transfer
+
         // deleteUserAsset(DEFAULT_USER_ID, fromlaneId, cardId);
 
         return;
@@ -290,8 +296,8 @@ export default function Assets() {
           >
             <AddIcon />
           </button>
-        ) : laneId == "Dig Lane" ? (
-          <div style={{marginTop: 25}}>
+        ) : laneId == "AUT Lane" ? (
+          <div style={{marginTop: 60, marginRight: 5}}>
             {/* <MultipleStopOutlinedIcon /> */}
             <svg
               width={30}
@@ -305,7 +311,7 @@ export default function Assets() {
             </svg>
           </div>
         ) : (
-          <div style={{marginTop: 50}}>
+          <div style={{marginTop: 40, marginRight: 5}}>
           {/* <MultipleStopOutlinedIcon /> */}
             <svg
               width={30}
