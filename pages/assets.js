@@ -128,8 +128,8 @@ export default function Assets() {
   }
 
   async function helperFunction() {
-    await sleep(1000);
-    
+    await sleep(100);
+        
     while (true) {
       if (optionsPopupIndex == -1 || optionsPopupIndex == -4) {
         console.log("optionsPopupIndex: " + optionsPopupIndex);
@@ -146,10 +146,6 @@ export default function Assets() {
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
-    console.log(cardData);
-
-    console.log(cardData.title);
-
     try {
       let laneIndex = getLaneIndex(toLaneId);
 
@@ -165,6 +161,16 @@ export default function Assets() {
         // Reverse the card transfer
 
         // deleteUserAsset(DEFAULT_USER_ID, fromlaneId, cardId);
+
+        console.log("Swapping fromLaneId and toLaneId");
+
+        transferUserAsset(
+          DEFAULT_USER_ID,
+          toLaneId,
+          fromLaneId,
+          cardId,
+          cardData
+        );
 
         return;
       }
@@ -240,7 +246,9 @@ export default function Assets() {
           </div>
         ) : (
           <div style={{width: "50%"}}>
-            <Script style={{width: "90%"}} defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+            <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> 
+            <div style={{width: "25%"}} class="livecoinwatch-widget-6" lcw-coin="BTC" lcw-base="USD" lcw-period="d" lcw-color-tx="#ffffff" lcw-color-bg="#1f2434" lcw-border-w="1" ></div>
+            {/* <Script style={{width: "100%"}} defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
               <div 
                 class="livecoinwatch-widget-1" 
                 lcw-coin="BTC" 
@@ -252,7 +260,7 @@ export default function Assets() {
                 lcw-color-bg="#1f2434" 
                 lcw-border-w="1"
               >
-              </div>
+              </div> */}
           </div>
         )};
       </div>
