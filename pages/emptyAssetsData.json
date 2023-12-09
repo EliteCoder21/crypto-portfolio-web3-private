@@ -29,7 +29,7 @@
       "title": "OXA - OpenEXA Credit Tokens",
       "label": "OXA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
-      "cardStyle": {"backgroundColor": "#98B9D0"},
+      "cardStyle": {"backgroundColor": "#CBC7FC"},
       "disallowAddingCard": true
     },
     {
@@ -37,7 +37,7 @@
       "title": "Digital Assets - In your Custody",
       "label": "Digital Assets",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
-      "cardStyle": {"backgroundColor": "#CBC7FC"},
+      "cardStyle": {"backgroundColor": "#98B9D0"},
       "disallowAddingCard": true
     }
   ]

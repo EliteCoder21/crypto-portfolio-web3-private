@@ -10,7 +10,6 @@ import {
   transferUserAsset,
   getSingleAsset,
   addUserAsset,
-  // deleteUserAsset,
   getUserAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
@@ -158,12 +157,6 @@ export default function Assets() {
       await helperFunction();
 
       if (optionsPopupIndex == -4) {
-        // Reverse the card transfer
-
-        // deleteUserAsset(DEFAULT_USER_ID, fromlaneId, cardId);
-
-        console.log("Swapping fromLaneId and toLaneId");
-
         transferUserAsset(
           DEFAULT_USER_ID,
           toLaneId,
@@ -783,6 +776,26 @@ export default function Assets() {
     );
   };
 
+  const TemporaryList = () => {
+    return assetOptionsData[0].map(({ id, cusip, offer, description }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setOptionsPopupIndex(-1);
+
+              getAssetsData();
+            }}
+          >
+            {offer}
+          </button>
+        </div>
+      );
+    });
+  };
+
   const TemporaryPopup = () => {
     return (
       <div
@@ -826,6 +839,9 @@ export default function Assets() {
           >
             X
           </button>
+          <div className="bottom">
+            <RwaOptionsList />
+          </div>
         </div>
       </div>
     );
