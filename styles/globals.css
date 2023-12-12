@@ -1764,6 +1764,7 @@ td {
   font-size: 25px;
   color: black;
   margin: 10px;
+  margin-top: 25px;
   border-radius: 10px;
   text-align: center;
   text-wrap: wrap;
@@ -1821,7 +1822,7 @@ td {
 
 .react-trello-card {
   border-radius: 10px;
-  border: 4px solid white;
+  border: 2px solid white;
   position: relative;
   padding: 10px;
   cursor: pointer;
@@ -1901,21 +1902,20 @@ td {
 .progress {
   margin-bottom: -5px;
   border: 1px solid gray;
+  background-color: white;
   border-radius: 5px;
-  width: 100px;
+  width: 33%;
   height: 25px;
 }
 
 .leftProgressText {
-  color: rgb(69,96,228);
+  color: rgb(73, 105, 210);
   float: left;
   margin-right: 3px;
-  margin-top: -2px;
-  font-size: 150%;
+  margin-top: -3px;
 }
 
 .progress > p {
-  margin-left: 2px;
-  margin-top: 2px;
-  font-weight: bold;
+  margin-left: 5px;
+  margin-top: 3px;
 }
