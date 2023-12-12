@@ -471,10 +471,6 @@ input[type="number"] {
   color: var(--accent-contrast);
 }
 
-#page-autpage {
-  height: 1000px !important;
-}
-
 .page.active {
   display: block;
   width: calc(100% - 100px);
@@ -1764,7 +1760,7 @@ td {
 }
 
 .liquid-oxa-subtitle {
-  background: #98B9D0;
+  background: #CBC7FC;
   font-size: 25px;
   color: black;
   margin: 10px;
@@ -1774,9 +1770,53 @@ td {
   padding: 10px;
 }
 
+.board-data-container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: hidden;
+}
+
+.board-container { 
+  overflow-y: hidden;
+  overflow-x: scroll;
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  padding-bottom: 20px;
+  background-color: rgba(32, 34, 50, 0.55);
+}
+
+.bond-data {
+  overflow-y: hidden;
+}
+
+.react-trello-board {
+  height: 70vh !important;
+}
+
+.smooth-dnd-container.vertical {
+  overflow-y: auto !important;
+  height: fit-content;
+}
+
+@media only screen and (max-height: 800px) {
+  .react-trello-board {
+    overflow-y: scroll !important;
+    height: 50vh !important;
+  }
+
+  .bond-data,
+  .bond-container {
+    overflow-y: auto;
+  }
+}
+
 .react-trello-lane {
   width: 19%;
   text-wrap: true;
+  overflow-y: scroll !important;
+  overflow-x: hidden;
 }
 
 .react-trello-card {
@@ -1862,21 +1902,20 @@ td {
   margin-bottom: -5px;
   border: 1px solid gray;
   border-radius: 5px;
-  width: 45%;
-  height: 21px;
+  width: 100px;
+  height: 25px;
 }
 
 .leftProgressText {
   color: rgb(69,96,228);
   float: left;
   margin-right: 3px;
-  margin-left: 1px;
+  margin-top: -2px;
   font-size: 150%;
-  margin-top: -3px;
 }
 
-.rightProgressText {
-  color: darkslategray;
+.progress > p {
+  margin-left: 2px;
+  margin-top: 2px;
   font-weight: bold;
-  margin-top: 1.5px;
 }

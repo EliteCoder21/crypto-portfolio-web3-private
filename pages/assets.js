@@ -16,10 +16,8 @@ import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
-// import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
-// import InProgressIcon from "@mui/icons-material/HourglassEmpty";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 import Script from "next/script";
@@ -124,6 +122,22 @@ export default function Assets() {
     }
   }
 
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
+  async function helperFunction() {
+    await sleep(100);
+        
+    while (true) {
+      if (optionsPopupIndex == -1 || optionsPopupIndex == -4) {
+        console.log("optionsPopupIndex: " + optionsPopupIndex);
+
+        return;
+      }
+    }
+  }
+
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
     if (fromLaneId == toLaneId) {
       return;
@@ -131,20 +145,27 @@ export default function Assets() {
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
-    console.log(cardData);
-    console.log(cardData.title.substring(0, 10));
-
-    if (cardData.title.substring(0, 10) == "Liquid OXA") {
-      return;
-    }
-
     try {
-      let laneIndex = getLaneIndex(toLaneId)
+      let laneIndex = getLaneIndex(toLaneId);
 
       if (laneIndex != 0) {
         setOptionsPopupIndex(laneIndex);
       } else {
         setOptionsPopupIndex(-2);
+      }
+
+      await helperFunction();
+
+      if (optionsPopupIndex == -4) {
+        transferUserAsset(
+          DEFAULT_USER_ID,
+          toLaneId,
+          fromLaneId,
+          cardId,
+          cardData
+        );
+
+        return;
       }
 
       transferUserAsset(
@@ -218,7 +239,9 @@ export default function Assets() {
           </div>
         ) : (
           <div style={{width: "50%"}}>
-            <Script style={{width: "90%"}} defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+            <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> 
+            <div style={{width: "25%"}} class="livecoinwatch-widget-6" lcw-coin="BTC" lcw-base="USD" lcw-period="d" lcw-color-tx="#ffffff" lcw-color-bg="#1f2434" lcw-border-w="1" ></div>
+            {/* <Script style={{width: "100%"}} defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
               <div 
                 class="livecoinwatch-widget-1" 
                 lcw-coin="BTC" 
@@ -230,7 +253,7 @@ export default function Assets() {
                 lcw-color-bg="#1f2434" 
                 lcw-border-w="1"
               >
-              </div>
+              </div> */}
           </div>
         )};
       </div>
@@ -274,34 +297,34 @@ export default function Assets() {
           >
             <AddIcon />
           </button>
-        ) : laneId == "Dig Lane" ? (
-          <div style={{marginTop: 25}}>
+        ) : laneId == "AUT Lane" ? (
+          <div style={{marginTop: 60, marginRight: 5}}>
             {/* <MultipleStopOutlinedIcon /> */}
             <svg
-          width={30}
-          height={20}
-          className="m-auto"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 512 512"
-        >
-          <path d="M535 41c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l64 64c4.5 4.5 7 10.6 7 17s-2.5 12.5-7 17l-64 64c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l23-23L384 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l174.1 0L535 41zM105 377l-23 23L256 400c13.3 0 24 10.7 24 24s-10.7 24-24 24L81.9 448l23 23c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L7 441c-4.5-4.5-7-10.6-7-17s2.5-12.5 7-17l64-64c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9zM96 64H337.9c-3.7 7.2-5.9 15.3-5.9 24c0 28.7 23.3 52 52 52l117.4 0c-4 17 .6 35.5 13.8 48.8c20.3 20.3 53.2 20.3 73.5 0L608 169.5V384c0 35.3-28.7 64-64 64H302.1c3.7-7.2 5.9-15.3 5.9-24c0-28.7-23.3-52-52-52l-117.4 0c4-17-.6-35.5-13.8-48.8c-20.3-20.3-53.2-20.3-73.5 0L32 342.5V128c0-35.3 28.7-64 64-64zm64 64H96v64c35.3 0 64-28.7 64-64zM544 320c-35.3 0-64 28.7-64 64h64V320zM320 352a96 96 0 1 0 0-192 96 96 0 1 0 0 192z" />
-        </svg>
+              width={30}
+              height={20}
+              className="m-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 512 512"
+            >
+              <path d="M535 41c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l64 64c4.5 4.5 7 10.6 7 17s-2.5 12.5-7 17l-64 64c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l23-23L384 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l174.1 0L535 41zM105 377l-23 23L256 400c13.3 0 24 10.7 24 24s-10.7 24-24 24L81.9 448l23 23c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L7 441c-4.5-4.5-7-10.6-7-17s2.5-12.5 7-17l64-64c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9zM96 64H337.9c-3.7 7.2-5.9 15.3-5.9 24c0 28.7 23.3 52 52 52l117.4 0c-4 17 .6 35.5 13.8 48.8c20.3 20.3 53.2 20.3 73.5 0L608 169.5V384c0 35.3-28.7 64-64 64H302.1c3.7-7.2 5.9-15.3 5.9-24c0-28.7-23.3-52-52-52l-117.4 0c4-17-.6-35.5-13.8-48.8c-20.3-20.3-53.2-20.3-73.5 0L32 342.5V128c0-35.3 28.7-64 64-64zm64 64H96v64c35.3 0 64-28.7 64-64zM544 320c-35.3 0-64 28.7-64 64h64V320zM320 352a96 96 0 1 0 0-192 96 96 0 1 0 0 192z" />
+            </svg>
           </div>
         ) : (
-          <div style={{marginTop: 50}}>
+          <div style={{marginTop: 40, marginRight: 5}}>
           {/* <MultipleStopOutlinedIcon /> */}
-          <svg
-          width={30}
-          height={20}
-          className="m-auto"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="currentColor"
-          viewBox="0 0 512 512"
-        >
-          <path d="M535 41c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l64 64c4.5 4.5 7 10.6 7 17s-2.5 12.5-7 17l-64 64c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l23-23L384 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l174.1 0L535 41zM105 377l-23 23L256 400c13.3 0 24 10.7 24 24s-10.7 24-24 24L81.9 448l23 23c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L7 441c-4.5-4.5-7-10.6-7-17s2.5-12.5 7-17l64-64c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9zM96 64H337.9c-3.7 7.2-5.9 15.3-5.9 24c0 28.7 23.3 52 52 52l117.4 0c-4 17 .6 35.5 13.8 48.8c20.3 20.3 53.2 20.3 73.5 0L608 169.5V384c0 35.3-28.7 64-64 64H302.1c3.7-7.2 5.9-15.3 5.9-24c0-28.7-23.3-52-52-52l-117.4 0c4-17-.6-35.5-13.8-48.8c-20.3-20.3-53.2-20.3-73.5 0L32 342.5V128c0-35.3 28.7-64 64-64zm64 64H96v64c35.3 0 64-28.7 64-64zM544 320c-35.3 0-64 28.7-64 64h64V320zM320 352a96 96 0 1 0 0-192 96 96 0 1 0 0 192z" />
-        </svg>
-        </div>
+            <svg
+              width={30}
+              height={20}
+              className="m-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 512 512"
+            >
+              <path d="M535 41c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l64 64c4.5 4.5 7 10.6 7 17s-2.5 12.5-7 17l-64 64c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l23-23L384 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l174.1 0L535 41zM105 377l-23 23L256 400c13.3 0 24 10.7 24 24s-10.7 24-24 24L81.9 448l23 23c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L7 441c-4.5-4.5-7-10.6-7-17s2.5-12.5 7-17l64-64c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9zM96 64H337.9c-3.7 7.2-5.9 15.3-5.9 24c0 28.7 23.3 52 52 52l117.4 0c-4 17 .6 35.5 13.8 48.8c20.3 20.3 53.2 20.3 73.5 0L608 169.5V384c0 35.3-28.7 64-64 64H302.1c3.7-7.2 5.9-15.3 5.9-24c0-28.7-23.3-52-52-52l-117.4 0c4-17-.6-35.5-13.8-48.8c-20.3-20.3-53.2-20.3-73.5 0L32 342.5V128c0-35.3 28.7-64 64-64zm64 64H96v64c35.3 0 64-28.7 64-64zM544 320c-35.3 0-64 28.7-64 64h64V320zM320 352a96 96 0 1 0 0-192 96 96 0 1 0 0 192z" />
+            </svg>
+          </div>
         )}
       </div>
     );
@@ -317,9 +340,6 @@ export default function Assets() {
   }
 
   const CustomLaneHeader = (lane) => {    
-    console.log("Custom lane header");
-    console.log(lane);
-
     return (
       <center>
         <div className="custom-lane-header">
@@ -348,7 +368,6 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-
       <div className="page autpage active" id="page-autpage">
         <h1
           style={{
@@ -365,27 +384,16 @@ export default function Assets() {
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Bar />
         </div>
-        <div
-          style={{ width: "100%", marginLeft: "auto", marginRight: "auto" }}
-        >
+        <div className="board-data-container">
           <div className="bond-data">
-            <div
-              style={{
-                backgroundColor: "rgba(32, 34, 50, 0.55)",
-                borderRadius: 20,
-                width: "100%",
-                height: "100%",
-                paddingBottom: 10,
-                overflowX: "scroll"
-              }}
-            >
+            <div className="board-container">
               <Board
                 eventBusHandle={setEventBus}
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "fit-content",
                   height: "100%",
-                  overflowY: "scroll"
+                  overflowY: "hidden"
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -538,7 +546,7 @@ export default function Assets() {
               color: "white",
             }}
             onClick={() => {
-              setOptionsPopupIndex(-1);
+              setOptionsPopupIndex(-4);
             }}
           >
             X
@@ -768,6 +776,26 @@ export default function Assets() {
     );
   };
 
+  const TemporaryList = () => {
+    return assetOptionsData[0].map(({ id, cusip, offer, description }) => {
+      return (
+        <div>
+          <button
+            className="reject"
+            id="popup-cancel"
+            onClick={() => {
+              setOptionsPopupIndex(-1);
+
+              getAssetsData();
+            }}
+          >
+            {offer}
+          </button>
+        </div>
+      );
+    });
+  };
+
   const TemporaryPopup = () => {
     return (
       <div
@@ -811,6 +839,9 @@ export default function Assets() {
           >
             X
           </button>
+          <div className="bottom">
+            <RwaOptionsList />
+          </div>
         </div>
       </div>
     );
