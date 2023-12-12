@@ -2,7 +2,7 @@
   "lanes": [
     {
       "id": "RWA Lane",
-      "title": "RWA Pool - Your Bonds in Custody",
+      "title": "RWA Pool - Bonds in Custody",
       "label": "RWA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white"},
       "cardStyle": {"backgroundColor": "#FEC8A7"},

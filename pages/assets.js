@@ -374,7 +374,7 @@ export default function Assets() {
                 backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
                 width: "100%",
-                height: "70vh",
+                height: "100%",
                 paddingBottom: 10,
                 overflowX: "scroll"
               }}

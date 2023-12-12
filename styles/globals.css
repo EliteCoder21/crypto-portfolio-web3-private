@@ -1860,20 +1860,23 @@ td {
 
 .progress {
   margin-bottom: -5px;
-  border: 3px solid white;
+  border: 1px solid gray;
   border-radius: 5px;
-  width: 90px;
+  width: 45%;
   height: 21px;
 }
 
-.progress > .leftProgressText {
+.leftProgressText {
   color: rgb(69,96,228);
   float: left;
-  margin-right: 5px;
+  margin-right: 3px;
+  margin-left: 1px;
+  font-size: 150%;
+  margin-top: -3px;
 }
 
-.progress > p {
-  margin-bottom: 0.1px;
-  margin-left: 2px;
-  margin-top: -0.5px;
+.rightProgressText {
+  color: darkslategray;
+  font-weight: bold;
+  margin-top: 1.5px;
 }
