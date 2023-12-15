@@ -21,9 +21,8 @@ import RelValIcon from "@mui/icons-material/ScatterPlot";
 import WalletIcon from '@mui/icons-material/Wallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
-import "reactjs-popup/dist/index.css";
 import Script from "next/script";
-// test
+import "reactjs-popup/dist/index.css";
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 
@@ -38,7 +37,8 @@ export default function Assets() {
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
+  const [optionsPopupIndex, setOptionsPopupIndex] = useState("");
+  const [chosenOption, setChosenOption] = useState(-1);
   const [assetOptionsData, setAssetOptionsData] = useState([[],[],[],[]]);
 
   let getLaneIndex = function (laneName) {
@@ -125,12 +125,12 @@ export default function Assets() {
     }
   }
 
-  function sleep(ms) {
+  async function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   async function helperFunction() {
-    await sleep(100);
+    await sleep(1000);
         
     while (true) {
       if (optionsPopupIndex == -1 || optionsPopupIndex == -4) {
@@ -438,7 +438,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              processAddRwaAsset(cusip, offer, description);
+              processAddRwaAsset(cusip, offer, description);              
             }}
           >
             {offer}
@@ -510,6 +510,10 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
+
+              console.log("chosenOption " + offer);
+
+              setChosenOption(offer);
 
               getAssetsData();
             }}
@@ -583,6 +587,11 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
+
+              console.log("chosenOption " + offer);
+              
+              setChosenOption(offer);
+              
               getAssetsData();
             }}
           >
@@ -654,6 +663,11 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
+              
+              console.log("chosenOption " + offer);
+              
+              setChosenOption(offer);
+              
               getAssetsData();
             }}
           >
@@ -725,6 +739,10 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
+
+              console.log("chosenOption " + offer);
+
+              setChosenOption(offer);
 
               getAssetsData();
             }}
@@ -798,6 +816,10 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
+
+              console.log("chosenOption " + offer);
+
+              setChosenOption(offer);
 
               getAssetsData();
             }}
@@ -1066,7 +1088,19 @@ export default function Assets() {
   };
 
   useEffect(() => {
+    console.log("Test");
+
     getAssetOptionsData();
+  }, []);
+
+  useEffect(() => {
+    if (chosenOption != "") {
+      console.log("chosenOption " + chosenOption);
+
+      // Process chosen asset option
+
+      //
+    }
   }, []);
 
   return (
