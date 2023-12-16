@@ -10,6 +10,7 @@ import {
   transferUserAsset,
   getSingleAsset,
   addUserAsset,
+  deleteUserAsset,
   getUserAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
@@ -19,6 +20,7 @@ import CryptoTearsheet from "../components/crypto-tearsheet.js";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
 import WalletIcon from '@mui/icons-material/Wallet';
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
@@ -276,7 +278,7 @@ export default function Assets() {
 
     switch (laneId) {
       case "RWA Lane":
-        res = "Add Assets from Onboarded RWA's";
+        res = "Add Onboarded Bonds";
         break;
       case "AUT Lane":
         res = "Drop here to convert to AUT";
@@ -300,19 +302,21 @@ export default function Assets() {
     return (
       <div className="lane-image">
         {laneId == "RWA Lane" ? (
-          <button
-            className="add-button"
-            onClick={() => {
-              setOptionsPopupIndex(0);
-            }}
-          >
-            <AddIcon />
-          </button>
+          <div style={{marginTop: 25}}>
+            <button
+              className="add-button"
+              onClick={() => {
+                setOptionsPopupIndex(0);
+              }}
+            >
+              <AddIcon />
+            </button>
+          </div>
         ) : (
           <div>
             {laneId == "Dig Lane" ? (
               <div style={{marginTop: 40}}>
-              <WalletIcon />
+              <AccountBalanceWalletIcon />
               </div>
             ) : (
               <div style={{marginTop: 40, marginRight: 5}}>
@@ -1091,15 +1095,11 @@ export default function Assets() {
     console.log("Test");
 
     getAssetOptionsData();
-  }, []);
 
-  useEffect(() => {
     if (chosenOption != "") {
       console.log("chosenOption " + chosenOption);
 
       // Process chosen asset option
-
-      //
     }
   }, []);
 

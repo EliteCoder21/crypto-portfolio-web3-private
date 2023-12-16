@@ -120,6 +120,22 @@ export async function addUserAsset(
   }
 }
 
+export async function deleteUserAsset(
+  userId,
+  laneId,
+  cardId
+) {
+  try {
+    const deleteTarget = doc(db, "assets", userId, laneId, cardId);
+    
+    console.log("deleteTarget:" + deleteTarget);
+
+    await deleteDoc(deleteTarget);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getUserAssetOptions(id, collectionId) {
   const dataCollection = collection(db, "assets", id, collectionId);
   const docsSnap = await getDocs(dataCollection);
@@ -145,7 +161,7 @@ export async function transferUserAsset(
     } else if (finalLane == "OXA2 Lane") {
       cardData.title = "Credit for " + cardData.cusip;
     } else if (finalLane == "Dig Lane") {
-      cardData.title = "BTC - Bitcoin";
+      cardData.title = "ETH - Ethereum";
     }
 
     cardData["laneId"] = finalLane;
