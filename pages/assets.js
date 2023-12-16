@@ -39,8 +39,8 @@ export default function Assets() {
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [optionsPopupIndex, setOptionsPopupIndex] = useState("");
-  const [chosenOption, setChosenOption] = useState(-1);
+  const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
+  const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[],[],[],[]]);
 
   let getLaneIndex = function (laneName) {
