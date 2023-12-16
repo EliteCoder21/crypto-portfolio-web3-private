@@ -238,7 +238,7 @@ export default function Assets() {
           <div className="react-trello-card-body">
             <p>{card.description}</p>
             <div className="progress">
-            <p class="leftProgressText">&#9680; In Progress</p>
+            <p>&#9680; In Progress</p>
             </div>
           </div>
         ) : (
@@ -302,7 +302,7 @@ export default function Assets() {
     return (
       <div className="lane-image">
         {laneId == "RWA Lane" ? (
-          <div style={{marginTop: 25}}>
+          <div style={{marginTop: -8}}>
             <button
               className="add-button"
               onClick={() => {
@@ -315,7 +315,7 @@ export default function Assets() {
         ) : (
           <div>
             {laneId == "Dig Lane" ? (
-              <div style={{marginTop: 40}}>
+              <div style={{marginTop: 40, width: "90%"}}>
               <AccountBalanceWalletIcon />
               </div>
             ) : (
@@ -515,8 +515,6 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
 
-              console.log("chosenOption " + offer);
-
               setChosenOption(offer);
 
               getAssetsData();
@@ -591,8 +589,6 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
-
-              console.log("chosenOption " + offer);
               
               setChosenOption(offer);
               
@@ -668,8 +664,6 @@ export default function Assets() {
             onClick={() => {
               setOptionsPopupIndex(-1);
               
-              console.log("chosenOption " + offer);
-              
               setChosenOption(offer);
               
               getAssetsData();
@@ -743,8 +737,6 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
-
-              console.log("chosenOption " + offer);
 
               setChosenOption(offer);
 
@@ -820,8 +812,6 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
-
-              console.log("chosenOption " + offer);
 
               setChosenOption(offer);
 
@@ -1092,8 +1082,6 @@ export default function Assets() {
   };
 
   useEffect(() => {
-    console.log("Test");
-
     getAssetOptionsData();
 
     if (chosenOption != "") {
