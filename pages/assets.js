@@ -11,7 +11,9 @@ import {
   getSingleAsset,
   addUserAsset,
   deleteUserAsset,
-  getUserAssetOptions
+  getUserAssetOptions,
+  getLiquidOxaAmount,
+  setLiquidOxaAmount
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -19,16 +21,15 @@ import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
-import WalletIcon from '@mui/icons-material/Wallet';
 import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
 
-const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
+let liquidOxaAmount = 1000000;
 
-const liquidOxaAmount = 1000000;
+const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 
 const firebase = require("firebase/app");
 require("firebase/firestore");
@@ -42,6 +43,7 @@ export default function Assets() {
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[],[],[],[]]);
+  const [realLiquidOxaAmount, setRealLiquidOxaAmount] = useState(getLiquidOxaAmount(DEFAULT_USER_ID));
 
   let getLaneIndex = function (laneName) {
     let res = -1;
@@ -131,18 +133,6 @@ export default function Assets() {
     return new Promise(resolve => setTimeout(resolve, ms));
   }
 
-  async function helperFunction() {
-    await sleep(1000);
-        
-    while (true) {
-      if (optionsPopupIndex == -1 || optionsPopupIndex == -4) {
-        console.log("optionsPopupIndex: " + optionsPopupIndex);
-
-        return;
-      }
-    }
-  }
-
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
     if (fromLaneId == toLaneId) {
       return;
@@ -153,24 +143,24 @@ export default function Assets() {
     try {
       let laneIndex = getLaneIndex(toLaneId);
 
-      if (laneIndex != 0) {
-        setOptionsPopupIndex(laneIndex);
-      } else {
+      if (laneIndex == 0) {
         setOptionsPopupIndex(-2);
-      }
+      } else if (laneIndex == 4) {
+        await deleteUserAsset(DEFAULT_USER_ID, fromLaneId, cardId);
+        
+        setOptionsPopupIndex(-5);
+        
+        await sleep(10);
+        
+        setOptionsPopupIndex(-1);
 
-      await helperFunction();
+        await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
 
-      if (optionsPopupIndex == -4) {
-        transferUserAsset(
-          DEFAULT_USER_ID,
-          toLaneId,
-          fromLaneId,
-          cardId,
-          cardData
-        );
+        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
 
-        return;
+        liquidOxaAmount += 10;
+      } else {
+        setOptionsPopupIndex(laneIndex);
       }
 
       transferUserAsset(
@@ -803,26 +793,57 @@ export default function Assets() {
     );
   };
 
-  const TemporaryList = () => {
-    return assetOptionsData[0].map(({ id, cusip, offer, description }) => {
-      return (
-        <div>
-          <button
-            className="reject"
-            id="popup-cancel"
+  const EmptyPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+          }}>
+          <div className="top">
+            <center>
+              <span className="title">Loading...</span>
+              <button
+            className="exit-button"
+            style={{
+              float: "right",
+              paddingRight: "20px",
+              paddingTop: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "20px",
+              cursor: "pointer",
+              color: "white",
+            }}
             onClick={() => {
               setOptionsPopupIndex(-1);
-
-              setChosenOption(offer);
-
-              getAssetsData();
             }}
           >
-            {offer}
+            X
           </button>
+            </center>
+          </div>
+          <div className="bottom">
+            
+          </div>
         </div>
-      );
-    });
+      </div>
+    );
   };
 
   const TemporaryPopup = () => {
@@ -1128,6 +1149,11 @@ export default function Assets() {
       )}
       {optionsPopupIndex == -2 ? (
         <TemporaryPopup />
+      ) : (
+        <></>
+      )}
+      {optionsPopupIndex == -5 ? (
+        <EmptyPopup />
       ) : (
         <></>
       )}

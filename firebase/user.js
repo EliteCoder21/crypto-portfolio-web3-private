@@ -57,6 +57,42 @@ export async function createUser(id) {
   return { result, error };
 }
 
+export async function getLiquidOxaAmount(userId) {
+  try {
+    const docRef = doc(db, "assets", userId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+
+      console.log(data);
+
+      console.log(data.liquidOxaAmount);
+
+      return data.liquidOxaAmount;
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
+export async function setLiquidOxaAmount(userId, newLiquidOxaAmount) {
+  try {
+    const docRef = doc(db, "assets", userId);
+    
+    await updateDoc(docRef, {
+      liquidOxaAmount: newLiquidOxaAmount
+    });
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
 export async function getUserHoldings(id) {
   try {
     const docRef = doc(db, "holdings", id);
