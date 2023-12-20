@@ -157,7 +157,7 @@ export default function Assets() {
 
         await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
 
-        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));x``
+        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
 
         liquidOxaAmount += 10;
       } else {
