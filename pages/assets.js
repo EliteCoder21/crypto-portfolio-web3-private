@@ -25,6 +25,7 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
+import ConnectWallet from "../components/connect-wallet.js";
 import "reactjs-popup/dist/index.css";
 
 let liquidOxaAmount = 1000000;
@@ -156,7 +157,7 @@ export default function Assets() {
 
         await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
 
-        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
+        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));x``
 
         liquidOxaAmount += 10;
       } else {
@@ -354,6 +355,7 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div className="liquid-oxa-subtitle">
                 Liquid OXA:<br/><b>{numberWithCommas(liquidOxaAmount)}</b>
+                {/* <ConnectWallet /> */}
               </div>
             ) : (
             <></>
