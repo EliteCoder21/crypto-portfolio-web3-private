@@ -3,7 +3,6 @@ export const checkedBtn = {
     textTransform: "none",
     color:"white"
 }
-
 export const uncheckedBtn = {
     backgroundColor: "#4D4A67",
     color:"white",
@@ -11,10 +10,10 @@ export const uncheckedBtn = {
     textTransform: "none",
 
 }
-
 export const iconBtn = {
     color:"white",
 }
+
 
 export const input = {
     backgroundColor: "#4D4A67",

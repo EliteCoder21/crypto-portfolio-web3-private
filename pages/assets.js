@@ -25,7 +25,10 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
-import ConnectWallet from "../components/connect-wallet.js";
+// import ConnectWallet from "../components/connect-wallet.js";
+// import ConnectWallet from "../components/ConnectWallet";
+import Dashboard from "../components/Dashboard";
+import { Grid } from "@mui/material/Grid";
 import "reactjs-popup/dist/index.css";
 
 let liquidOxaAmount = 1000000;
@@ -338,7 +341,9 @@ export default function Assets() {
     return number;
   }
 
-  const CustomLaneHeader = (lane) => {    
+  const CustomLaneHeader = (lane) => {  
+    // console.log(ConnectWallet);
+    
     return (
       <center>
         <div className="custom-lane-header">
@@ -355,7 +360,21 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div className="liquid-oxa-subtitle">
                 Liquid OXA:<br/><b>{numberWithCommas(liquidOxaAmount)}</b>
-                {/* <ConnectWallet /> */}
+                {/* <Grid item xs={12} sm={12} md={3} px="auto">
+                  <Grid
+                    container
+                    spacing={3}
+                    justifyContent="center"
+                    direction="column"
+                    alignContent="center"
+                  >
+                    <Grid item xs={12} sm={6.5} md={12}>
+                      <ConnectWallet />
+                    </Grid>
+                  </Grid>
+                </Grid> */}
+                
+                {/* <Dashboard /> */}
               </div>
             ) : (
             <></>
