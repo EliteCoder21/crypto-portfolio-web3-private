@@ -26,7 +26,6 @@ import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { ConnectWallet } from "../components/connect-wallet.js";
 
 let liquidOxaAmount = 1000000;
 
@@ -357,7 +356,6 @@ export default function Assets() {
                 <div className="liquid-oxa-subtitle">
                   Liquid OXA:<br/><b>{numberWithCommas(liquidOxaAmount)}</b>
                 </div>
-                {/*<ConnectWallet />*/}
               </div>
             ) : (
             <></>
