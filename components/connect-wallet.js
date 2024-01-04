@@ -1,15 +1,15 @@
-import { React } from "react";
-import { checkedBtn, uncheckedBtn, iconBtn, input, inputIcon, connectPaper } from "./connect-wallet-styles";
+import React from "react";
+import { checkedBtn, uncheckedBtn, iconBtn, input, inputIcon, connectPaper } from "./connect-wallet-styles.js";
 import { FormControl } from "@mui/material";
-import { Box } from "@mui/material/Box";
-import { ImportExportOutlinedIcon } from "@mui/icons-material/ImportExportOutlined";
-import { Stack } from "@mui/material/Stack";
+import Box from "@mui/material/Box";
+import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
+import Stack from "@mui/material/Stack";
 import { GoSettings } from "react-icons/go";
 import { Paper, ButtonGroup, Button } from "@mui/material";
-import { Input } from "@mui/material/Input";
-import { InputLabel } from "@mui/material/InputLabel";
-import { InputAdornment } from "@mui/material/InputAdornment";
-import { ArrowDropDownIcon } from "@mui/icons-material/ArrowDropDown";
+import Input from "@mui/material/Input";
+import InputLabel from "@mui/material/InputLabel";
+import InputAdornment from "@mui/material/InputAdornment";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 function ConnectWallet() {
   return (

@@ -25,11 +25,8 @@ import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
-// import ConnectWallet from "../components/connect-wallet.js";
-// import ConnectWallet from "../components/ConnectWallet";
-import Dashboard from "../components/Dashboard";
-import { Grid } from "@mui/material/Grid";
 import "reactjs-popup/dist/index.css";
+import { ConnectWallet } from "../components/connect-wallet.js";
 
 let liquidOxaAmount = 1000000;
 
@@ -342,8 +339,6 @@ export default function Assets() {
   }
 
   const CustomLaneHeader = (lane) => {  
-    // console.log(ConnectWallet);
-    
     return (
       <center>
         <div className="custom-lane-header">
@@ -358,23 +353,11 @@ export default function Assets() {
               </center>
             </div>
             {lane.id == "Dig Lane" ? (
-              <div className="liquid-oxa-subtitle">
-                Liquid OXA:<br/><b>{numberWithCommas(liquidOxaAmount)}</b>
-                {/* <Grid item xs={12} sm={12} md={3} px="auto">
-                  <Grid
-                    container
-                    spacing={3}
-                    justifyContent="center"
-                    direction="column"
-                    alignContent="center"
-                  >
-                    <Grid item xs={12} sm={6.5} md={12}>
-                      <ConnectWallet />
-                    </Grid>
-                  </Grid>
-                </Grid> */}
-                
-                {/* <Dashboard /> */}
+              <div>
+                <div className="liquid-oxa-subtitle">
+                  Liquid OXA:<br/><b>{numberWithCommas(liquidOxaAmount)}</b>
+                </div>
+                {/*<ConnectWallet />*/}
               </div>
             ) : (
             <></>
@@ -420,8 +403,8 @@ export default function Assets() {
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "fit-content",
-                  height: "100%",
-                  overflowY: "hidden"
+                  height: "95%",
+                  overflowY: "none"
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -476,13 +459,14 @@ export default function Assets() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          top: "250px",
         }}
       >
         <div
           className="popup-wrapper active"
           style={{
             width: "45%",
-            height: "100%",
+            height: "70%", //"100%",
             overflow: "auto"
           }}>
           <div className="top">
@@ -542,16 +526,12 @@ export default function Assets() {
     return (
       <div
         style={{
-          position: "absolute",
           zIndex: 100,
-          top: 0,
-          left: 0,
           width: "100vw",
           height: "100vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          top: "300px",
         }}
       >
         <div
@@ -626,6 +606,7 @@ export default function Assets() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          top: "250px",
         }}
       >
         <div
@@ -700,6 +681,7 @@ export default function Assets() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
+          top: "250px",
         }}
       >
         <div
