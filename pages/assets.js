@@ -26,6 +26,7 @@ import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
+import ConnectWallet from "../components/connect-wallet.js";
 
 let liquidOxaAmount = 1000000;
 
@@ -42,7 +43,7 @@ export default function Assets() {
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
-  const [assetOptionsData, setAssetOptionsData] = useState([[],[],[],[]]);
+  const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
   const [realLiquidOxaAmount, setRealLiquidOxaAmount] = useState(getLiquidOxaAmount(DEFAULT_USER_ID));
 
   let getLaneIndex = function (laneName) {
@@ -59,9 +60,9 @@ export default function Assets() {
   };
 
   async function getAssetOptionsData() {
-    const tableState = [[],[],[],[]];
+    const tableState = [[], [], [], []];
 
-    let getRow = function(docsSnap, index) {
+    let getRow = function (docsSnap, index) {
       docsSnap.forEach((doc) => {
         const data = doc.data();
 
@@ -147,11 +148,11 @@ export default function Assets() {
         setOptionsPopupIndex(-2);
       } else if (laneIndex == 4) {
         await deleteUserAsset(DEFAULT_USER_ID, fromLaneId, cardId);
-        
+
         setOptionsPopupIndex(-5);
-        
+
         await sleep(10);
-        
+
         setOptionsPopupIndex(-1);
 
         await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
@@ -188,7 +189,7 @@ export default function Assets() {
       >
         <div className="react-trello-card-header">
           <h3 className="react-trello-card-title">{card.title}</h3>
-          {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" || card.laneId == "OXA Lane"? (
+          {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" || card.laneId == "OXA Lane" ? (
             <div style={{ boxAlign: "center" }}>
               <button
                 className="hover-button"
@@ -228,36 +229,36 @@ export default function Assets() {
           <div className="react-trello-card-body">
             <p>{card.description}</p>
             <div className="progress">
-            <p>&#9680; In Progress</p>
+              <p>&#9680; In Progress</p>
             </div>
           </div>
         ) : (
           <>
-          <div className="react-trello-card-body">
-            {card.title == "BTC - Bitcoin" ? (
-              <>
-              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
-              <div 
-                class="livecoinwatch-widget-6" 
-                lcw-coin="BTC" 
-                lcw-base="USD" 
-                lcw-secondary="BTC" 
-                lcw-period="d" 
-                lcw-color-tx="#ffffff" 
-                lcw-color-pr="#58c7c5" 
-                lcw-color-bg="#1f2434" 
-                lcw-border-w="1"
-              >
-              </div>
-              </>
-            ) : (
-            <>
-              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> <div class="livecoinwatch-widget-6" lcw-coin="ETH" lcw-base="USD" lcw-period="d" lcw-color-tx="#ffffff" lcw-color-bg="#1f2434" lcw-border-w="1" ></div>
-              </>
-            )}
+            <div className="react-trello-card-body">
+              {card.title == "BTC - Bitcoin" ? (
+                <>
+                  <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+                  <div
+                    class="livecoinwatch-widget-6"
+                    lcw-coin="BTC"
+                    lcw-base="USD"
+                    lcw-secondary="BTC"
+                    lcw-period="d"
+                    lcw-color-tx="#ffffff"
+                    lcw-color-pr="#58c7c5"
+                    lcw-color-bg="#1f2434"
+                    lcw-border-w="1"
+                  >
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> <div class="livecoinwatch-widget-6" lcw-coin="ETH" lcw-base="USD" lcw-period="d" lcw-color-tx="#ffffff" lcw-color-bg="#1f2434" lcw-border-w="1" ></div>
+                </>
+              )}
 
-          </div>
-        </>
+            </div>
+          </>
         )};
       </div>
     );
@@ -292,7 +293,7 @@ export default function Assets() {
     return (
       <div className="lane-image">
         {laneId == "RWA Lane" ? (
-          <div style={{marginTop: -8}}>
+          <div style={{ marginTop: -8 }}>
             <button
               className="add-button"
               onClick={() => {
@@ -305,22 +306,22 @@ export default function Assets() {
         ) : (
           <div>
             {laneId == "Dig Lane" ? (
-              <div style={{marginTop: 40, width: "90%"}}>
-              <AccountBalanceWalletIcon />
+              <div style={{ marginTop: 40, width: "90%" }}>
+                <AccountBalanceWalletIcon />
               </div>
             ) : (
-              <div style={{marginTop: 40, marginRight: 5}}>
-              <svg
-              width={30}
-              height={20}
-              className="m-auto"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-              viewBox="0 0 512 512"
-            >
-              <path d="M535 41c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l64 64c4.5 4.5 7 10.6 7 17s-2.5 12.5-7 17l-64 64c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l23-23L384 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l174.1 0L535 41zM105 377l-23 23L256 400c13.3 0 24 10.7 24 24s-10.7 24-24 24L81.9 448l23 23c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L7 441c-4.5-4.5-7-10.6-7-17s2.5-12.5 7-17l64-64c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9zM96 64H337.9c-3.7 7.2-5.9 15.3-5.9 24c0 28.7 23.3 52 52 52l117.4 0c-4 17 .6 35.5 13.8 48.8c20.3 20.3 53.2 20.3 73.5 0L608 169.5V384c0 35.3-28.7 64-64 64H302.1c3.7-7.2 5.9-15.3 5.9-24c0-28.7-23.3-52-52-52l-117.4 0c4-17-.6-35.5-13.8-48.8c-20.3-20.3-53.2-20.3-73.5 0L32 342.5V128c0-35.3 28.7-64 64-64zm64 64H96v64c35.3 0 64-28.7 64-64zM544 320c-35.3 0-64 28.7-64 64h64V320zM320 352a96 96 0 1 0 0-192 96 96 0 1 0 0 192z" />
-            </svg>
-            </div>
+              <div style={{ marginTop: 40, marginRight: 5 }}>
+                <svg
+                  width={30}
+                  height={20}
+                  className="m-auto"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 512 512"
+                >
+                  <path d="M535 41c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l64 64c4.5 4.5 7 10.6 7 17s-2.5 12.5-7 17l-64 64c-9.4 9.4-24.6 9.4-33.9 0s-9.4-24.6 0-33.9l23-23L384 112c-13.3 0-24-10.7-24-24s10.7-24 24-24l174.1 0L535 41zM105 377l-23 23L256 400c13.3 0 24 10.7 24 24s-10.7 24-24 24L81.9 448l23 23c9.4 9.4 9.4 24.6 0 33.9s-24.6 9.4-33.9 0L7 441c-4.5-4.5-7-10.6-7-17s2.5-12.5 7-17l64-64c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9zM96 64H337.9c-3.7 7.2-5.9 15.3-5.9 24c0 28.7 23.3 52 52 52l117.4 0c-4 17 .6 35.5 13.8 48.8c20.3 20.3 53.2 20.3 73.5 0L608 169.5V384c0 35.3-28.7 64-64 64H302.1c3.7-7.2 5.9-15.3 5.9-24c0-28.7-23.3-52-52-52l-117.4 0c4-17-.6-35.5-13.8-48.8c-20.3-20.3-53.2-20.3-73.5 0L32 342.5V128c0-35.3 28.7-64 64-64zm64 64H96v64c35.3 0 64-28.7 64-64zM544 320c-35.3 0-64 28.7-64 64h64V320zM320 352a96 96 0 1 0 0-192 96 96 0 1 0 0 192z" />
+                </svg>
+              </div>
             )}
           </div>
         )}
@@ -337,7 +338,7 @@ export default function Assets() {
     return number;
   }
 
-  const CustomLaneHeader = (lane) => {  
+  const CustomLaneHeader = (lane) => {
     return (
       <center>
         <div className="custom-lane-header">
@@ -346,7 +347,7 @@ export default function Assets() {
               {lane.title}
             </div>
             <div className="lane-subtitle">
-                <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.id)}</p>
+              <p style={{ fontSize: 16 }}>{getLaneSubtitle(lane.id)}</p>
               <center>
                 {getLaneImage(lane.id)}
               </center>
@@ -354,11 +355,12 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="liquid-oxa-subtitle">
-                  Liquid OXA:<br/><b>{numberWithCommas(liquidOxaAmount)}</b>
+                  Liquid OXA:<br /><b>{numberWithCommas(liquidOxaAmount)}</b>
                 </div>
+                {/* <ConnectWallet /> */}
               </div>
             ) : (
-            <></>
+              <></>
             )}
           </center>
         </div>
@@ -391,7 +393,7 @@ export default function Assets() {
                 backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
                 width: "100%",
-                height: "70vh",
+                height: "120%", //70vh
                 paddingBottom: 10,
                 overflowX: "scroll"
               }}
@@ -401,8 +403,8 @@ export default function Assets() {
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "fit-content",
-                  height: "95%",
-                  overflowY: "none"
+                  height: "115%", //95%
+                  overflowY: "none" //scroll: columns extend all the way down and can see all cards
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -420,9 +422,9 @@ export default function Assets() {
 
   async function processAddRwaAsset(cusip, offer, description) {
     await addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
-  
+
     await getAssetsData();
-  
+
     setOptionsPopupIndex(-1);
   }
 
@@ -434,7 +436,7 @@ export default function Assets() {
             className="reject"
             id="popup-cancel"
             onClick={() => {
-              processAddRwaAsset(cusip, offer, description);              
+              processAddRwaAsset(cusip, offer, description);
             }}
           >
             {offer}
@@ -450,47 +452,45 @@ export default function Assets() {
         style={{
           position: "absolute",
           zIndex: 100,
-          top: 0,
+          top: 50,
           left: 0,
-          width: "100%",
+          width: "100vw",
           height: "100vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          top: "250px",
         }}
       >
         <div
           className="popup-wrapper active"
           style={{
-            width: "45%",
-            height: "70%", //"100%",
-            overflow: "auto"
+            width: "50%",
+            height: "60%",
           }}>
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
               <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-1);
+                }}
+              >
+                X
+              </button>
             </center>
           </div>
-          <div className="bottom" style={{ border: "4px solid #30CCF6" }}>
+          <div className="bottom">
             <RwaOptionsList />
           </div>
         </div>
@@ -524,7 +524,10 @@ export default function Assets() {
     return (
       <div
         style={{
+          position: "absolute",
           zIndex: 100,
+          top: 50,
+          left: 0,
           width: "100vw",
           height: "100vh",
           display: "flex",
@@ -536,30 +539,30 @@ export default function Assets() {
           className="popup-wrapper active"
           style={{
             width: "50%",
-            height: "90%",
+            height: "60%",
           }}>
           <div className="top">
             <center>
-            <span className="title">Select Offer</span>
-            <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-4);
-            }}
-          >
-            X
-          </button>
-          </center>
+              <span className="title">Select Offer</span>
+              <button
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-4);
+                }}
+              >
+                X
+              </button>
+            </center>
           </div>
           <div className="bottom">
             <AutOptionsList />
@@ -578,9 +581,9 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
-              
+
               setChosenOption(offer);
-              
+
               getAssetsData();
             }}
           >
@@ -597,43 +600,42 @@ export default function Assets() {
         style={{
           position: "absolute",
           zIndex: 100,
-          top: 0,
+          top: 50,
           left: 0,
           width: "100vw",
           height: "100vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          top: "250px",
         }}
       >
         <div
           className="popup-wrapper active"
           style={{
             width: "50%",
-            height: "90%",
+            height: "60%",
           }}>
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
               <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-1);
+                }}
+              >
+                X
+              </button>
             </center>
           </div>
           <div className="bottom">
@@ -653,9 +655,9 @@ export default function Assets() {
             id="popup-cancel"
             onClick={() => {
               setOptionsPopupIndex(-1);
-              
+
               setChosenOption(offer);
-              
+
               getAssetsData();
             }}
           >
@@ -672,43 +674,42 @@ export default function Assets() {
         style={{
           position: "absolute",
           zIndex: 100,
-          top: 0,
+          top: 50,
           left: 0,
           width: "100vw",
           height: "100vh",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          top: "250px",
         }}
       >
         <div
           className="popup-wrapper active"
           style={{
             width: "50%",
-            height: "90%",
+            height: "60%",
           }}>
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
               <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-1);
+                }}
+              >
+                X
+              </button>
             </center>
           </div>
           <div className="bottom">
@@ -747,11 +748,10 @@ export default function Assets() {
         style={{
           position: "absolute",
           zIndex: 100,
-          top: 0,
+          top: 50,
           left: 0,
-          width: "100%",
+          width: "100vw",
           height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -761,29 +761,29 @@ export default function Assets() {
           className="popup-wrapper active"
           style={{
             width: "50%",
-            height: "90%",
+            height: "60%",
           }}>
           <div className="top">
             <center>
               <span className="title">Select Offer</span>
               <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-1);
+                }}
+              >
+                X
+              </button>
             </center>
           </div>
           <div className="bottom">
@@ -820,27 +820,27 @@ export default function Assets() {
             <center>
               <span className="title">Loading...</span>
               <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-1);
+                }}
+              >
+                X
+              </button>
             </center>
           </div>
           <div className="bottom">
-            
+
           </div>
         </div>
       </div>
@@ -964,7 +964,7 @@ export default function Assets() {
       </div>
     );
   };
-  
+
   const TearsheetPopup = () => {
     return (
       <div
@@ -999,7 +999,7 @@ export default function Assets() {
             setDisplayTearsheetPopup(!displayTearsheetPopup);
           }}
         >
-          <div className="top" style={{ display: "flex", justifyContent: "space-between"}}>
+          <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
             <span className="title">Strategy Tearsheet</span>
             <button
               className="exit-button"
