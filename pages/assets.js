@@ -393,7 +393,7 @@ export default function Assets() {
                 backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
                 width: "100%",
-                height: "120%", //70vh
+                height: "70vh",
                 paddingBottom: 10,
                 overflowX: "scroll"
               }}
@@ -403,7 +403,7 @@ export default function Assets() {
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "fit-content",
-                  height: "115%", //95%
+                  height: "95%",
                   overflowY: "none" //scroll: columns extend all the way down and can see all cards
                 }}
                 data={data}
