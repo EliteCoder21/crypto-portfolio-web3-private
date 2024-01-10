@@ -1,4 +1,5 @@
 import React from "react";
+import { checkedBtn, uncheckedBtn, iconBtn, input, inputIcon, connectPaper } from "./connect-wallet-styles.js";
 import { FormControl } from "@mui/material";
 import Box from "@mui/material/Box";
 import ImportExportOutlinedIcon from "@mui/icons-material/ImportExportOutlined";
@@ -9,40 +10,6 @@ import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-
-const checkedBtn = {
-    backgroundColor: "#0DAACE",
-    textTransform: "none",
-    color:"white"
-}
-
-const uncheckedBtn = {
-    backgroundColor: "#4D4A67",
-    color:"white",
-    border: "none",
-    textTransform: "none",
-
-}
-
-const iconBtn = {
-    color:"white",
-}
-
-const input = {
-    backgroundColor: "#4D4A67",
-    borderRadius: "10px",
-}
-
-const inputIcon = {
-    color: "white",
-    textTransform: "none"
-}
-
-const connectPaper = {
-    backgroundColor: "#332E59", 
-    color:"#fefefe",
-    borderRadius: "10px"
-}
 
 function ConnectWallet() {
   return (

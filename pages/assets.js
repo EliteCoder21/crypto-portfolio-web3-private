@@ -454,7 +454,7 @@ export default function Assets() {
           zIndex: 100,
           top: 50,
           left: 0,
-          width: "100vw",
+          width: "100vw", 
           height: "100vh",
           display: "flex",
           alignItems: "center",
