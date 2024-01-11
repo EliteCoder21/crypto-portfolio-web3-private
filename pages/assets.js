@@ -26,7 +26,6 @@ import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import ConnectWallet from "../components/connect-wallet.js";
 
 let liquidOxaAmount = 1000000;
 
@@ -370,7 +369,7 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-      <div className="page autpage active" id="page-autpage">
+      <div className="page autpage active" id="page-autpage" style={{ height: "100vh", overflow: "auto" }}>
         <h1
           style={{
             fontWeight: 300,
@@ -395,7 +394,8 @@ export default function Assets() {
                 width: "100%",
                 height: "60vh", //70vh
                 paddingBottom: 10,
-                overflowX: "scroll"
+                overflowX: "scroll",
+                overflowY: "auto"
               }}
             >
               <Board
@@ -403,7 +403,7 @@ export default function Assets() {
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
                   width: "fit-content",
-                  height: "fit-content", //100%
+                  height: "60vh", //100%
                   overflowY: "none" //scroll: columns extend all the way down and can see all cards
                 }}
                 data={data}
@@ -450,11 +450,11 @@ export default function Assets() {
     return (
       <div
         style={{
-          position: "absolute",
+          position: "fixed",
           zIndex: 100,
           top: 50,
           left: 0,
-          width: "100vw", 
+          width: "100vw",
           height: "100vh",
           display: "flex",
           alignItems: "center",

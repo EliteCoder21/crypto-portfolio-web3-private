@@ -33,6 +33,7 @@ export default function RootLayout({ Component, pageProps }) {
               display: "flex",
               flexDirection: "column",
               minHeight: "105vh",
+              overflowY: "scroll"
             }}
           >
             <AuthContextProvider>

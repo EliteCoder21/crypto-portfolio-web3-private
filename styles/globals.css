@@ -1794,6 +1794,7 @@ td {
 
 .react-trello-board {
   height: 70vh !important;
+  overflow-y: auto !important;
 }
 
 .smooth-dnd-container.vertical {
@@ -1802,11 +1803,6 @@ td {
 }
 
 @media only screen and (max-height: 800px) {
-  .react-trello-board {
-    overflow-y: scroll !important;
-    height: 50vh !important;
-  }
-
   .bond-data,
   .bond-container {
     overflow-y: auto;
