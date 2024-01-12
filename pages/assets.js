@@ -26,6 +26,8 @@ import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
+import { SwapWidget } from "@uniswap/widgets";
+import "@uniswap/widgets/fonts.css";
 
 let liquidOxaAmount = 1000000;
 
@@ -353,10 +355,9 @@ export default function Assets() {
             </div>
             {lane.id == "Dig Lane" ? (
               <div>
-                <div className="liquid-oxa-subtitle">
-                  Liquid OXA:<br /><b>{numberWithCommas(liquidOxaAmount)}</b>
+                <div className="Uniswap">
+                  <SwapWidget />
                 </div>
-                {/* <ConnectWallet /> */}
               </div>
             ) : (
               <></>
@@ -369,7 +370,7 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-      <div className="page autpage active" id="page-autpage" style={{ height: "100vh", overflow: "auto" }}>
+      <div className="page autpage active" id="page-autpage" style={{ height: "100vh", overflowY: "scroll" }}>
         <h1
           style={{
             fontWeight: 300,
