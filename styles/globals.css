@@ -1788,10 +1788,6 @@ td {
   background-color: rgba(32, 34, 50, 0.55);
 }
 
-.bond-data {
-  overflow-y: hidden;
-}
-
 .react-trello-board {
   height: 70vh !important;
   overflow-y: auto !important;

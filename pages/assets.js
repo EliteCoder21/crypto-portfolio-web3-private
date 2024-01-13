@@ -370,7 +370,7 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-      <div className="page autpage active" id="page-autpage" style={{ height: "100vh", overflowY: "scroll" }}>
+      <div className="page autpage active" id="page-autpage">
         <h1
           style={{
             fontWeight: 300,
@@ -393,9 +393,7 @@ export default function Assets() {
                 backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
                 width: "100%",
-                height: "60vh", //70vh
                 paddingBottom: 10,
-                overflowX: "scroll",
                 overflowY: "auto"
               }}
             >
@@ -403,9 +401,7 @@ export default function Assets() {
                 eventBusHandle={setEventBus}
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
-                  width: "fit-content",
-                  height: "60vh", //100%
-                  overflowY: "none" //scroll: columns extend all the way down and can see all cards
+                  overflowY: "auto" //scroll: columns extend all the way down and can see all cards
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -1115,7 +1111,7 @@ export default function Assets() {
   }, []);
 
   return (
-    <div style={{ overflowY: "auto" }}> // scroll
+    <div style={{ overflowY: "scroll" }}>
       {user ? (
         <div>
           <Navbar active="/assets" />
