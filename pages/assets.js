@@ -28,6 +28,8 @@ import Script from "next/script";
 import "reactjs-popup/dist/index.css";
 import { SwapWidget } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
+import BitcoinWidget from "../components/bitcoin-widget.js";
+import EthereumWidget from "../components/ethereum-widget.js";
 
 let liquidOxaAmount = 1000000;
 
@@ -91,11 +93,18 @@ export default function Assets() {
 
   const data = require("./emptyAssetsData.json");
   getAssetsData(DEFAULT_USER_ID);
+  initialize();
 
   let eventBus = null;
   const setEventBus = (handle) => {
     eventBus = handle;
   };
+
+  async function initialize() {
+    return (                  
+      <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+    );
+  }
 
   async function getAssetsData() {
     try {
@@ -330,15 +339,6 @@ export default function Assets() {
     );
   }
 
-  const numberWithCommas = (number) => {
-    number = number.toString();
-    var pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(number)) {
-      number = number.replace(pattern, "$1,$2");
-    }
-    return number;
-  }
-
   const CustomLaneHeader = (lane) => {
     return (
       <center>
@@ -357,6 +357,11 @@ export default function Assets() {
               <div>
                 <div className="Uniswap">
                   <SwapWidget />
+                </div>
+                <div>
+                  <BitcoinWidget />
+                  <EthereumWidget />
+                  <BitcoinWidget />
                 </div>
               </div>
             ) : (
