@@ -1775,11 +1775,9 @@ td {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  overflow-y: hidden;
 }
 
-.board-container { 
-  overflow-y: hidden;
+.board-container {
   overflow-x: scroll;
   border-radius: 10px;
   width: 100%;
@@ -1788,21 +1786,24 @@ td {
   background-color: rgba(32, 34, 50, 0.55);
 }
 
-.react-trello-board {
-  height: 70vh !important;
+.smooth-dnd-container {
   overflow-y: auto !important;
 }
 
 .smooth-dnd-container.vertical {
   overflow-y: auto !important;
-  height: fit-content;
 }
 
 @media only screen and (max-height: 800px) {
   .bond-data,
   .bond-container {
-    overflow-y: auto;
+    overflow-y: visible;
   }
+}
+
+.react-trello-board {
+  overflow-y: visible !important;
+  overflow-x: scroll !important;
 }
 
 .react-trello-lane {
