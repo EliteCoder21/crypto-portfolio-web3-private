@@ -1,9 +1,6 @@
-import Script from "next/script";
-
 export default function BitcoinWidget() {
     return (
         <div>
-            {/* <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> */}
             <div
                 class="livecoinwatch-widget-6"
                 lcw-coin="BTC"
