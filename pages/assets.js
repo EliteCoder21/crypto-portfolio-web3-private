@@ -21,12 +21,12 @@ import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
-import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
-import SmartButtonIcon from '@mui/icons-material/SmartButton';
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import SmartButtonIcon from "@mui/icons-material/SmartButton";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { SwapWidget } from "@uniswap/widgets";
+import { Theme, SwapWidget } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
@@ -318,6 +318,19 @@ export default function Assets() {
     );
   }
 
+  const theme = {
+    primary: "#FFF",
+    secondary: "#A9A9A9",
+    interactive: "gray",
+    container: "#4E4E5A",
+    module: "#222633",
+    accent: "#7059fb",
+    outline: "#CC1",
+    dialog: "#000",
+    fontFamily: "Segoe UI",
+    borderRadius: 0.5,
+  }
+
   const CustomLaneHeader = (lane) => {
     return (
       <center>
@@ -335,7 +348,7 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
-                  <SwapWidget />
+                  <SwapWidget theme = {theme} />
                 </div>
                 <div>
                   <BitcoinWidget />
@@ -385,7 +398,8 @@ export default function Assets() {
                 eventBusHandle={setEventBus}
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
-                  overflowY: "auto" //scroll: columns extend all the way down and can see all cards
+                  overflowY: "auto",
+                  height: "fit-content"
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -431,7 +445,7 @@ export default function Assets() {
     return (
       <div
         style={{
-          position: "fixed",
+          position: "absolute",
           zIndex: 100,
           top: 50,
           left: 0,

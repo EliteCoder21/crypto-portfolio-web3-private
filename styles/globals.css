@@ -1786,14 +1786,6 @@ td {
   background-color: rgba(32, 34, 50, 0.55);
 }
 
-.smooth-dnd-container {
-  overflow-y: auto !important;
-}
-
-.smooth-dnd-container.vertical {
-  overflow-y: auto !important;
-}
-
 @media only screen and (max-height: 800px) {
   .bond-data,
   .bond-container {
@@ -1802,8 +1794,25 @@ td {
 }
 
 .react-trello-board {
-  overflow-y: visible !important;
+  overflow-y: auto !important;
   overflow-x: scroll !important;
+  height: fit-content !important;
+  min-height: 200vh !important;
+}
+
+.react-trello-board div:first-child,
+.smooth-dnd-container.horizontal {
+  height: fit-content !important;
+}
+
+.smooth-dnd-container {
+  overflow-y: auto !important;
+  height: fit-content !important;
+}
+
+.smooth-dnd-container.vertical {
+  overflow-y: auto !important;
+  height: fit-content !important;
 }
 
 .react-trello-lane {
