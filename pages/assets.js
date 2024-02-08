@@ -93,18 +93,11 @@ export default function Assets() {
 
   const data = require("./emptyAssetsData.json");
   getAssetsData(DEFAULT_USER_ID);
-  initialize();
 
   let eventBus = null;
   const setEventBus = (handle) => {
     eventBus = handle;
   };
-
-  async function initialize() {
-    return (                  
-      <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
-    );
-  }
 
   async function getAssetsData() {
     try {
@@ -135,6 +128,14 @@ export default function Assets() {
           }
         });
       }
+
+      console.log("getAssetsData called");
+
+      return (            
+        <div className="react-trello-card-body">
+          <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+        </div>
+      );
     } catch (e) {
       console.log(e);
     }
