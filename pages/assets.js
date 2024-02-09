@@ -38,6 +38,8 @@ const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
+let initialized = false;
+
 export default function Assets() {
   const { user } = useAuthContext();
 
@@ -104,6 +106,14 @@ export default function Assets() {
       const userDataRef = await getUserAssets(DEFAULT_USER_ID);
 
       for (let lane of lanes) {
+        if (lane == "Dig Lane") {
+          if (initialized) {
+            continue;
+          } else {
+            initialized = true;
+          }
+        }
+
         const laneCollection = collection(userDataRef, lane);
         const laneSnap = await getDocs(laneCollection);
 
@@ -124,18 +134,10 @@ export default function Assets() {
           };
 
           if (!(cardData == {})) {
-            eventBus.publish({ type: "ADD_CARD", laneId: lane, card: cardData })
+            eventBus.publish({ type: "ADD_CARD", laneId: lane, card: cardData });
           }
         });
       }
-
-      console.log("getAssetsData called");
-
-      return (            
-        <div className="react-trello-card-body">
-          <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
-        </div>
-      );
     } catch (e) {
       console.log(e);
     }
@@ -320,10 +322,10 @@ export default function Assets() {
   }
 
   const theme = {
-    primary: "#FFF",
-    secondary: "#A9A9A9",
-    interactive: "gray",
-    container: "#4E4E5A",
+    primary: "#FFFFFF",
+    secondary: "#9C9CB2",
+    interactive: "#413F4B",
+    container: "#202031",
     module: "#222633",
     accent: "#7059fb",
     outline: "#CC1",
@@ -354,6 +356,7 @@ export default function Assets() {
                 <div>
                   <BitcoinWidget />
                   <EthereumWidget />
+                  <BitcoinWidget />
                   <BitcoinWidget />
                 </div>
               </div>
@@ -392,7 +395,8 @@ export default function Assets() {
                 borderRadius: 20,
                 width: "100%",
                 paddingBottom: 10,
-                overflowY: "auto"
+                overflowY: "scroll",
+                maxHeight: "550px",
               }}
             >
               <Board
@@ -1103,9 +1107,7 @@ export default function Assets() {
     getAssetOptionsData();
 
     if (chosenOption != "") {
-      console.log("chosenOption " + chosenOption);
 
-      // Process chosen asset option
     }
   }, []);
 
