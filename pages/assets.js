@@ -396,7 +396,7 @@ export default function Assets() {
                 width: "100%",
                 paddingBottom: 10,
                 overflowY: "scroll",
-                maxHeight: "550px",
+                maxHeight: "550px"
               }}
             >
               <Board
@@ -1107,7 +1107,7 @@ export default function Assets() {
     getAssetOptionsData();
 
     if (chosenOption != "") {
-
+      console.log("chosenOption " + chosenOption);
     }
   }, []);
 
