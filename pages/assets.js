@@ -145,6 +145,14 @@ export default function Assets() {
           }
         });
       }
+
+      console.log("getAssetsData called");
+
+      // return (            
+      //   <div className="react-trello-card-body">
+      //     <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+      //   </div>
+      // );
     } catch (e) {
       console.log(e);
     }
@@ -193,6 +201,8 @@ export default function Assets() {
       );
 
       getAssetsData();
+
+      // window.location.reload();
     } catch (e) {
       console.log(e);
     }
