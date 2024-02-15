@@ -38,7 +38,7 @@ const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
-let initialized = false;
+// let initialized = false;
 
 export default function Assets() {
   const { user } = useAuthContext();
@@ -113,13 +113,13 @@ export default function Assets() {
       const userDataRef = await getUserAssets(DEFAULT_USER_ID);
 
       for (let lane of lanes) {
-        if (lane == "Dig Lane") {
-          if (initialized) {
-            continue;
-          } else {
-            initialized = true;
-          }
-        }
+        // if (lane == "Dig Lane") {
+        //   if (initialized) {
+        //     continue;
+        //   } else {
+        //     initialized = true;
+        //   }
+        // }
 
         const laneCollection = collection(userDataRef, lane);
         const laneSnap = await getDocs(laneCollection);
