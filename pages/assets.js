@@ -146,13 +146,6 @@ export default function Assets() {
         });
       }
 
-      console.log("getAssetsData called");
-
-      // return (            
-      //   <div className="react-trello-card-body">
-      //     <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
-      //   </div>
-      // );
     } catch (e) {
       console.log(e);
     }
@@ -938,8 +931,6 @@ export default function Assets() {
           style={{
             maxWidth: "150%",
             maxHeight: "150%",
-            width: "95%",
-            width: "90vh",
             width: "90%",
             height: "90vh",
             overflow: "auto",
@@ -947,7 +938,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
         >
-          <div className="top">
+          <div className="top"> style={{ display: "flex", justifyContent: "spce-between"}}
             <span className="title">Relative Value</span>
             <button
               className="exit-button"
