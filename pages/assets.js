@@ -38,7 +38,7 @@ const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 const firebase = require("firebase/app");
 require("firebase/firestore");
 
-// let initialized = false;
+let initialized = false;
 
 export default function Assets() {
   const { user } = useAuthContext();
@@ -113,13 +113,13 @@ export default function Assets() {
       const userDataRef = await getUserAssets(DEFAULT_USER_ID);
 
       for (let lane of lanes) {
-        // if (lane == "Dig Lane") {
-        //   if (initialized) {
-        //     continue;
-        //   } else {
-        //     initialized = true;
-        //   }
-        // }
+        if (lane == "Dig Lane") {
+          if (initialized) {
+            continue;
+          } else {
+            initialized = true;
+          }
+        }
 
         const laneCollection = collection(userDataRef, lane);
         const laneSnap = await getDocs(laneCollection);
@@ -159,6 +159,8 @@ export default function Assets() {
     if (fromLaneId == toLaneId) {
       return;
     }
+
+    console.log("handleCardMoveAcrossLanes");
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
@@ -405,6 +407,7 @@ export default function Assets() {
                 borderRadius: 20,
                 width: "100%",
                 paddingBottom: 10,
+                overflowY: "auto"
               }}
             >
               <Board
