@@ -65,10 +65,6 @@ export async function getLiquidOxaAmount(userId) {
     if (docSnap.exists()) {
       const data = docSnap.data();
 
-      console.log(data);
-
-      console.log(data.liquidOxaAmount);
-
       return data.liquidOxaAmount;
     } else {
       console.log("No such document!");
@@ -161,12 +157,8 @@ export async function deleteUserAsset(
   laneId,
   cardId
 ) {
-  try {
-    const deleteTarget = doc(db, "assets", userId, laneId, cardId);
-    
-    console.log("deleteTarget:" + deleteTarget);
-
-    await deleteDoc(deleteTarget);
+  try {    
+    await deleteDoc(doc(db, "assets", userId, laneId, cardId));
   } catch (e) {
     console.log(e);
   }

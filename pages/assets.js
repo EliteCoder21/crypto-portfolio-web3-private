@@ -26,7 +26,7 @@ import SmartButtonIcon from "@mui/icons-material/SmartButton";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { Theme, SwapWidget } from "@uniswap/widgets";
+import { SwapWidget } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
@@ -95,18 +95,11 @@ export default function Assets() {
 
   const data = require("./emptyAssetsData.json");
   getAssetsData(DEFAULT_USER_ID);
-  initialize();
 
   let eventBus = null;
   const setEventBus = (handle) => {
     eventBus = handle;
   };
-
-  async function initialize() {
-    return (                  
-      <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
-    );
-  }
 
   async function getAssetsData() {
     try {
@@ -363,13 +356,13 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
-                  <SwapWidget theme = {theme} />
+                  {/* <SwapWidget theme = {theme} /> */}
                 </div>
                 <div>
-                  <BitcoinWidget />
+                  {/* <BitcoinWidget />
                   <EthereumWidget />
                   <BitcoinWidget />
-                  <BitcoinWidget />
+                  <BitcoinWidget /> */}
                 </div>
               </div>
             ) : (
@@ -982,7 +975,7 @@ export default function Assets() {
           zIndex: 100,
           top: 0,
           left: 0,
-          width: "100vw",
+          width: "100%", //"100vw",
           height: "100vh",
           backgroundColor: "rgba(32, 34, 50, 0.9)",
           display: "flex",
@@ -994,9 +987,10 @@ export default function Assets() {
         <div
           className="popup-wrapper active"
           style={{
-            maxWidth: "100%",
-            width: "50%",
-            height: "90%",
+            maxWidth: "150%", //"100%",
+            maxHeight: "150%", //
+            width: "90%", //"50%"
+            height: "90vh", //"90%", 
             overflow: "auto",
             border: "4px solid #30CCF6",
             display: "flex",
@@ -1116,7 +1110,7 @@ export default function Assets() {
     getAssetOptionsData();
 
     if (chosenOption != "") {
-      console.log("chosenOption " + chosenOption);
+
     }
   }, []);
 
