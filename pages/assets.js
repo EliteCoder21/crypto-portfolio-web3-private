@@ -12,8 +12,6 @@ import {
   addUserAsset,
   deleteUserAsset,
   getUserAssetOptions,
-  getLiquidOxaAmount,
-  setLiquidOxaAmount
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -49,7 +47,6 @@ export default function Assets() {
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
-  const [realLiquidOxaAmount, setRealLiquidOxaAmount] = useState(getLiquidOxaAmount(DEFAULT_USER_ID));
 
   let getLaneIndex = function (laneName) {
     let res = -1;
@@ -170,10 +167,6 @@ export default function Assets() {
         await sleep(10);
 
         setOptionsPopupIndex(-1);
-
-        await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
-
-        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
 
         liquidOxaAmount += 10;
       } else {
@@ -356,13 +349,13 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
-                  {/* <SwapWidget theme = {theme} /> */}
+                  <SwapWidget theme = {theme} />
                 </div>
                 <div>
-                  {/* <BitcoinWidget />
+                  <BitcoinWidget />
                   <EthereumWidget />
                   <BitcoinWidget />
-                  <BitcoinWidget /> */}
+                  <BitcoinWidget />
                 </div>
               </div>
             ) : (
@@ -650,80 +643,6 @@ export default function Assets() {
     );
   };
 
-  const Oxa2OptionsList = () => {
-    return assetOptionsData[2].map(({ id, cusip, offer, description }) => {
-      return (
-        <div>
-          <button
-            className="reject"
-            id="popup-cancel"
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-
-              setChosenOption(offer);
-
-              getAssetsData();
-            }}
-          >
-            {offer}
-          </button>
-        </div>
-      );
-    });
-  };
-
-  const Oxa2OptionsPopup = () => {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 100,
-          top: 50,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          className="popup-wrapper active"
-          style={{
-            width: "50%",
-            height: "60%",
-          }}>
-          <div className="top">
-            <center>
-              <span className="title">Select Offer</span>
-              <button
-                className="exit-button"
-                style={{
-                  float: "right",
-                  paddingRight: "20px",
-                  paddingTop: "10px",
-                  background: "none",
-                  border: "none",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setOptionsPopupIndex(-1);
-                }}
-              >
-                X
-              </button>
-            </center>
-          </div>
-          <div className="bottom">
-            <Oxa2OptionsList />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const DigOptionsList = () => {
     return assetOptionsData[3].map(({ id, cusip, offer, description }) => {
       return (
@@ -934,7 +853,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
         >
-          <div className="top"> style={{ display: "flex", justifyContent: "spce-between"}}
+          <div className="top" style={{ display: "flex", justifyContent: "space-between"}}>
             <span className="title">Relative Value</span>
             <button
               className="exit-button"
