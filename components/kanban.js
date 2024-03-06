@@ -1,5 +1,3 @@
-import Navbar from "../components/navbar.js";
-import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState, useEffect } from "react";
@@ -14,9 +12,9 @@ import {
   getUserAssetOptions,
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
-import Bar from "../components/bar.js";
-import Tearsheet from "../components/tearsheet.js";
-import CryptoTearsheet from "../components/crypto-tearsheet.js";
+import Bar from "./bar.js";
+import Tearsheet from "./tearsheet.js";
+import CryptoTearsheet from "./crypto-tearsheet.js";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
@@ -26,8 +24,8 @@ import Script from "next/script";
 import "reactjs-popup/dist/index.css";
 import { SwapWidget } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
-import BitcoinWidget from "../components/bitcoin-widget.js";
-import EthereumWidget from "../components/ethereum-widget.js";
+import BitcoinWidget from "./bitcoin-widget.js";
+import EthereumWidget from "./ethereum-widget.js";
 
 let liquidOxaAmount = 1000000;
 
@@ -38,9 +36,7 @@ require("firebase/firestore");
 
 let initialized = false;
 
-export default function Assets() {
-  const { user } = useAuthContext();
-
+export default function Kanban() {
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
@@ -90,7 +86,7 @@ export default function Assets() {
     setAssetOptionsData(tableState);
   }
 
-  const data = require("./emptyAssetsData.json");
+  const data = require("../pages/emptyAssetsData.json");
   getAssetsData(DEFAULT_USER_ID);
 
   let eventBus = null;
@@ -349,7 +345,7 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
-                  <SwapWidget theme = {theme} />
+                  <SwapWidget theme={theme} />
                 </div>
                 <div>
                   <BitcoinWidget />
@@ -853,7 +849,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
         >
-          <div className="top" style={{ display: "flex", justifyContent: "space-between"}}>
+          <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
             <span className="title">Relative Value</span>
             <button
               className="exit-button"
@@ -1033,8 +1029,7 @@ export default function Assets() {
     }
   }, []);
 
-  function Kanban() {
-    return (
+  return (
     <>
       <AssetInventory />
       {optionsPopupIndex == getLaneIndex("RWA Lane") ? (
@@ -1088,19 +1083,5 @@ export default function Assets() {
         <></>
       )}
     </>
-    );
-  }
-
-  return (
-    <div style={{ overflowY: "scroll" }}>
-      {user ? (
-        <div>
-          <Navbar active="/assets" />
-          <Kanban />
-        </div>
-      ) : (
-        <Login />
-      )}
-    </div>
   );
 }
