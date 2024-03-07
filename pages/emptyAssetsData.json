@@ -2,7 +2,7 @@
   "lanes": [
     {
       "id": "RWA Lane",
-      "title": "RWA Pool - Bonds in Custody",
+      "title": "ETF Pool - ETFs in Custody",
       "label": "RWA",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white", "textAlign": "center", "paddingBottom": "30px"},
       "cardStyle": {"backgroundColor": "#FEC8A7"},
@@ -34,7 +34,7 @@
     },
     {
       "id": "Dig Lane",
-      "title": "Digital Assets - In your Custody",
+      "title": "Digital Assets - In Your Custody",
       "label": "Digital Assets",
       "style": {"backgroundColor": "rgba(31, 42, 71, 0.8)", "color": "white", "textAlign": "center", "paddingBottom": "30px"},
       "cardStyle": {"backgroundColor": "#98B9D0"},

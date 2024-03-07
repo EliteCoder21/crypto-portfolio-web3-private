@@ -15,13 +15,15 @@ import {
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
-import Tearsheet from "../components/tearsheet.js";
+//import Tearsheet from "../components/tearsheet.js";
+import rwtearsheet from "../components/rwtearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
 import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
 import SmartButtonIcon from "@mui/icons-material/SmartButton";
 import TearSheetIcon from "@mui/icons-material/Summarize";
+import EtfIcon from "@mui/icons-material/Info";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
 import { SwapWidget } from "@uniswap/widgets";
@@ -43,7 +45,8 @@ export default function Assets() {
 
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
-  const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
+  //const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
+  const [displayRWTearsheetPopup, setDisplayRWTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
@@ -200,6 +203,21 @@ export default function Assets() {
       >
         <div className="react-trello-card-header">
           <h3 className="react-trello-card-title">{card.title}</h3>
+          {card.laneId == "RWA Lane" ? (
+            <div style={{ boxAlign: "center" }}>
+            <button
+              className="hover-button"
+              title="ETF Information"
+              onClick={() => {
+                window.open("https://www.blackrock.com/us/individual/products/333011/ishares-bitcoin-trust");
+              }}
+            >
+              <EtfIcon />
+            </button>
+          </div>
+          ) : (
+            <></>
+          )}
           {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" || card.laneId == "OXA Lane" ? (
             <div style={{ boxAlign: "center" }}>
               <button
@@ -215,7 +233,7 @@ export default function Assets() {
                 className="hover-button"
                 title="Sheets"
                 onClick={() => {
-                  setDisplayTearsheetPopup(!displayTearsheetPopup);
+                  setDisplayRWTearsheetPopup(!displayRWTearsheetPopup);
                 }}
               >
                 <TearSheetIcon />
@@ -259,7 +277,7 @@ export default function Assets() {
 
     switch (laneId) {
       case "RWA Lane":
-        res = "Add Onboarded Bonds";
+        res = "Add Onboarded ETFs";
         break;
       case "AUT Lane":
         res = "Drop here to convert to AUT";
@@ -886,7 +904,7 @@ export default function Assets() {
     );
   };
 
-  const TearsheetPopup = () => {
+  const RWTearsheetPopup = () => {
     return (
       <div
         style={{
@@ -918,7 +936,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
           onClick={() => {
-            setDisplayTearsheetPopup(!displayTearsheetPopup);
+            setDisplayRWTearsheetPopup(!displayRWTearsheetPopup);
           }}
         >
           <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
@@ -934,7 +952,7 @@ export default function Assets() {
                 color: "white",
               }}
               onClick={() => {
-                setDisplayTearsheetPopup(false);
+                setDisplayRWTearsheetPopup(false);
               }}
             >
               X
@@ -946,7 +964,7 @@ export default function Assets() {
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayTearsheetPopup(!displayTearsheetPopup);
+                setDisplayRWTearsheetPopup(!displayRWTearsheetPopup);
               }}
             >
               Exit
@@ -1077,8 +1095,8 @@ export default function Assets() {
       ) : (
         <></>
       )}
-      {displayTearsheetPopup ? (
-        <TearsheetPopup />
+      {displayRWTearsheetPopup ? (
+        <RWTearsheetPopup />
       ) : (
         <></>
       )}
