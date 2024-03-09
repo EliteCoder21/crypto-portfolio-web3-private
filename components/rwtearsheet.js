@@ -1,11 +1,9 @@
-import { Text } from "react-native";
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
 import Plot from "react-plotly.js";
 import Grid from "@mui/material/Grid";
 import { TempCold } from "styled-icons/remix-fill";
 import { BlackTie } from "styled-icons/fa-brands";
-import "../index.css";
 
 const enableLoadIcon = true;
 
@@ -140,7 +138,7 @@ var quant_layout = {
   },
   width: (window.innerWidth - 60) / 2,
   height: 440,
-  title: "Return Quantiles",
+  title: "return Quantiles",
   borderRadius: 10,
 };
 
@@ -1301,7 +1299,7 @@ const Tearsheet = (isCrypto) => {
   return (
     <div style={{ minHeight: "100vh" }}>
       <div align="center" width="100%" height="80px">
-        <Text
+        <h1
           backgroundColor="#131722"
           style={{
             lineHeight: "80px",
@@ -1311,7 +1309,7 @@ const Tearsheet = (isCrypto) => {
           }}
         >
           Strategy Tearsheet
-        </Text>
+        </h1>
       </div>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
         <div className="d-flex justify-content-left ml-3 mb-3 selectContainer">

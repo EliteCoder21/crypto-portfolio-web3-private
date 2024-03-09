@@ -15,8 +15,7 @@ import {
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
-//import Tearsheet from "../components/tearsheet.js";
-import rwtearsheet from "../components/rwtearsheet.js";
+import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
@@ -45,8 +44,7 @@ export default function Assets() {
 
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
-  //const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
-  const [displayRWTearsheetPopup, setDisplayRWTearsheetPopup] = useState(false);
+  const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
@@ -233,7 +231,7 @@ export default function Assets() {
                 className="hover-button"
                 title="Sheets"
                 onClick={() => {
-                  setDisplayRWTearsheetPopup(!displayRWTearsheetPopup);
+                  setDisplayTearsheetPopup(!displayTearsheetPopup);
                 }}
               >
                 <TearSheetIcon />
@@ -904,7 +902,7 @@ export default function Assets() {
     );
   };
 
-  const RWTearsheetPopup = () => {
+  const TearsheetPopup = () => {
     return (
       <div
         style={{
@@ -936,7 +934,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
           onClick={() => {
-            setDisplayRWTearsheetPopup(!displayRWTearsheetPopup);
+            setDisplayTearsheetPopup(!displayTearsheetPopup);
           }}
         >
           <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
@@ -952,7 +950,7 @@ export default function Assets() {
                 color: "white",
               }}
               onClick={() => {
-                setDisplayRWTearsheetPopup(false);
+                setDisplayTearsheetPopup(false);
               }}
             >
               X
@@ -964,7 +962,7 @@ export default function Assets() {
               className="reject"
               id="popup-cancel"
               onClick={() => {
-                setDisplayRWTearsheetPopup(!displayRWTearsheetPopup);
+                setDisplayTearsheetPopup(!displayTearsheetPopup);
               }}
             >
               Exit
@@ -1095,8 +1093,8 @@ export default function Assets() {
       ) : (
         <></>
       )}
-      {displayRWTearsheetPopup ? (
-        <RWTearsheetPopup />
+      {displayTearsheetPopup ? (
+        <TearsheetPopup />
       ) : (
         <></>
       )}

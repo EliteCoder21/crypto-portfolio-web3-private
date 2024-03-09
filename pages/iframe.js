@@ -12,7 +12,6 @@ export default function Iframe() {
     <div style={{ overflowY: "scroll" }}>
       {user ? (
         <div>
-          <Navbar active="/assets" />
           <Kanban />
         </div>
       ) : (
