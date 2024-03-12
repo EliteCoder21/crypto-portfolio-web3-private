@@ -147,7 +147,7 @@ export default function Assets() {
   }
 
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
-    console.log("handleCardMoveAcrossLanes called");
+    console.log("handleCardMoveAcrossLanes " + fromLaneId + " " + toLaneId + " " + cardId);
 
     if (fromLaneId == toLaneId) {
       return;
@@ -256,7 +256,8 @@ export default function Assets() {
           <div className="react-trello-card-body">
             <p>{card.description}</p>
             <div className="progress">
-              <p>&#9680; In Progress</p>
+              {/* <p>&#9680; In Progress</p> */}
+              <p>In Progress</p>
             </div>
           </div>
         ) : (
@@ -284,7 +285,7 @@ export default function Assets() {
         res = "Drop here to immobilize the AUT";
         break;
       case "OXA2 Lane":
-        res = "Drop here to get credit for AUT's"
+        res = "Drop here to get credit for AUTs"
         break;
       case "Dig Lane":
         res = "Convert back to OXA/AUT/RWA"
@@ -461,53 +462,100 @@ export default function Assets() {
 
   const RwaOptionsPopup = () => {
     return (
+      // <div
+      //   style={{
+      //     position: "absolute",
+      //     zIndex: 100,
+      //     top: 50,
+      //     left: 0,
+      //     width: "100vw",
+      //     height: "100vh",
+      //     display: "flex",
+      //     alignItems: "center",
+      //     justifyContent: "center",
+      //   }}
+      // >
+      //   <div
+      //     className="popup-wrapper active"
+      //     style={{
+      //       width: "50%",
+      //       height: "60%",
+      //     }}>
+      //     <div className="top">
+      //       <center>
+      //         <span className="title">Select Offer</span>
+      //         <button
+      //           className="exit-button"
+      //           style={{
+      //             float: "right",
+      //             paddingRight: "20px",
+      //             paddingTop: "10px",
+      //             background: "none",
+      //             border: "none",
+      //             fontSize: "20px",
+      //             cursor: "pointer",
+      //             color: "white",
+      //           }}
+      //           onClick={() => {
+      //             setOptionsPopupIndex(-1);
+      //           }}
+      //         >
+      //           X
+      //         </button>
+      //       </center>
+      //     </div>
+      //     <div className="bottom">
+      //       <RwaOptionsList />
+      //     </div>
+      //   </div>
+      // </div>
       <div
+      style={{
+        position: "absolute",
+        zIndex: 100,
+        top: 50,
+        left: 0,
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        className="popup-wrapper active"
         style={{
-          position: "absolute",
-          zIndex: 100,
-          top: 50,
-          left: 0,
-          width: "100vw",
-          height: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <div
-          className="popup-wrapper active"
-          style={{
-            width: "50%",
-            height: "60%",
-          }}>
-          <div className="top">
-            <center>
-              <span className="title">Select Offer</span>
-              <button
-                className="exit-button"
-                style={{
-                  float: "right",
-                  paddingRight: "20px",
-                  paddingTop: "10px",
-                  background: "none",
-                  border: "none",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setOptionsPopupIndex(-1);
-                }}
-              >
-                X
-              </button>
-            </center>
-          </div>
-          <div className="bottom">
-            <RwaOptionsList />
-          </div>
+          width: "50%",
+          height: "60%",
+        }}>
+        <div className="top">
+          <center>
+            <span className="title">Select Offer</span>
+            <button
+              className="exit-button"
+              style={{
+                float: "right",
+                paddingRight: "20px",
+                paddingTop: "10px",
+                background: "none",
+                border: "none",
+                fontSize: "20px",
+                cursor: "pointer",
+                color: "white",
+              }}
+              onClick={() => {
+                setOptionsPopupIndex(-4);
+              }}
+            >
+              X
+            </button>
+          </center>
+        </div>
+        <div className="bottom">
+          <RwaOptionsList />
         </div>
       </div>
+    </div>
     );
   };
 
@@ -1079,7 +1127,8 @@ export default function Assets() {
         <></>
       )}
       {optionsPopupIndex == -2 ? (
-        <TemporaryPopup />
+        // <TemporaryPopup />
+        <RwaOptionsPopup />
       ) : (
         <></>
       )}

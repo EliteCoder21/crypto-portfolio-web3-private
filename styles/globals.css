@@ -1818,7 +1818,7 @@ td {
 .react-trello-lane {
   width: 19%;
   text-wrap: true;
-  /*overflow-y: scroll !important;*/
+  overflow-y: scroll !important;
   overflow-x: hidden;
 }
 
@@ -1903,14 +1903,13 @@ td {
 }
 
 .progress {
-  margin-bottom: -5px;
-  padding-left: 8px;
   border: 1px solid gray;
   background: rgba(31, 42, 71, 0.8);
   color: white;
   border-radius: 5px;
   width: 40%;
   height: 25px;
+  text-align: center;
 }
 
 .progress > p {
