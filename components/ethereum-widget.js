@@ -2,7 +2,7 @@ export default function EthereumWidget() {
     return (
         <div>
             <div
-                class="livecoinwatch-widget-6"
+                className="livecoinwatch-widget-6"
                 lcw-coin="ETH"
                 lcw-base="USD"
                 lcw-secondary="ETH"

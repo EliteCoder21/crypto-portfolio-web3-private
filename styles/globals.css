@@ -1902,17 +1902,21 @@ td {
   background-color: gray;
 }
 
+.progressParent {
+  display: flex;
+  justify-content: left;
+}
+
 .progress {
   border: 1px solid gray;
   background: rgba(31, 42, 71, 0.8);
   color: white;
+  display: inline-block;
   border-radius: 5px;
-  width: 40%;
-  height: 25px;
-  text-align: center;
+  height: 10px;
 }
 
 .progress > p {
-  margin-left: 5px;
-  margin-top: 3px;
+  margin: 1px 0;
+  padding: 0 5px;
 }

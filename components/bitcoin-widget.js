@@ -2,7 +2,7 @@ export default function BitcoinWidget() {
     return (
         <div>
             <div
-                class="livecoinwatch-widget-6"
+                className="livecoinwatch-widget-6"
                 lcw-coin="BTC"
                 lcw-base="USD"
                 lcw-secondary="BTC"

@@ -101,6 +101,8 @@ export default function Assets() {
 
   async function getAssetsData() {
     try {
+      console.log("getAssetsData called");
+
       const userDataRef = await getUserAssets(DEFAULT_USER_ID);
 
       for (let lane of lanes) {
@@ -255,9 +257,11 @@ export default function Assets() {
         {card.laneId != "Dig Lane" ? (
           <div className="react-trello-card-body">
             <p>{card.description}</p>
-            <div className="progress">
-              {/* <p>&#9680; In Progress</p> */}
-              <p>In Progress</p>
+            <div className="progressParent">
+              <div className="progress">
+                {/* <p>&#9680; In Progress</p> */}
+                <p>In Progress</p>
+              </div>
             </div>
           </div>
         ) : (
@@ -462,53 +466,6 @@ export default function Assets() {
 
   const RwaOptionsPopup = () => {
     return (
-      // <div
-      //   style={{
-      //     position: "absolute",
-      //     zIndex: 100,
-      //     top: 50,
-      //     left: 0,
-      //     width: "100vw",
-      //     height: "100vh",
-      //     display: "flex",
-      //     alignItems: "center",
-      //     justifyContent: "center",
-      //   }}
-      // >
-      //   <div
-      //     className="popup-wrapper active"
-      //     style={{
-      //       width: "50%",
-      //       height: "60%",
-      //     }}>
-      //     <div className="top">
-      //       <center>
-      //         <span className="title">Select Offer</span>
-      //         <button
-      //           className="exit-button"
-      //           style={{
-      //             float: "right",
-      //             paddingRight: "20px",
-      //             paddingTop: "10px",
-      //             background: "none",
-      //             border: "none",
-      //             fontSize: "20px",
-      //             cursor: "pointer",
-      //             color: "white",
-      //           }}
-      //           onClick={() => {
-      //             setOptionsPopupIndex(-1);
-      //           }}
-      //         >
-      //           X
-      //         </button>
-      //       </center>
-      //     </div>
-      //     <div className="bottom">
-      //       <RwaOptionsList />
-      //     </div>
-      //   </div>
-      // </div>
       <div
       style={{
         position: "absolute",
