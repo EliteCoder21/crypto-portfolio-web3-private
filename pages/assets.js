@@ -12,6 +12,8 @@ import {
   addUserAsset,
   deleteUserAsset,
   getUserAssetOptions,
+  getLiquidOxaAmount,
+  setLiquidOxaAmount
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -48,6 +50,7 @@ export default function Assets() {
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
+  const [realLiquidOxaAmount, setRealLiquidOxaAmount] = useState(getLiquidOxaAmount(DEFAULT_USER_ID));
 
   let getLaneIndex = function (laneName) {
     let res = -1;
@@ -170,6 +173,10 @@ export default function Assets() {
         await sleep(10);
 
         setOptionsPopupIndex(-1);
+
+        await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
+
+        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
 
         liquidOxaAmount += 10;
       } else {
