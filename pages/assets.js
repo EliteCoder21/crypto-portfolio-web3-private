@@ -12,8 +12,8 @@ import {
   addUserAsset,
   deleteUserAsset,
   getUserAssetOptions,
-  getLiquidOxaAmount,
-  setLiquidOxaAmount
+  // getLiquidOxaAmount,
+  // setLiquidOxaAmount
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -50,7 +50,7 @@ export default function Assets() {
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
-  const [realLiquidOxaAmount, setRealLiquidOxaAmount] = useState(getLiquidOxaAmount(DEFAULT_USER_ID));
+  // const [realLiquidOxaAmount, setRealLiquidOxaAmount] = useState(getLiquidOxaAmount(DEFAULT_USER_ID));
 
   let getLaneIndex = function (laneName) {
     let res = -1;
@@ -104,7 +104,7 @@ export default function Assets() {
 
   async function getAssetsData() {
     try {
-      console.log("getAssetsData called");
+      // console.log("getAssetsData called");
 
       const userDataRef = await getUserAssets(DEFAULT_USER_ID);
 
@@ -152,7 +152,7 @@ export default function Assets() {
   }
 
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
-    console.log("handleCardMoveAcrossLanes " + fromLaneId + " " + toLaneId + " " + cardId);
+    // console.log("handleCardMoveAcrossLanes " + fromLaneId + " " + toLaneId + " " + cardId);
 
     if (fromLaneId == toLaneId) {
       return;
@@ -174,9 +174,9 @@ export default function Assets() {
 
         setOptionsPopupIndex(-1);
 
-        await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
+        // await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
 
-        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
+        // setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
 
         liquidOxaAmount += 10;
       } else {
@@ -296,10 +296,10 @@ export default function Assets() {
         res = "Drop here to immobilize the AUT";
         break;
       case "OXA2 Lane":
-        res = "Drop here to get credit for AUTs"
+        res = "Drop here to get credit for AUTs";
         break;
       case "Dig Lane":
-        res = "Convert back to OXA/AUT/RWA"
+        res = "Convert back to OXA/AUT/RWA";
       default:
         break;
     }
@@ -358,7 +358,7 @@ export default function Assets() {
     dialog: "#000",
     fontFamily: "Segoe UI",
     borderRadius: 0.5,
-  }
+  };
 
   const CustomLaneHeader = (lane) => {
     return (
@@ -798,57 +798,6 @@ export default function Assets() {
     );
   };
 
-  const TemporaryPopup = () => {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 100,
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        onClick={() => {
-          setOptionsPopupIndex(-1);
-        }}
-      >
-        <div
-          className="popup-wrapper active"
-          style={{
-            width: "50%",
-            height: "90%",
-          }}>
-          <button
-            className="exit-button"
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "24px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
-          <div className="bottom">
-            <RwaOptionsList />
-          </div>
-        </div>
-      </div>
-    );
-  };
-
   const RelValPopup = () => {
     return (
       <div
@@ -909,6 +858,54 @@ export default function Assets() {
               height="99%"
             ></iframe>
           </div>
+        </div>
+      </div>
+    );
+  };
+
+  const BlankPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        onClick={() => {
+          setOptionsPopupIndex(-10);
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+          }}>
+          <button
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setOptionsPopupIndex(-10);
+            }}
+          >
+            X
+          </button>
         </div>
       </div>
     );
@@ -1091,7 +1088,6 @@ export default function Assets() {
         <></>
       )}
       {optionsPopupIndex == -2 ? (
-        // <TemporaryPopup />
         <RwaOptionsPopup />
       ) : (
         <></>

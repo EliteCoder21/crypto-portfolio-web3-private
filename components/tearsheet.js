@@ -1,7 +1,13 @@
+//import { Text } from "react-native";
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Plot from "./plot.js";
+//import Grid from "@mui/material/Grid";
+import { TempCold } from "styled-icons/remix-fill";
+import { BlackTie } from "styled-icons/fa-brands";
+
+const enableLoadIcon = true;
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
@@ -27,12 +33,12 @@ const CUSIP_options = [
 ];
 
 const customStyles = {
-  menu: (styles) => ({
+  /*menu: (styles) => ({
     ...styles,
     backgroundColor: "rgb(19, 19, 21)",
     margin: "0",
     width: "200px",
-  }),
+  }), */
   control: (styles) => ({
     ...styles,
     backgroundColor: "rgb(19, 19, 21)",
@@ -44,19 +50,27 @@ const customStyles = {
   }),
   option: (provided, state, isSelected) => ({
     ...provided,
-    color: "rgb(169, 169, 169)",
-    fontSize: "15px",
-    backgroundColor: "rgb(19, 19, 21)",
+    color: state.isSelected ? "rgb(169, 169, 169)" : "rgb(169, 169, 169)",
+    backgroundColor: isSelected ? "rgb(19, 19, 21)" : "rgb(19, 19, 21)",
     cursor: "pointer",
     "&:hover": {
       backgroundColor: "#404040",
     },
   }),
+  singleValue: (provided, state) => ({
+    ...provided,
+    color: state.selectProps.menuIsOpen ? "transparent" : provided.color,
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    height: "100%",
+  }),
   input: (provided) => ({
     ...provided,
     width: "161px",
     height: "36px",
-    display: "flex",
+    //display: "flex",
+    margin: "0",
   }),
 };
 
@@ -87,30 +101,31 @@ const wDrawboxColor = {
 
 const divStyle = {
   margin: "5px",
-  width: "fit-content",
+  /*width: "fit-content",
   marginLeft: "auto",
-  marginRight: "auto",
+  marginRight: "auto",*/
 };
 
 const tableStyle = {
   margin: "5px",
   cellspacing: "0",
   cellpadding: "0",
-  width: "100%",
+  width: "350px",
+  //width: "100%",
   border: "0px",
 };
 
 const tableTitle = {
   color: "white",
   fontSize: 20,
-  textAlign: "left",
+  textAlign: "center",
 };
 
 const dropdownTitle = {
   color: "rgb(169, 169, 169)",
   fontSize: 14,
   textAlign: "left",
-  marginBottom: "10px",
+  //marginBottom: "10px",
 };
 
 const headerStyle = {
@@ -120,6 +135,23 @@ const headerStyle = {
   borderBottomColor: "#6c6c6c",
   borderBottomWidth: "1px",
 };
+
+const windowComponent = () => {
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Clean up event listener when component unmounts
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+}
 
 export const mainTextColor = {
   color: "#9B9EA3",
@@ -148,9 +180,10 @@ var quant_layout = {
   yaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",
+  width: "100%",//(window.innerWidth - 60) / 2,
   height: 440,
-  title: "Return Quantiles"
+  title: "Return Quantiles",
+  borderRadius: 10,
 };
 
 var month_percent_layout = {
@@ -170,7 +203,7 @@ var month_percent_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: "100%", //window.innerWidth - 60,
   height: 440,
   title: "Monthly Returns (%)",
 };
@@ -189,7 +222,7 @@ var sharpe_layout = {
     r: 50,
     b: 50,
     t: 50,
-    pad: 3, //4
+    pad: 4,
   },
   yaxis: {
     tickformat: "p",
@@ -198,7 +231,8 @@ var sharpe_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",
+  width: "100%", //(window.innerWidth - 80) / 2,
+  //width: "100%",
   height: 440,
   title: "Rolling Sharpe (6 Months)",
 };
@@ -226,7 +260,7 @@ var vol_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",
+  width: "100%", //(window.innerWidth - 60) / 2,
   height: 440,
   title: "Rolling Volatility (6 Months)",
 };
@@ -254,7 +288,7 @@ var beta_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: "100%", //(window.innerWidth - 80) / 2,
   height: 440,
   title: "Rolling Beta to Benchmark",
 };
@@ -282,7 +316,8 @@ var drawdown_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: "100%", //window.innerWidth - 350 - 80,
+  //width: "100%",
   height: 440,
   title: "Top 5 Drawdown Periods",
 };
@@ -307,7 +342,8 @@ var monthly_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: "100%", //window.innerWidth - 350 - 80,
+  //width: "100%",
   height: 440,
   title: "Distribution of Monthly Returns",
 };
@@ -331,7 +367,8 @@ var EoY_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: "100%", //window.innerWidth - 350 - 80,
+  //width: "100%",
   height: 440,
   title: "End of Year Returns vs Benchmark",
 };
@@ -358,7 +395,8 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "50%",
+  width: "100%", //window.innerWidth - 350 - 80,
+  //width: "50%",
   height: 440,
   title: "Cumulative Returns",
 };
@@ -386,7 +424,8 @@ var dreturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: "100%", //window.innerWidth - 350 - 80,
+  //width: "100%",
   height: 440,
   title: "Daily Returns",
 };
@@ -414,7 +453,8 @@ var sort_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",
+  width: "100%", //(window.innerWidth - 80) / 2,
+  //width: "100%",
   height: 440,
   title: "Rolling Sortino (6 Months)",
 };
@@ -442,7 +482,8 @@ var under_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",
+  width: "100%", //window.innerWidth - 350 - 80,
+  //width: "100%",
   height: 440,
   title: "Underwater Plot",
 };
