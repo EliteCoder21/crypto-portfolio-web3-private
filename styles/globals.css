@@ -1816,9 +1816,9 @@ td {
 }
 
 .react-trello-lane {
-  width: 19%;
+  width: 19.5%;
   text-wrap: true;
-  overflow-y: scroll !important;
+  overflow-y: scroll;
   overflow-x: hidden;
 }
 

@@ -1347,64 +1347,65 @@ const Tearsheet = () => {
     initialSubheaderFontSize
   );
 
+  //////
   return (
-    <div style={{ minHeight: "100vh", margin: 5, borderWidth: 20, borderColor: "white" }}>
+    <div style={{ minHeight: "100vh", margin: 5, borderWidth: 20, borderColor: "white" }}> 
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
-        <div className="d-flex justify-content-left ml-3 selectContainer" style={{ marginBottom: 20 }}>
+        <div className="d-flex justify-content-left ml-3 mb-3 selectContainer" style={{ marginBottom: 20 }}>
           <div className="d-flex flex-column benchSelectDiv">
-            <div>
-              <div style={dropdownTitle}>Strategy CUSIP</div>
-              {/* <div className="selectContainer">  */}
-              <Select
-                className="benchSelect"
-                maxWidth={300}
-                placeholder={selectedCUSIPStrat}
-                onChange={handleStratInputChange}
-                options={CUSIP_options}
-                styles={customStyles}
-                isClearable
-                value={selectedCUSIPStrat}
-                isFilterable
-                showCreate
-                // marginBottom="10px"
-              />
-            </div>
+          <div style={dropdownTitle}>Strategy CUSIP</div>
+            {/* <div className="selectContainer">  */}
+            <Select
+              className="benchSelect"
+              maxWidth={300}
+              placeholder={selectedCUSIPStrat}
+              onChange={handleStratInputChange}
+              options={CUSIP_options}
+              styles={customStyles}
+              isClearable
+              value={selectedCUSIPStrat}
+              isFilterable
+              showCreate
+              // marginBottom="10px"
+            />
             {/* </div> */}
           </div>
         </div>
 
-        {/*SECTION*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
-            <strong>Cummulative Returns</strong>
-          </div>
-          <div className="-grid">
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={creturn_data}
-                layout={cret_Layout}
-                useResizeHandler={true}
-                style={divStyle}
-                id="chart1"
-              />
-            </div>
-            <div className="tables d-flex flex-column" style={boxColor}>
-              <div id="tableTitle" style={tableTitle}>
-                Key Performance Metrics
+        {/*SECTION*/} 
+        <div className="container">  
+          <div className="row justify-content-evenly ml-3"> 
+            <div className="col-lg-6">
+              <div className="d-flex flex-column">
+                <div id="tableTitle" className="mb-3">
+                  <strong>Cummulative Returns</strong>
+                </div>
+                <div className="d-flex justify-content-between">
+                  <Plot
+                    className="plot"
+                    data={creturn_data}
+                    layout={cret_Layout}
+                    useResizeHandler={true}
+                    style={divStyle}
+                    id="chart1"
+                  />
+                <div className="tables">
+                  <div id="tableTitle">
+                    Key Performance Metrics
+                  </div>
+                  <table id="table_cumulative_return" style={tableStyle} />
+                </div>
               </div>
-              <table id="table_cumulative_return" style={tableStyle} />
             </div>
           </div>
         </div>
 
-        {/*SECTION*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
-            <strong>End of Year Returns vs Benchmark</strong>
-          </div>
-          <div className="-grid">
-            <div className="-grid-item">
+        <div className="row mt-4">
+          <div className="col-lg-6">
+            <div className="d-flex flex-column">
+              <div id="tableTitle" className="mb-3">
+                <strong>End of Year Returns vs Benchmark</strong>
+              </div>
               <Plot
                 className="plot"
                 data={eoy_return}
@@ -1412,17 +1413,20 @@ const Tearsheet = () => {
                 style={divStyle}
                 id="chart4"
               />
+              <div className="tables mt-3">
+                <div id="eoyTitle">
+                  EOY Returns vs Benchmark
+                </div>
+                <table id="eoy_table" style={tableStyle} />
+              </div>
             </div>
-          </div>
-          <div className="tables" style={boxColor}>
-            <div id="eoyTitle" style={tableTitle}>
-              EOY Returns vs Benchmark
-            </div>
-            <table id="eoy_table" style={tableStyle} />
           </div>
         </div>
 
-        {/*SECTION*/}
+  {/* incluce div*/ }
+  </div>
+
+        {/*SECTION ###*/}
         <div style={{ marginTop: 15 }}>
           <div id="tableTitle" style={tableTitle}>
             <strong>Daily Returns</strong>
