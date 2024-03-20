@@ -1372,7 +1372,7 @@ const Tearsheet = () => {
           </div>
         </div>
 
-        {/*SECTION*/} 
+        {/*SECTION 1*/} 
         <div className="container">  
           <div className="row justify-content-evenly ml-3"> 
             <div className="col-lg-6">
@@ -1389,200 +1389,205 @@ const Tearsheet = () => {
                     style={divStyle}
                     id="chart1"
                   />
+                  <div className="tables">
+                    <div id="tableTitle">
+                      Key Performance Metrics
+                    </div>
+                    <table id="table_cumulative_return" style={tableStyle} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="row mt-4">
+            <div className="col-lg-6">
+              <div className="d-flex flex-column">
+                <div id="tableTitle" className="mb-3">
+                  <strong>End of Year Returns vs Benchmark</strong>
+                </div>
+                <Plot
+                  className="plot"
+                  data={eoy_return}
+                  layout={eoy_Layout}
+                  style={divStyle}
+                  id="chart4"
+                />
+                <div className="tables mt-3">
+                  <div id="eoyTitle">
+                    EOY Returns vs Benchmark
+                  </div>
+                  <table id="eoy_table" style={tableStyle} />
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          {/*SECTION 2*/}
+          <div className="row mt-4">
+            <div className="col-lg-6">
+              <div className="d-flex flex-column">
+                <div id="tableTitle" className="mb-3">
+                  <strong>Daily Returns</strong>
+                </div>
+                <Plot
+                  className="plot"
+                  data={daily_returns}
+                  layout={daily_Layout}
+                  style={divStyle}
+                  id="chart5"
+                />
+                <div className="tables mt-3">
+                  <div id="tableTitle">
+                    Key Performance Metrics
+                  </div>
+                  <table id="table_best_day" style={tableStyle} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 3 */}
+          <div className="row mt-4">
+            <div className="col-lg-6">
+              <div className="d-flex flex-column">
+                <div id="tableTitle" className="mb-3">
+                  <strong>Underwater Plot</strong>
+                </div>
+                <Plot
+                  className="plot"
+                  data={underwater}
+                  layout={under_Layout}
+                  style={divStyle}
+                  id="chart6"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 4*/}
+          <div className="row mt-4">
+            <div className="col-lg-6">
+              <div className="d-flex flex-column">
+                <div id="tableTitle" className="mb-3">
+                    <strong>Top 5 Drawdown Periods</strong>
+                </div>
+                <Plot
+                  className="plot"
+                  data={worst_drawdowns}
+                  layout={wdp_Layout}
+                  style={divStyle}
+                  id="chart7"
+                />
+                <div className="tables mt-3">
+                  <div id="w_draw_table_Title">
+                    Worst Drawdowns
+                  </div>
+                  <table id="w_draw_table" style={tableStyle} />
+                </div>
+                <div className="tables mt-3">
+                  <div id="tableTitle">
+                    Key Performance Metrics
+                  </div>
+                  <table id="table_max_drawdown" style={tableStyle} />
+                </div>
+                <div className="tables mt-3">
+                  <div id="tableTitle">
+                    Key Performance Metrics
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* SECTION 5 */}
+          <div className="row mt-4">
+            <div className="col-lg-6">
+              <div className="d-flex flex-column">
+                <div id="tableTitle" className="mb-3">
+                  <strong>Rollings (6 months)</strong>
+                </div>
+                <div className="row">
+                  <div className="col-lg-3">
+                    <Plot
+                      className="plot"
+                      data={sharpe}
+                      layout={sharpe_Layout}
+                      style={divStyle}
+                      id="chart8"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <Plot
+                      className="plot"
+                      data={sortino}
+                      layout={sort_Layout}
+                      style={divStyle}
+                      id="chart9"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <Plot
+                      className="plot"
+                      data={vol}
+                      layout={vol_Layout}
+                      style={divStyle}
+                      id="chart10"
+                    />
+                  </div>
+                  <div className="col-lg-3">
+                    <Plot
+                      className="plot"
+                      data={quants}
+                      layout={quant_Layout}
+                      style={divStyle}
+                      id="chart11"
+                    />
+                  </div>
+                </div>
+                <div className="tables mt-3">
+                  <div id="tableTitle">
+                    Key Performance Metrics
+                  </div>
+                  <table id="table_mtd" style={tableStyle} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SECTION 6 */}
+          <div className="row mt-4">
+            <div className="col-lg-6">
+              <div className="d-flex flex-column">
+                <div id="tableTitle" className="mb-3">
+                  <strong>Monthly Returns (%)</strong>
+                </div>
                 <div className="tables">
                   <div id="tableTitle">
                     Key Performance Metrics
                   </div>
-                  <table id="table_cumulative_return" style={tableStyle} />
+                  <table id="table_avg_up_month" style={tableStyle} />
+                </div>
+                <div className="row mt-3">
+                  <div className="col-lg-6">
+                    <Plot
+                      className="plot"
+                      data={monthly_returns}
+                      layout={month_Layout}
+                      style={divStyle}
+                      id="chart3" 
+                    />
+                  </div>
+                  <div className="col-lg-6">
+                    <Plot
+                      className="big"
+                      data={monthly_percents}
+                      layout={heatmap_Layout}
+                      id="chart2"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="row mt-4">
-          <div className="col-lg-6">
-            <div className="d-flex flex-column">
-              <div id="tableTitle" className="mb-3">
-                <strong>End of Year Returns vs Benchmark</strong>
-              </div>
-              <Plot
-                className="plot"
-                data={eoy_return}
-                layout={eoy_Layout}
-                style={divStyle}
-                id="chart4"
-              />
-              <div className="tables mt-3">
-                <div id="eoyTitle">
-                  EOY Returns vs Benchmark
-                </div>
-                <table id="eoy_table" style={tableStyle} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-  {/* incluce div*/ }
-  </div>
-
-        {/*SECTION ###*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
-            <strong>Daily Returns</strong>
-          </div>
-          <div className="-grid">
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={daily_returns}
-                layout={daily_Layout}
-                style={divStyle}
-                id="chart5"
-              />
-            </div>
-          </div>
-          <div className="tables d-flex flex-column" style={boxColor}>
-            <div id="tableTitle" style={tableTitle}>
-              Key Performance Metrics
-            </div>
-            <table id="table_best_day" style={tableStyle} />
-          </div>
-        </div>
-
-        {/*SECTION*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
-            <strong>Underwater Plot</strong>
-          </div>
-          <div className="-grid">
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={underwater}
-                layout={under_Layout}
-                style={divStyle}
-                id="chart6"
-              />
-            </div>
-          </div>
-        </div>
-
-        {/*SECTION*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
-            <strong>Top 5 Drawdown Periods</strong>
-          </div>
-          <div className="-grid">
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={worst_drawdowns}
-                layout={wdp_Layout}
-                style={divStyle}
-                id="chart7"
-              />
-            </div>
-          </div>
-          <div className="tables" style={boxColor}>
-            <div id="w_draw_table_Title" style={tableTitle}>
-              Worst Drawdowns
-            </div>
-            <table id="w_draw_table" style={tableStyle} />
-          </div>
-          <div className="tables d-flex flex-column" style={boxColor}>
-            <div id="tableTitle" style={tableTitle}>
-              Key Performance Metrics
-            </div>
-            <table id="table_max_drawdown" style={tableStyle} />
-          </div>
-          <div className="tables d-flex flex-column" style={boxColor}>
-            <div id="tableTitle" style={tableTitle}>
-              Key Performance Metrics
-            </div>
-            <table id="table_avg_drawdown" style={tableStyle} />
-          </div>
-        </div>
-
-        {/*SECTION*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
-            <strong>Rollings (6 months)</strong>
-          </div>
-          <div className="-grid">
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={sharpe}
-                layout={sharpe_Layout}
-                style={divStyle}
-                id="chart8"
-              />
-            </div>
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={sortino}
-                layout={sort_Layout}
-                style={divStyle}
-                id="chart9"
-              />
-            </div>
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={vol}
-                layout={vol_Layout}
-                style={divStyle}
-                id="chart10"
-              />
-            </div>
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={quants}
-                layout={quant_Layout}
-                style={divStyle}
-                id="chart11"
-              />
-            </div>
-          </div>
-          <div className="tables d-flex flex-column" style={boxColor}>
-            <div id="tableTitle" style={tableTitle}>
-              Key Performance Metrics
-            </div>
-            <table id="table_mtd" style={tableStyle} />
-          </div>
-        </div>
-
-        {/*SECTION*/}
-        <div style={{ marginTop: 15 }}>
-          <div id="tableTitle" style={tableTitle}>
-            <strong>Monthly Returns (%)</strong>
-          </div>
-          <div className="tables d-flex flex-column" style={boxColor}>
-            <div id="tableTitle" style={tableTitle}>
-              Key Performance Metrics
-            </div>
-            <table id="table_avg_up_month" style={tableStyle} />
-          </div>
-          <div className="-grid">
-            <div className="-grid-item">
-              <Plot
-                className="plot"
-                data={monthly_returns}
-                layout={month_Layout}
-                style={divStyle}
-                id="chart3" 
-              />
-            </div>
-            <div className="-grid-item">
-              <Plot
-                className="big"
-                data={monthly_percents}
-                layout={heatmap_Layout}
-                id="chart2"
-              />
             </div>
           </div>
         </div>
