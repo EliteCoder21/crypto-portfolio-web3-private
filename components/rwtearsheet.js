@@ -1390,7 +1390,7 @@ const Tearsheet = (isCrypto) => {
             </div>
             <div className="tables" style={wDrawboxColor}>
               <div id="w_draw_table_Title" style={tableTitle}>
-                Worst Drawdowns
+                Worst Drawdowns 
               </div>
               <table id="w_draw_table" style={tableStyle} />
             </div>
