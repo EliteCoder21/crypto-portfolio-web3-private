@@ -4,7 +4,7 @@ import {
   Store,
   SwapHoriz,
 } from "@material-ui/icons";
-import { DataThresholding } from "@mui/icons-material";
+import DataThresholding from "@mui/icons-material/DataThresholding";
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Nav, Container, Navbar, NavDropdown } from "react-bootstrap";
 

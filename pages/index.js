@@ -1,6 +1,6 @@
 import LaunchIcon from "@mui/icons-material/Launch";
 import { AccountBalanceWallet, Store, SwapHoriz } from "@material-ui/icons";
-import { DataThresholding } from "@mui/icons-material";
+import DataThresholding from "@mui/icons-material/DataThresholding";
 import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
