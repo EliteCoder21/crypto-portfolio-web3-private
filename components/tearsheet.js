@@ -110,8 +110,7 @@ const tableStyle = {
   margin: "5px",
   cellspacing: "0",
   cellpadding: "0",
-  width: "350px",
-  //width: "100%",
+  width: "300px",
   border: "0px",
 };
 
@@ -180,7 +179,7 @@ var quant_layout = {
   yaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",//(window.innerWidth - 60) / 2,
+  width: "100%",
   height: 440,
   title: "Return Quantiles",
   borderRadius: 10,
@@ -203,7 +202,7 @@ var month_percent_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 60,
+  width: "100%",
   height: 440,
   title: "Monthly Returns (%)",
 };
