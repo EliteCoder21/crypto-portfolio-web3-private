@@ -27,7 +27,7 @@ import TearSheetIcon from "@mui/icons-material/Summarize";
 import EtfIcon from "@mui/icons-material/Info";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-// import { SwapWidget } from "@uniswap/widgets";
+import { SwapWidget } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
 // import BitcoinWidget from "../components/bitcoin-widget.js";
 // import EthereumWidget from "../components/ethereum-widget.js";
@@ -377,21 +377,21 @@ export default function Assets() {
                 {getLaneImage(lane.id)}
               </center>
             </div>
-            {/* {lane.id == "Dig Lane" ? (
+            {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
                   <SwapWidget theme = {theme} />
                 </div>
-                <div>
+                {/* <div>
                   <BitcoinWidget />
                   <EthereumWidget />
                   <BitcoinWidget />
                   <BitcoinWidget />
-                </div>
+                </div> */}
               </div>
             ) : (
               <></>
-            )} */}
+            )}
           </center>
         </div>
       </center>
