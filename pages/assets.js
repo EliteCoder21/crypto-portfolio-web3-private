@@ -27,10 +27,10 @@ import TearSheetIcon from "@mui/icons-material/Summarize";
 import EtfIcon from "@mui/icons-material/Info";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { SwapWidget } from "@uniswap/widgets";
+// import { SwapWidget } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
-import BitcoinWidget from "../components/bitcoin-widget.js";
-import EthereumWidget from "../components/ethereum-widget.js";
+// import BitcoinWidget from "../components/bitcoin-widget.js";
+// import EthereumWidget from "../components/ethereum-widget.js";
 
 let liquidOxaAmount = 1000000;
 
@@ -277,7 +277,7 @@ export default function Assets() {
         ) : (
           <>
             <div className="react-trello-card-body">
-              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+              {/* <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> */}
             </div>
           </>
         )};
@@ -377,7 +377,7 @@ export default function Assets() {
                 {getLaneImage(lane.id)}
               </center>
             </div>
-            {lane.id == "Dig Lane" ? (
+            {/* {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
                   <SwapWidget theme = {theme} />
@@ -391,7 +391,7 @@ export default function Assets() {
               </div>
             ) : (
               <></>
-            )}
+            )} */}
           </center>
         </div>
       </center>
