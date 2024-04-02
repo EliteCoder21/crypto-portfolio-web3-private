@@ -360,7 +360,7 @@ export default function Assets() {
     outline: "#CC1",
     dialog: "#000",
     fontFamily: "Segoe UI",
-    borderRadius: 0.5,
+    borderRadius: 0.50,
   };
 
   const CustomLaneHeader = (lane) => {
