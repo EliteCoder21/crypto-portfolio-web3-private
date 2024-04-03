@@ -152,6 +152,30 @@ export async function addUserAsset(
   }
 }
 
+export async function addUserAsset(
+  userId,
+  laneId,
+  cusip,
+  offer,
+  description
+) {
+  try {
+    const addedDocRef = await addDoc(collection(db, "assets", userId, laneId), {});
+
+    await setDoc(addedDocRef, {
+      "id": addedDocRef.id,
+      "laneId": laneId,
+      "cusip": cusip,
+      "title": "CUSIP# " + cusip,
+      "cardStyle": DEFAULT_CARD_STYLE,
+      "offer": offer,
+      "description": description,
+    });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function deleteUserAsset(
   userId,
   laneId,
