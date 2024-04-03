@@ -290,6 +290,8 @@ export default function Assets() {
   function getLaneSubtitle(laneId) {
     let res;
 
+    console.log("Got Lane Subtitle!");
+
     switch (laneId) {
       case "RWA Lane":
         res = "Add Onboarded ETFs";
