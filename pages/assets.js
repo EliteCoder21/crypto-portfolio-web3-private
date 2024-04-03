@@ -42,6 +42,8 @@ require("firebase/firestore");
 let initialized = false;
 
 export default function Assets() {
+  console.log("Assets called");
+
   const { user } = useAuthContext();
 
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
@@ -360,7 +362,7 @@ export default function Assets() {
     outline: "#CC1",
     dialog: "#000",
     fontFamily: "Segoe UI",
-    borderRadius: 0.50,
+    borderRadius: 0.5
   };
 
   const CustomLaneHeader = (lane) => {
