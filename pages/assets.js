@@ -290,7 +290,7 @@ export default function Assets() {
   function getLaneSubtitle(laneId) {
     let res;
 
-    console.log("Got Lane Subtitle!");
+    console.log("Checking for build success!");
 
     switch (laneId) {
       case "RWA Lane":
