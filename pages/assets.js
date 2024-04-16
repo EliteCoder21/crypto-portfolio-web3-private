@@ -154,11 +154,6 @@ export default function Assets() {
   }
 
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
-    console.log("handleCardMoveAcrossLanes called");
-    console.log("fromLaneId: " + fromLaneId);
-    console.log("toLaneId: " + toLaneId);
-    console.log("cardId: " + cardId);
-
     if (fromLaneId == toLaneId) {
       return;
     }
