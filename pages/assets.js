@@ -12,8 +12,6 @@ import {
   addUserAsset,
   deleteUserAsset,
   getUserAssetOptions,
-  getLiquidOxaAmount,
-  setLiquidOxaAmount
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -33,6 +31,7 @@ import "@uniswap/widgets/fonts.css";
 // import EthereumWidget from "../components/ethereum-widget.js";
 
 let liquidOxaAmount = 1000000;
+let amount = 1000;
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 
@@ -52,7 +51,6 @@ export default function Assets() {
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
   const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
-  const [realLiquidOxaAmount, setRealLiquidOxaAmount] = useState(getLiquidOxaAmount(DEFAULT_USER_ID));
 
   let getLaneIndex = function (laneName) {
     let res = -1;
@@ -68,9 +66,11 @@ export default function Assets() {
   };
 
   async function getAssetOptionsData() {
-    const tableState = [[], [], [], []];
+
+    const tableState = [[], [], [], [], []];
 
     let getRow = function (docsSnap, index) {
+      
       docsSnap.forEach((doc) => {
         const data = doc.data();
 
@@ -83,6 +83,7 @@ export default function Assets() {
       });
     }
 
+    // Put Try catch statement here
     try {
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "rwa-asset-options"), getLaneIndex("RWA Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
@@ -90,11 +91,40 @@ export default function Assets() {
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA2 Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
     } catch (e) {
-      console.log(e);
+      console.error(e);
     }
-
+    
     setAssetOptionsData(tableState);
   }
+
+  // async function getAssetOptionsData() {
+  //   const tableState = [[], [], [], []];
+
+  //   let getRow = function (docsSnap, index) {
+  //     docsSnap.forEach((doc) => {
+  //       const data = doc.data();
+
+  //       tableState[index].push({
+  //         id: data.id,
+  //         cusip: data.cusip,
+  //         offer: data.offer,
+  //         description: data.description
+  //       });
+  //     });
+  //   }
+
+  //   try {
+  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "rwa-asset-options"), getLaneIndex("RWA Lane"));
+  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
+  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA Lane"));
+  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA2 Lane"));
+  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
+  //   } catch (e) {
+  //     console.log(e);
+  //   }
+
+  //   setAssetOptionsData(tableState);
+  // }
 
   const data = require("./emptyAssetsData.json");
   getAssetsData(DEFAULT_USER_ID);
@@ -173,10 +203,6 @@ export default function Assets() {
         await sleep(10);
 
         setOptionsPopupIndex(-1);
-
-        await setLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID) + 10);
-
-        setRealLiquidOxaAmount(getLiquidOxaAmount(DEFAULT_USER_ID));
 
         liquidOxaAmount += 10;
       } else {
@@ -363,6 +389,15 @@ export default function Assets() {
     borderRadius: 0.5
   };
 
+  const numberWithCommas = (number) => {
+    number = number.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(number)) {
+      number = number.replace(pattern, "$1,$2");
+    }
+    return number;
+  }
+
   const CustomLaneHeader = (lane) => {
     return (
       <center>
@@ -377,8 +412,18 @@ export default function Assets() {
                 {getLaneImage(lane.id)}
               </center>
             </div>
+            {lane.id == "RWA Lane" ? (
+              <div className="amount-subtitle">
+                Amount:&nbsp;<b>{numberWithCommas(amount)}</b>
+              </div>
+            ) : (
+              <></>
+            )}
             {lane.id == "Dig Lane" ? (
               <div>
+                <div className="liquid-oxa-subtitle">
+                  Liquid OXA:&nbsp;<b>{numberWithCommas(liquidOxaAmount)}</b>
+                </div>
                 <div className="Uniswap">
                   <SwapWidget theme = {theme} />
                 </div>
@@ -449,6 +494,8 @@ export default function Assets() {
   };
 
   async function processAddRwaAsset(cusip, offer, description) {
+    amount += 10;
+
     await addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
 
     await getAssetsData();
