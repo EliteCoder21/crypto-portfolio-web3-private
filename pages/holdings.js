@@ -26,10 +26,13 @@ export default function Holdings() {
     let coins = await getUserHoldings(user.uid);
     const currency = settings ? settings.currency : "usd";
 
+    // Segment which is causing problems - Uniswap
+    /*
     const data = await getMarketCoins(currency, "", coins);
 
     setHoldingsDic(data.holdings);
     setTotalValue(data.totalValue);
+    */
   }
 
   function onSubmitAddHolding(e) {
