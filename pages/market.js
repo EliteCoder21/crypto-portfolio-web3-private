@@ -16,21 +16,21 @@ export default function Market() {
   useEffect(() => {
     async function fetchGlobalData() {
       // Segment which is causing problems - Uniswap
-      /*
+      
       const marketData = await getMarketCap();
 
       setGlobalMarketCap(marketData.marketCap);
       setGlobalVolume(marketData.totalVolume);
       setGlobalDominance(marketData.btcDominance);
-      */
+      
     }
 
     async function fetchCoinData() {
       // Segment which is causing problems - Uniswap
-      /*
+      
       const newMarketData = await getAllCoins();
       setMarketData(newMarketData);
-      */
+      
     }
 
     fetchGlobalData();

@@ -38,21 +38,20 @@ export default function InstructionsComponent() {
     const currency = settings ? settings.currency : "usd";
 
     // Segment which is causing problems - Uniswap
-    //const data = await getMarketCoins(currency, watchListString, coins);
+    const data = await getMarketCoins(currency, watchListString, coins);
 
-    //setMarketDic(data.marketList);
-    //setHoldingsDic(data.holdings);
-    //setTotalValue(data.totalValue);
+    setMarketDic(data.marketList);
+    setHoldingsDic(data.holdings);
+    setTotalValue(data.totalValue);
   }
 
   async function calculateMarketData() {
 
     // Segment which is causing problems - Uniswap
-    /*
     const marketData = await getMarketCap();
     setMarketCap(marketData.marketCap);
     setMarketChange(marketData.marketChange);
-    */
+    
   }
 
   useEffect(() => {

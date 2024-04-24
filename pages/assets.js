@@ -424,7 +424,7 @@ export default function Assets() {
                 <div className="liquid-oxa-subtitle">
                   Liquid OXA:&nbsp;<b>{numberWithCommas(liquidOxaAmount)}</b>
                 </div>
-                <div className="Uniswap">
+                <div className="Uniswap"> 
                   <SwapWidget theme = {theme} />
                 </div>
                 {/* <div>
