@@ -5,7 +5,7 @@ const nextConfig = {};
 
 module.exports = {
   reactStrictMode: false,
-  //transpilePackages: ['@uniswap/widgets', '@uniswap/conedison'],
+  transpilePackages: ['@uniswap/widgets', '@uniswap/conedison'],
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false };
     return config;
