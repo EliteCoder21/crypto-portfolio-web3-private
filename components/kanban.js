@@ -22,10 +22,10 @@ import SmartButtonIcon from "@mui/icons-material/SmartButton";
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { SwapWidget } from "@uniswap/widgets";
-import "@uniswap/widgets/fonts.css";
 import BitcoinWidget from "./bitcoin-widget.js";
 import EthereumWidget from "./ethereum-widget.js";
+import { SwapWidget } from "@uniswap/widgets";
+import "@uniswap/widgets/fonts.css";
 
 let liquidOxaAmount = 1000000;
 
@@ -42,7 +42,9 @@ export default function Kanban() {
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
-  const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
+
+  // Changed for all lanes
+  const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], [], []]);
 
   let getLaneIndex = function (laneName) {
     let res = -1;

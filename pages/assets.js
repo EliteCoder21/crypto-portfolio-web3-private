@@ -25,11 +25,11 @@ import TearSheetIcon from "@mui/icons-material/Summarize";
 import EtfIcon from "@mui/icons-material/Info";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-//import { SwapWidget } from '@uniswap/widgets'
+import { SwapWidget } from '@uniswap/widgets'
 
-const SwapWidget = dynamic(() => {
-  return import('@uniswap/widgets').then((mod) => mod.SwapWidget)
-}, { ssr: false })
+// const SwapWidget = dynamic(() => {
+//   return import('@uniswap/widgets').then((mod) => mod.SwapWidget)
+// }, { ssr: false })
 
 import '@uniswap/widgets/fonts.css'
 // import BitcoinWidget from "../components/bitcoin-widget.js";
