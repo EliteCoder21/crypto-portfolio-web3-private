@@ -36,6 +36,7 @@ require("firebase/firestore");
 
 let initialized = false;
 
+// Removed function here 
 export default function Kanban() {
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
@@ -1086,4 +1087,4 @@ export default function Kanban() {
       )}
     </>
   );
-}
+};
