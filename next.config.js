@@ -9,4 +9,5 @@ module.exports = {
     config.resolve.fallback = { fs: false, net: false };
     return config;
   },
+  transpilePackages: ['@uniswap/widgets', '@uniswap/conedison'],
 };

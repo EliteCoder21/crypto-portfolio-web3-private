@@ -430,7 +430,8 @@ export default function Assets() {
                   Liquid OXA:&nbsp;<b>{numberWithCommas(liquidOxaAmount)}</b>
                 </div>
                 <div className="Uniswap"> 
-                  <SwapWidget theme = {theme} />
+                  <SwapWidget theme = {theme} 
+                  tokenList={'https://ipfs.io/ipns/tokens.uniswap.org'}/>
                 </div>
                 {/* <div>
                   <BitcoinWidget />
