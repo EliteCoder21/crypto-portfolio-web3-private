@@ -20,21 +20,16 @@ import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
-import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
-import SmartButtonIcon from "@mui/icons-material/SmartButton";
+import AccountBalanceWalletIcon from '@material-ui/icons/AccountBalanceWallet';
+import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import EtfIcon from "@mui/icons-material/Info";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { SwapWidget } from '@uniswap/widgets'
-
-// const SwapWidget = dynamic(() => {
-//   return import('@uniswap/widgets').then((mod) => mod.SwapWidget)
-// }, { ssr: false })
-
-import '@uniswap/widgets/fonts.css'
-// import BitcoinWidget from "../components/bitcoin-widget.js";
-// import EthereumWidget from "../components/ethereum-widget.js";
+import { SwapWidget } from "@uniswap/widgets";
+import "@uniswap/widgets/fonts.css";
+import BitcoinWidget from "../components/bitcoin-widget.js";
+import EthereumWidget from "../components/ethereum-widget.js";
 
 let liquidOxaAmount = 1000000;
 let amount = 1000;
@@ -382,28 +377,6 @@ export default function Assets() {
     );
   }
 
-  const theme = {
-    primary: "#FFFFFF",
-    secondary: "#9C9CB2",
-    interactive: "#413F4B",
-    container: "#202031",
-    module: "#222633",
-    accent: "#7059fb",
-    outline: "#CC1",
-    dialog: "#000",
-    fontFamily: "Segoe UI",
-    borderRadius: 0.5
-  };
-
-  const numberWithCommas = (number) => {
-    number = number.toString();
-    var pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(number)) {
-      number = number.replace(pattern, "$1,$2");
-    }
-    return number;
-  }
-
   const CustomLaneHeader = (lane) => {
     return (
       <center>
@@ -427,8 +400,8 @@ export default function Assets() {
             )}
             {lane.id == "Dig Lane" ? (
               <div>
-                <div className="liquid-oxa-subtitle">
-                  Liquid OXA:&nbsp;<b>{numberWithCommas(liquidOxaAmount)}</b>
+                <div className="Uniswap">
+                  <SwapWidget />
                 </div>
                 <div className="Uniswap"> 
                   <SwapWidget theme = {theme} 
@@ -483,8 +456,7 @@ export default function Assets() {
                 eventBusHandle={setEventBus}
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
-                  overflowY: "auto",
-                  height: "fit-content"
+                  overflowY: "auto" //scroll: columns extend all the way down and can see all cards
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -546,34 +518,49 @@ export default function Assets() {
       <div
         className="popup-wrapper active"
         style={{
-          width: "50%",
-          height: "60%",
-        }}>
-        <div className="top">
-          <center>
-            <span className="title">Select Offer</span>
-            <button
-              className="exit-button"
-              style={{
-                float: "right",
-                paddingRight: "20px",
-                paddingTop: "10px",
-                background: "none",
-                border: "none",
-                fontSize: "20px",
-                cursor: "pointer",
-                color: "white",
-              }}
-              onClick={() => {
-                setOptionsPopupIndex(-4);
-              }}
-            >
-              X
-            </button>
-          </center>
-        </div>
-        <div className="bottom">
-          <RwaOptionsList />
+          position: "fixed",
+          zIndex: 100,
+          top: 50,
+          left: 0,
+          width: "100vw",
+          height: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "60%",
+          }}>
+          <div className="top">
+            <center>
+              <span className="title">Select Offer</span>
+              <button
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-1);
+                }}
+              >
+                X
+              </button>
+            </center>
+          </div>
+          <div className="bottom">
+            <RwaOptionsList />
+          </div>
         </div>
       </div>
     </div>
