@@ -400,12 +400,7 @@ export default function Assets() {
             )}
             {lane.id == "Dig Lane" ? (
               <div>
-                <div className="Uniswap">
-                  <SwapWidget />
-                </div>
                 <div className="Uniswap"> 
-                  <SwapWidget theme = {theme} 
-                  tokenList={'https://ipfs.io/ipns/tokens.uniswap.org'}/>
                 </div>
                 {/* <div>
                   <BitcoinWidget />
