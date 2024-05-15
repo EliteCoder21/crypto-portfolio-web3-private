@@ -26,8 +26,6 @@ import TearSheetIcon from "@mui/icons-material/Summarize";
 import EtfIcon from "@mui/icons-material/Info";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { SwapWidget } from "@uniswap/widgets";
-import "@uniswap/widgets/fonts.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
 
@@ -400,12 +398,7 @@ export default function Assets() {
             )}
             {lane.id == "Dig Lane" ? (
               <div>
-                <div className="Uniswap">
-                  <SwapWidget />
-                </div>
                 <div className="Uniswap"> 
-                  <SwapWidget theme = {theme} 
-                  tokenList={'https://ipfs.io/ipns/tokens.uniswap.org'}/>
                 </div>
                 {/* <div>
                   <BitcoinWidget />

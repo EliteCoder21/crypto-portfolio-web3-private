@@ -16,12 +16,11 @@
     "@mui/icons-material": "^5.14.3",
     "@mui/material": "^5.14.8",
     "@styled-icons/fa-brands": "^10.47.0",
-    "@uniswap/widgets": "2.51.2",
-    "@wagmi/connectors": "^4.1.26",
+    
     "alchemy": "^0.0.8",
     "alchemy-sdk": "^2.9.2",
     "clsx": "^2.0.0",
-    "connectkit": "^1.4.0",
+    
     "d3": "^7.8.5",
     "encoding": "^0.1.13",
     "eslint": "8.42.0",
