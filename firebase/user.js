@@ -158,7 +158,11 @@ export async function deleteUserAsset(
   cardId
 ) {
   try {    
-    await deleteDoc(doc(db, "assets", userId, laneId, cardId));
+    const deleteTarget = doc(db, "assets", userId, laneId, cardId);
+
+    console.log("Deleted document: " + deleteTarget);
+
+    await deleteDoc(deleteTarget);
   } catch (e) {
     console.log(e);
   }

@@ -471,6 +471,10 @@ input[type="number"] {
   color: var(--accent-contrast);
 }
 
+#page-autpage {
+  height: 1000px !important;
+}
+
 .page.active {
   display: block;
   width: calc(100% - 100px);
@@ -1783,6 +1787,7 @@ td {
   padding: 10px;
 }
 
+<<<<<<< HEAD
 .board-data-container {
   width: 100%;
   margin-left: auto;
@@ -1811,6 +1816,10 @@ td {
   .bond-container {
     overflow-y: visible;
   }
+=======
+.smooth-dnd-container.horizontal {
+  height: 75vh;
+>>>>>>> parent of bc690ed (worked on kanban board)
 }
 
 .react-trello-board {

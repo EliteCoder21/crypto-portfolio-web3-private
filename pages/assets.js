@@ -12,7 +12,7 @@ import {
   getSingleAsset,
   addUserAsset,
   deleteUserAsset,
-  getUserAssetOptions,
+  getUserAssetOptions
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
@@ -180,16 +180,19 @@ export default function Assets() {
     }
   }
 
-  async function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-  }
-
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
     if (fromLaneId == toLaneId) {
       return;
     }
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
+
+    console.log(cardData);
+    console.log(cardData.title.substring(0, 10));
+
+    if (cardData.title.substring(0, 10) == "Liquid OXA") {
+      return;
+    }
 
     try {
       let laneIndex = getLaneIndex(toLaneId);
@@ -198,17 +201,6 @@ export default function Assets() {
         setOptionsPopupIndex(-2);
       } else if (laneIndex == 4) {
         await deleteUserAsset(DEFAULT_USER_ID, fromLaneId, cardId);
-
-        setOptionsPopupIndex(-5);
-
-        await sleep(10);
-
-        setOptionsPopupIndex(-1);
-
-        liquidOxaAmount += 10;
-      } else {
-        setOptionsPopupIndex(laneIndex);
-      }
 
       transferUserAsset(
         DEFAULT_USER_ID,
@@ -377,7 +369,19 @@ export default function Assets() {
     );
   }
 
-  const CustomLaneHeader = (lane) => {
+  const numberWithCommas = (number) => {
+    number = number.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(number)) {
+      number = number.replace(pattern, "$1,$2");
+    }
+    return number;
+  }
+
+  const CustomLaneHeader = (lane) => {    
+    console.log("Custom lane header");
+    console.log(lane);
+
     return (
       <center>
         <div className="custom-lane-header">
@@ -425,6 +429,7 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
+
       <div className="page autpage active" id="page-autpage">
         <h1
           style={{
@@ -441,15 +446,19 @@ export default function Assets() {
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Bar />
         </div>
-        <div className="board-data-container">
-          <div className="bond-data">
+        <div
+          style={{ width: "100%", marginLeft: "auto", marginRight: "auto", overflowY: "hidden" }}
+        >
+          <div className="bond-data" style={{ overflowY: "hidden" }}>
             <div
               style={{
                 backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
                 width: "100%",
+                height: "70vh",
                 paddingBottom: 10,
-                overflowY: "auto"
+                overflowX: "scroll",
+                overflowY: "hidden"
               }}
             >
               <Board
@@ -612,26 +621,26 @@ export default function Assets() {
           }}>
           <div className="top">
             <center>
-              <span className="title">Select Offer</span>
-              <button
-                className="exit-button"
-                style={{
-                  float: "right",
-                  paddingRight: "20px",
-                  paddingTop: "10px",
-                  background: "none",
-                  border: "none",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setOptionsPopupIndex(-4);
-                }}
-              >
-                X
-              </button>
-            </center>
+            <span className="title">Select Offer</span>
+            <button
+            className="exit-button"
+            style={{
+              float: "right",
+              paddingRight: "20px",
+              paddingTop: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "20px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setOptionsPopupIndex(-1);
+            }}
+          >
+            X
+          </button>
+          </center>
           </div>
           <div className="bottom">
             <AutOptionsList />
