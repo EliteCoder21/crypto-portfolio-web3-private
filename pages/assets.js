@@ -199,8 +199,7 @@ export default function Assets() {
 
       if (laneIndex == 0) {
         setOptionsPopupIndex(-2);
-      } else if (laneIndex == 4) {
-        await deleteUserAsset(DEFAULT_USER_ID, fromLaneId, cardId);
+      }
 
       transferUserAsset(
         DEFAULT_USER_ID,
