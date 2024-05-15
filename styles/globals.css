@@ -1787,14 +1787,15 @@ td {
   padding: 10px;
 }
 
-<<<<<<< HEAD
 .board-data-container {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
+  overflow-y: hidden;
 }
 
-.board-container {
+.board-container { 
+  overflow-y: hidden;
   overflow-x: scroll;
   border-radius: 10px;
   width: 100%;
@@ -1803,28 +1804,29 @@ td {
   background-color: rgba(32, 34, 50, 0.55);
 }
 
-.smooth-dnd-container {
-  overflow-y: auto !important;
+.bond-data {
+  overflow-y: hidden;
+}
+
+.react-trello-board {
+  height: 70vh !important;
 }
 
 .smooth-dnd-container.vertical {
   overflow-y: auto !important;
+  height: fit-content;
 }
 
 @media only screen and (max-height: 800px) {
+  .react-trello-board {
+    overflow-y: scroll !important;
+    height: 50vh !important;
+  }
+
   .bond-data,
   .bond-container {
-    overflow-y: visible;
+    overflow-y: auto;
   }
-=======
-.smooth-dnd-container.horizontal {
-  height: 75vh;
->>>>>>> parent of bc690ed (worked on kanban board)
-}
-
-.react-trello-board {
-  overflow-y: visible !important;
-  overflow-x: scroll !important;
 }
 
 .react-trello-lane {
