@@ -1,6 +1,8 @@
-import LaunchIcon from "@mui/icons-material/Launch";
-import { AccountBalanceWallet, Store, SwapHoriz } from "@material-ui/icons";
-import { DataThresholding } from "@mui/icons-material";
+import { LaunchIcon } from "@mui/icons-material/Launch";
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import StoreIcon from '@mui/icons-material/Store';
+import {AccountBalanceWalletIcon} from '@mui/icons-material/AccountBalanceWallet';
+import { DataThresholdingIcon } from '@mui/icons-material/DataThresholding';
 import Navbar from "../components/navbar.js";
 import { useEffect, useState } from "react";
 import { useAuthContext } from "../firebase/context.js";
@@ -144,7 +146,7 @@ export default function InstructionsComponent() {
                                   className="material-icons"
                                   style={{ fontSize: 120 }}
                                 >
-                                  <Store fontSize="inherit" />
+                                  <StoreIcon fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">
@@ -175,7 +177,7 @@ export default function InstructionsComponent() {
                                   className="material-icons"
                                   style={{ fontSize: 120 }}
                                 >
-                                  <SwapHoriz fontSize="inherit" />
+                                  <SwapHorizIcon fontSize="inherit" />
                                 </span>
                                 <div className="launchSurround">
                                   <div className="launch">

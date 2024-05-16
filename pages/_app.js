@@ -1,6 +1,7 @@
 "use client";
-import { WagmiConfig, createConfig } from "wagmi";
+import { WagmiProvider, createConfig } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 import "../styles/globals.css";
 import "../styles/microtip.css";
@@ -19,6 +20,8 @@ const config = createConfig(
   })
 );
 
+const queryClient = new QueryClient();
+
 export default function RootLayout({ Component, pageProps }) {
   return (
     <div lang="en">
@@ -26,21 +29,23 @@ export default function RootLayout({ Component, pageProps }) {
         <link rel="shortcut icon" href="/favicon.png" />
         <title>OpenEXA Portfolio</title>
       </Head>
-      <WagmiConfig config={config}>
-        <ConnectKitProvider mode="light">
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              minHeight: "105vh",
-            }}
-          >
-            <AuthContextProvider>
-              <Component {...pageProps} />
-            </AuthContextProvider>
-          </div>
-        </ConnectKitProvider>
-      </WagmiConfig>
+      <WagmiProvider config={config}>
+        <QueryClientProvider client={queryClient}>
+          <ConnectKitProvider mode="light">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                minHeight: "105vh",
+              }}
+            >
+              <AuthContextProvider>
+                <Component {...pageProps} />
+              </AuthContextProvider>
+            </div>
+          </ConnectKitProvider>
+        </QueryClientProvider>
+      </WagmiProvider>
     </div>
   );
 }

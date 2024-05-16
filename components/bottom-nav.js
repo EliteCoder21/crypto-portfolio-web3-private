@@ -1,20 +1,18 @@
-import {
-  AccountBalanceWallet,
-  Dashboard,
-  Store,
-  SwapHoriz,
-} from "@material-ui/icons";
-import { DataThresholding } from "@mui/icons-material";
+import SwapHorizIcon from '@mui/icons-material/SwapHoriz';
+import StoreIcon from '@mui/icons-material/Store';
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
+import DataThresholdingIcon from '@mui/icons-material/DataThresholding';
 import React, { useEffect, useState, useLayoutEffect } from "react";
 import { Nav, Container, Navbar, NavDropdown } from "react-bootstrap";
 
 function BottomNav({ active }) {
   const icon_data = [
-    { id: 0, href: "/", icon: <Dashboard />, text: "Dashboard" },
-    { id: 1, href: "/assets", icon: <AccountBalanceWallet />, text: "Assets" },
-    { id: 2, href: "/holdings", icon: <DataThresholding />, text: "Holdings" },
-    { id: 3, href: "/market", icon: <Store />, text: "Market" },
-    { id: 4, href: "/activity", icon: <SwapHoriz />, text: "Activity" },
+    { id: 0, href: "/", icon: <DashboardIcon />, text: "Dashboard" },
+    { id: 1, href: "/assets", icon: <AccountBalanceWalletIcon />, text: "Assets" },
+    { id: 2, href: "/holdings", icon: <DataThresholdingIcon />, text: "Holdings" },
+    { id: 3, href: "/market", icon: <StoreIcon />, text: "Market" },
+    { id: 4, href: "/activity", icon: <SwapHorizIcon />, text: "Activity" },
   ];
 
   const icon_width = 115;
