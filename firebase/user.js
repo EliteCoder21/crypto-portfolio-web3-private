@@ -57,6 +57,38 @@ export async function createUser(id) {
   return { result, error };
 }
 
+export async function getLiquidOxaAmount(userId) {
+  try {
+    const docRef = doc(db, "assets", userId);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+
+      return data.liquidOxaAmount;
+    } else {
+      console.log("No such document!");
+      return null;
+    }
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
+export async function setLiquidOxaAmount(userId, newLiquidOxaAmount) {
+  try {
+    const docRef = doc(db, "assets", userId);
+    
+    await updateDoc(docRef, {
+      liquidOxaAmount: newLiquidOxaAmount
+    });
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
 export async function getUserHoldings(id) {
   try {
     const docRef = doc(db, "holdings", id);
@@ -120,6 +152,22 @@ export async function addUserAsset(
   }
 }
 
+export async function deleteUserAsset(
+  userId,
+  laneId,
+  cardId
+) {
+  try {    
+    const deleteTarget = doc(db, "assets", userId, laneId, cardId);
+
+    console.log("Deleted document: " + deleteTarget);
+
+    await deleteDoc(deleteTarget);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 export async function getUserAssetOptions(id, collectionId) {
   const dataCollection = collection(db, "assets", id, collectionId);
   const docsSnap = await getDocs(dataCollection);
@@ -145,7 +193,7 @@ export async function transferUserAsset(
     } else if (finalLane == "OXA2 Lane") {
       cardData.title = "Credit for " + cardData.cusip;
     } else if (finalLane == "Dig Lane") {
-      cardData.title = "BTC - Bitcoin";
+      cardData.title = "ETH - Ethereum";
     }
 
     cardData["laneId"] = finalLane;

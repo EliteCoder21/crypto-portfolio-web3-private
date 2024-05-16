@@ -39,6 +39,7 @@ export default function InstructionsComponent() {
     let watchListString = Object.keys(settings.watchlist).join("%2c");
     const currency = settings ? settings.currency : "usd";
 
+    // Segment which is causing problems - Uniswap
     const data = await getMarketCoins(currency, watchListString, coins);
 
     setMarketDic(data.marketList);
@@ -47,9 +48,12 @@ export default function InstructionsComponent() {
   }
 
   async function calculateMarketData() {
+
+    // Segment which is causing problems - Uniswap
     const marketData = await getMarketCap();
     setMarketCap(marketData.marketCap);
     setMarketChange(marketData.marketChange);
+    
   }
 
   useEffect(() => {

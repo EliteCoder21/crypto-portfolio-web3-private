@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {};
 
-module.exports = nextConfig;
+//module.exports = nextConfig;
 
 module.exports = {
   reactStrictMode: false,
@@ -9,4 +9,5 @@ module.exports = {
     config.resolve.fallback = { fs: false, net: false };
     return config;
   },
+  transpilePackages: ['@uniswap/widgets', '@uniswap/conedison'],
 };

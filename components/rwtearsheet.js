@@ -1,9 +1,7 @@
-//import { Text } from "react-native";
 import Select from "react-select";
 import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import Plot from "./plot.js";
-//import Grid from "@mui/material/Grid";
+import Plot from "react-plotly.js";
+import Grid from "@mui/material/Grid";
 import { TempCold } from "styled-icons/remix-fill";
 import { BlackTie } from "styled-icons/fa-brands";
 
@@ -33,20 +31,12 @@ const CUSIP_options = [
 ];
 
 const customStyles = {
-  /*menu: (styles) => ({
-    ...styles,
-    backgroundColor: "rgb(19, 19, 21)",
-    margin: "0",
-    width: "200px",
-  }), */
   control: (styles) => ({
     ...styles,
     backgroundColor: "rgb(19, 19, 21)",
     borderRadius: "10px",
     height: "30px",
     width: "200px",
-    borderWidth: "0",
-    margin: "0",
   }),
   option: (provided, state, isSelected) => ({
     ...provided,
@@ -54,7 +44,7 @@ const customStyles = {
     backgroundColor: isSelected ? "rgb(19, 19, 21)" : "rgb(19, 19, 21)",
     cursor: "pointer",
     "&:hover": {
-      backgroundColor: "#404040",
+      backgroundColor: "gray",
     },
   }),
   singleValue: (provided, state) => ({
@@ -69,7 +59,6 @@ const customStyles = {
     ...provided,
     width: "161px",
     height: "36px",
-    //display: "flex",
     margin: "0",
   }),
 };
@@ -81,36 +70,22 @@ const bgColor = {
 const boxColor = {
   backgroundColor: "#1f2436",
   margin: "5px",
-  marginTop: "15px",
-  maxWidth: "690px",
-  width: "100%",
-  marginLeft: "auto",
-  marginRight: "auto",
-  padding: "5px",
-  borderRadius: "15px"
 };
 
 const wDrawboxColor = {
   backgroundColor: "#1f2436",
   margin: "5px",
-  marginTop: "15px",
-  maxWidth: "700px",
-  marginLeft: "auto",
-  marginRight: "auto",
 };
 
 const divStyle = {
   margin: "5px",
-  /*width: "fit-content",
-  marginLeft: "auto",
-  marginRight: "auto",*/
 };
 
 const tableStyle = {
   margin: "5px",
   cellspacing: "0",
   cellpadding: "0",
-  width: "300px",
+  width: "350px",
   border: "0px",
 };
 
@@ -124,7 +99,6 @@ const dropdownTitle = {
   color: "rgb(169, 169, 169)",
   fontSize: 14,
   textAlign: "left",
-  //marginBottom: "10px",
 };
 
 const headerStyle = {
@@ -134,23 +108,6 @@ const headerStyle = {
   borderBottomColor: "#6c6c6c",
   borderBottomWidth: "1px",
 };
-
-const windowComponent = () => {
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    // Clean up event listener when component unmounts
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-}
 
 export const mainTextColor = {
   color: "#9B9EA3",
@@ -179,9 +136,9 @@ var quant_layout = {
   yaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",
+  width: (window.innerWidth - 60) / 2,
   height: 440,
-  title: "Return Quantiles",
+  title: "return Quantiles",
   borderRadius: 10,
 };
 
@@ -202,7 +159,7 @@ var month_percent_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: window.innerWidth - 60,
   height: 440,
   title: "Monthly Returns (%)",
 };
@@ -230,8 +187,7 @@ var sharpe_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //(window.innerWidth - 80) / 2,
-  //width: "100%",
+  width: (window.innerWidth - 80) / 2,
   height: 440,
   title: "Rolling Sharpe (6 Months)",
 };
@@ -259,7 +215,7 @@ var vol_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //(window.innerWidth - 60) / 2,
+  width: (window.innerWidth - 60) / 2,
   height: 440,
   title: "Rolling Volatility (6 Months)",
 };
@@ -287,7 +243,7 @@ var beta_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //(window.innerWidth - 80) / 2,
+  width: (window.innerWidth - 80) / 2,
   height: 440,
   title: "Rolling Beta to Benchmark",
 };
@@ -315,8 +271,7 @@ var drawdown_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: window.innerWidth - 350 - 80,
   height: 440,
   title: "Top 5 Drawdown Periods",
 };
@@ -341,8 +296,7 @@ var monthly_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: window.innerWidth - 350 - 80,
   height: 440,
   title: "Distribution of Monthly Returns",
 };
@@ -366,8 +320,7 @@ var EoY_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: window.innerWidth - 350 - 80,
   height: 440,
   title: "End of Year Returns vs Benchmark",
 };
@@ -394,8 +347,7 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "50%",
+  width: window.innerWidth - 350 - 80,
   height: 440,
   title: "Cumulative Returns",
 };
@@ -423,8 +375,7 @@ var dreturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: window.innerWidth - 350 - 80,
   height: 440,
   title: "Daily Returns",
 };
@@ -452,8 +403,7 @@ var sort_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //(window.innerWidth - 80) / 2,
-  //width: "100%",
+  width: (window.innerWidth - 80) / 2,
   height: 440,
   title: "Rolling Sortino (6 Months)",
 };
@@ -481,13 +431,12 @@ var under_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: window.innerWidth - 350 - 80,
   height: 440,
   title: "Underwater Plot",
 };
 
-const Tearsheet = () => {
+const Tearsheet = (isCrypto) => {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
@@ -520,6 +469,16 @@ const Tearsheet = () => {
   const [heatmap_Layout, setHeatMapLayout] = useState(month_percent_layout);
   const [sort_Layout, setSortLayout] = useState(sort_layout);
   const [under_Layout, setUnderLayout] = useState(under_layout);
+
+  const [URL, setURL] = useState("");
+
+  useEffect(() => {
+    if (isCrypto) {
+      setURL("https://quantstats-prod-wmn5n7rc5q-uc.a.run.app/getdata/");
+    } else {
+      setURL("https://quantstats-prod-wmn5n7rc5q-uc.a.run.app/getdata/");
+    }
+  }, [isCrypto]);
 
   // async function queryStackOverflow() {
   //   // Queries a public Stack Overflow dataset.
@@ -572,6 +531,12 @@ const Tearsheet = () => {
     setQuants([]);
     setSortino([]);
     setUnderwater([]);
+    let table = document.querySelector("#w_draw_table");
+    table.innerHTML = "";
+    let table2 = document.querySelector("#eoy_table");
+    table2.innerHTML = "";
+    let table3 = document.querySelector("#table");
+    table3.innerHTML = "";
   }
 
   function handleStratInputChange(newValue) {
@@ -582,14 +547,8 @@ const Tearsheet = () => {
     console.log(newValue);
   }
 
-  function generateTable(
-    table,
-    data,
-    Strategy,
-    Benchmark,
-    hor_bar,
-    special_keys
-  ) {
+  function generateTable(table, data, Strategy, Benchmark) {
+    table.innerHTML = "";
     let keys = Object.keys(data[0]);
     console.log(keys);
     table.style.textAlign = "left";
@@ -609,39 +568,45 @@ const Tearsheet = () => {
     th2.style.textAlign = "right";
     row.appendChild(th2);
 
-    let prev_key = "Metric";
+    const hor_bar = [
+      "Cumulative Return ",
+      "Sharpe ",
+      "Max Drawdown ",
+      "Expected Daily % ",
+      "Gain/Pain Ratio ",
+      "Payoff Ratio ",
+      "MTD ",
+      "Best Day ",
+      "Avg. Drawdown ",
+      "Avg. Up Month ",
+    ];
     for (const key of keys) {
       //Adding row for each key
       if (hor_bar.includes(key)) {
-        if (special_keys.includes(key)) {
-          let div = table.insertRow();
-          let cell_hold = div.insertCell();
-          cell_hold.colSpan = "3";
-          let bar = document.createElement("hr");
-          bar.className = "benchmark_bar";
-          cell_hold.appendChild(bar);
-          div.className = "benchmark_table";
-          div.appendChild(cell_hold);
-        }
-        prev_key = key;
+        let div = table.insertRow();
+        let cell_hold = div.insertCell();
+        cell_hold.colSpan = "3";
+        let bar = document.createElement("hr");
+        bar.className = "benchmark_bar";
+        cell_hold.appendChild(bar);
+        div.className = "benchmark_table";
+        div.appendChild(cell_hold);
       }
-      if (special_keys.includes(prev_key)) {
-        let row = table.insertRow();
-        let cell = row.insertCell();
-        let key_text = document.createTextNode(key);
-        cell.appendChild(key_text);
-        cell.style.textAlign = "left";
-        let cell1 = row.insertCell();
-        let strat_text = document.createTextNode(data[0][key]);
-        cell1.style.textAlign = "right";
-        cell1.appendChild(strat_text);
-        let cell2 = row.insertCell();
-        row.className = "benchmark_table";
-      }
+      let row = table.insertRow();
+      let cell = row.insertCell();
+      let key_text = document.createTextNode(key);
+      cell.appendChild(key_text);
+      let cell1 = row.insertCell();
+      let strat_text = document.createTextNode(data[0][key]);
+      cell1.style.textAlign = "right";
+      cell1.appendChild(strat_text);
+      let cell2 = row.insertCell();
+      row.className = "benchmark_table";
     }
   }
 
   function generateEOYTable(table, data) {
+    table.innerHTML = "";
     const keys = Object.keys(data[0].Strategy);
 
     table.style.textAlign = "left";
@@ -716,6 +681,7 @@ const Tearsheet = () => {
   }
 
   function generateWDrawTable(table, data) {
+    table.innerHTML = "";
     const keys = Object.keys(data[0].start);
 
     table.style.textAlign = "left";
@@ -771,6 +737,7 @@ const Tearsheet = () => {
   // similar to componentDidMount()
   useEffect(() => {
     handleRefresh(selectedCUSIPStrat, "010824GS3");
+    window.addEventListener("resize", handleResize, false);
   }, []);
 
   const handleResize = () => {
@@ -778,7 +745,7 @@ const Tearsheet = () => {
     //Set size of first set of visuals
 
     //Entire window - table - margins/padding
-    const first_size = "10px";
+    const first_size = window.innerWidth - 350 - 80;
     Object.assign(ret, cret_Layout);
     ret.width = first_size;
     ret.title = "Cumulative Returns";
@@ -805,7 +772,7 @@ const Tearsheet = () => {
     drop.width = first_size;
     setWDPLayout(drop);
 
-    const second_size = "100%";
+    const second_size = (window.innerWidth - 80) / 2;
     let beta = {};
     Object.assign(beta, beta_Layout);
     beta.width = second_size;
@@ -836,7 +803,7 @@ const Tearsheet = () => {
     quant.width = second_size;
     setQuantLayout(quant);
 
-    const third_size = "100%";
+    const third_size = window.innerWidth - 60;
     let hm = {};
     Object.assign(hm, heatmap_Layout);
     hm.width = third_size;
@@ -845,12 +812,12 @@ const Tearsheet = () => {
 
   const handleRefresh = async (Strategy, Benchmark) => {
     console.log(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/cret/" +
+      URL + "/cret/" +
         Strategy +
         "/None"
     );
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/cret/" +
+      URL + "/cret/" +
         Strategy +
         "/None"
     )
@@ -874,7 +841,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/metrics/" +
+      URL + "/metrics/" +
         Strategy +
         "/" +
         "None"
@@ -882,34 +849,12 @@ const Tearsheet = () => {
       .then((response) => response.json())
       .then((json) => {
         let bond_metrics = [JSON.parse(JSON.stringify(json))];
-
-        const list_hor_bar = [
-          "Cumulative Return ",
-          "Max Drawdown ",
-          "MTD ",
-          "Best Day ",
-          "Avg. Drawdown ",
-          "Avg. Up Month ",
-        ];
-        const hor_bar = {
-          cumulative_return: "Cumulative Return ",
-          max_drawdown: "Max Drawdown ",
-          mtd: "MTD ",
-          best_day: "Best Day ",
-          avg_drawdown: "Avg. Drawdown ",
-          avg_up_month: "Avg. Up Month ",
-        };
-
-        for (const [key, value] of Object.entries(hor_bar)) {
-          let tab = document.querySelector("#table_" + key);
-          generateTable(tab, bond_metrics, Strategy, Benchmark, list_hor_bar, [
-            value,
-          ]); // generate the table first
-        }
+        let tab = document.querySelector("#table");
+        generateTable(tab, bond_metrics, Strategy, Benchmark); // generate the table first
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/eoyret/" +
+      URL + "/eoyret/" +
         Strategy +
         "/None"
     )
@@ -932,7 +877,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/monthdis/" +
+      URL + "/monthdis/" +
         Strategy +
         "/" +
         "None"
@@ -961,7 +906,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/dret/" +
+      URL + "/dret/" +
         Strategy +
         "/" +
         "None"
@@ -987,7 +932,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/ret_draw/" +
+      URL + "/ret_draw/" +
         Strategy +
         "/" +
         "None"
@@ -1035,7 +980,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rolbeta/" +
+      URL + "/rolbeta/" +
         Strategy +
         "/" +
         "None'GRO"
@@ -1061,7 +1006,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/eoytable/" +
+      URL + "/eoytable/" +
         Strategy +
         "/" +
         "None'GRO"
@@ -1074,7 +1019,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rsharpe/" +
+      URL + "/rsharpe/" +
         Strategy +
         "/None'GRO"
     )
@@ -1099,7 +1044,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/wdraw/" +
+      URL + "/wdraw/" +
         Strategy +
         "/" +
         "None"
@@ -1112,7 +1057,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rvol/" +
+      URL + "/rvol/" +
         Strategy +
         "/" +
         "None"
@@ -1140,7 +1085,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/retquant/" +
+      URL + "/retquant/" +
         Strategy +
         "/" +
         "None"
@@ -1204,7 +1149,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/heatmap/" +
+      URL + "/heatmap/" +
         Strategy +
         "/" +
         "None"
@@ -1286,7 +1231,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rsortino/" +
+      URL + "/rsortino/" +
         Strategy +
         "/" +
         "None"
@@ -1313,7 +1258,7 @@ const Tearsheet = () => {
       });
 
     fetch(
-      "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/underwater/" +
+      URL + "/underwater/" +
         Strategy +
         "/" +
         "None"
@@ -1340,19 +1285,36 @@ const Tearsheet = () => {
       });
   };
 
-  let initialSubheaderFontSize = 37;
+  let initialSubheaderFontSize;
+  if (window.innerWidth > 568) {
+    initialSubheaderFontSize = 37;
+  } else {
+    initialSubheaderFontSize = 31;
+  }
 
   const [subheaderFontSize, setSubheaderFontSize] = useState(
     initialSubheaderFontSize
   );
 
-  //////
   return (
-    <div style={{ minHeight: "100vh", margin: 5, borderWidth: 20, borderColor: "white" }}> 
+    <div style={{ minHeight: "100vh" }}>
+      <div align="center" width="100%" height="80px">
+        <h1
+          backgroundColor="#131722"
+          style={{
+            lineHeight: "80px",
+            fontSize: 45,
+            color: "white",
+            marginTop: 10,
+          }}
+        >
+          Strategy Tearsheet
+        </h1>
+      </div>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
-        <div className="d-flex justify-content-left ml-3 mb-3 selectContainer" style={{ marginBottom: 20 }}>
+        <div className="d-flex justify-content-left ml-3 mb-3 selectContainer">
           <div className="d-flex flex-column benchSelectDiv">
-          <div style={dropdownTitle}>Strategy CUSIP</div>
+            <div style={dropdownTitle}>Strategy CUSIP</div>
             {/* <div className="selectContainer">  */}
             <Select
               className="benchSelect"
@@ -1370,225 +1332,106 @@ const Tearsheet = () => {
             {/* </div> */}
           </div>
         </div>
-
-        {/*SECTION 1*/} 
-        <div className="container">  
-          <div className="row justify-content-evenly ml-3"> 
-            <div className="col-lg-6">
-              <div className="d-flex flex-column">
-                <div id="tableTitle" className="mb-3">
-                  <strong>Cummulative Returns</strong>
-                </div>
-                <div className="d-flex justify-content-between">
-                  <Plot
-                    className="plot"
-                    data={creturn_data}
-                    layout={cret_Layout}
-                    useResizeHandler={true}
-                    style={divStyle}
-                    id="chart1"
-                  />
-                  <div className="tables">
-                    <div id="tableTitle">
-                      Key Performance Metrics
-                    </div>
-                    <table id="table_cumulative_return" style={tableStyle} />
-                  </div>
-                </div>
+        <div className="d-flex justify-content-evenly ml-3">
+          <div className="d-flex flex-column">
+            <Plot
+              className="plot"
+              data={creturn_data}
+              layout={cret_Layout}
+              style={divStyle}
+            />
+            <Plot
+              className="plot"
+              data={eoy_return}
+              layout={eoy_Layout}
+              style={divStyle}
+            />
+            <Plot
+              className="plot"
+              data={monthly_returns}
+              layout={month_Layout}
+              style={divStyle}
+            />
+            <Plot
+              className="plot"
+              data={daily_returns}
+              layout={daily_Layout}
+              style={divStyle}
+            />
+          </div>
+          <div className="tables d-flex flex-column" style={boxColor}>
+            <div id="tableTitle" style={tableTitle}>
+              Key Performance Metrics
+            </div>
+            <table id="table" style={tableStyle} />
+          </div>
+        </div>
+        <div id="First_Visuals" className="d-flex justify-content-evenly ml-3">
+          <div className="d-flex flex-column">
+            <Plot
+              className="plot"
+              data={underwater}
+              layout={under_Layout}
+              style={divStyle}
+            />
+            <Plot
+              className="plot"
+              data={worst_drawdowns}
+              layout={wdp_Layout}
+              style={divStyle}
+            />
+          </div>
+          <div className="d-flex flex-column">
+            <div className="tables" style={boxColor}>
+              <div id="eoyTitle" style={tableTitle}>
+                EOY Returns vs Benchmark
               </div>
+              <table id="eoy_table" style={tableStyle} />
+            </div>
+            <div className="tables" style={wDrawboxColor}>
+              <div id="w_draw_table_Title" style={tableTitle}>
+                Worst Drawdowns 
+              </div>
+              <table id="w_draw_table" style={tableStyle} />
             </div>
           </div>
-
-          <div className="row mt-4">
-            <div className="col-lg-6">
-              <div className="d-flex flex-column">
-                <div id="tableTitle" className="mb-3">
-                  <strong>End of Year Returns vs Benchmark</strong>
-                </div>
-                <Plot
-                  className="plot"
-                  data={eoy_return}
-                  layout={eoy_Layout}
-                  style={divStyle}
-                  id="chart4"
-                />
-                <div className="tables mt-3">
-                  <div id="eoyTitle">
-                    EOY Returns vs Benchmark
-                  </div>
-                  <table id="eoy_table" style={tableStyle} />
-                </div>
-              </div>
-            </div>
+        </div>
+        <div className="d-flex justify-content-evenly ml-3">
+          <div className="d-flex flex-column">
+            <Plot
+              className="plot"
+              data={sharpe}
+              layout={sharpe_Layout}
+              style={divStyle}
+            />
+            <Plot
+              className="plot"
+              data={sortino}
+              layout={sort_Layout}
+              style={divStyle}
+            />
           </div>
-        
-          {/*SECTION 2*/}
-          <div className="row mt-4">
-            <div className="col-lg-6">
-              <div className="d-flex flex-column">
-                <div id="tableTitle" className="mb-3">
-                  <strong>Daily Returns</strong>
-                </div>
-                <Plot
-                  className="plot"
-                  data={daily_returns}
-                  layout={daily_Layout}
-                  style={divStyle}
-                  id="chart5"
-                />
-                <div className="tables mt-3">
-                  <div id="tableTitle">
-                    Key Performance Metrics
-                  </div>
-                  <table id="table_best_day" style={tableStyle} />
-                </div>
-              </div>
-            </div>
+          <div className="d-flex flex-column">
+            <Plot
+              className="plot"
+              data={vol}
+              layout={vol_Layout}
+              style={divStyle}
+            />
+            <Plot
+              className="plot"
+              data={quants}
+              layout={quant_Layout}
+              style={divStyle}
+            />
           </div>
-
-          {/* SECTION 3 */}
-          <div className="row mt-4">
-            <div className="col-lg-6">
-              <div className="d-flex flex-column">
-                <div id="tableTitle" className="mb-3">
-                  <strong>Underwater Plot</strong>
-                </div>
-                <Plot
-                  className="plot"
-                  data={underwater}
-                  layout={under_Layout}
-                  style={divStyle}
-                  id="chart6"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 4*/}
-          <div className="row mt-4">
-            <div className="col-lg-6">
-              <div className="d-flex flex-column">
-                <div id="tableTitle" className="mb-3">
-                    <strong>Top 5 Drawdown Periods</strong>
-                </div>
-                <Plot
-                  className="plot"
-                  data={worst_drawdowns}
-                  layout={wdp_Layout}
-                  style={divStyle}
-                  id="chart7"
-                />
-                <div className="tables mt-3">
-                  <div id="w_draw_table_Title">
-                    Worst Drawdowns
-                  </div>
-                  <table id="w_draw_table" style={tableStyle} />
-                </div>
-                <div className="tables mt-3">
-                  <div id="tableTitle">
-                    Key Performance Metrics
-                  </div>
-                  <table id="table_max_drawdown" style={tableStyle} />
-                </div>
-                <div className="tables mt-3">
-                  <div id="tableTitle">
-                    Key Performance Metrics
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          {/* SECTION 5 */}
-          <div className="row mt-4">
-            <div className="col-lg-6">
-              <div className="d-flex flex-column">
-                <div id="tableTitle" className="mb-3">
-                  <strong>Rollings (6 months)</strong>
-                </div>
-                <div className="row">
-                  <div className="col-lg-3">
-                    <Plot
-                      className="plot"
-                      data={sharpe}
-                      layout={sharpe_Layout}
-                      style={divStyle}
-                      id="chart8"
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <Plot
-                      className="plot"
-                      data={sortino}
-                      layout={sort_Layout}
-                      style={divStyle}
-                      id="chart9"
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <Plot
-                      className="plot"
-                      data={vol}
-                      layout={vol_Layout}
-                      style={divStyle}
-                      id="chart10"
-                    />
-                  </div>
-                  <div className="col-lg-3">
-                    <Plot
-                      className="plot"
-                      data={quants}
-                      layout={quant_Layout}
-                      style={divStyle}
-                      id="chart11"
-                    />
-                  </div>
-                </div>
-                <div className="tables mt-3">
-                  <div id="tableTitle">
-                    Key Performance Metrics
-                  </div>
-                  <table id="table_mtd" style={tableStyle} />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* SECTION 6 */}
-          <div className="row mt-4">
-            <div className="col-lg-6">
-              <div className="d-flex flex-column">
-                <div id="tableTitle" className="mb-3">
-                  <strong>Monthly Returns (%)</strong>
-                </div>
-                <div className="tables">
-                  <div id="tableTitle">
-                    Key Performance Metrics
-                  </div>
-                  <table id="table_avg_up_month" style={tableStyle} />
-                </div>
-                <div className="row mt-3">
-                  <div className="col-lg-6">
-                    <Plot
-                      className="plot"
-                      data={monthly_returns}
-                      layout={month_Layout}
-                      style={divStyle}
-                      id="chart3" 
-                    />
-                  </div>
-                  <div className="col-lg-6">
-                    <Plot
-                      className="big"
-                      data={monthly_percents}
-                      layout={heatmap_Layout}
-                      id="chart2"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+        </div>
+        <div className="ml-3">
+          <Plot
+            className="big"
+            data={monthly_percents}
+            layout={heatmap_Layout}
+          />
         </div>
       </div>
     </div>

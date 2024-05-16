@@ -1,6 +1,3 @@
-import Navbar from "../components/navbar.js";
-
-import Login from "../components/login.js";
 import Board from "react-trello";
 import { useAuthContext } from "../firebase/context";
 import React, { useState, useEffect } from "react";
@@ -12,27 +9,25 @@ import {
   getSingleAsset,
   addUserAsset,
   deleteUserAsset,
-  getUserAssetOptions
+  getUserAssetOptions,
 } from "../firebase/user.js";
 import { collection, getDocs } from "firebase/firestore";
-import Bar from "../components/bar.js";
-import Tearsheet from "../components/tearsheet.js";
-import CryptoTearsheet from "../components/crypto-tearsheet.js";
-import {AddIcon} from "@mui/icons-material/Add";
-import {RelValIcon} from "@mui/icons-material/ScatterPlot";
-import {WalletIcon} from '@mui/icons-material/Wallet';
-import {SmartButtonIcon} from '@mui/icons-material/SmartButton';
-import {TearSheetIcon} from "@mui/icons-material/Summarize";
-import "reactjs-popup/dist/index.css";
+import Bar from "./bar.js";
+import Tearsheet from "./tearsheet.js";
+import CryptoTearsheet from "./crypto-tearsheet.js";
+import AddIcon from "@mui/icons-material/Add";
+import RelValIcon from "@mui/icons-material/ScatterPlot";
+import AccountBalanceWalletIcon from "@material-ui/icons/AccountBalanceWallet";
+import SmartButtonIcon from "@mui/icons-material/SmartButton";
+import TearSheetIcon from "@mui/icons-material/Summarize";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
+import BitcoinWidget from "./bitcoin-widget.js";
+import EthereumWidget from "./ethereum-widget.js";
 import { SwapWidget } from "@uniswap/widgets";
 import "@uniswap/widgets/fonts.css";
-import BitcoinWidget from "../components/bitcoin-widget.js";
-import EthereumWidget from "../components/ethereum-widget.js";
 
 let liquidOxaAmount = 1000000;
-let amount = 1000;
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
 
@@ -41,17 +36,16 @@ require("firebase/firestore");
 
 let initialized = false;
 
-export default function Assets() {
-  console.log("Assets called");
-
-  const { user } = useAuthContext();
-
+// Removed function here 
+export default function Kanban() {
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
   const [displayCryptoTearsheetPopup, setDisplayCryptoTearsheetPopup] = useState(false);
   const [displayTearsheetPopup, setDisplayTearsheetPopup] = useState(false);
   const [optionsPopupIndex, setOptionsPopupIndex] = useState(-1);
   const [chosenOption, setChosenOption] = useState("");
-  const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
+
+  // Changed for all lanes
+  const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], [], []]);
 
   let getLaneIndex = function (laneName) {
     let res = -1;
@@ -67,11 +61,9 @@ export default function Assets() {
   };
 
   async function getAssetOptionsData() {
-
-    const tableState = [[], [], [], [], []];
+    const tableState = [[], [], [], []];
 
     let getRow = function (docsSnap, index) {
-      
       docsSnap.forEach((doc) => {
         const data = doc.data();
 
@@ -84,7 +76,6 @@ export default function Assets() {
       });
     }
 
-    // Put Try catch statement here
     try {
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "rwa-asset-options"), getLaneIndex("RWA Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
@@ -92,42 +83,13 @@ export default function Assets() {
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA2 Lane"));
       getRow(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
     } catch (e) {
-      console.error(e);
+      console.log(e);
     }
-    
+
     setAssetOptionsData(tableState);
   }
 
-  // async function getAssetOptionsData() {
-  //   const tableState = [[], [], [], []];
-
-  //   let getRow = function (docsSnap, index) {
-  //     docsSnap.forEach((doc) => {
-  //       const data = doc.data();
-
-  //       tableState[index].push({
-  //         id: data.id,
-  //         cusip: data.cusip,
-  //         offer: data.offer,
-  //         description: data.description
-  //       });
-  //     });
-  //   }
-
-  //   try {
-  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "rwa-asset-options"), getLaneIndex("RWA Lane"));
-  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "aut-asset-options"), getLaneIndex("AUT Lane"));
-  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA Lane"));
-  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "oxa-asset-options"), getLaneIndex("OXA2 Lane"));
-  //     getRow(await getUserAssetOptions(DEFAULT_USER_ID, "dig-asset-options"), getLaneIndex("Dig Lane"));
-  //   } catch (e) {
-  //     console.log(e);
-  //   }
-
-  //   setAssetOptionsData(tableState);
-  // }
-
-  const data = require("./emptyAssetsData.json");
+  const data = require("../pages/emptyAssetsData.json");
   getAssetsData(DEFAULT_USER_ID);
 
   let eventBus = null;
@@ -137,8 +99,6 @@ export default function Assets() {
 
   async function getAssetsData() {
     try {
-      // console.log("getAssetsData called");
-
       const userDataRef = await getUserAssets(DEFAULT_USER_ID);
 
       for (let lane of lanes) {
@@ -180,25 +140,36 @@ export default function Assets() {
     }
   }
 
+  async function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+
   async function handleCardMoveAcrossLanes(fromLaneId, toLaneId, cardId) {
+    console.log("handleCardMoveAcrossLanes called");
+
     if (fromLaneId == toLaneId) {
       return;
     }
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
-    console.log(cardData);
-    console.log(cardData.title.substring(0, 10));
-
-    if (cardData.title.substring(0, 10) == "Liquid OXA") {
-      return;
-    }
-
     try {
       let laneIndex = getLaneIndex(toLaneId);
 
       if (laneIndex == 0) {
         setOptionsPopupIndex(-2);
+      } else if (laneIndex == 4) {
+        await deleteUserAsset(DEFAULT_USER_ID, fromLaneId, cardId);
+
+        setOptionsPopupIndex(-5);
+
+        await sleep(10);
+
+        setOptionsPopupIndex(-1);
+
+        liquidOxaAmount += 10;
+      } else {
+        setOptionsPopupIndex(laneIndex);
       }
 
       transferUserAsset(
@@ -228,21 +199,6 @@ export default function Assets() {
       >
         <div className="react-trello-card-header">
           <h3 className="react-trello-card-title">{card.title}</h3>
-          {card.laneId == "RWA Lane" ? (
-            <div style={{ boxAlign: "center" }}>
-            <button
-              className="hover-button"
-              title="ETF Information"
-              onClick={() => {
-                window.open("https://www.blackrock.com/us/individual/products/333011/ishares-bitcoin-trust");
-              }}
-            >
-              <EtfIcon />
-            </button>
-          </div>
-          ) : (
-            <></>
-          )}
           {card.laneId == "RWA Lane" || card.laneId == "AUT Lane" || card.laneId == "OXA Lane" ? (
             <div style={{ boxAlign: "center" }}>
               <button
@@ -282,18 +238,14 @@ export default function Assets() {
         {card.laneId != "Dig Lane" ? (
           <div className="react-trello-card-body">
             <p>{card.description}</p>
-            <div className="progressParent">
-              <div className="progress">
-                {/* <p>&#9680; In Progress</p> */}
-                <p>In Progress</p>
-              </div>
+            <div className="progress">
+              <p>&#9680; In Progress</p>
             </div>
           </div>
         ) : (
           <>
             <div className="react-trello-card-body">
-              {/* <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> */}
-              {/* <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> */}
+              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
             </div>
           </>
         )};
@@ -304,11 +256,9 @@ export default function Assets() {
   function getLaneSubtitle(laneId) {
     let res;
 
-    console.log("Checking for build success!");
-
     switch (laneId) {
       case "RWA Lane":
-        res = "Add Onboarded ETFs";
+        res = "Add Onboarded Bonds";
         break;
       case "AUT Lane":
         res = "Drop here to convert to AUT";
@@ -317,10 +267,10 @@ export default function Assets() {
         res = "Drop here to immobilize the AUT";
         break;
       case "OXA2 Lane":
-        res = "Drop here to get credit for AUTs";
+        res = "Drop here to get credit for AUT's"
         break;
       case "Dig Lane":
-        res = "Convert back to OXA/AUT/RWA";
+        res = "Convert back to OXA/AUT/RWA"
       default:
         break;
     }
@@ -368,19 +318,20 @@ export default function Assets() {
     );
   }
 
-  const numberWithCommas = (number) => {
-    number = number.toString();
-    var pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(number)) {
-      number = number.replace(pattern, "$1,$2");
-    }
-    return number;
+  const theme = {
+    primary: "#FFFFFF",
+    secondary: "#9C9CB2",
+    interactive: "#413F4B",
+    container: "#202031",
+    module: "#222633",
+    accent: "#7059fb",
+    outline: "#CC1",
+    dialog: "#000",
+    fontFamily: "Segoe UI",
+    borderRadius: 0.5,
   }
 
-  const CustomLaneHeader = (lane) => {    
-    console.log("Custom lane header");
-    console.log(lane);
-
+  const CustomLaneHeader = (lane) => {
     return (
       <center>
         <div className="custom-lane-header">
@@ -394,28 +345,17 @@ export default function Assets() {
                 {getLaneImage(lane.id)}
               </center>
             </div>
-            {lane.id == "RWA Lane" ? (
-              <div className="amount-subtitle">
-                Amount:&nbsp;<b>{numberWithCommas(amount)}</b>
-              </div>
-            ) : (
-              <></>
-            )}
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
-                  <SwapWidget />
+                  <SwapWidget theme={theme} />
                 </div>
-                <div className="Uniswap"> 
-                  <SwapWidget theme = {theme} 
-                  tokenList={'https://ipfs.io/ipns/tokens.uniswap.org'}/>
-                </div>
-                {/* <div>
+                <div>
                   <BitcoinWidget />
                   <EthereumWidget />
                   <BitcoinWidget />
                   <BitcoinWidget />
-                </div> */}
+                </div>
               </div>
             ) : (
               <></>
@@ -428,7 +368,6 @@ export default function Assets() {
 
   const AssetInventory = () => {
     return (
-
       <div className="page autpage active" id="page-autpage">
         <h1
           style={{
@@ -445,26 +384,23 @@ export default function Assets() {
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Bar />
         </div>
-        <div
-          style={{ width: "100%", marginLeft: "auto", marginRight: "auto", overflowY: "hidden" }}
-        >
-          <div className="bond-data" style={{ overflowY: "hidden" }}>
+        <div className="board-data-container">
+          <div className="bond-data">
             <div
               style={{
                 backgroundColor: "rgba(32, 34, 50, 0.55)",
                 borderRadius: 20,
                 width: "100%",
-                height: "70vh",
                 paddingBottom: 10,
-                overflowX: "scroll",
-                overflowY: "hidden"
+                overflowY: "auto"
               }}
             >
               <Board
                 eventBusHandle={setEventBus}
                 style={{
                   backgroundColor: "rgba(31, 42, 71, 0)",
-                  overflowY: "auto" //scroll: columns extend all the way down and can see all cards
+                  overflowY: "auto",
+                  height: "fit-content"
                 }}
                 data={data}
                 onCardMoveAcrossLanes={handleCardMoveAcrossLanes}
@@ -481,8 +417,6 @@ export default function Assets() {
   };
 
   async function processAddRwaAsset(cusip, offer, description) {
-    amount += 10;
-
     await addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
 
     await getAssetsData();
@@ -511,22 +445,8 @@ export default function Assets() {
   const RwaOptionsPopup = () => {
     return (
       <div
-      style={{
-        position: "absolute",
-        zIndex: 100,
-        top: 50,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        className="popup-wrapper active"
         style={{
-          position: "fixed",
+          position: "absolute",
           zIndex: 100,
           top: 50,
           left: 0,
@@ -571,7 +491,6 @@ export default function Assets() {
           </div>
         </div>
       </div>
-    </div>
     );
   };
 
@@ -620,26 +539,26 @@ export default function Assets() {
           }}>
           <div className="top">
             <center>
-            <span className="title">Select Offer</span>
-            <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
-          </center>
+              <span className="title">Select Offer</span>
+              <button
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-4);
+                }}
+              >
+                X
+              </button>
+            </center>
           </div>
           <div className="bottom">
             <AutOptionsList />
@@ -850,6 +769,57 @@ export default function Assets() {
     );
   };
 
+  const TemporaryPopup = () => {
+    return (
+      <div
+        style={{
+          position: "absolute",
+          zIndex: 100,
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100vh",
+          backgroundColor: "rgba(0, 0, 0, 0.8)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+        onClick={() => {
+          setOptionsPopupIndex(-1);
+        }}
+      >
+        <div
+          className="popup-wrapper active"
+          style={{
+            width: "50%",
+            height: "90%",
+          }}>
+          <button
+            className="exit-button"
+            style={{
+              position: "absolute",
+              top: "10px",
+              right: "10px",
+              background: "none",
+              border: "none",
+              fontSize: "24px",
+              cursor: "pointer",
+              color: "white",
+            }}
+            onClick={() => {
+              setOptionsPopupIndex(-1);
+            }}
+          >
+            X
+          </button>
+          <div className="bottom">
+            <RwaOptionsList />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   const RelValPopup = () => {
     return (
       <div
@@ -882,7 +852,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
         >
-          <div className="top" style={{ display: "flex", justifyContent: "space-between"}}>
+          <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
             <span className="title">Relative Value</span>
             <button
               className="exit-button"
@@ -910,54 +880,6 @@ export default function Assets() {
               height="99%"
             ></iframe>
           </div>
-        </div>
-      </div>
-    );
-  };
-
-  const BlankPopup = () => {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          zIndex: 100,
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100vh",
-          backgroundColor: "rgba(0, 0, 0, 0.8)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-        onClick={() => {
-          setOptionsPopupIndex(-10);
-        }}
-      >
-        <div
-          className="popup-wrapper active"
-          style={{
-            width: "50%",
-            height: "90%",
-          }}>
-          <button
-            className="exit-button"
-            style={{
-              position: "absolute",
-              top: "10px",
-              right: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "24px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-10);
-            }}
-          >
-            X
-          </button>
         </div>
       </div>
     );
@@ -1110,8 +1032,7 @@ export default function Assets() {
     }
   }, []);
 
-  function Kanban() {
-    return (
+  return (
     <>
       <AssetInventory />
       {optionsPopupIndex == getLaneIndex("RWA Lane") ? (
@@ -1140,7 +1061,7 @@ export default function Assets() {
         <></>
       )}
       {optionsPopupIndex == -2 ? (
-        <RwaOptionsPopup />
+        <TemporaryPopup />
       ) : (
         <></>
       )}
@@ -1165,19 +1086,5 @@ export default function Assets() {
         <></>
       )}
     </>
-    );
-  }
-
-  return (
-    <div style={{ overflowY: "scroll" }}>
-      {user ? (
-        <div>
-          <Navbar active="/assets" />
-          <Kanban />
-        </div>
-      ) : (
-        <Login />
-      )}
-    </div>
   );
-}
+};

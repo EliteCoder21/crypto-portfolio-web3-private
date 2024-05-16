@@ -471,6 +471,10 @@ input[type="number"] {
   color: var(--accent-contrast);
 }
 
+#page-autpage {
+  height: 1000px !important;
+}
+
 .page.active {
   display: block;
   width: calc(100% - 100px);
@@ -1755,12 +1759,24 @@ td {
   border-radius: 10px;
   text-align: center;
   text-wrap: wrap;
-  height: 170px;
+  height: 150px;
+  padding: 10px;
+}
+
+.amount-subtitle {
+  background: #FEC8A7;
+  font-size: 25px;
+  color: black;
+  margin: 10px;
+  margin-top: 25px;
+  border-radius: 10px;
+  text-align: center;
+  text-wrap: wrap;
   padding: 10px;
 }
 
 .liquid-oxa-subtitle {
-  background: #CBC7FC;
+  background: #98B9D0;
   font-size: 25px;
   color: black;
   margin: 10px;
@@ -1814,9 +1830,9 @@ td {
 }
 
 .react-trello-lane {
-  width: 19%;
+  width: 19.5%;
   text-wrap: true;
-  overflow-y: scroll !important;
+  overflow-y: scroll;
   overflow-x: hidden;
 }
 
@@ -1845,7 +1861,7 @@ td {
 }
 
 .react-trello-card-title {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   margin: 0;
   padding: 0;
@@ -1854,6 +1870,7 @@ td {
   max-width: 65%;
   width: 65%;
   text-wrap: break-word;
+  color: rgb(43, 43, 43);
 }
 
 .react-trello-card-label {
@@ -1867,7 +1884,7 @@ td {
 
 .react-trello-card-body {
   font-size: 12px;
-  color: black;
+  color: rgb(43, 43, 43);
 }
 
 .lane-image {
@@ -1899,23 +1916,21 @@ td {
   background-color: gray;
 }
 
-.progress {
-  margin-bottom: -5px;
-  border: 1px solid gray;
-  background-color: white;
-  border-radius: 5px;
-  width: 33%;
-  height: 25px;
+.progressParent {
+  display: flex;
+  justify-content: left;
 }
 
-.leftProgressText {
-  color: rgb(73, 105, 210);
-  float: left;
-  margin-right: 3px;
-  margin-top: -3px;
+.progress {
+  border: 1px solid gray;
+  background: rgba(31, 42, 71, 0.8);
+  color: white;
+  display: inline-block;
+  border-radius: 5px;
+  height: 10px;
 }
 
 .progress > p {
-  margin-left: 5px;
-  margin-top: 3px;
+  margin: 1px 0;
+  padding: 0 5px;
 }
