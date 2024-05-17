@@ -10,7 +10,8 @@ import Head from "next/head";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthContextProvider } from "../firebase/context";
-import { WagmiProvider, createConfig, http, fallback } from "wagmi";
+import { WagmiProvider } from "wagmi";
+import { createConfig, http, fallback } from '@wagmi/core'
 import { mainnet } from 'wagmi/chains';
 
 const config = createConfig(

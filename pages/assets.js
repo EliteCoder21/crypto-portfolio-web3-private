@@ -33,8 +33,6 @@ import Script from "next/script";
 import "reactjs-popup/dist/index.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
-import { SwapWidget } from '@uniswap/widgets'
-import '@uniswap/widgets/fonts.css'
 
 let liquidOxaAmount = 1000000;
 let amount = 1000;
@@ -409,8 +407,8 @@ export default function Assets() {
             {lane.id == "Dig Lane" ? (
               <div>
 
-                <div className="Uniswap">
-                  <SwapWidget/>
+                <div className="Uniswap-Widget">
+                  
                 </div>
                 {/* <div>
                   <BitcoinWidget />
