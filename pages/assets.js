@@ -14,20 +14,27 @@ import {
   deleteUserAsset,
   getUserAssetOptions
 } from "../firebase/user.js";
+
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
+
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import WalletIcon from '@mui/icons-material/Wallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
+import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
+
 import "reactjs-popup/dist/index.css";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
+import { SwapWidget } from '@uniswap/widgets'
+import '@uniswap/widgets/fonts.css'
 
 let liquidOxaAmount = 1000000;
 let amount = 1000;
@@ -235,7 +242,7 @@ export default function Assets() {
                   window.open("https://www.blackrock.com/us/individual/products/333011/ishares-bitcoin-trust");
                 }}
               >
-                <EtfIcon />
+                <CurrencyBitcoinIcon />
               </button>
             </div>
           ) : (
@@ -403,6 +410,7 @@ export default function Assets() {
               <div>
 
                 <div className="Uniswap">
+                  <SwapWidget/>
                 </div>
                 {/* <div>
                   <BitcoinWidget />
