@@ -18,16 +18,14 @@ import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
-import {AddIcon} from "@mui/icons-material/Add";
-import {RelValIcon} from "@mui/icons-material/ScatterPlot";
-import {WalletIcon} from '@mui/icons-material/Wallet';
-import {SmartButtonIcon} from '@mui/icons-material/SmartButton';
-import {TearSheetIcon} from "@mui/icons-material/Summarize";
+import AddIcon from "@mui/icons-material/Add";
+import RelValIcon from "@mui/icons-material/ScatterPlot";
+import WalletIcon from '@mui/icons-material/Wallet';
+import SmartButtonIcon from '@mui/icons-material/SmartButton';
+import TearSheetIcon from "@mui/icons-material/Summarize";
 import "reactjs-popup/dist/index.css";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
-import { SwapWidget } from "@uniswap/widgets";
-import "@uniswap/widgets/fonts.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
 
@@ -71,7 +69,7 @@ export default function Assets() {
     const tableState = [[], [], [], [], []];
 
     let getRow = function (docsSnap, index) {
-      
+
       docsSnap.forEach((doc) => {
         const data = doc.data();
 
@@ -94,7 +92,7 @@ export default function Assets() {
     } catch (e) {
       console.error(e);
     }
-    
+
     setAssetOptionsData(tableState);
   }
 
@@ -230,16 +228,16 @@ export default function Assets() {
           <h3 className="react-trello-card-title">{card.title}</h3>
           {card.laneId == "RWA Lane" ? (
             <div style={{ boxAlign: "center" }}>
-            <button
-              className="hover-button"
-              title="ETF Information"
-              onClick={() => {
-                window.open("https://www.blackrock.com/us/individual/products/333011/ishares-bitcoin-trust");
-              }}
-            >
-              <EtfIcon />
-            </button>
-          </div>
+              <button
+                className="hover-button"
+                title="ETF Information"
+                onClick={() => {
+                  window.open("https://www.blackrock.com/us/individual/products/333011/ishares-bitcoin-trust");
+                }}
+              >
+                <EtfIcon />
+              </button>
+            </div>
           ) : (
             <></>
           )}
@@ -377,7 +375,7 @@ export default function Assets() {
     return number;
   }
 
-  const CustomLaneHeader = (lane) => {    
+  const CustomLaneHeader = (lane) => {
     console.log("Custom lane header");
     console.log(lane);
 
@@ -403,12 +401,8 @@ export default function Assets() {
             )}
             {lane.id == "Dig Lane" ? (
               <div>
+
                 <div className="Uniswap">
-                  <SwapWidget />
-                </div>
-                <div className="Uniswap"> 
-                  <SwapWidget theme = {theme} 
-                  tokenList={'https://ipfs.io/ipns/tokens.uniswap.org'}/>
                 </div>
                 {/* <div>
                   <BitcoinWidget />
@@ -511,22 +505,8 @@ export default function Assets() {
   const RwaOptionsPopup = () => {
     return (
       <div
-      style={{
-        position: "absolute",
-        zIndex: 100,
-        top: 50,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <div
-        className="popup-wrapper active"
         style={{
-          position: "fixed",
+          position: "absolute",
           zIndex: 100,
           top: 50,
           left: 0,
@@ -540,38 +520,52 @@ export default function Assets() {
         <div
           className="popup-wrapper active"
           style={{
-            width: "50%",
-            height: "60%",
-          }}>
-          <div className="top">
-            <center>
-              <span className="title">Select Offer</span>
-              <button
-                className="exit-button"
-                style={{
-                  float: "right",
-                  paddingRight: "20px",
-                  paddingTop: "10px",
-                  background: "none",
-                  border: "none",
-                  fontSize: "20px",
-                  cursor: "pointer",
-                  color: "white",
-                }}
-                onClick={() => {
-                  setOptionsPopupIndex(-1);
-                }}
-              >
-                X
-              </button>
-            </center>
-          </div>
-          <div className="bottom">
-            <RwaOptionsList />
+            position: "fixed",
+            zIndex: 100,
+            top: 50,
+            left: 0,
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <div
+            className="popup-wrapper active"
+            style={{
+              width: "50%",
+              height: "60%",
+            }}>
+            <div className="top">
+              <center>
+                <span className="title">Select Offer</span>
+                <button
+                  className="exit-button"
+                  style={{
+                    float: "right",
+                    paddingRight: "20px",
+                    paddingTop: "10px",
+                    background: "none",
+                    border: "none",
+                    fontSize: "20px",
+                    cursor: "pointer",
+                    color: "white",
+                  }}
+                  onClick={() => {
+                    setOptionsPopupIndex(-1);
+                  }}
+                >
+                  X
+                </button>
+              </center>
+            </div>
+            <div className="bottom">
+              <RwaOptionsList />
+            </div>
           </div>
         </div>
       </div>
-    </div>
     );
   };
 
@@ -620,26 +614,26 @@ export default function Assets() {
           }}>
           <div className="top">
             <center>
-            <span className="title">Select Offer</span>
-            <button
-            className="exit-button"
-            style={{
-              float: "right",
-              paddingRight: "20px",
-              paddingTop: "10px",
-              background: "none",
-              border: "none",
-              fontSize: "20px",
-              cursor: "pointer",
-              color: "white",
-            }}
-            onClick={() => {
-              setOptionsPopupIndex(-1);
-            }}
-          >
-            X
-          </button>
-          </center>
+              <span className="title">Select Offer</span>
+              <button
+                className="exit-button"
+                style={{
+                  float: "right",
+                  paddingRight: "20px",
+                  paddingTop: "10px",
+                  background: "none",
+                  border: "none",
+                  fontSize: "20px",
+                  cursor: "pointer",
+                  color: "white",
+                }}
+                onClick={() => {
+                  setOptionsPopupIndex(-1);
+                }}
+              >
+                X
+              </button>
+            </center>
           </div>
           <div className="bottom">
             <AutOptionsList />
@@ -882,7 +876,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
         >
-          <div className="top" style={{ display: "flex", justifyContent: "space-between"}}>
+          <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>
             <span className="title">Relative Value</span>
             <button
               className="exit-button"
@@ -1112,59 +1106,59 @@ export default function Assets() {
 
   function Kanban() {
     return (
-    <>
-      <AssetInventory />
-      {optionsPopupIndex == getLaneIndex("RWA Lane") ? (
-        <RwaOptionsPopup />
-      ) : (
-        <></>
-      )}
-      {optionsPopupIndex == getLaneIndex("AUT Lane") ? (
-        <AutOptionsPopup />
-      ) : (
-        <></>
-      )}
-      {optionsPopupIndex == getLaneIndex("OXA Lane") ? (
-        <OxaOptionsPopup />
-      ) : (
-        <></>
-      )}
-      {optionsPopupIndex == getLaneIndex("OXA2 Lane") ? (
-        <DigOptionsPopup />
-      ) : (
-        <></>
-      )}
-      {optionsPopupIndex == getLaneIndex("Dig Lane") ? (
-        <DigOptionsPopup />
-      ) : (
-        <></>
-      )}
-      {optionsPopupIndex == -2 ? (
-        <RwaOptionsPopup />
-      ) : (
-        <></>
-      )}
-      {optionsPopupIndex == -5 ? (
-        <EmptyPopup />
-      ) : (
-        <></>
-      )}
-      {displayRelValPopup ? (
-        <RelValPopup />
-      ) : (
-        <></>
-      )}
-      {displayTearsheetPopup ? (
-        <TearsheetPopup />
-      ) : (
-        <></>
-      )}
-      {displayCryptoTearsheetPopup ? (
-        <CryptoTearsheetPopup />
-      ) : (
-        <></>
-      )}
-    </>
+      <>
+        <AssetInventory />
+        {optionsPopupIndex == getLaneIndex("RWA Lane") ? (
+          <RwaOptionsPopup />
+        ) : (
+          <></>
+        )}
+        {optionsPopupIndex == getLaneIndex("AUT Lane") ? (
+          <AutOptionsPopup />
+        ) : (
+          <></>
+        )}
+        {optionsPopupIndex == getLaneIndex("OXA Lane") ? (
+          <OxaOptionsPopup />
+        ) : (
+          <></>
+        )}
+        {optionsPopupIndex == getLaneIndex("OXA2 Lane") ? (
+          <DigOptionsPopup />
+        ) : (
+          <></>
+        )}
+        {optionsPopupIndex == getLaneIndex("Dig Lane") ? (
+          <DigOptionsPopup />
+        ) : (
+          <></>
+        )}
+        {optionsPopupIndex == -2 ? (
+          <RwaOptionsPopup />
+        ) : (
+          <></>
+        )}
+        {optionsPopupIndex == -5 ? (
+          <EmptyPopup />
+        ) : (
+          <></>
+        )}
+        {displayRelValPopup ? (
+          <RelValPopup />
+        ) : (
+          <></>
+        )}
+        {displayTearsheetPopup ? (
+          <TearsheetPopup />
+        ) : (
+          <></>
+        )}
+        {displayCryptoTearsheetPopup ? (
+          <CryptoTearsheetPopup />
+        ) : (
+          <></>
+        )}
+      </>
     );
   }
 

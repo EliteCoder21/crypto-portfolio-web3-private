@@ -24,8 +24,6 @@ import Script from "next/script";
 import "reactjs-popup/dist/index.css";
 import BitcoinWidget from "./bitcoin-widget.js";
 import EthereumWidget from "./ethereum-widget.js";
-import { SwapWidget } from "@uniswap/widgets";
-import "@uniswap/widgets/fonts.css";
 
 let liquidOxaAmount = 1000000;
 
@@ -348,7 +346,7 @@ export default function Kanban() {
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
-                  <SwapWidget theme={theme} />
+                  
                 </div>
                 <div>
                   <BitcoinWidget />

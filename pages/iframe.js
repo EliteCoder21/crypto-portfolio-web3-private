@@ -2,7 +2,7 @@
 
 import Navbar from "../components/navbar.js";
 import Login from "../components/login.js";
-import { Kanban } from "../components/kanban.js";
+import Kanban from "../components/kanban.js";
 import { useAuthContext } from "../firebase/context";
 
 export default function Iframe() {

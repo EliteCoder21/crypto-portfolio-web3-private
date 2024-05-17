@@ -1,7 +1,7 @@
 "use client";
 
-import { SettingsIcon } from "@mui/icons-material/Settings";
-import { LogoutIcon } from "@mui/icons-material/Logout";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 import Image from "next/image";
 import { useAuthContext } from '../firebase/context';
 import BottomNav from "./bottom-nav.js";
