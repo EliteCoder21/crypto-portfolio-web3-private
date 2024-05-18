@@ -406,9 +406,7 @@ export default function Assets() {
             )}
             {lane.id == "Dig Lane" ? (
               <div>
-
-                <div className="Uniswap-Widget">
-                  
+                <div className="Uniswap">
                 </div>
                 {/* <div>
                   <BitcoinWidget />
