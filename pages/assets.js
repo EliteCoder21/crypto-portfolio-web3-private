@@ -13,12 +13,10 @@ import {
   deleteUserAsset,
   getUserAssetOptions
 } from "../firebase/user.js";
-
 import { collection, getDocs } from "firebase/firestore";
 import Bar from "../components/bar.js";
 import Tearsheet from "../components/tearsheet.js";
 import CryptoTearsheet from "../components/crypto-tearsheet.js";
-
 import AddIcon from "@mui/icons-material/Add";
 import RelValIcon from "@mui/icons-material/ScatterPlot";
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
@@ -26,7 +24,6 @@ import WalletIcon from '@mui/icons-material/Wallet';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
-
 import "reactjs-popup/dist/index.css";
 import Script from "next/script";
 import "reactjs-popup/dist/index.css";
