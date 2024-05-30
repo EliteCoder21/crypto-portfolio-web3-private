@@ -25,8 +25,6 @@ import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import TearSheetIcon from "@mui/icons-material/Summarize";
 import CurrencyBitcoinIcon from '@mui/icons-material/CurrencyBitcoin';
 import "reactjs-popup/dist/index.css";
-import Script from "next/script";
-import "reactjs-popup/dist/index.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
 
