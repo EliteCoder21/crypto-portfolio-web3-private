@@ -17,7 +17,7 @@ import { mainnet } from 'wagmi/chains';
 const config = createConfig(
   getDefaultConfig({
     chains: [mainnet],
-    walletConnectProjectId: "demo",
+    walletConnectProjectId: process.env.WALLET_CONNECT_KEY,
     appName: "OpenEXA Portfolio",
     appIcon: "https://openexa.ai/openexa-favicon.png", // your app's logo,no bigger than 1024x1024px (max. 1MB)
 
