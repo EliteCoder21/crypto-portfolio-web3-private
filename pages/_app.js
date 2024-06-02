@@ -14,6 +14,7 @@ import { WagmiProvider } from "wagmi";
 import { createConfig, http, fallback } from '@wagmi/core'
 import { mainnet } from 'wagmi/chains';
 
+/*
 const config = createConfig(
   getDefaultConfig({
     chains: [mainnet],
@@ -29,7 +30,7 @@ const config = createConfig(
       ]),
     }
   })
-);
+);*/
 
 const queryClient = new QueryClient();
 
@@ -40,9 +41,9 @@ export default function RootLayout({ Component, pageProps }) {
         <link rel="shortcut icon" href="/favicon.png" />
         <title>OpenEXA Portfolio</title>
       </Head>
-      <WagmiProvider config={config}>
+      {/*<WagmiProvider config={config}>*/}
         <QueryClientProvider client={queryClient}>
-          <ConnectKitProvider mode="light">
+          {/*<ConnectKitProvider mode="light">*/}
             <div
               style={{
                 display: "flex",
@@ -54,9 +55,9 @@ export default function RootLayout({ Component, pageProps }) {
                 <Component {...pageProps} />
               </AuthContextProvider>
             </div>
-          </ConnectKitProvider>
+          {/*</ConnectKitProvider>*/}
         </QueryClientProvider>
-      </WagmiProvider>
+      {/*</WagmiProvider>*/}
     </div>
   );
 }
