@@ -82,7 +82,7 @@ export default function Activity() {
             data.type == "buy"
               ? Number(holdings[cryptocurrency[data.coin]].amount) + data.amount
               : Number(holdings[cryptocurrency[data.coin]].amount) -
-                data.amount;
+              data.amount;
           holdings[cryptocurrency[data.coin]] = {
             amount: holdingsAmount,
             symbol: data.coin,
@@ -115,13 +115,15 @@ export default function Activity() {
   const renderTable = () => {
     return (
       <table className="dashboard-market-list-wrapper noselect">
-        <tr className="headers-wrapper" data-list="dashboardMarket">
-          <th>Date</th>
-          <th>Coin</th>
-          <th>Amount</th>
-          <th>Type</th>
-          <th>Notes</th>
-        </tr>
+        <thead className="headers-wrapper" data-list="dashboardMarket">
+          <tr>
+            <th>Date</th>
+            <th>Coin</th>
+            <th>Amount</th>
+            <th>Type</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
         {renderLogs()}
       </table>
     );

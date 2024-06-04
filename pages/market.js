@@ -16,21 +16,21 @@ export default function Market() {
   useEffect(() => {
     async function fetchGlobalData() {
       // Segment which is causing problems - Uniswap
-      
+
       const marketData = await getMarketCap();
 
       setGlobalMarketCap(marketData.marketCap);
       setGlobalVolume(marketData.totalVolume);
       setGlobalDominance(marketData.btcDominance);
-      
+
     }
 
     async function fetchCoinData() {
       // Segment which is causing problems - Uniswap
-      
+
       const newMarketData = await getAllCoins();
       setMarketData(newMarketData);
-      
+
     }
 
     fetchGlobalData();
@@ -61,7 +61,7 @@ export default function Market() {
           </td>
           <td>{price}</td>
           <td>{marketCap}</td>
-          <td style = {{color: change[0] != "-" ? "green" : "red",}}>{change}</td>
+          <td style={{ color: change[0] != "-" ? "green" : "red", }}>{change}</td>
         </tr>
       );
     });
@@ -70,13 +70,15 @@ export default function Market() {
   const renderTable = () => {
     return (
       <table className="dashboard-market-list-wrapper noselect">
-        <tr className="headers-wrapper" data-list="dashboardMarket">
-          <th>#</th>
-          <th>Coin</th>
-          <th>Price</th>
-          <th>Market Cap</th>
-          <th>24h Change</th>
-        </tr>
+        <thead className="headers-wrapper" data-list="dashboardMarket">
+          <tr>
+            <th>#</th>
+            <th>Coin</th>
+            <th>Price</th>
+            <th>Market Cap</th>
+            <th>24h Change</th>
+          </tr>
+        </thead>
         {renderLogs()}
       </table>
     );

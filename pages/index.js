@@ -53,7 +53,7 @@ export default function InstructionsComponent() {
     const marketData = await getMarketCap();
     setMarketCap(marketData.marketCap);
     setMarketChange(marketData.marketChange);
-    
+
   }
 
   useEffect(() => {
@@ -237,95 +237,106 @@ export default function InstructionsComponent() {
               <div className="dashboard-row">
                 <div className="holdings-list-wrapper noselect">
                   <table className="dashboard-market-list-wrapper noselect">
-                    <tr className="headers-wrapper" data-list="dashboardMarket">
-                      <th>Coin</th>
-                      <th>Price</th>
-                      <th>Market Cap</th>
-                      <th>24h Change</th>
-                    </tr>
-                    {marketDic.map((coin) => (
-                      <tr className="coin-wrapper">
-                        <td>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
-                            }}
-                          >
-                            <button
-                              className="deleteWatchlist"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                deleteWatchlistCoin(coin);
+                    <thead className="headers-wrapper" data-list="dashboardMarket">
+                      <tr>
+                        <th>Coin</th>
+                        <th>Price</th>
+                        <th>Market Cap</th>
+                        <th>24h Change</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {marketDic.map((coin) => (
+                        <tr className="coin-wrapper">
+                          <td>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
                               }}
                             >
-                              x
-                            </button>
-                            <img
-                              draggable="false"
-                              src={coin.icon}
-                              title={coin.name}
-                            />
-                            <p className="coin" title={coin.name}>
-                              {coin.symbol}
-                            </p>
-                          </div>
-                        </td>
-                        <td>${coin.price}</td>
-                        <td>${coin.marketCap}</td>
-                        <td
-                          style={{
-                            color: coin.priceChangeDay >= 0 ? "green" : "red",
-                          }}
-                        >
-                          {coin.priceChangeDay}%
-                        </td>
-                      </tr>
-                    ))}
+                              <button
+                                className="deleteWatchlist"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  deleteWatchlistCoin(coin);
+                                }}
+                              >
+                                x
+                              </button>
+                              <img
+                                draggable="false"
+                                src={coin.icon}
+                                title={coin.name}
+                              />
+                              <p className="coin" title={coin.name}>
+                                {coin.symbol}
+                              </p>
+                            </div>
+                          </td>
+                          <td>${coin.price}</td>
+                          <td>${coin.marketCap}</td>
+                          <td
+                            style={{
+                              color: coin.priceChangeDay >= 0 ? "green" : "red",
+                            }}
+                          >
+                            {coin.priceChangeDay}%
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
                 <div className="holdings-list-wrapper noselect">
                   <table className="dashboard-market-list-wrapper noselect">
-                    <tr className="headers-wrapper" data-list="dashboardMarket">
-                      <th>Coin</th>
-                      <th>Amount</th>
-                      <th>Value</th>
-                      <th>24h Change</th>
-                    </tr>
-                    {holdingsDic.map((coin) => (
-                      <tr className="coin-wrapper">
-                        <td>
-                          <div
+                    <thead className="headers-wrapper" data-list="dashboardMarket">
+                      <tr>
+                        <th>Coin</th>
+                        <th>Amount</th>
+                        <th>Value</th>
+                        <th>24h Change</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {holdingsDic.map((coin) => (
+                        <tr className="coin-wrapper">
+                          <td>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              <img
+                                draggable="false"
+                                src={coin.image}
+                                title={coin.name}
+                              />
+                              <p className="coin" title={coin.name}>
+                                {coin.symbol}
+                              </p>
+                            </div>
+                          </td>
+                          <td>{separateThousands(coin.amount)}</td>
+                          <td>${separateThousands(coin.value)}</td>
+                          <td
                             style={{
-                              display: "flex",
-                              justifyContent: "center",
-                              alignItems: "center",
+                              color: coin.change >= 0 ? "green" : "red",
                             }}
                           >
-                            <img
-                              draggable="false"
-                              src={coin.image}
-                              title={coin.name}
-                            />
-                            <p className="coin" title={coin.name}>
-                              {coin.symbol}
-                            </p>
-                          </div>
-                        </td>
-                        <td>{separateThousands(coin.amount)}</td>
-                        <td>${separateThousands(coin.value)}</td>
-                        <td
-                          style={{
-                            color: coin.change >= 0 ? "green" : "red",
-                          }}
-                        >
-                          {coin.change.includes("-")
-                            ? coin.change + "%"
-                            : "+" + coin.change + "%"}
-                        </td>
-                      </tr>
-                    ))}
+                            {coin.change.includes("-")
+                              ? coin.change + "%"
+                              : "+" + coin.change + "%"}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+
                   </table>
                 </div>
               </div>

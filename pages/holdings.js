@@ -27,12 +27,12 @@ export default function Holdings() {
     const currency = settings ? settings.currency : "usd";
 
     // Segment which is causing problems - Uniswap
-    
+
     const data = await getMarketCoins(currency, "", coins);
 
     setHoldingsDic(data.holdings);
     setTotalValue(data.totalValue);
-    
+
   }
 
   function onSubmitAddHolding(e) {
@@ -50,7 +50,7 @@ export default function Holdings() {
       amount: amount,
       symbol: coinSym.toUpperCase(),
     };
-    
+
     setEdit(null);
     setAmount(0);
 
@@ -250,13 +250,15 @@ export default function Holdings() {
             )}
             <div className="holdings-list-wrapper noselect">
               <table className="dashboard-market-list-wrapper noselect">
-                <tr className="headers-wrapper" data-list="dashboardMarket">
-                  <th></th>
-                  <th>Coin</th>
-                  <th>Amount</th>
-                  <th>Value</th>
-                  <th>24h Change</th>
-                </tr>
+                <thead className="headers-wrapper" data-list="dashboardMarket">
+                  <tr>
+                    <th></th>
+                    <th>Coin</th>
+                    <th>Amount</th>
+                    <th>Value</th>
+                    <th>24h Change</th>
+                  </tr>
+                </thead>
                 {holdingsDic.map((coin) => (
                   <tr className="coin-wrapper">
                     <td>

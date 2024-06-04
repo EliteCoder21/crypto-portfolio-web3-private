@@ -101,9 +101,8 @@ const wDrawboxColor = {
 
 const divStyle = {
   margin: "5px",
-  /*width: "fit-content",
-  marginLeft: "auto",
-  marginRight: "auto",*/
+  textAlign: "left",
+  borderSpacing: "10px 5px",
 };
 
 const tableStyle = {
@@ -579,7 +578,6 @@ const Tearsheet = () => {
     clearVisuals();
     //Call useEffect with new value
     handleRefresh(newValue.value);
-    console.log(newValue);
   }
 
   function generateTable(
@@ -591,9 +589,8 @@ const Tearsheet = () => {
     special_keys
   ) {
     let keys = Object.keys(data[0]);
-    console.log(keys);
-    table.style.textAlign = "left";
-    table.style.borderSpacing = "10px 5px";
+    //table.style.textAlign = "left";
+    //table.style.borderSpacing = "10px 5px";
 
     //Adding row for headers
     let row = table.insertRow();
@@ -644,8 +641,8 @@ const Tearsheet = () => {
   function generateEOYTable(table, data) {
     const keys = Object.keys(data[0].Strategy);
 
-    table.style.textAlign = "left";
-    table.style.borderSpacing = "10px 5px";
+    //table.style.textAlign = "left";
+    //table.style.borderSpacing = "10px 5px";
 
     //Adding row for headers
     let row = table.insertRow();
@@ -846,13 +843,13 @@ const Tearsheet = () => {
   const handleRefresh = async (Strategy, Benchmark) => {
     console.log(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/cret/" +
-        Strategy +
-        "/None"
+      Strategy +
+      "/None"
     );
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/cret/" +
-        Strategy +
-        "/None"
+      Strategy +
+      "/None"
     )
       .then((res) => res.json())
       .then((result) => {
@@ -868,16 +865,15 @@ const Tearsheet = () => {
           },
         };
         var data = [trace1];
-        console.log(data);
 
         setCReturns(data);
       });
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/metrics/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       .then((response) => response.json())
       .then((json) => {
@@ -902,16 +898,20 @@ const Tearsheet = () => {
 
         for (const [key, value] of Object.entries(hor_bar)) {
           let tab = document.querySelector("#table_" + key);
-          generateTable(tab, bond_metrics, Strategy, Benchmark, list_hor_bar, [
-            value,
-          ]); // generate the table first
+
+          if (tab) {
+            generateTable(tab, bond_metrics, Strategy, Benchmark, list_hor_bar, [
+              value,
+            ]); // generate the table first
+          }
+
         }
       });
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/eoyret/" +
-        Strategy +
-        "/None"
+      Strategy +
+      "/None"
     )
       .then((response) => response.json())
       .then((json) => {
@@ -933,9 +933,9 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/monthdis/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/cret/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
@@ -962,9 +962,9 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/dret/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/cret/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
@@ -988,15 +988,14 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/ret_draw/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/ret_draw/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
       .then((json) => {
         data = [JSON.parse(JSON.stringify(json))];
-        console.log(data);
 
         var trace1 = {
           x: Object.keys(data[0].Returns),
@@ -1036,16 +1035,16 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rolbeta/" +
-        Strategy +
-        "/" +
-        "None'GRO"
+      Strategy +
+      "/" +
+      "None'GRO"
     )
       //fetch('https://127.0.0.1:5000/getdata/rolbeta/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
       .then((json) => {
         data = [JSON.parse(JSON.stringify(json))];
         // console.log(data);
-        console.log(data);
+
         var trace1 = {
           x: Object.keys(data[0].Six_Months),
           y: Object.values(data[0].Six_Months),
@@ -1062,9 +1061,9 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/eoytable/" +
-        Strategy +
-        "/" +
-        "None'GRO"
+      Strategy +
+      "/" +
+      "None'GRO"
     )
       .then((response) => response.json())
       .then((json) => {
@@ -1075,8 +1074,8 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rsharpe/" +
-        Strategy +
-        "/None'GRO"
+      Strategy +
+      "/None'GRO"
     )
       //fetch('https://127.0.0.1:5000/getdata/rsharpe/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
@@ -1100,9 +1099,9 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/wdraw/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       .then((response) => response.json())
       .then((json) => {
@@ -1113,16 +1112,16 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rvol/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/rvol/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
       .then((json) => {
         data = [JSON.parse(JSON.stringify(json))];
         // console.log(data);
-        console.log(Object.values(data[0]));
+        // console.log(Object.values(data[0]));
 
         var trace1 = {
           x: Object.keys(data[0]),
@@ -1141,9 +1140,9 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/retquant/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/retquant/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
@@ -1205,15 +1204,15 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/heatmap/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/heatmap/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
       .then((json) => {
         data = [JSON.parse(JSON.stringify(json))];
-        console.log(data);
+        // console.log(data);
 
         const xValues = Object.keys(data[0].APR);
         const yValues = Object.keys(data[0]);
@@ -1287,9 +1286,9 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/rsortino/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/rsortino/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
@@ -1314,15 +1313,15 @@ const Tearsheet = () => {
 
     fetch(
       "https://quantstats-wmn5n7rc5q-uc.a.run.app/getdata/underwater/" +
-        Strategy +
-        "/" +
-        "None"
+      Strategy +
+      "/" +
+      "None"
     )
       //fetch('https://127.0.0.1:5000/getdata/underwater/'+Strat_CUSIP+'/'+Bench_CUSIP)
       .then((response) => response.json())
       .then((json) => {
         data = [JSON.parse(JSON.stringify(json))];
-        console.log(data);
+        // console.log(data);
 
         var trace1 = {
           x: Object.keys(data[0]),
@@ -1348,12 +1347,16 @@ const Tearsheet = () => {
 
   //////
   return (
-    <div style={{ minHeight: "100vh", margin: 5, borderWidth: 20, borderColor: "white" }}> 
+    <div style={{ minHeight: "100vh", margin: 5, borderWidth: 20, borderColor: "white" }}>
       <div style={{ paddingLeft: 15, paddingRight: 15, paddingBottom: 15 }}>
         <div className="d-flex justify-content-left ml-3 mb-3 selectContainer" style={{ marginBottom: 20 }}>
           <div className="d-flex flex-column benchSelectDiv">
-          <div style={dropdownTitle}>Strategy CUSIP</div>
+            <div style={dropdownTitle}>Strategy CUSIP</div>
             {/* <div className="selectContainer">  */}
+
+            {console.log('selectedCUSIPSTrat ', selectedCUSIPStrat)}
+            {console.log('CUSIP_options ', CUSIP_options)}
+
             <Select
               className="benchSelect"
               maxWidth={300}
@@ -1365,15 +1368,15 @@ const Tearsheet = () => {
               value={selectedCUSIPStrat}
               isFilterable
               showCreate
-              // marginBottom="10px"
+              marginBottom="10px"
             />
             {/* </div> */}
           </div>
         </div>
 
-        {/*SECTION 1*/} 
-        <div className="container">  
-          <div className="row justify-content-evenly ml-3"> 
+        {/*SECTION 1*/}
+        <div className="container">
+          <div className="row justify-content-evenly ml-3">
             <div className="col-lg-6">
               <div className="d-flex flex-column">
                 <div id="tableTitle" className="mb-3">
@@ -1421,7 +1424,7 @@ const Tearsheet = () => {
               </div>
             </div>
           </div>
-        
+
           {/*SECTION 2*/}
           <div className="row mt-4">
             <div className="col-lg-6">
@@ -1469,7 +1472,7 @@ const Tearsheet = () => {
             <div className="col-lg-6">
               <div className="d-flex flex-column">
                 <div id="tableTitle" className="mb-3">
-                    <strong>Top 5 Drawdown Periods</strong>
+                  <strong>Top 5 Drawdown Periods</strong>
                 </div>
                 <Plot
                   className="plot"
@@ -1498,7 +1501,7 @@ const Tearsheet = () => {
               </div>
             </div>
           </div>
-          
+
           {/* SECTION 5 */}
           <div className="row mt-4">
             <div className="col-lg-6">
@@ -1574,7 +1577,7 @@ const Tearsheet = () => {
                       data={monthly_returns}
                       layout={month_Layout}
                       style={divStyle}
-                      id="chart3" 
+                      id="chart3"
                     />
                   </div>
                   <div className="col-lg-6">

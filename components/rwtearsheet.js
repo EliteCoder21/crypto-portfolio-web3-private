@@ -79,6 +79,8 @@ const wDrawboxColor = {
 
 const divStyle = {
   margin: "5px",
+  textAlign: "left",
+  borderSpacing: "10px 5px"
 };
 
 const tableStyle = {
@@ -551,8 +553,8 @@ const Tearsheet = (isCrypto) => {
     table.innerHTML = "";
     let keys = Object.keys(data[0]);
     console.log(keys);
-    table.style.textAlign = "left";
-    table.style.borderSpacing = "10px 5px";
+    //table.style.textAlign = "left";
+    //table.style.borderSpacing = "10px 5px";
 
     //Adding row for headers
     let row = table.insertRow();
@@ -609,8 +611,8 @@ const Tearsheet = (isCrypto) => {
     table.innerHTML = "";
     const keys = Object.keys(data[0].Strategy);
 
-    table.style.textAlign = "left";
-    table.style.borderSpacing = "10px 5px";
+    //table.style.textAlign = "left";
+    //table.style.borderSpacing = "10px 5px";
 
     //Adding row for headers
     let row = table.insertRow();
@@ -684,8 +686,8 @@ const Tearsheet = (isCrypto) => {
     table.innerHTML = "";
     const keys = Object.keys(data[0].start);
 
-    table.style.textAlign = "left";
-    table.style.borderSpacing = "10px 5px";
+    //table.style.textAlign = "left";
+    //table.style.borderSpacing = "10px 5px";
 
     //Adding row for headers
     let row = table.insertRow();
@@ -850,7 +852,10 @@ const Tearsheet = (isCrypto) => {
       .then((json) => {
         let bond_metrics = [JSON.parse(JSON.stringify(json))];
         let tab = document.querySelector("#table");
-        generateTable(tab, bond_metrics, Strategy, Benchmark); // generate the table first
+
+        if (tab) {
+          generateTable(tab, bond_metrics, Strategy, Benchmark); // generate the table first
+        }
       });
 
     fetch(

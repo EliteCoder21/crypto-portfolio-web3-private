@@ -39,7 +39,7 @@ const PlotlyChart = ({ id, data, layout, useResizeHandler, style }) => {
     }
   }, [id, data, layout, useResizeHandler]);
 
-  return (    <d id={id} style={style}diu />
+  return (    <a id={id} style={style}diu />
   );
 };
 

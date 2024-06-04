@@ -39,8 +39,7 @@ require("firebase/firestore");
 let initialized = false;
 
 export default function Assets() {
-  console.log("Assets called");
-
+  
   const { user } = useAuthContext();
 
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
@@ -184,9 +183,6 @@ export default function Assets() {
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
-    console.log(cardData);
-    console.log(cardData.title.substring(0, 10));
-
     if (cardData.title.substring(0, 10) == "Liquid OXA") {
       return;
     }
@@ -301,8 +297,6 @@ export default function Assets() {
   function getLaneSubtitle(laneId) {
     let res;
 
-    console.log("Checking for build success!");
-
     switch (laneId) {
       case "RWA Lane":
         res = "Add Onboarded ETFs";
@@ -375,8 +369,6 @@ export default function Assets() {
   }
 
   const CustomLaneHeader = (lane) => {
-    console.log("Custom lane header");
-    console.log(lane);
 
     return (
       <center>
