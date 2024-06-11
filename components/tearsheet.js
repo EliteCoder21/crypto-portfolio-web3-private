@@ -51,11 +51,11 @@ const customStyles = {
   }),
   option: (provided, state, isSelected) => ({
     ...provided,
-    color: state.isSelected ? "white" : "white",
-    backgroundColor: isSelected ? "rgb(19, 19, 21)" : "rgb(19, 19, 21)",
+    color: state.isSelected ? "white" : "black",
+    backgroundColor: isSelected ? "black" : "white",
     cursor: "pointer",
     "&:hover": {
-      backgroundColor: "#404040",
+      backgroundColor: "black"//"#404040",
     },
   }),
   singleValue: (provided, state) => ({
@@ -1362,8 +1362,8 @@ const Tearsheet = () => {
               styles={customStyles}
               isClearable
               value={selectedCUSIPStrat}
-              //isFilterable
-              //showCreate
+              isFilterable
+              showCreate
               marginBottom="10px"
             />
             {/* </div> */}
