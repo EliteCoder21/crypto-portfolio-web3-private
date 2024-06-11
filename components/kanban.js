@@ -835,7 +835,7 @@ export default function Kanban() {
           borderRadius: "20px",
         }}
         onClick={() => {
-          setDisplayRelValPopup(!displayRelValPopup);
+          // setDisplayRelValPopup(!displayRelValPopup);
         }}
       >
         <div
@@ -855,9 +855,7 @@ export default function Kanban() {
             <button
               className="exit-button"
               style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
+                marginRight: "10px",
                 background: "none",
                 border: "none",
                 fontSize: "24px",

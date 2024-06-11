@@ -1,5 +1,6 @@
 //import { Text } from "react-native";
 import Select from "react-select";
+import { default as ReactSelect } from "react-select";
 import React, { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import Plot from "./plot.js";
@@ -50,7 +51,7 @@ const customStyles = {
   }),
   option: (provided, state, isSelected) => ({
     ...provided,
-    color: state.isSelected ? "rgb(169, 169, 169)" : "rgb(169, 169, 169)",
+    color: state.isSelected ? "white" : "white",
     backgroundColor: isSelected ? "rgb(19, 19, 21)" : "rgb(19, 19, 21)",
     cursor: "pointer",
     "&:hover": {
@@ -100,8 +101,11 @@ const wDrawboxColor = {
 };
 
 const divStyle = {
-  margin: "5px",
-  textAlign: "left",
+  margin: "50px",
+  textAlign: "center",
+  marginLeft: "auto",
+  marginRight: "auto",
+  width: "100%",
   borderSpacing: "10px 5px",
 };
 
@@ -178,7 +182,7 @@ var quant_layout = {
   yaxis: {
     gridcolor: "#444444",
   },
-  width: "100%",
+  width: 1000,
   height: 440,
   title: "Return Quantiles",
   borderRadius: 10,
@@ -201,7 +205,7 @@ var month_percent_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%",
+  width: 1000,
   height: 440,
   title: "Monthly Returns (%)",
 };
@@ -229,8 +233,7 @@ var sharpe_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //(window.innerWidth - 80) / 2,
-  //width: "100%",
+  width: 1000,
   height: 440,
   title: "Rolling Sharpe (6 Months)",
 };
@@ -258,7 +261,7 @@ var vol_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //(window.innerWidth - 60) / 2,
+  width: 1000, //(window.innerWidth - 60) / 2,
   height: 440,
   title: "Rolling Volatility (6 Months)",
 };
@@ -314,8 +317,7 @@ var drawdown_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: 1000,
   height: 440,
   title: "Top 5 Drawdown Periods",
 };
@@ -340,8 +342,7 @@ var monthly_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: 1000,
   height: 440,
   title: "Distribution of Monthly Returns",
 };
@@ -365,8 +366,7 @@ var EoY_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: 1000,
   height: 440,
   title: "End of Year Returns vs Benchmark",
 };
@@ -393,8 +393,7 @@ var creturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "50%",
+  width: 1000,
   height: 440,
   title: "Cumulative Returns",
 };
@@ -422,8 +421,7 @@ var dreturns_layout = {
     t: 50,
     pad: 4,
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: 1000,
   height: 440,
   title: "Daily Returns",
 };
@@ -451,8 +449,7 @@ var sort_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //(window.innerWidth - 80) / 2,
-  //width: "100%",
+  width: 1000,
   height: 440,
   title: "Rolling Sortino (6 Months)",
 };
@@ -480,8 +477,7 @@ var under_layout = {
   xaxis: {
     gridcolor: "#444444",
   },
-  width: "100%", //window.innerWidth - 350 - 80,
-  //width: "100%",
+  width: 1000,
   height: 440,
   title: "Underwater Plot",
 };
@@ -589,8 +585,8 @@ const Tearsheet = () => {
     special_keys
   ) {
     let keys = Object.keys(data[0]);
-    //table.style.textAlign = "left";
-    //table.style.borderSpacing = "10px 5px";
+    table.style.textAlign = "left";
+    table.style.borderSpacing = "10px 5px";
 
     //Adding row for headers
     let row = table.insertRow();
@@ -641,8 +637,8 @@ const Tearsheet = () => {
   function generateEOYTable(table, data) {
     const keys = Object.keys(data[0].Strategy);
 
-    //table.style.textAlign = "left";
-    //table.style.borderSpacing = "10px 5px";
+    table.style.textAlign = "left";
+    table.style.borderSpacing = "10px 5px";
 
     //Adding row for headers
     let row = table.insertRow();
@@ -899,6 +895,9 @@ const Tearsheet = () => {
         for (const [key, value] of Object.entries(hor_bar)) {
           let tab = document.querySelector("#table_" + key);
 
+          console.log("TAB ", tab);
+          console.log("Key ", key);
+          
           if (tab) {
             generateTable(tab, bond_metrics, Strategy, Benchmark, list_hor_bar, [
               value,
@@ -1354,20 +1353,17 @@ const Tearsheet = () => {
             <div style={dropdownTitle}>Strategy CUSIP</div>
             {/* <div className="selectContainer">  */}
 
-            {console.log('selectedCUSIPSTrat ', selectedCUSIPStrat)}
-            {console.log('CUSIP_options ', CUSIP_options)}
-
             <Select
               className="benchSelect"
               maxWidth={300}
-              placeholder={selectedCUSIPStrat}
+              defaultValue={selectedCUSIPStrat}
               onChange={handleStratInputChange}
               options={CUSIP_options}
               styles={customStyles}
               isClearable
               value={selectedCUSIPStrat}
-              isFilterable
-              showCreate
+              //isFilterable
+              //showCreate
               marginBottom="10px"
             />
             {/* </div> */}

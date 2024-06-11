@@ -851,7 +851,7 @@ export default function Assets() {
           borderRadius: "20px",
         }}
         onClick={() => {
-          setDisplayRelValPopup(!displayRelValPopup);
+          // setDisplayRelValPopup(!displayRelValPopup);
         }}
       >
         <div
@@ -871,9 +871,7 @@ export default function Assets() {
             <button
               className="exit-button"
               style={{
-                position: "absolute",
-                top: "10px",
-                right: "10px",
+                marginRight: "10px",
                 background: "none",
                 border: "none",
                 fontSize: "24px",
@@ -979,7 +977,7 @@ export default function Assets() {
             borderRadius: "20px",
           }}
           onClick={() => {
-            setDisplayTearsheetPopup(!displayTearsheetPopup);
+            //setDisplayTearsheetPopup(!displayTearsheetPopup);
           }}
         >
           <div className="top" style={{ display: "flex", justifyContent: "space-between" }}>

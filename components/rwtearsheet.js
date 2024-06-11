@@ -853,6 +853,8 @@ const Tearsheet = (isCrypto) => {
         let bond_metrics = [JSON.parse(JSON.stringify(json))];
         let tab = document.querySelector("#table");
 
+        console.log("TAB: ", tab);
+
         if (tab) {
           generateTable(tab, bond_metrics, Strategy, Benchmark); // generate the table first
         }
