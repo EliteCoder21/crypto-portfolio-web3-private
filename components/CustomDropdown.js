@@ -18,7 +18,8 @@ const CustomDropdown = ({ options, onSelect }) => {
   return (
     <div className="dropdown">
       {/*Package of Dropdown*/}
-      <DropdownButton id="dropdown-basic-button" title="Dropdown button">
+      <br></br>
+      <DropdownButton id="dropdown-basic-button" title="Choose an Analysis Strategy">
         {
 
           options.map(
