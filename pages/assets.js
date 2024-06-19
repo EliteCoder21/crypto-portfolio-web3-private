@@ -426,6 +426,7 @@ export default function Assets() {
         >
           Asset Inventory
         </h1>
+        
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Bar />
         </div>
@@ -1154,7 +1155,8 @@ export default function Assets() {
     <div style={{ overflowY: "scroll" }}>
       {user ? (
         <div>
-          <Navbar active="/assets" />
+          {!displayTearsheetPopup ? (<Navbar active="/assets" />) : (<></>)}
+          
           <Kanban />
         </div>
       ) : (

@@ -237,19 +237,19 @@ export default function Kanban() {
           <div className="react-trello-card-body">
             <p>{card.description}</p>
             <div className="progress">
-              <p>&#9680; In Progress</p>
+              In Progress
             </div>
           </div>
         ) : (
           <>
             <div className="react-trello-card-body">
-              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
+              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"/>
             </div>
           </>
-        )};
+        )}
       </div>
-    );
-  };
+    )
+  }
 
   function getLaneSubtitle(laneId) {
     let res;

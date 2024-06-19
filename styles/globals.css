@@ -1927,6 +1927,7 @@ td {
   color: white;
   display: inline-block;
   border-radius: 5px;
+  align-items: center;
   height: 10px;
 }
 
