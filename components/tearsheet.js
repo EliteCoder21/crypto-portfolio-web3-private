@@ -1,14 +1,33 @@
-//import { Text } from "react-native";
 import Select from "react-select";
-import { default as ReactSelect } from "react-select";
 import React, { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
+import CustomDropdown from "../components/CustomDropdown.js"
 import Plot from "./plot.js";
-//import Grid from "@mui/material/Grid";
 import { TempCold } from "styled-icons/remix-fill";
 import { BlackTie } from "styled-icons/fa-brands";
 
 const enableLoadIcon = true;
+
+const CUS_OPTIONS = [
+  "0121227V3",
+  "0121227P6",
+  "012432BR0",
+  "012104PN9",
+  "010824GS3",
+  "032452BP8",
+  "032452BR4",
+  "01112CBU9",
+  "014365CC2",
+  "06738EAV7",
+  "06741JV89",
+  "06746V776",
+  "78013XF52",
+  "78013XTK4",
+  "025816BW8",
+  "0258M0EG0",
+  "00912XAS3",
+  "459200JG7",
+  "459200JH5"
+]
 
 const CUSIP_options = [
   { value: "0121227V3", label: "0121227V3" },
@@ -30,16 +49,17 @@ const CUSIP_options = [
   { value: "00912XAS3", label: "00912XAS3" },
   { value: "459200JG7", label: "459200JG7" },
   { value: "459200JH5", label: "459200JH5" },
-  { value: "None", label: "None" },
+  //{ value: "None", label: "None" },
 ];
 
 const customStyles = {
-  /*menu: (styles) => ({
+  menu: (styles) => ({
     ...styles,
+    radius: "20px",
     backgroundColor: "rgb(19, 19, 21)",
-    margin: "0",
+    margin: "10",
     width: "200px",
-  }), */
+  }),
   control: (styles) => ({
     ...styles,
     backgroundColor: "rgb(19, 19, 21)",
@@ -51,11 +71,12 @@ const customStyles = {
   }),
   option: (provided, state, isSelected) => ({
     ...provided,
-    color: state.isSelected ? "white" : "black",
-    backgroundColor: isSelected ? "black" : "white",
+    //color: state.isSelected ? "white" : "white",
+    color: "red",
+    backgroundColor: isSelected ? "magenta" : "#404040",
     cursor: "pointer",
     "&:hover": {
-      backgroundColor: "black"//"#404040",
+      backgroundColor: "lightgrey"//"#404040",
     },
   }),
   singleValue: (provided, state) => ({
@@ -137,6 +158,20 @@ const headerStyle = {
   borderBottomColor: "#6c6c6c",
   borderBottomWidth: "1px",
 };
+
+const MyComponent = () => (
+
+  <Select
+    options={[
+      { label: '1', value: '1' },
+      { label: '2', value: '2' }
+    ]}
+    isMulti
+    isClearable
+    styles={customStyles}
+  />
+
+)
 
 const windowComponent = () => {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
@@ -895,9 +930,6 @@ const Tearsheet = () => {
         for (const [key, value] of Object.entries(hor_bar)) {
           let tab = document.querySelector("#table_" + key);
 
-          console.log("TAB ", tab);
-          console.log("Key ", key);
-          
           if (tab) {
             generateTable(tab, bond_metrics, Strategy, Benchmark, list_hor_bar, [
               value,
@@ -940,8 +972,6 @@ const Tearsheet = () => {
       .then((response) => response.json())
       .then((json) => {
         data = [JSON.parse(JSON.stringify(json))];
-        // console.log(data);
-        console.log(Object.values(data[0]));
 
         var trace1 = {
           x: Object.values(data[0]),
@@ -1353,6 +1383,15 @@ const Tearsheet = () => {
             <div style={dropdownTitle}>Strategy CUSIP</div>
             {/* <div className="selectContainer">  */}
 
+            <div>
+              <CustomDropdown
+                options={CUSIP_options}
+                onSelect={handleStratInputChange}              
+              />
+
+            </div>
+            {/*
+
             <Select
               className="benchSelect"
               maxWidth={300}
@@ -1360,12 +1399,27 @@ const Tearsheet = () => {
               onChange={handleStratInputChange}
               options={CUSIP_options}
               styles={customStyles}
-              isClearable
               value={selectedCUSIPStrat}
+              margin="50px"
+              isClearable
               isFilterable
-              showCreate
+            />
+          */}
+
+            {/*<h1 style={dropdownTitle}>{selectedCUSIPStrat}</h1>*/}
+
+            {/*
+            <Select
+              className="benchSelect"
+              maxWidth={300}
+              defaultValue={selectedCUSIPStrat}
+              onChange={handleStratInputChange}
+              options={CUS_OPTIONS}
+              //styles={customStyles}
+              value={selectedCUSIPStrat}
               marginBottom="10px"
             />
+*/}
             {/* </div> */}
           </div>
         </div>
