@@ -1923,15 +1923,15 @@ td {
 
 .progress {
   border: 1px solid gray;
-  background: rgba(31, 42, 71, 0.8);
-  color: white;
+  background-color: rgba(31, 42, 71, 0.8);
+  color: gray;
   display: inline-block;
   border-radius: 5px;
   align-items: center;
-  height: 10px;
+  padding: 10px;
 }
 
 .progress > p {
-  margin: 1px 0;
-  padding: 0 5px;
+  margin: 10px;
+  padding: 10px;
 }

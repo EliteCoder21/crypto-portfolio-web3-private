@@ -237,13 +237,13 @@ export default function Kanban() {
           <div className="react-trello-card-body">
             <p>{card.description}</p>
             <div className="progress">
-              In Progress
+              <p>&#9680; In Progress</p>
             </div>
           </div>
         ) : (
           <>
             <div className="react-trello-card-body">
-              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js"/>
+              <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" />
             </div>
           </>
         )}
@@ -346,7 +346,7 @@ export default function Kanban() {
             {lane.id == "Dig Lane" ? (
               <div>
                 <div className="Uniswap">
-                  
+
                 </div>
                 <div>
                   <BitcoinWidget />

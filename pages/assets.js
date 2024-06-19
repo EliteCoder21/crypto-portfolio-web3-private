@@ -277,8 +277,7 @@ export default function Assets() {
             <p>{card.description}</p>
             <div className="progressParent">
               <div className="progress">
-                {/* <p>&#9680; In Progress</p> */}
-                <p>In Progress</p>
+                <p>&#9680; In Progress</p>
               </div>
             </div>
           </div>
@@ -289,10 +288,10 @@ export default function Assets() {
               {/* <Script defer src="https://www.livecoinwatch.com/static/lcw-widget.js" /> */}
             </div>
           </>
-        )};
+        )}
       </div>
-    );
-  };
+    )
+  }
 
   function getLaneSubtitle(laneId) {
     let res;
