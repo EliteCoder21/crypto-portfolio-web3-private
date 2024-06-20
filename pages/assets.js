@@ -28,7 +28,8 @@ import "reactjs-popup/dist/index.css";
 import BitcoinWidget from "../components/bitcoin-widget.js";
 import EthereumWidget from "../components/ethereum-widget.js";
 
-let liquidOxaAmount = 1000000;
+let rwaAmount = 1000;
+let digAmount = 1000;
 let amount = 1000;
 
 const lanes = ["RWA Lane", "AUT Lane", "OXA Lane", "OXA2 Lane", "Dig Lane"];
@@ -39,7 +40,7 @@ require("firebase/firestore");
 let initialized = false;
 
 export default function Assets() {
-  
+
   const { user } = useAuthContext();
 
   const [displayRelValPopup, setDisplayRelValPopup] = useState(false);
@@ -50,16 +51,14 @@ export default function Assets() {
   const [assetOptionsData, setAssetOptionsData] = useState([[], [], [], []]);
 
   let getLaneIndex = function (laneName) {
-    let res = -1;
 
     for (let index = 0; index < lanes.length; index++) {
       if (lanes[index] == laneName) {
-        res = index;
-        break;
+        return index;
       }
     }
 
-    return res;
+    return -1;
   };
 
   async function getAssetOptionsData() {
@@ -133,14 +132,14 @@ export default function Assets() {
 
   async function getAssetsData() {
     try {
-      // console.log("getAssetsData called");
 
       const userDataRef = await getUserAssets(DEFAULT_USER_ID);
 
       for (let lane of lanes) {
         if (lane == "Dig Lane") {
           if (initialized) {
-            continue;
+            //continue;
+            initialized = true;
           } else {
             initialized = true;
           }
@@ -148,8 +147,9 @@ export default function Assets() {
 
         const laneCollection = collection(userDataRef, lane);
         const laneSnap = await getDocs(laneCollection);
+        const laneIndex = getLaneIndex(lane);
 
-        data.lanes[getLaneIndex(lane)].cards = [];
+        data.lanes[laneIndex].cards = [];
 
         laneSnap.forEach((doc) => {
           const tempData = doc.data();
@@ -168,6 +168,8 @@ export default function Assets() {
           if (!(cardData == {})) {
             eventBus.publish({ type: "ADD_CARD", laneId: lane, card: cardData });
           }
+
+          data.lanes[laneIndex].cards.push(cardData);
         });
       }
 
@@ -183,7 +185,9 @@ export default function Assets() {
 
     let cardData = await getSingleAsset(DEFAULT_USER_ID, fromLaneId, cardId);
 
-    if (cardData.title.substring(0, 10) == "Liquid OXA") {
+    console.log("Card Data", cardData);
+
+    if (cardData == null || cardData.title.substring(0, 10) == "Liquid OXA") {
       return;
     }
 
@@ -202,9 +206,16 @@ export default function Assets() {
         cardData
       );
 
+      // Update the amount values
+      console.log("Start update");
+      if (toLaneId === "Dig Lane") {
+        digAmount += 10;
+      } else if (fromLaneId === "Dig Lane") {
+        digAmount -= 10;
+      }
+
       getAssetsData();
 
-      // window.location.reload();
     } catch (e) {
       console.log(e);
     }
@@ -383,14 +394,17 @@ export default function Assets() {
               </center>
             </div>
             {lane.id == "RWA Lane" ? (
-              <div className="amount-subtitle">
-                Amount:&nbsp;<b>{numberWithCommas(amount)}</b>
+              <div className="rwa-amount-subtitle">
+                Amount:&nbsp;<b>{numberWithCommas(rwaAmount)}</b>
               </div>
             ) : (
               <></>
             )}
             {lane.id == "Dig Lane" ? (
               <div>
+                <div className="dig-amount-subtitle">
+                  Amount:&nbsp;<b>{numberWithCommas(digAmount)}</b>
+                </div>
                 <div className="Uniswap">
                 </div>
                 {/* <div>
@@ -425,7 +439,7 @@ export default function Assets() {
         >
           Asset Inventory
         </h1>
-        
+
         <div style={{ paddingTop: 10, paddingBottom: 10 }}>
           <Bar />
         </div>
@@ -465,7 +479,7 @@ export default function Assets() {
   };
 
   async function processAddRwaAsset(cusip, offer, description) {
-    amount += 10;
+    rwaAmount += 10;
 
     await addUserAsset(DEFAULT_USER_ID, "RWA Lane", cusip, offer, description);
 
@@ -961,7 +975,7 @@ export default function Assets() {
           justifyContent: "center",
           borderRadius: "20px",
         }}
-      >
+      > 
         <div
           className="popup-wrapper active"
           style={{
@@ -1155,7 +1169,7 @@ export default function Assets() {
       {user ? (
         <div>
           {!displayTearsheetPopup ? (<Navbar active="/assets" />) : (<></>)}
-          
+
           <Kanban />
         </div>
       ) : (

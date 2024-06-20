@@ -119,7 +119,7 @@ export async function getSingleAsset(userId, lane, cardId) {
     if (docSnap.exists()) {
       return docSnap.data();
     } else {
-      console.log("No such document!");
+      console.log("No such document! ", cardId);
       return null;
     }
   } catch (e) {
@@ -181,41 +181,44 @@ export async function transferUserAsset(
   id,
   cardData
 ) {
-  try {
-    cardData = await getSingleAsset(userId, originalLane, id);
+  
+  cardData = await getSingleAsset(userId, originalLane, id);
 
-    if (finalLane == "RWA Lane") {
-      cardData.title = "CUSIP# " + cardData.cusip;
-    } else if (finalLane == "AUT Lane") {
-      cardData.title = "AUT for " + cardData.cusip;
-    } else if (finalLane == "OXA Lane") {
-      cardData.title = "Immobilized " + cardData.cusip;
-    } else if (finalLane == "OXA2 Lane") {
-      cardData.title = "Credit for " + cardData.cusip;
-    } else if (finalLane == "Dig Lane") {
-      cardData.title = "ETH - Ethereum";
-    }
-
-    cardData["laneId"] = finalLane;
-
-    const deleteTarget = doc(db, "assets", userId, originalLane, id);
-    
-    await deleteDoc(deleteTarget);
-
-    const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
-
-    await setDoc(addedDocRef, {
-      "id": addedDocRef.id,
-      "laneId": cardData.laneId,
-      "cusip": cardData.cusip,
-      "title": cardData.title,
-      "cardStyle": DEFAULT_CARD_STYLE,
-      "offer": cardData.offer,
-      "description": cardData.description,
-    });
-  } catch (e) {
-    console.log(e);
+  if (cardData == null) {
+    return;
   }
+
+  if (finalLane == "RWA Lane") {
+    cardData.title = "CUSIP# " + cardData.cusip;
+  } else if (finalLane == "AUT Lane") {
+    cardData.title = "AUT for " + cardData.cusip;
+  } else if (finalLane == "OXA Lane") {
+    cardData.title = "Immobilized " + cardData.cusip;
+  } else if (finalLane == "OXA2 Lane") {
+    cardData.title = "Credit for " + cardData.cusip;
+  } else if (finalLane == "Dig Lane") {
+    cardData.title = "ETH - Ethereum";
+  }
+
+  cardData["laneId"] = finalLane;
+
+  const deleteTarget = doc(db, "assets", userId, originalLane, id);
+  
+  await deleteDoc(deleteTarget);
+
+  const addedDocRef = await addDoc(collection(db, "assets", userId, finalLane), cardData);
+
+  await setDoc(addedDocRef, {
+    "id": addedDocRef.id,
+    "laneId": cardData.laneId,
+    "cusip": cardData.cusip,
+    "title": cardData.title,
+    "cardStyle": DEFAULT_CARD_STYLE,
+    "offer": cardData.offer,
+    "description": cardData.description,
+  });
+  console.log("Transfer of ", cardData.title, " is a success");
+
 }
 
 export async function addUserHoldings(id, data) {

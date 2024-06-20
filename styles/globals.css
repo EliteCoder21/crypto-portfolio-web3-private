@@ -1763,8 +1763,20 @@ td {
   padding: 10px;
 }
 
-.amount-subtitle {
+.rwa-amount-subtitle {
   background: #FEC8A7;
+  font-size: 25px;
+  color: black;
+  margin: 10px;
+  margin-top: 25px;
+  border-radius: 10px;
+  text-align: center;
+  text-wrap: wrap;
+  padding: 10px;
+}
+
+.dig-amount-subtitle {
+  background: rgb(152, 185, 200);
   font-size: 25px;
   color: black;
   margin: 10px;
