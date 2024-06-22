@@ -130,6 +130,7 @@ export default function Assets() {
     eventBus = handle;
   };
 
+  /* Important method to learn Firebase API */
   async function getAssetsData() {
     try {
 
